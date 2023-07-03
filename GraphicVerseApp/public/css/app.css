@@ -1,7 +1,7 @@
-
 /* 
 * {
     outline: 1px solid;
+    outline-color: white;
 }  */
 
 .my-element {
@@ -36,7 +36,7 @@ nav {
     height: 35px;
     width: 500px;
     border-radius: 10px;
-    padding-left: 30px;
+ 
     padding: auto;
 
     position: relative;
@@ -52,20 +52,23 @@ nav {
 
 a {
     font-family: "Roboto", sans-serif;
+    text-decoration: none;
 
 }
 
-
-.learnmore {
-    color: white;
-    background-color: #B129A2;
-    height: 40px;
+  .modal-body a {
+    text-decoration: none;
+  }
+  
+  .modal-body button {
+    margin: 5px;
     width: 120px;
-    font-weight: bold;
-    border: none;
-  } 
+  }
 
-  .experience {
-    font-family: Roboto, sans-serif;
-    color: white; /* Change the color value to your desired color */
+  .navbar-nav.flex-wrap {
+    display: block;
+  }
+
+  .twod {
+    padding-left: 30px;
   }

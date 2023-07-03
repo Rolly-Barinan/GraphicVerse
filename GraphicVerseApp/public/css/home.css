@@ -1,0 +1,25 @@
+.learnmore {
+    color: white;
+    background-color: #B129A2;
+    height: 40px;
+    width: 120px;
+    font-weight: bold;
+    border: none;
+  } 
+
+  .experience {
+    font-family: Roboto, sans-serif;
+    color: white; /* Change the color value to your desired color */
+    font-size: 20px;
+    padding-top: 15px;
+  }
+
+  .elevate-title {
+    font-family: Oswald, sans-serif;
+    font-weight: bold;
+    font-size: 65px;
+    padding-top: 100px;
+  }
+
+
+

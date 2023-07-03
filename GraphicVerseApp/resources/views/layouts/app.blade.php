@@ -22,90 +22,107 @@
         integrity="sha384-fbbOQedDUMZZ5KreZpsbe1LCZPVmfTnH7ois6mU1QK+m14rQ1l2bGBq41eYeM/fS" crossorigin="anonymous">
     </script>
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/home.css') }}" rel="stylesheet">
     <!-- Scripts -->
     {{-- @vite(['resources/sass/app.scss', 'resources/js/app.js']) --}}
 </head>
 
 <body class="my-element ">
-
     <nav class="navbar navbar-expand-lg">
-        <div class="container-fluid">
-            <div class="logo">
-                <img src="/svg/GraphicVerse_Capstone.png" class="pr-3"
-                    style="height: 40px; padding-left: 4rem; padding-right: .5rem">
-            </div>
-            <a class="GraphicVerse navbar-brand text-white" href="{{ url('/') }}">
-                GraphicVerse
-            </a>
-            <form class="d-flex custom-search-form" role="search">
-                <input class="form-control me-2 custom-search-input" type="search" placeholder="Search"
-                    aria-label="Search">
-            </form>
+        <div class="container-fluid pt-2">
+            <div class="row ">
 
 
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
-                aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
+                <div class="col">
+                    <img src="/svg/GraphicVerse_Capstone.png" class="pr-3"
+                        style="height: 40px; padding-left: 4rem; padding-right: .5rem">
 
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                    <li class="nav-item">
-                        <a class="nav-link active text-white" aria-current="page" href="/home">HOME</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-white" href="/aboutus">ABOUT US</a>
-                    </li>
+                </div>
+                <div class="col pt-1">
+                    <a class="GraphicVerse navbar-brand text-white pt-2" href="{{ url('/') }}" >
+                        GraphicVerse
+                    </a>
+                </div>
+                <div class="col ">
+                    <form class="d-flex custom-search-form" role="search">
+                        <input class="form-control me-2 custom-search-input" type="search" placeholder="Search"
+                            aria-label="Search">
+                    </form>
 
-                </ul>
+                </div>
 
-                <div class="navbar-nav flex-wrap">
-                    <div class="d-flex flex-wrap">
-                        <a class="nav-link text-white" href="#">2D</a>
-                        <a class="nav-link text-white" href="p/create">3D</a>
-                        <a class="nav-link text-white" href="#">Others</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                    aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="col">
+                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                            <li class="nav-item">
+                                <a class="nav-link active text-white pe-5" aria-current="page" href="/home" >HOME</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-white pe-4" href="/aboutus">ABOUT US</a>
+                            </li>
 
-                        <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                            data-bs-target="#exampleModal">Upload</button>
+                        </ul>
+                    </div>
+                </div>
+                <div class="mx-auto col ps-5">
+                    <ul class="navbar-nav ms-auto ps-5">
+                        <!-- Authentication Links -->
+                        @guest
+                            @if (Route::has('login'))
+                                <li class="nav-item">
+                                    <a class="nav-link text-white" href="{{ route('login') }}">{{ __('Login') }}</a>
+                                </li>
+                            @endif
 
+                            @if (Route::has('register'))
+                                <li class="nav-item">
+                                    <a class="nav-link text-white" href="{{ route('register') }}">{{ __('Register') }}</a>
+                                </li>
+                            @endif
+                        @else
+                            <li class="nav-item dropdown">
+                                <a id="navbarDropdown" class="nav-link dropdown-toggle text-white" href="/profile/1"
+                                    role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+                                    v-pre>
+                                    {{ Auth::user()->name }}
+                                </a>
+
+                                <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                                    <a class="dropdown-item" href="{{ route('logout') }}"
+                                        onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                                        {{ __('Logout') }}
+                                    </a>
+
+                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                                        @csrf
+                                    </form>
+                                </div>
+                            </li>
+                        @endguest
+                    </ul>
+                </div>
+
+
+
+                <div class="row justify-content-center navTwo">
+                    <div class="col-auto navbar-nav ">
+                        <div class="d-flex justify-content-center space-between">
+                            <a class="twod nav-link text-white pe-5" href="#">2D</a>
+                            <a class="threed nav-link text-white pe-5" href="p/create">3D</a>
+                            <a class="others nav-link text-white pe-5  " href="#">Others</a>
+
+                            <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                                data-bs-target="#exampleModal">Upload</button>
+
+                        </div>
                     </div>
                 </div>
 
-                <ul class="navbar-nav ms-auto">
-                    <!-- Authentication Links -->
-                    @guest
-                        @if (Route::has('login'))
-                            <li class="nav-item">
-                                <a class="nav-link text-white" href="{{ route('login') }}">{{ __('Login') }}</a>
-                            </li>
-                        @endif
-
-                        @if (Route::has('register'))
-                            <li class="nav-item">
-                                <a class="nav-link text-white" href="{{ route('register') }}">{{ __('Register') }}</a>
-                            </li>
-                        @endif
-                    @else
-                        <li class="nav-item dropdown">
-                            <a id="navbarDropdown" class="nav-link dropdown-toggle text-white" href="/profile/1"
-                                role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                                {{ Auth::user()->name }}
-                            </a>
-
-                            <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                                <a class="dropdown-item" href="{{ route('logout') }}"
-                                    onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                                    {{ __('Logout') }}
-                                </a>
-
-                                <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-                                    @csrf
-                                </form>
-                            </div>
-                        </li>
-                    @endguest
-                </ul>
 
             </div>
         </div>
@@ -119,25 +136,25 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <a href="#">
+                    <a href="/p/create">
                         <button type="button" class="btn btn-primary">2D </button>
                     </a>
                     <a href="#">
                         <button type="button" class="btn btn-primary">3D </button>
                     </a>
- 
+
                     <a href="#">
                         <button type="button" class="btn btn-primary">animation </button>
                     </a>
- 
+
                     <a href="#">
                         <button type="button" class="btn btn-primary">Sound/Music </button>
                     </a>
- 
+
                     <a href="#">
                         <button type="button" class="btn btn-primary">sample </button>
                     </a>
- 
+
 
                     <a href="#">
                         <button type="button" class="btn btn-primary">sample </button>

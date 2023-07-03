@@ -10,4 +10,5 @@ class ThreeDsController extends Controller
     {
         return view('threeDs/create');
     }
+    
 }
