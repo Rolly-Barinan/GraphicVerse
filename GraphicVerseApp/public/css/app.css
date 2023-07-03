@@ -1,1 +1,71 @@
 
+/* 
+* {
+    outline: 1px solid;
+}  */
+
+.my-element {
+    background-image: url("https://cdn.discordapp.com/attachments/1121006331323760680/1123571308496691210/Copy_of_GraphicVerse_Capstone_Hearing.png");
+
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+@media (max-width: 768px) {
+    .my-element {
+        background-size: contain;
+    }
+}
+
+/* .container-fluid {
+    background-color: #222344;
+} */
+
+.navbar-light {
+    color: white;
+}
+
+.GraphicVerse {
+    font-family: "Kollektif", sans-serif;
+}
+
+nav {
+    background-color: #222344;
+}
+.custom-search-form {
+    height: 35px;
+    width: 500px;
+    border-radius: 10px;
+    padding-left: 30px;
+    padding: auto;
+
+    position: relative;
+  
+}
+
+.custom-search-input {
+    height: 100%;
+    width: 100%;
+    border-radius: inherit;
+}
+
+
+a {
+    font-family: "Roboto", sans-serif;
+
+}
+
+
+.learnmore {
+    color: white;
+    background-color: #B129A2;
+    height: 40px;
+    width: 120px;
+    font-weight: bold;
+    border: none;
+  } 
+
+  .experience {
+    font-family: Roboto, sans-serif;
+    color: white; /* Change the color value to your desired color */
+  }
