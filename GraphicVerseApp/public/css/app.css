@@ -1,7 +1,7 @@
+
 /* 
 * {
     outline: 1px solid;
-    outline-color: white;
 }  */
 
 .my-element {
@@ -36,7 +36,7 @@ nav {
     height: 35px;
     width: 500px;
     border-radius: 10px;
- 
+    padding-left: 30px;
     padding: auto;
 
     position: relative;
@@ -52,11 +52,10 @@ nav {
 
 a {
     font-family: "Roboto", sans-serif;
-    text-decoration: none;
 
 }
 
-  .modal-body a {
+.modal-body a {
     text-decoration: none;
   }
   
@@ -65,10 +64,3 @@ a {
     width: 120px;
   }
 
-  .navbar-nav.flex-wrap {
-    display: block;
-  }
-
-  .twod {
-    padding-left: 30px;
-  }

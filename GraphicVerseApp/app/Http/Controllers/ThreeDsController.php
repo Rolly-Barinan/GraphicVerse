@@ -10,5 +10,9 @@ class ThreeDsController extends Controller
     {
         return view('threeDs/create');
     }
+    public function store()
+    {
+        dd(request()->all());
+    }
     
 }

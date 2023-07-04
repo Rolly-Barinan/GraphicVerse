@@ -136,10 +136,10 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <a href="/p/create">
+                    <a href="#">
                         <button type="button" class="btn btn-primary">2D </button>
                     </a>
-                    <a href="#">
+                    <a href="/p/create">
                         <button type="button" class="btn btn-primary">3D </button>
                     </a>
 
