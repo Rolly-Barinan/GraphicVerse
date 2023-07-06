@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('name');
             $table->string('asset');
             $table->timestamps();
-
+            
             $table->index('user_id');
         });
     }

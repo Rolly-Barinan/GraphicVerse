@@ -15,5 +15,7 @@ class ProfilesController extends Controller
           
         'user'=> $user,
     ]);
+
+    
     }
 }
