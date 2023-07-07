@@ -70,4 +70,14 @@ return [
         public_path('storage') => storage_path('app/public'),
     ],
 
+    '3D' => [
+        'driver' => 'local',
+        'root' => storage_path('app/3D'),
+        'url' => env('APP_URL').'/storage/3D',
+        'visibility' => 'public',
+        'mimetypes' => [
+            'fbx' => 'application/octet-stream', // Add the MIME type for FBX files
+        ],
+    ],
+
 ];

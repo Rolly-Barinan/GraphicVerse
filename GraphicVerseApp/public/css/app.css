@@ -48,13 +48,6 @@ nav {
     width: 100%;
     border-radius: inherit;
 }
-
-
-a {
-    font-family: "Roboto", sans-serif;
-
-}
-
 .modal-body a {
     text-decoration: none;
   }
@@ -63,3 +56,12 @@ a {
     margin: 5px;
     width: 120px;
   }
+
+
+a {
+    font-family: "Roboto", sans-serif;
+
+}
+
+
+
