@@ -27,16 +27,22 @@
     {{-- @vite(['resources/sass/app.scss', 'resources/js/app.js']) --}}
 </head>
 
+<style>
+    body {
+        font-family: 'Nunito', sans-serif;
+        background-image: url('https://cdn.discordapp.com/attachments/1121006331323760680/1123571308496691210/Copy_of_GraphicVerse_Capstone_Hearing.png');
+        background-size: cover;
+        background-repeat: no-repeat;
+    }
+</style>
+
 <body class="my-element ">
     <nav class="navbar navbar-expand-lg">
         <div class="container-fluid pt-2">
             <div class="row ">
-
-
                 <div class="col">
                     <img src="/svg/GraphicVerse_Capstone.png" class="pr-3"
                         style="height: 40px; padding-left: 4rem; padding-right: .5rem">
-
                 </div>
                 <div class="col pt-1">
                     <a class="GraphicVerse navbar-brand text-white pt-2" href="{{ url('/') }}" >
@@ -48,7 +54,6 @@
                         <input class="form-control me-2 custom-search-input" type="search" placeholder="Search"
                             aria-label="Search">
                     </form>
-
                 </div>
 
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
@@ -107,8 +112,6 @@
                     </ul>
                 </div>
 
-
-
                 <div class="row justify-content-center navTwo">
                     <div class="col-auto navbar-nav ">
                         <div class="d-flex justify-content-center space-between">
@@ -122,8 +125,6 @@
                         </div>
                     </div>
                 </div>
-
-
             </div>
         </div>
     </nav>

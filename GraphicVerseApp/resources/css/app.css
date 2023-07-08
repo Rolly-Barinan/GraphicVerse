@@ -4,18 +4,11 @@
     outline: 1px solid;
 }  */
 
-.my-element {
-    background-image: url("https://cdn.discordapp.com/attachments/1121006331323760680/1123571308496691210/Copy_of_GraphicVerse_Capstone_Hearing.png");
-
-    background-repeat: no-repeat;
-    background-size: cover;
-}
-
-@media (max-width: 768px) {
+/* @media (max-width: 768px) {
     .my-element {
         background-size: contain;
     }
-}
+} */
 
 /* .container-fluid {
     background-color: #222344;

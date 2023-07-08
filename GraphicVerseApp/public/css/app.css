@@ -4,18 +4,18 @@
     outline: 1px solid;
 }  */
 
-.my-element {
+/* .my-element {
     background-image: url("https://cdn.discordapp.com/attachments/1121006331323760680/1123571308496691210/Copy_of_GraphicVerse_Capstone_Hearing.png");
 
     background-repeat: no-repeat;
     background-size: cover;
-}
+} */
 
-@media (max-width: 768px) {
+/* @media (max-width: 768px) {
     .my-element {
         background-size: contain;
     }
-}
+} */
 
 /* .container-fluid {
     background-color: #222344;
@@ -38,9 +38,7 @@ nav {
     border-radius: 10px;
     padding-left: 30px;
     padding: auto;
-
     position: relative;
-  
 }
 
 .custom-search-input {
@@ -48,6 +46,7 @@ nav {
     width: 100%;
     border-radius: inherit;
 }
+
 .modal-body a {
     text-decoration: none;
   }
@@ -62,6 +61,3 @@ a {
     font-family: "Roboto", sans-serif;
 
 }
-
-
-
