@@ -15,7 +15,7 @@
                     </div>
                     <div class="carousel-inner">
                         <div class="carousel-item active">
-                            <img src="https://i.gifer.com/4AIE.gif"
+                            <img src="https://i.gifer.com/RqUr.gif"
                                 class="d-block w-100">
                             <div class="carousel-caption d-none d-md-block">
                                 <h5>First slide label</h5>
@@ -23,7 +23,7 @@
                             </div>
                         </div>
                         <div class="carousel-item">
-                            <img src="https://www.pngmart.com/files/2/Pikachu-Transparent-Background.png"
+                            <img src="https://i.gifer.com/4AIE.gif"
                                 class="d-block w-100">
                             <div class="carousel-caption d-none d-md-block">
                                 <h5>Second slide label</h5>
