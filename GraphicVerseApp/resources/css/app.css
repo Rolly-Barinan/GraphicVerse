@@ -31,9 +31,7 @@ nav {
     border-radius: 10px;
     padding-left: 30px;
     padding: auto;
-
-    position: relative;
-  
+    position: relative;  
 }
 
 .custom-search-input {
@@ -42,10 +40,8 @@ nav {
     border-radius: inherit;
 }
 
-
 a {
     font-family: "Roboto", sans-serif;
-
 }
 
 
