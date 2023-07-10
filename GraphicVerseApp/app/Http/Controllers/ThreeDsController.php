@@ -3,8 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
-
+use Illuminate\Support\Str;
 
 class ThreeDsController extends Controller
 {
@@ -21,18 +20,21 @@ class ThreeDsController extends Controller
     public function store()
     {
         $data = request()->validate([
-
             'name' => 'required',
-            // 'asset' => ['required', 'file', 'mimes:fbx'],
-            'asset' => 'required',
+            'asset' => 'required|file|mimes:bin,fbx',
         ]);
- 
-        $assetPath = request('asset')->store('3D', 'public'); //3D is directory under storage/public
+
+        $file = $data['asset'];
+        $extension = $file->getClientOriginalExtension();
+        $name = Str::random(40).'.'.$extension;
+
+        $assetPath = $file->storeAs('public/3D', $name);
+        
         auth()->user()->threeDs()->create([
             'name' => $data['name'],
             'asset' => $assetPath,
         ]);
+        
         return redirect('/profile/'. auth()->user()->id);
-
     }
 }

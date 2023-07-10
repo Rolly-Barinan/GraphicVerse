@@ -4,7 +4,6 @@
     <div class="container">
         <div class="row justify-content-center">
             <div class="col">
-
                 <div id="carouselExampleCaptions" class="carousel slide">
                     <div class="carousel-indicators">
                         <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active"
@@ -16,7 +15,7 @@
                     </div>
                     <div class="carousel-inner">
                         <div class="carousel-item active">
-                            <img src="https://www.pngmart.com/files/2/Pikachu-Transparent-Background.png"
+                            <img src="https://i.gifer.com/RqUr.gif"
                                 class="d-block w-100">
                             <div class="carousel-caption d-none d-md-block">
                                 <h5>First slide label</h5>
@@ -24,7 +23,7 @@
                             </div>
                         </div>
                         <div class="carousel-item">
-                            <img src="https://www.pngmart.com/files/2/Pikachu-Transparent-Background.png"
+                            <img src="https://i.gifer.com/4AIE.gif"
                                 class="d-block w-100">
                             <div class="carousel-caption d-none d-md-block">
                                 <h5>Second slide label</h5>
@@ -53,11 +52,11 @@
                 </div>
             </div>
             <div class="col">
-
-                <h1 class="elevate-title text-white">Elevate your creative flow.</h1>
+                <h1 class="elevate-title text-white">Elevate your creative flow</h1>
                 <p class="experience "> Experience the power of efficient asset management, collaborative workspaces, and a stunning portfolio
-                    showcase. Join GraphicVerse and elevate your creative journey to new heights.</p>
-                    <button type="button" class="learnmore">LEARN MORE</button>
+                    showcase. Join GraphicVerse and elevate your creative journey to new heights.
+                </p>
+                <button type="button" class="learnmore">GET STARTED</button>
             </div>
         </div>
     </div>
