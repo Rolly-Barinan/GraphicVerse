@@ -9,8 +9,9 @@
         <div class="row">
             <div class="col-3 p-2 d-flex justify-content-center align-items-start">
                 <div class="rounded-circle-container">
-                    <img src="/storage/{{$user->profile->image }}" class="rounded-circle img-fluid" alt="...">
+                    <img src="{{ $user->profile->profileImage() }}" class="rounded-circle img-fluid" alt="...">
                 </div>
+               
             </div>
             <div class="col-5 pt-3 ">
                 <div>
@@ -37,7 +38,7 @@
                     <div class="">{{ $user->profile->title }}</div>
                     <div> {{ $user->profile->description }}</div>
                     <div> <a href=""> {{ $user->profile->url ?? 'N/A' }}</a></div>
-                    <div>hello</div>
+                 
                 </div>
 
             </div>
