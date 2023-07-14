@@ -34,6 +34,18 @@ class User extends Authenticatable
         'remember_token',
     ];
 
+    public static function boot()
+    {
+        parent::boot();
+
+        static::created(function ($user) {
+            $user->profile()->create([
+                'title' => $user->username,
+
+            ]);
+        });
+    }
+
     /**
      * The attributes that should be cast.
      *
@@ -47,7 +59,7 @@ class User extends Authenticatable
     {
         return $this->hasOne(Profile::class);
     }
-    
+
     public function threeDs()
 
     {
@@ -56,10 +68,10 @@ class User extends Authenticatable
 
     public function packages()
     {
-        return $this->hasMany(Package::class);
+        return $this->hasMany(Package::class)->orderBy('created_at', 'DESC');
     }
     public function audios()
     {
-        return $this->hasMany(Audio::class); 
+        return $this->hasMany(Audio::class);
     }
 }

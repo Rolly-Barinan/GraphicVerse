@@ -9,7 +9,7 @@
         <div class="row">
             <div class="col-3 p-2 d-flex justify-content-center align-items-start">
                 <div class="rounded-circle-container">
-                    <img src="/svg/1201120.jpg" class="rounded-circle img-fluid" alt="...">
+                    <img src="/storage/{{$user->profile->image }}" class="rounded-circle img-fluid" alt="...">
                 </div>
             </div>
             <div class="col-5 pt-3 ">

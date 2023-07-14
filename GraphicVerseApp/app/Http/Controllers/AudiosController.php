@@ -48,8 +48,8 @@ class AudiosController extends Controller
         $audio->name = $request->name;
         $audio->category = $request->category;
 
-        $path = $request->file('audio')->store('audio', 'public');
-        $audio->file_path = $path;
+        $audioPath = $request->file('audio')->store('audio', 'public');
+        $audio->file_path = $audioPath;
 
         $audio->save();
         return redirect()->route('audios.index')->with('success', 'Audio uploaded successfully!');
