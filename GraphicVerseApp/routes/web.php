@@ -4,8 +4,11 @@ use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\AboutUsController;
+use App\Http\Controllers\AudiosController;
 use App\Http\Controllers\ProfilesController;
 use App\Http\Controllers\ThreeDsController;
+use App\Http\Controllers\PackageController;
+use Illuminate\Support\Facades\Auth;
 
 /*
 |--------------------------------------------------------------------------
@@ -25,10 +28,25 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', [HomeController::class, 'index'])->name('home');   
-
-Route::get('/profile/{user}', [ProfilesController::class, 'index'])->name('profile.show');
 Route::get('/aboutus', [AboutUsController::class, 'index'])->name('aboutus');
-Route::get('/p/create', [ThreeDsController::class, 'create'])->name('create');
+//profile router contoller
+Route::get('/profile/{user}', [ProfilesController::class, 'index'])->name('profile.show');
+Route::get('/profile/{user}/edit', [ProfilesController::class, 'edit'])->name('profile.edit');
+Route::patch('/profile/{user}', [ProfilesController::class, 'update'])->name('profile.update');
+//packages router controller
+Route::get('/packages/show', [PackageController::class, 'show'])->name('packages.show');
+Route::get('/packages/create', [PackageController::class, 'create'])->name('packages.create');
+Route::post('/packages', [PackageController::class, 'store'])->name('packages.store');
+
+// audio controller
+Route::get('/audios/{id}/play',[AudiosController::class, 'play'])->name('audios.play');
+Route::get('/audios/create', [AudiosController::class, 'create'])->name('audios.create');
+Route::post('/audios', [AudiosController::class,'store'])->name('audios.store');
+
+
+
+Route::get('/upload/create', [ThreeDsController::class, 'create'])->name('create');
+
 Route::post('/p', [ThreeDsController::class, 'store'])->name('store');
 Route::get('profile/{user}/edit', [ProfilesController::class, 'edit'])->name('profile.edit');
 Route::patch('/profile/{user}', [ProfilesController::class, 'update'])->name('profile.update'); 

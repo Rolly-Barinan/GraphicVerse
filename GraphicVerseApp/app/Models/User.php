@@ -53,4 +53,13 @@ class User extends Authenticatable
     {
         return $this->hasMany(ThreeD::class);
     }
+
+    public function packages()
+    {
+        return $this->hasMany(Package::class);
+    }
+    public function audios()
+    {
+        return $this->hasMany(Audio::class); 
+    }
 }

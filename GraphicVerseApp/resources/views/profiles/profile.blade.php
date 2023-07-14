@@ -17,18 +17,16 @@
                     <div class="d-flex justify-content-between align-items-baseline">
                         <div class="d-flex">
                             <div class="h4" class="ml-4 p"> {{ $user->username }} </div>
-                            <example-component></example-component>
+
 
                         </div>
-                        @can('update', $user->profile)
-                            <a href="/p/create">add new post</a>
-                        @endcan
-
 
                     </div>
                     @can('update', $user->profile)
                         <a href="/profile/{{ $user->id }}/edit">edit profile</a>
                     @endcan
+
+
                     <div class="d-flex p-4">
 
                         {{-- <div style=" padding-right:20px;"><strong>{{$user->posts->count()}} </strong> posts</div> --}}
@@ -39,16 +37,24 @@
                     <div class="">{{ $user->profile->title }}</div>
                     <div> {{ $user->profile->description }}</div>
                     <div> <a href=""> {{ $user->profile->url ?? 'N/A' }}</a></div>
+                    <div>hello</div>
                 </div>
 
             </div>
             <div class="col-2 d-flex justify-content-end ps-5 pt-2 align-items-start ">
-                <button type="button" class="btn btn-secondary btn-lg "
-                    style="--bs-btn-padding-y: .8rem; --bs-btn-padding-x: 3.5rem; --bs-btn-font-size: 1.2rem;">Follow</button>
+
+
+                @can('update', $user->profile)
+                    <button type="button" class="btn btn-secondary btn-lg  " data-bs-toggle="modal"
+                        data-bs-target="#exampleModal"
+                        style="--bs-btn-padding-y: .7rem; --bs-btn-padding-x: 3.5rem; --bs-btn-font-size: .9rem;">Upload
+                    </button>
+                @endcan
+
             </div>
             <div class="col-2 col-2 d-flex justify-content-top pt-2 align-items-start">
                 <button type="button" class="btn btn-secondary btn-lg"
-                    style="--bs-btn-padding-y: .8rem; --bs-btn-padding-x: 3.5rem; --bs-btn-font-size: 1.2rem;">Connect</button>
+                    style="--bs-btn-padding-y: .7rem; --bs-btn-padding-x: 3.5rem; --bs-btn-font-size: .9rem;">Connect</button>
             </div>
         </div>
         <div class="row pt-5">
@@ -61,5 +67,24 @@
         </div>
         @endforeach --}}
 
-        </div>
-    @endsection
+            <!-- Modal -->
+            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="exampleModalLabel">Upload Asssets</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <button type="button" class="btn btn-primary">3D</button>
+                            <button type="button" class="btn btn-secondary">2D</button>
+                            <button type="button" class="btn btn-success">Audio</button>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        @endsection

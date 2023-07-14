@@ -42,7 +42,7 @@
     }
 </style>
 
-<nav class="navbar navbar-expand-lg shadow">
+<nav class="navbar-fluid navbar-expand-lg shadow">
     <div class="container-fluid pt-2">
         <div class="row ">
             {{-- <a class="GraphicVerse navbar-brand text-white pt-2" href="{{ url('/') }}">
@@ -92,13 +92,13 @@
                     <!-- Authentication Links -->
                     @guest
                         @if (Route::has('login'))
-                            <li class="nav-item">
+                            <li class="nav-item pe-2">
                                 <a class="nav-link text-white" href="{{ route('login') }}">{{ __('Login') }}</a>
                             </li>
                         @endif
 
                         @if (Route::has('register'))
-                            <li class="nav-item">
+                            <li class="nav-item pe-2">
                                 <a class="nav-link text-white" href="{{ route('register') }}">{{ __('Register') }}</a>
                             </li>
                         @endif
@@ -161,47 +161,14 @@
                         <a class="threed nav-link text-white pe-5" href="3d">3D</a>
                         <a class="others nav-link text-white pe-5  " href="animation">Animation</a>
                         <a class="others nav-link text-white pe-5  " href="music">Sound/Music</a>
-                        {{-- <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                            data-bs-target="#exampleModal">Upload
-                        </button> --}}
+                  
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </nav>
-<!-- Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h1 class="modal-title fs-5" id="exampleModalLabel">Upload Assets</h1>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <a href="2d">
-                    <button type="button" class="btn btn-primary">2D </button>
-                </a>
-                <a href="3d">
-                    <button type="button" class="btn btn-primary">3D</button>
-                </a>
 
-                <a href="animation">
-                    <button type="button" class="btn btn-primary">Animation</button>
-                </a>
-
-                <a href="music">
-                    <button type="button" class="btn btn-primary">Sound/Music </button>
-                </a>
-
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-
-            </div>
-        </div>
-    </div>
-</div>
 
 
 
