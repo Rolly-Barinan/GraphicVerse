@@ -2,11 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Audio;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 
-class AudiosController extends Controller
+class TwoDimController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -18,14 +16,14 @@ class AudiosController extends Controller
         //
     }
 
-    /** 
+    /**
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response
      */
     public function create()
     {
-        return view('audios.create');
+        return view('two-dim.create');
     }
 
     /**
@@ -36,26 +34,9 @@ class AudiosController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'name' => 'required',
-            'category' => 'required|in:music,sound,ambient',
-            'audio.*' => 'required|mimes:audio/mpeg,mpga,mp3,wav',
-        ]);
-
-        $audioFiles = $request->file('audio');
-        foreach ($audioFiles as $audioFile) {
-            $audio = new Audio();
-            $audio->user_id = Auth::id();
-            $audio->name = $request->name;
-            $audio->category = $request->category;
-
-            $audioPath = $audioFile->store('audio', 'public');
-            $audio->file_path = $audioPath;
-
-            $audio->save();
-        }
-        return redirect()->route('profiles.profile')->with('success', 'Audio uploaded successfully!');
+        //
     }
+
     /**
      * Display the specified resource.
      *
@@ -64,8 +45,7 @@ class AudiosController extends Controller
      */
     public function show($id)
     {
-        $audio = Audio::findOrFail($id);
-        return view('audios.show', compact('audio'));
+        //
     }
 
     /**
@@ -82,22 +62,13 @@ class AudiosController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $requ est
+     * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
     {
         //
-    }
-    public function play($id)
-    {
-        $audio = Audio::findOrFail($id);
-        $filePath = storage_path('app/' . $audio->file_path);
-
-        return response()->file($filePath, [
-            'Content-Type' => 'audio/mpeg',
-        ]);
     }
 
     /**

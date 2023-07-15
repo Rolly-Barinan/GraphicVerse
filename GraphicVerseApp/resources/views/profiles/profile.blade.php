@@ -11,7 +11,7 @@
                 <div class="rounded-circle-container">
                     <img src="{{ $user->profile->profileImage() }}" class="rounded-circle img-fluid" alt="...">
                 </div>
-               
+
             </div>
             <div class="col-5 pt-3 ">
                 <div>
@@ -38,7 +38,7 @@
                     <div class="">{{ $user->profile->title }}</div>
                     <div> {{ $user->profile->description }}</div>
                     <div> <a href=""> {{ $user->profile->url ?? 'N/A' }}</a></div>
-                 
+
                 </div>
 
             </div>
@@ -59,14 +59,32 @@
             </div>
         </div>
         <div class="row pt-5">
-            {{-- @foreach ($user->posts as $post)
-        <div class="col-4 p-4">
+            <div class="col-10">
+                <div class="row">
 
-            <a href="/p/{{ $post->id }}">
-                <img src="/storage/{{ $post->image }}" class="w-100">
-            </a>
-        </div>
-        @endforeach --}}
+                    <h4>Recently Upload </h4>
+                    @foreach ($user->packages as $package)
+                        <div class="col-3 p-">
+                            <div class=" card" style="width: 15rem;">
+                                @if ($package->thumbnail)
+                                    <img src="/storage/{{ $package->thumbnail->filename }}" class="card-img-top"
+                                        alt="Thumbnail" />
+                                @else
+                                    <img src="{{ asset('path/to/default-thumbnail.jpg') }}" alt="Default Thumbnail" />
+                                @endif
+                                <div class="card-body">
+                                    <p> {{ $package->name }}</p>
+                                    <p class="card-text">{{ $package->category }}</p>
+                                </div>
+                            </div>
+                        </div>
+                    @endforeach
+
+                </div>
+
+            </div>
+
+            <div class="col-2">teams</div>
 
             <!-- Modal -->
             <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -77,9 +95,14 @@
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
-                            <button type="button" class="btn btn-primary">3D</button>
-                            <button type="button" class="btn btn-secondary">2D</button>
-                            <button type="button" class="btn btn-success">Audio</button>
+                            <a href="/three-dim/create">
+                                <button type="button" class="btn btn-primary">3D</button>
+                            </a>
+                            <a href="/two-dim/create">
+                                <button type="button" class="btn btn-warning">2D</button>
+                            </a>
+                            <a href="/audios/create"><button type="button" class="btn btn-success">Audio</button></a>
+
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>

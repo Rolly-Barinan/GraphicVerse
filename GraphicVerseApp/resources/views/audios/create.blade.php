@@ -27,7 +27,7 @@
 
         <div class="form-group">
             <label for="audio">Select Audio:</label>
-            <input type="file" name="audio" id="audio" class="form-control">
+            <input type="file" name="audio[]" id="audio" class="form-control" multiple>
             @error('audio')
                 <div class="alert alert-danger">{{ $message }}</div>
             @enderror

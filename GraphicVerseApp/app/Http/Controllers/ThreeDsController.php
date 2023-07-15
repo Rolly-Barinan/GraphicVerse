@@ -14,11 +14,18 @@ class ThreeDsController extends Controller
 
     public function create()
     {
-        return view('threeDs/create');
+ 
+
+        return view('three-dim.create');
     }
 
-    public function store()
+    public function store(Request $request)
     {
+  
+        if (!$request->isMethod('post') || !$request->has('_token')) {
+            abort(403, 'Unauthorized');
+        }
+        
         $data = request()->validate([
             'name' => 'required',
             'asset' => 'required|file|mimes:bin,fbx',

@@ -45,7 +45,7 @@ class PackageController extends Controller
                 'name' => $request->input('name'),
                 'category' => $request->input('category'),
                 'sub_category' => $request->input('sub_category'),
-                'user_id' => $user->id,
+                'user_id' => $user->id, 
             ]);
 
             if ($request->hasFile('images')) {
@@ -61,7 +61,7 @@ class PackageController extends Controller
                 }
             }
 
-            return redirect()->route('packages.show')->with('success', 'Package created successfully.');
+            return redirect()->route('profiles.profile')->with('success', 'Package created successfully.');
         }
 
         // Handle the case when the user is not authenticated

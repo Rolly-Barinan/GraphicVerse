@@ -24,4 +24,8 @@ class Package extends Model
     {
         return $this->hasMany(Image::class);
     }
+    public function thumbnail()
+    {
+        return $this->hasOne(Image::class, 'package_id')->orderBy('created_at', 'desc');
+    }
 }

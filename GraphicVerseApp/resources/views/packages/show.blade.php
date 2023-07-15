@@ -31,7 +31,7 @@
                     </td>
                 </tr>
             @endforeach
-        </tbody>
+        </tbody>x`
     </table>
 
 

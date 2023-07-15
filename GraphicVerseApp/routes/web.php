@@ -1,13 +1,14 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-
+use App\Http\Middleware\RestrictDirectAccess;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\AboutUsController;
 use App\Http\Controllers\AudiosController;
 use App\Http\Controllers\ProfilesController;
 use App\Http\Controllers\ThreeDsController;
 use App\Http\Controllers\PackageController;
+use App\Http\Controllers\TwoDimController;
 use Illuminate\Support\Facades\Auth;
 
 /*
@@ -29,10 +30,12 @@ Auth::routes();
 
 Route::get('/home', [HomeController::class, 'index'])->name('home');   
 Route::get('/aboutus', [AboutUsController::class, 'index'])->name('aboutus');
+
 //profile router contoller
 Route::get('/profile/{user}', [ProfilesController::class, 'index'])->name('profile.show');
 Route::get('/profile/{user}/edit', [ProfilesController::class, 'edit'])->name('profile.edit');
 Route::patch('/profile/{user}', [ProfilesController::class, 'update'])->name('profile.update');
+
 //packages router controller
 Route::get('/packages/show', [PackageController::class, 'show'])->name('packages.show');
 Route::get('/packages/create', [PackageController::class, 'create'])->name('packages.create');
@@ -43,10 +46,15 @@ Route::get('/audios/{id}/play',[AudiosController::class, 'play'])->name('audios.
 Route::get('/audios/create', [AudiosController::class, 'create'])->name('audios.create');
 Route::post('/audios', [AudiosController::class,'store'])->name('audios.store');
 
+//two dimensional controller
+Route::get('/two-dim/create', [TwoDimController::class, 'create'])->name('two-dim.create');
+
+// three-dimensional controller
+Route::get('/three-dim/create', [ThreeDsController::class, 'create'])->name('create');
 
 
-Route::get('/upload/create', [ThreeDsController::class, 'create'])->name('create');
+Route::middleware([RestrictDirectAccess::class])->group(function () {
 
-Route::post('/p', [ThreeDsController::class, 'store'])->name('store');
-Route::get('profile/{user}/edit', [ProfilesController::class, 'edit'])->name('profile.edit');
-Route::patch('/profile/{user}', [ProfilesController::class, 'update'])->name('profile.update'); 
+    Route::post('/three-dim', [ThreeDsController::class, 'store'])->name('store');
+    
+});

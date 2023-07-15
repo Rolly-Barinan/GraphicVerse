@@ -4,7 +4,7 @@
     <div class="container">
         <div class="row">
             <h2 class="text-white">3d assets</h2>
-            <form action="/p" enctype="multipart/form-data" method="post">
+            <form action="/three-dim" enctype="multipart/form-data" method="post">
                 @csrf
                 <div class="col-8 offset-2">
 
