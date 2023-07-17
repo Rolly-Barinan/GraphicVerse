@@ -36,6 +36,7 @@ class AudiosController extends Controller
      */
     public function store(Request $request)
     {
+        $user = Auth::user();
         $request->validate([
             'name' => 'required',
             'category' => 'required|in:music,sound,ambient',
@@ -54,7 +55,8 @@ class AudiosController extends Controller
 
             $audio->save();
         }
-        return redirect()->route('profiles.profile')->with('success', 'Audio uploaded successfully!');
+        // return redirect()->route('profiles.profile')->with('success', 'Audio uploaded successfully!');
+        return redirect("/profile/{$user->id}")->with('success', 'Package created successfully.');
     }
     /**
      * Display the specified resource.

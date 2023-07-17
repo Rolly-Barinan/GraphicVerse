@@ -3,7 +3,7 @@
 @section('content')
     <div class="container-fluid bg-white ">
         <form action="{{ route('packages.store') }}" method="POST" enctype="multipart/form-data">
-            {{-- @csrf
+            @csrf
         <div>
             <label for="name">Package Name</label>
             <input type="text" name="name" id="name" required>
@@ -27,8 +27,8 @@
             <label for="images">Images</label>
             <input type="file" name="images[]" id="images" multiple required>
         </div>
-        <button type="submit">Create Package</button> --}}
-            <div class="row">
+        <button type="submit">Create Package</button>
+            {{-- <div class="row">
                 <div class="col-7">
                     <div class=""> <button type="button" class="btn btn-primary"
                             style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">
@@ -40,7 +40,7 @@
 
                 </div>
 
-            </div>
+            </div> --}}
 
 
         </form>

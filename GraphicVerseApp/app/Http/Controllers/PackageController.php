@@ -61,7 +61,8 @@ class PackageController extends Controller
                 }
             }
 
-            return redirect()->route('profiles.profile')->with('success', 'Package created successfully.');
+            // return redirect()->route('profile')->with('success', 'Package created successfully.');
+            return redirect("/profile/{$user->id}")->with('success', 'Package created successfully.');
         }
 
         // Handle the case when the user is not authenticated
