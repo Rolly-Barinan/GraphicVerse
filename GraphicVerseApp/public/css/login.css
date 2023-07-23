@@ -1,52 +1,130 @@
 /* Add background image */
 body {
-    background-image: url("path/to/your/background.gif");
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-position: center;
-  }
-  
-  .container {
-    margin-top: 50px;
-  }
-  
-  .card-header {
-    background-color: #007bff;
-    color: #fff;
-    font-weight: bold;
-  }
-  
-  .card-body {
-    padding: 30px;
-  }
-  
-  .form-control {
-    border-radius: 5px;
-  }
-  
-  .form-check-label {
-    font-weight: normal;
-  }
-  
-  .btn-primary {
-    background-color: #007bff;
-    border: none;
-  }
-  
-  .btn-primary:hover {
-    background-color: #0056b3;
-  }
-  
-  /* Adjust card layout for better centering */
-  @media (max-width: 576px) {
-    .card {
-      margin-top: 30%;
-      border-radius: 15px;
-    }
-  }
-  
-  /* Optional: Add a box shadow to the card */
+  background-image: url("../svg/Login_background.gif");
+  background-size: 80%;
+  background-color: #04294F;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-position-y: 25px;
+}
+
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.card {
+  background-color: #FDFDFD;
+  margin-right: 1000px; /* Adjust the value to set the space on the left */
+  margin-bottom: 200px;
+  border-radius: 15px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  width: 500px;
+  margin-top: 150px;
+}
+
+.card-header {
+  font-family: 'Oswald', sans-serif;
+  background-color: #FDFDFD;
+  color: #2B292B;
+  font-weight: bold;
+  font-size: 30px;
+  box-shadow: none;
+  text-align: center;
+  padding: 20px 0;
+  border-top-left-radius: 15px;
+  border-top-right-radius: 15px;
+  border-color: #FDFDFD;
+}
+
+.card-header img {
+  max-height: 100px;
+}
+
+.card-body {
+  padding: 30px;
+  border-color: #FDFDFD;
+}
+
+.form-control {
+  border-radius: 30px;
+  border-color: #cfcfcf;
+  border-left-color: #FDFDFD;
+  margin-bottom: 10px;
+  height: 40px;
+  min-width: 300px !important;
+  border-top-left-radius: 0px;
+  border-bottom-left-radius: 0px;
+  outline: none; 
+}
+
+.form-control:focus {
+  border-color: #cfcfcf; 
+  box-shadow: none; 
+
+}
+
+.form-control::selection {
+  background-color: transparent; 
+  border-left-color:none ;
+}
+
+.form-check-label {
+  font-weight: normal;
+}
+
+.form-check-row {
+  display: flex;
+  align-items: left;
+}
+
+.form-check-row .form-check-input {
+  margin-right: 1px;
+}
+
+
+.btn-primary {
+  background-color: #007bff;
+  border: none;
+}
+
+.btn-primary:hover {
+  background-color: #0056b3;
+}
+
+.input-group-prepend {
+  display: flex;
+  margin-left: 20px;
+}
+
+.input-group-prepend .input-group-text {
+  background-color: transparent;
+  height: 40px;
+  border-color: #FDFDFD;
+  border-left-color: #cfcfcf;
+  border-top-color: #cfcfcf;
+  border-bottom-color: #cfcfcf;
+  border-radius: 0%;
+  border-top-left-radius: 30px;
+  border-bottom-left-radius: 30px;
+  margin-bottom: 10px;
+}
+
+.input-group-append .input-group-text {
+  background-color: transparent;
+  border: none;
+}
+
+.input-group-prepend,
+.input-group-append {
+  background-color: #FDFDFD;
+  border-color: #FDFDFD;
+}
+
+@media (max-width: 576px) {
   .card {
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin-left: 0; /* Reset the margin for smaller screens */
   }
-  
+}
