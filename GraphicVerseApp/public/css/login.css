@@ -112,7 +112,12 @@ body {
   color: #FDFDFD;
   font-family: 'Roboto';
   text-decoration: none;
+<<<<<<< Updated upstream
   margin-bottom: 10px;
+=======
+  margin-bottom: 50px;
+  margin-left: 130px;
+>>>>>>> Stashed changes
 }
 .btn-link:hover{
   color:#b129a2;
