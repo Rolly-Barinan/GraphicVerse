@@ -16,19 +16,19 @@ body {
 }
 
 .card {
-  background-color: #FDFDFD;
+  background:none;
   margin-right: 1000px; /* Adjust the value to set the space on the left */
   margin-bottom: 200px;
   border-radius: 15px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  border:none;
   width: 500px;
   margin-top: 150px;
 }
 
 .card-header {
   font-family: 'Oswald', sans-serif;
-  background-color: #FDFDFD;
-  color: #2B292B;
+  background:none;
+  color: #FDFDFD;
   font-weight: bold;
   font-size: 30px;
   box-shadow: none;
@@ -36,7 +36,7 @@ body {
   padding: 20px 0;
   border-top-left-radius: 15px;
   border-top-right-radius: 15px;
-  border-color: #FDFDFD;
+  border:none;
 }
 
 .card-header img {
@@ -55,8 +55,8 @@ body {
   margin-bottom: 10px;
   height: 40px;
   min-width: 300px !important;
-  border-top-left-radius: 0px;
-  border-bottom-left-radius: 0px;
+  border-top-left-radius: 30px;
+  border-bottom-left-radius: 30px;
   outline: none; 
 }
 
@@ -72,35 +72,89 @@ body {
 }
 
 .form-check-label {
-  font-weight: normal;
+  font-family: 'Roboto';
 }
 
 .form-check-row {
   display: flex;
   align-items: left;
+  color:#FDFDFD
+}
+
+.form-check {
+  position: relative;
+  padding-left: 30px; /* Add space for the custom checkbox appearance */
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.form-check-input::after {
+  background-color: #b129a2;
+}
+
+.form-check-input:checked::after {
+  background-color: #88207c; /* Change to the desired color when checkbox is checked */
+}
+
+.form-check-input:focus,
+.form-check-input:active {
+  box-shadow: none;
 }
 
 .form-check-row .form-check-input {
   margin-right: 1px;
+  
 }
 
 
+
+.btn-link{
+  color: #FDFDFD;
+  font-family: 'Roboto';
+  text-decoration: none;
+  margin-bottom: 10px;
+}
+.btn-link:hover{
+  color:#b129a2;
+  font-family: 'Roboto';
+  text-decoration: none;
+}
+
+.btn2{
+  color: #FDFDFD;
+  font-family: 'Roboto';
+  text-decoration: none;
+  margin-left: 115px;
+  margin-top: 10px;
+}
+.btn2:hover{
+  color:#b129a2;
+  font-family: 'Roboto';
+  text-decoration: none;
+}
+
 .btn-primary {
-  background-color: #007bff;
+  background-color: #b129a2;
   border: none;
+  width: 310px;
+  justify-content: center;
+  margin-left: 70px;
+  font-family: 'Roboto';
+  border-radius: 60px;
 }
 
 .btn-primary:hover {
-  background-color: #0056b3;
+  background-color: #88207c;
 }
 
 .input-group-prepend {
   display: flex;
   margin-left: 20px;
+  background:none;
 }
 
 .input-group-prepend .input-group-text {
-  background-color: transparent;
+  background:none;
   height: 40px;
   border-color: #FDFDFD;
   border-left-color: #cfcfcf;
@@ -119,12 +173,41 @@ body {
 
 .input-group-prepend,
 .input-group-append {
-  background-color: #FDFDFD;
+  background:none;
   border-color: #FDFDFD;
 }
 
 @media (max-width: 576px) {
   .card {
-    margin-left: 0; /* Reset the margin for smaller screens */
+    margin-left: 0;
   }
+}
+
+.form-group {
+  position: relative;
+}
+
+.form-group .input-group-text {
+  background:none;
+  border-color:none;
+  border-radius: 30px;
+  height: 40px;
+  width: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 2;
+}
+
+.form-control {
+  padding-left: 45px;
+}
+
+.form-control:focus {
+  border:none;
+  box-shadow: none;
 }

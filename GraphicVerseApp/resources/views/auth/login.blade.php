@@ -43,13 +43,9 @@
                         <form method="POST" action="{{ route('login') }}">
                             @csrf
 
-                            <div class="col-md-6">
-                                <div class="input-group-prepend">
-                                    <div class="input-group-prepend">
-                                        <span class="input-group-text"><i class="fas fa-envelope"></i></span>
-                                    </div>
-                                    <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus>
-                                </div>
+                            <div class="col-md form-group">
+                                <span class="input-group-text"><i class="fas fa-envelope"></i></span>
+                                <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus>
                                 @error('email')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
@@ -57,13 +53,9 @@
                                 @enderror
                             </div>
 
-                            <div class="col-md-6">
-                                <div class="input-group-prepend">
-                                    <div class="input-group-prepend">
-                                        <span class="input-group-text"><i class="fas fa-lock"></i></span>
-                                    </div>
-                                    <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="current-password">
-                                </div>
+                            <div class="col-md form-group">
+                                <span class="input-group-text"><i class="fas fa-lock"></i></span>
+                                <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="current-password">
                                 @error('password')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
@@ -79,17 +71,24 @@
                                             {{ __('Remember Me') }}
                                         </label>
                                     </div>
-                                    <a class="btn btn-link" href="{{ route('password.request') }}">
+
+                                </div>
+                            </div>
+                            <div class="col-md-12 d-flex justify-content align-items-center">
+                                <a class="btn btn-link" href="{{ route('password.request') }}">
                                         {{ __('Forgot Your Password?') }}
                                     </a>
                                 </div>
-                            </div>
-
                             <div class="row mb-0">
-                                <div class="col-md-8 offset-md-4">
+                                <div class="button">
                                     <button type="submit" class="btn btn-primary">
                                         {{ __('Login') }}
                                     </button>
+                                </div>
+                                <div class="col-md-12 d-flex justify-content align-items-center">
+                                <a class="btn2" href="{{ route('register') }}">
+                                        {{ __('Dont have an account? Sign up') }}
+                                    </a>
                                 </div>
                             </div>
                         </form>
