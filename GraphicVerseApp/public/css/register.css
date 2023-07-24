@@ -1,6 +1,6 @@
 /* Add background image */
 body {
-  background-image: url("../svg/Login_background.gif");
+  background-image: url("../svg/Register_background.gif");
   background-size: 80%;
   background-color: #04294F;
   background-repeat: no-repeat;
@@ -17,7 +17,7 @@ body {
 
 .card {
   background:none;
-  margin-right: 1000px; /* Adjust the value to set the space on the left */
+  margin-right: 1500px; /* Adjust the value to set the space on the left */
   margin-bottom: 200px;
   border-radius: 15px;
   border:none;
@@ -40,12 +40,14 @@ body {
 }
 
 .card-header img {
-  max-height: 300px;
+  max-height: 100px;
 }
 
 .card-body {
   padding: 30px;
   border-color: #FDFDFD;
+  color:#FDFDFD;
+  font-family:'Roboto'
 }
 
 .form-control {
@@ -105,8 +107,6 @@ body {
   margin-right: 1px;
   
 }
-
-
 
 .btn-link{
   color: #FDFDFD;
