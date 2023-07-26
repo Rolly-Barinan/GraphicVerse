@@ -10,11 +10,13 @@ class Package extends Model
     use HasFactory;
 
     protected $fillable = [
-        'name',
+        'package_name',
         'category',
         'sub_category',
+        'description',
         'user_id',
     ];
+    
     public function user()
     {
         return $this->belongsTo(User::class);

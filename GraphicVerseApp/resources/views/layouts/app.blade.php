@@ -17,16 +17,29 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Oswald&display=swap">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto&display=swap">
 
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js">
+    <link rel="stylesheet" href="	https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css ">
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
         integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous">
     </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/build/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/examples/js/loaders/FBXLoader.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/examples/js/loaders/MTLLoader.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/examples/js/loaders/OBJLoader.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/examples/js/controls/OrbitControls.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/examples/js/libs/fflate.min.js"></script>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js">
+    <link rel="stylesheet" href="	https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css ">
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"
         integrity="sha384-fbbOQedDUMZZ5KreZpsbe1LCZPVmfTnH7ois6mU1QK+m14rQ1l2bGBq41eYeM/fS" crossorigin="anonymous">
     </script>
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link href="{{ asset('css/home.css') }}" rel="stylesheet">
     <link href="{{ asset('css/profile.css') }}" rel="stylesheet">
-    
+
     <!-- Scripts -->
     {{-- @vite(['resources/sass/app.scss', 'resources/js/app.js']) --}}
 </head>
@@ -47,17 +60,7 @@
 <nav class="navbar-fluid navbar-expand-lg shadow">
     <div class="container-fluid pt-2">
         <div class="row ">
-            {{-- <a class="GraphicVerse navbar-brand text-white pt-2" href="{{ url('/') }}">
-                <img src="/svg/GraphicVerse_Capstone.png" class="pr-3" style="height: 50px;" alt="Logo">
-                <span>GraphicVerse</span>
-            </a> --}}
-            {{-- <div class="col">
-                <img src="/svg/GraphicVerse_Capstone.png" class="pr-3"
-                    style="height: 40px; margin-left: 4rem;">
-                    <a class="GraphicVerse navbar-brand text-white pt-1" href="{{ url('/') }}" >
-                        GraphicVerse
-                    </a>
-            </div> --}}
+
 
             <div class="col" style="display: flex; align-items: center;" href="{{ url('/') }}">
                 <img src="/svg/GraphicVerse_Capstone.png" class="pr-3" style="height: 40px; margin-left: 4rem;">
@@ -73,11 +76,7 @@
                 </form>
             </div>
 
-            {{-- <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
-                aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button> --}}
+
             <div class="col" style="margin-top: 10px">
                 {{-- <div class="collapse navbar-collapse" id="navbarSupportedContent"> --}}
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
@@ -134,24 +133,7 @@
                             @csrf
                         </form>
 
-                        {{-- <li class="nav-item dropdown">
-                            <a id="navbarDropdown" class="nav-link dropdown-toggle text-white" href="profile/1"
-                                role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                                <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown"
-                                    aria-expanded="false"> {{ Auth::user()->name }}</button>
-                            </a>
 
-                            <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                                <a class="dropdown-item" href="{{ route('logout') }}"
-                                    onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                                    {{ __('Logout') }}
-                                </a>
-
-                                <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-                                    @csrf
-                                </form>
-                            </div>
-                        </li> --}}
                     @endguest
                 </ul>
             </div>
@@ -163,7 +145,7 @@
                         <a class="threed nav-link text-white pe-5" href="3d">3D</a>
                         <a class="others nav-link text-white pe-5  " href="animation">Animation</a>
                         <a class="others nav-link text-white pe-5  " href="music">Sound/Music</a>
-                  
+
                     </div>
                 </div>
             </div>

@@ -13,16 +13,11 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('three_d_s', function (Blueprint $table) {
+        Schema::create('assets', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('user_id');
-            $table->string('asset_name');
-            $table->string('asset');
-            $table->longText('description');
-            $table->string('category');
             $table->timestamps();
-
-            $table->index('user_id');
+            $table->string('asset_name');
+            
         });
     }
 
@@ -33,6 +28,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('three_d_s');
+        Schema::dropIfExists('assets');
     }
 };

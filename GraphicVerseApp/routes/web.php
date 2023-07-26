@@ -51,10 +51,11 @@ Route::get('/two-dim/create', [TwoDimController::class, 'create'])->name('two-di
 
 // three-dimensional controller
 Route::get('/three-dim/create', [ThreeDsController::class, 'create'])->name('create');
-
+Route::get('/three-dim/show/{id}', [ThreeDsController::class, 'show'])->name('show');
+Route::post('/three-dim', [ThreeDsController::class, 'store'])->name('store');
 
 Route::middleware([RestrictDirectAccess::class])->group(function () {
 
-    Route::post('/three-dim', [ThreeDsController::class, 'store'])->name('store');
+  
     
 });
