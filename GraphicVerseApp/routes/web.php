@@ -9,6 +9,7 @@ use App\Http\Controllers\ProfilesController;
 use App\Http\Controllers\ThreeDsController;
 use App\Http\Controllers\PackageController;
 use App\Http\Controllers\TwoDimController;
+use App\Http\Controllers\TeamController;
 use Illuminate\Support\Facades\Auth;
 
 /*
@@ -35,6 +36,11 @@ Route::get('/aboutus', [AboutUsController::class, 'index'])->name('aboutus');
 Route::get('/profile/{user}', [ProfilesController::class, 'index'])->name('profile.show');
 Route::get('/profile/{user}/edit', [ProfilesController::class, 'edit'])->name('profile.edit');
 Route::patch('/profile/{user}', [ProfilesController::class, 'update'])->name('profile.update');
+
+
+//Teams router
+Route::get('/teams', [TeamController::class, 'index'])->name('teams.index');
+Route::post('/teams', [TeamController::class, 'store'])->name('teams.store');
 
 //packages router controller
 Route::get('/packages/show', [PackageController::class, 'show'])->name('packages.show');

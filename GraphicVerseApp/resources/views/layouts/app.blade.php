@@ -121,7 +121,7 @@
                                 <li><a class="dropdown-item" href="/profile/{{ Auth::user()->id }}">My Profile</a></li>
                                 <li><a class="dropdown-item" href="#">My Portfolio</a></li>
                                 <li><a class="dropdown-item" href="#">Wishlist</a></li>
-                                <li><a class="dropdown-item" href="#">teams</a></li>
+                                <li><a class="dropdown-item" href="/teams">Teams</a></li>
                                 <li> <a class="dropdown-item" href="{{ route('logout') }}"
                                         onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                                         {{ __('Logout') }}
