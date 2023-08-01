@@ -24,6 +24,12 @@ class TeamController extends Controller
             'name' => $request->input('team_name'),
         ]);
 
-        return redirect()->route('Teams.index')->with('success', 'Team created successfully.');
+        return redirect()->route('teams.index')->with('success', 'Team created successfully.');
+    }
+
+    public function destroy(Team $team)
+    {
+        $team->delete();
+        return redirect()->route('teams.index')->with('success', 'Team deleted successfully.');
     }
 }

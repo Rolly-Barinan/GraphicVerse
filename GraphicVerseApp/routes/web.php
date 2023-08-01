@@ -41,6 +41,7 @@ Route::patch('/profile/{user}', [ProfilesController::class, 'update'])->name('pr
 //Teams router
 Route::get('/teams', [TeamController::class, 'index'])->name('teams.index');
 Route::post('/teams', [TeamController::class, 'store'])->name('teams.store');
+Route::delete('/teams/{team}', [TeamController::class, 'destroy'])->name('teams.destroy');
 
 //packages router controller
 Route::get('/packages/show', [PackageController::class, 'show'])->name('packages.show');

@@ -47,7 +47,14 @@
                         @if(count($teams) > 0)
                             <ul class="list-group">
                                 @foreach($teams as $team)
-                                    <li class="list-group-item">{{ $team->name }}</li>
+                                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                                        {{ $team->name }}
+                                        <form method="POST" action="{{ route('teams.destroy', $team->id) }}">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this team?')">Delete</button>
+                                        </form>
+                                    </li>
                                 @endforeach
                             </ul>
                         @else
