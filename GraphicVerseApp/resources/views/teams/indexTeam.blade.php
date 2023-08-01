@@ -2,11 +2,13 @@
 
 @section('content')
     <div class="container mt-4">
-        <div class="row justify-content-center">
+        {{-- List of teams --}}
+        <div class="row justify-content-center mt-4">
             <div class="col-md-8">
                 <div class="card">
-                    <div class="card-header">
-                        <h1>Teams Management</h1>
+                    <div class="card-header d-flex justify-content-between">
+                        <h2>Teams</h2>
+                        <a href="{{ route('teams.create') }}" class="btn btn-primary">Join or Create Team</a>
                     </div>
 
                     <div class="card-body">
@@ -19,44 +21,39 @@
                         @if(session('error'))
                             <div class="alert alert-danger">{{ session('error') }}</div>
                         @endif
-
-                        {{-- Create a new team form --}}
-                        <h2>Create a new team</h2>
-                        <form method="POST" action="{{ route('teams.store') }}">
-                            @csrf
-                            <div class="form-group">
-                                <label for="team_name">Team Name</label>
-                                <input type="text" name="team_name" id="team_name" class="form-control" required>
-                            </div>
-                            <button type="submit" class="btn btn-primary">Create Team</button>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        {{-- List of teams --}}
-        <div class="row justify-content-center mt-4">
-            <div class="col-md-8">
-                <div class="card">
-                    <div class="card-header">
-                        <h2>Teams List</h2>
-                    </div>
-
-                    <div class="card-body">
+                        
                         @if(count($teams) > 0)
-                            <ul class="list-group">
+                            <div class="row">
                                 @foreach($teams as $team)
-                                    <li class="list-group-item d-flex justify-content-between align-items-center">
-                                        {{ $team->name }}
-                                        <form method="POST" action="{{ route('teams.destroy', $team->id) }}">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this team?')">Delete</button>
-                                        </form>
-                                    </li>
+                                    <div class="col-md-6 mb-4">
+                                        <div class="card text-center">
+                                            <div class="d-flex align-items-center justify-content-center mt-2">
+                                                <div class="avatar text-white rounded-circle d-flex align-items-center justify-content-center" style="width: 100px; height: 100px; font-size: 32px; background-color: {{ $team->color }};">
+                                                    @php
+                                                        $words = explode(" ", $team->name); // Split the team name into an array of words
+                                                
+                                                        if (count($words) === 1) {
+                                                            echo strtoupper(substr($team->name, 0, 2)); // Use the first two letters for single-word team names
+                                                        } else {
+                                                            foreach ($words as $word) {
+                                                                echo strtoupper(substr($word, 0, 1)); // Output the first letter of each word for multi-word team names
+                                                            }
+                                                        }
+                                                    @endphp
+                                                </div>                                                
+                                            </div>
+                                            <div class="card-body">
+                                                <h5 class="card-title">{{ $team->name }}</h5>
+                                                <form method="POST" action="{{ route('teams.destroy', $team->id) }}">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this team?')">Delete</button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
                                 @endforeach
-                            </ul>
+                            </div>
                         @else
                             <p>No teams found.</p>
                         @endif
