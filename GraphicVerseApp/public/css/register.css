@@ -30,17 +30,19 @@ body {
   background:none;
   color: #FDFDFD;
   font-weight: bold;
-  font-size: 30px;
+  font-size: 50px;
   box-shadow: none;
   text-align: center;
   padding: 20px 0;
   border-top-left-radius: 15px;
   border-top-right-radius: 15px;
   border:none;
+  margin-left:120px;
 }
 
 .card-header img {
   max-height: 100px;
+  margin-left: 100px;
 }
 
 .card-body {
@@ -50,7 +52,29 @@ body {
   font-family:'Roboto'
 }
 
+.form-group {
+  position: relative;
+}
+
+.form-group .input-group-text {
+  background:none;
+  border-color:none;
+  border-radius: 30px;
+  height: 40px;
+  width: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 2;
+  color: #cfcfcf;
+}
+
 .form-control {
+  padding-left: 45px;
   border-radius: 30px;
   border-color: #cfcfcf;
   border-left-color: #FDFDFD;
@@ -65,7 +89,6 @@ body {
 .form-control:focus {
   border-color: #cfcfcf; 
   box-shadow: none; 
-
 }
 
 .form-control::selection {
@@ -105,7 +128,6 @@ body {
 
 .form-check-row .form-check-input {
   margin-right: 1px;
-  
 }
 
 .btn-link{
@@ -148,6 +170,7 @@ body {
   background-color: #88207c;
 }
 
+
 .input-group-prepend {
   display: flex;
   margin-left: 20px;
@@ -172,43 +195,19 @@ body {
   border: none;
 }
 
+
 .input-group-prepend,
 .input-group-append {
   background:none;
   border-color: #FDFDFD;
 }
 
+.form-check-input{
+  width: fit-content;
+}
+
 @media (max-width: 576px) {
   .card {
     margin-left: 0;
   }
-}
-
-.form-group {
-  position: relative;
-}
-
-.form-group .input-group-text {
-  background:none;
-  border-color:none;
-  border-radius: 30px;
-  height: 40px;
-  width: 40px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  z-index: 2;
-}
-
-.form-control {
-  padding-left: 45px;
-}
-
-.form-control:focus {
-  border:none;
-  box-shadow: none;
 }
