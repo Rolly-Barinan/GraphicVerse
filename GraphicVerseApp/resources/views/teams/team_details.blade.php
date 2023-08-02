@@ -55,6 +55,9 @@
                     </div>
                     <div class="card-body chatbox">
                         <!-- Chat messages content here -->
+                        <div class="notification" style="text-align: center; font-style: italic; color: #ccc;">
+                            Chat feature is currently under development and not yet available.
+                        </div>
                     </div>
                     <div class="card-footer">
                         <div class="input-group">
@@ -120,9 +123,7 @@
                         </ul>
                     </div>
                 </div>
-            </div>
-            
-            
+            </div>       
         </div>
     </div>
 @endsection
