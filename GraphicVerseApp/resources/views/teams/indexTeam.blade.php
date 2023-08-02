@@ -7,7 +7,7 @@
             <div class="col-md-12">
                 <div class="card" style="background-color: #222344;">
                     <div class="card-header d-flex justify-content-between">
-                        <h2 style="color: blueviolet">Teams</h2>
+                        <h2 style="color: white">Teams</h2>
                         <a href="{{ route('teams.create') }}" class="btn btn-success">Join or Create Team</a>
                     </div>
 
@@ -43,7 +43,7 @@
                                                 </div>                                                
                                             </div>
                                             <div class="card-body">
-                                                <h5 class="card-title" style="color:blueviolet">{{ $team->name }}</h5>
+                                                <h5 class="card-title" style="color:white">{{ $team->name }}</h5>
                                                 <a href="{{ route('teams.details', ['team' => $team->name]) }}" class="btn btn-info">Team Details</a>    
                                             </div>
                                         </div>

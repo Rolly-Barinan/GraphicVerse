@@ -69,25 +69,59 @@
             
             <div class="col-md-3" style="display: flex; flex-direction: column; height: 80vh;">
                 {{-- Members --}}
-                <div class="card mb-3" style="flex: 1; background-color: #222344;">
+                <div class="card mb-3" style="flex: 1; background-color: #222344; overflow-y: auto;">
                     <div class="card-header bg-info">
                         <h5 class="card-title">Members</h5>
                     </div>
-                    <div class="card-body">
+                    <div class="card-body" style="overflow-y: auto;">
                         {{-- Members content here --}}
+                        <!-- Example content -->
+                        <ul style="list-style-type: none; padding: 0; color:white">
+                            <li>Member 1</li>
+                            <li>Member 2</li>
+                            <li>Member 3</li>
+                            <li>Member 4</li>
+                            <li>Member 5</li>
+                            <li>Member 6</li>
+                            <li>Member 7</li>
+                            <li>Member 8</li>
+                            <li>Member 9</li>
+                            <li>Member 10</li>
+                            <li>Member 11</li>
+                            <!-- Add more members as needed -->
+                        </ul>
                     </div>
                 </div>
                 
                 {{-- Files --}}
-                <div class="card" style="flex: 1; background-color: #222344;">
+                <div class="card" style="flex: 1; background-color: #222344; overflow-y: auto;">
                     <div class="card-header bg-info">
                         <h5 class="card-title">Files</h5>
                     </div>
-                    <div class="card-body">
+                    <div class="card-body" style="overflow-y: auto;">
                         {{-- Files content here --}}
+                        <!-- Example content -->
+                        <ul style="list-style-type: none; padding: 0; color:white">
+                            <li>File 1</li>
+                            <li>File 2</li>
+                            <li>File 3</li>
+                            <li>File 4</li>
+                            <li>File 5</li>
+                            <li>File 6</li>
+                            <li>File 7</li>
+                            <li>File 8</li>
+                            <li>File 9</li>
+                            <li>File 10</li>
+                            <li>File 11</li>
+                            <li>File 12</li>
+                            <li>File 13</li>
+                            <li>File 14</li>
+                            <!-- Add more files as needed -->
+                        </ul>
                     </div>
                 </div>
             </div>
+            
             
         </div>
     </div>
