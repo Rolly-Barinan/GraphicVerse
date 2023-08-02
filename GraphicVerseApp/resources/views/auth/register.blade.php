@@ -29,12 +29,13 @@
 </head>
 
 <body>
-    <link href="{{ asset('css/register.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/login.css') }}" rel="stylesheet"> <!-- Use the same CSS file as login.blade.php -->
+
     <div class="container">
         <div class="row justify-content-center py-4">
             <div class="col-md-8">
                 <div class="card">
-                    <div class="card-header">
+                    <div class="card-header text-center">
                         <i class="fas fa-user-plus"></i> <!-- User Plus Icon -->
                         <span>{{ __('Create Account') }}</span>
                     </div>
@@ -42,93 +43,82 @@
                     <div class="card-body">
                         <form method="POST" action="{{ route('register') }}">
                             @csrf
-                            <div class="row mb-3">
-                                <label for="name" class="col-md-4 col-form-label text-md-end">
-                                    <div class="input-group">
-                                        <span class="input-group-text"><i class="fas fa-user"></i></span>
-                                        <input id="name" type="text"
-                                            class="form-control @error('name') is-invalid @enderror" name="name"
-                                            value="{{ old('name') }}" autocomplete="name" autofocus>
-                                    </div>
-                                </label>
-                                <div class="col-md-6">
-                                    @error('name')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
-                                    @enderror
+
+                            <!-- Name Input -->
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <span class="input-group-text"><i class="fas fa-user"></i></span>
+                                    <input id="name" type="text" class="form-control @error('name') is-invalid @enderror"
+                                        name="name" value="{{ old('name') }}" autocomplete="name" autofocus
+                                        placeholder="{{ __('Name') }}">
+                                </div>
+                                @error('name')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+
+                            <!-- Email Input -->
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <span class="input-group-text"><i class="fas fa-envelope"></i></span>
+                                    <input id="email" type="email"
+                                        class="form-control @error('email') is-invalid @enderror" name="email"
+                                        value="{{ old('email') }}" autocomplete="email" placeholder="{{ __('Email') }}">
+                                </div>
+                                @error('email')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+
+                            <!-- Username Input -->
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <span class="input-group-text"><i class="fas fa-user-circle"></i></span>
+                                    <input id="username" type="username"
+                                        class="form-control @error('username') is-invalid @enderror"
+                                        name="username" value="{{ old('username') }}" autocomplete="username"
+                                        placeholder="{{ __('Username') }}">
+                                </div>
+                                @error('username')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+
+                            <!-- Password Input -->
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <span class="input-group-text"><i class="fas fa-lock"></i></span>
+                                    <input id="password" type="password"
+                                        class="form-control @error('password') is-invalid @enderror"
+                                        name="password" autocomplete="new-password"
+                                        placeholder="{{ __('Password') }}">
+                                </div>
+                                @error('password')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+
+                            <!-- Confirm Password Input -->
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <span class="input-group-text"><i class="fas fa-lock"></i></span>
+                                    <input id="password-confirm" type="password" class="form-control"
+                                        name="password_confirmation" autocomplete="new-password"
+                                        placeholder="{{ __('Confirm Password') }}">
                                 </div>
                             </div>
 
-                            <div class="row mb-3">
-                                <label for="email" class="col-md-4 col-form-label text-md-end">
-                                    <div class="input-group">
-                                        <span class="input-group-text"><i class="fas fa-envelope"></i></span>
-                                        <input id="email" type="email"
-                                            class="form-control @error('email') is-invalid @enderror" name="email"
-                                            value="{{ old('email') }}" autocomplete="email">
-                                    </div>
-                                </label>
-                                <div class="col-md-6">
-                                    @error('email')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
-                                    @enderror
-                                </div>
-                            </div>
-
-                            <div class="row mb-3">
-                                <label for="username" class="col-md-4 col-form-label text-md-end">
-                                    <div class="input-group">
-                                        <span class="input-group-text"><i class="fas fa-user-circle"></i></span>
-                                        <input id="username" type="username"
-                                            class="form-control @error('username') is-invalid @enderror"
-                                            name="username" value="{{ old('username') }}" autocomplete="username">
-                                    </div>
-                                </label>
-                                <div class="col-md-6">
-                                    @error('username')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
-                                    @enderror
-                                </div>
-                            </div>
-
-                            <div class="row mb-3">
-                                <label for="password" class="col-md-4 col-form-label text-md-end">
-                                    <div class="input-group">
-                                        <span class="input-group-text"><i class="fas fa-lock"></i></span>
-                                        <input id="password" type="password"
-                                            class="form-control @error('password') is-invalid @enderror"
-                                            name="password" autocomplete="new-password">
-                                    </div>
-                                </label>
-                                <div class="col-md-6">
-                                    @error('password')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
-                                    @enderror
-                                </div>
-                            </div>
-
-                            <div class="row mb-3">
-                                <label for="password-confirm" class="col-md-4 col-form-label text-md-end">
-                                    <div class="input-group">
-                                        <span class="input-group-text"><i class="fas fa-lock"></i></span>
-                                        <input id="password-confirm" type="password" class="form-control"
-                                            name="password_confirmation" autocomplete="new-password">
-                                    </div>
-                                </label>
-                                <div class="col-md-6">
-                                    <!-- No error message for password confirmation -->
-                                </div>
-                            </div>
-
+                            <!-- Register Button -->
                             <div class="row mb-0">
-                                <div class="col-md-6 offset-md-4">
+                                <div class="col-md-6 offset-md-3">
                                     <button type="submit" class="btn btn-primary">
                                         <i class="fas fa-user-plus"></i> <!-- User Plus Icon -->
                                         <span>{{ __('Register') }}</span>
