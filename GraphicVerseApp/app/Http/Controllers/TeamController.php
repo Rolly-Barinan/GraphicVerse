@@ -35,6 +35,13 @@ class TeamController extends Controller
         return redirect()->route('teams.index')->with('success', 'Team created successfully.');
     }
 
+    public function details($teamName)
+    {
+        $team = Team::where('name', $teamName)->firstOrFail();
+
+        return view('Teams.team_details', compact('team'));
+    }
+    
     public function destroy(Team $team)
     {
         $team->delete();

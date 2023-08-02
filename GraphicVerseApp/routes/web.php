@@ -42,6 +42,7 @@ Route::patch('/profile/{user}', [ProfilesController::class, 'update'])->name('pr
 Route::get('/teams', [TeamController::class, 'index'])->name('teams.index');
 Route::get('/teams/create', [TeamController::class, 'create'])->name('teams.create');
 Route::post('/teams', [TeamController::class, 'store'])->name('teams.store');
+Route::get('/teams/{team}', [TeamController::class, 'details'])->name('teams.details');
 Route::delete('/teams/{team}', [TeamController::class, 'destroy'])->name('teams.destroy');
 
 //packages router controller
