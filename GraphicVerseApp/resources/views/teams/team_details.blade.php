@@ -5,7 +5,7 @@
         <div class="row">
             <div class="col-md-3">
                 {{-- Team Avatar and Name --}}
-                <div class="card">
+                <div class="card" style="background-color: #222344;">
                     <div class="card-body">
                         <a href="{{ route('teams.index') }}" class="btn btn-secondary"> < All Teams</a>
                         <div class="d-flex align-items-center justify-content-center mt-2">
@@ -23,17 +23,17 @@
                                 @endphp
                             </div>
                         </div>
-                        <h5 class="card-title text-center mt-3">{{ $team->name }}</h5>
+                        <h5 class="card-title text-center mt-3" style="color:white">{{ $team->name }}</h5>
                     </div>
                 </div>
 
                 {{-- Team Management --}}
-                <div class="card mt-3">
+                <div class="card mt-3" style="background-color: #222344;">
                     <div class="card-header bg-info">
                         <h5 class="card-title">Team Management</h5>
                     </div>
                     <div class="card-body">
-                        <p class="mb-3"><strong>Options:</strong></p>
+                        <p class="mb-3" style="color:white"><strong>Options:</strong></p>
                         <div class="list-group">
                             <a href="#" class="list-group-item list-group-item-action">Add Member/s</a>
                             <a href="#" class="list-group-item list-group-item-action">Add File/s</a>
@@ -49,7 +49,7 @@
             
             <div class="col-md-6">
                 {{-- Chat Box --}}
-                <div class="card chatbox-card" style="height: 80vh;">
+                <div class="card chatbox-card" style="height: 80vh; background-color: #222344;">
                     <div class="card-header bg-info">
                         <h5 class="card-title">Chat</h5>
                     </div>
@@ -69,7 +69,7 @@
             
             <div class="col-md-3" style="display: flex; flex-direction: column; height: 80vh;">
                 {{-- Members --}}
-                <div class="card mb-3" style="flex: 1;">
+                <div class="card mb-3" style="flex: 1; background-color: #222344;">
                     <div class="card-header bg-info">
                         <h5 class="card-title">Members</h5>
                     </div>
@@ -79,7 +79,7 @@
                 </div>
                 
                 {{-- Files --}}
-                <div class="card" style="flex: 1;">
+                <div class="card" style="flex: 1; background-color: #222344;">
                     <div class="card-header bg-info">
                         <h5 class="card-title">Files</h5>
                     </div>
