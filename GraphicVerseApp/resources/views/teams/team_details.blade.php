@@ -35,7 +35,7 @@
                     <div class="card-body">
                         <p class="mb-3" style="color:white"><strong>Options:</strong></p>
                         <div class="list-group">
-                            <a href="#" class="list-group-item list-group-item-action">Add Member/s</a>
+                            <a href="#" class="list-group-item list-group-item-action" data-bs-toggle="modal" data-bs-target="#addMemberModal">Add Member/s</a>
                             <a href="#" class="list-group-item list-group-item-action">Add File/s</a>
                             <form method="POST" action="{{ route('teams.destroy', $team->id) }}" onsubmit="return confirm('Are you sure you want to delete this team?')">
                                 @csrf
@@ -114,7 +114,39 @@
                         </ul>
                     </div>
                 </div>
-            </div>       
+            </div>
+            
+            <!-- Add Member Modal -->
+            <div class="modal fade" id="addMemberModal" tabindex="-1" role="dialog" aria-labelledby="addMemberModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="addMemberModalLabel">Add Member to {{ $team->name }}</h5>
+                            <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <form method="POST" action="{{ route('teams.addMembers', $team->id) }}">
+                            @csrf
+                            <div class="modal-body">
+                                <p>Use Team Code: <strong>{{ $team->code }}</strong></p>
+                                <p><strong>OR</strong></p>
+                                <div class="form-group">
+                                    <label for="email">Use Email Address</label>
+                                    <input type="email" class="form-control @error('email') is-invalid @enderror" id="email" name="email" required>
+                                    @error('email')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                                <button type="submit" class="btn btn-primary">Add Member</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 @endsection

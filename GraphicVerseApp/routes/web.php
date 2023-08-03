@@ -45,6 +45,9 @@ Route::post('/teams', [TeamController::class, 'store'])->name('teams.store');
 Route::get('/teams/{team}', [TeamController::class, 'details'])->name('teams.details');
 Route::delete('/teams/{team}', [TeamController::class, 'destroy'])->name('teams.destroy');
 
+Route::get('/teams/{team}/add-members', [TeamController::class, 'addMembers'])->name('teams.addMembers');
+Route::post('/teams/{team}/add-members', [TeamController::class, 'storeMembers'])->name('teams.storeMembers');
+
 //packages router controller
 Route::get('/packages/show', [PackageController::class, 'show'])->name('packages.show');
 Route::get('/packages/create', [PackageController::class, 'create'])->name('packages.create');
