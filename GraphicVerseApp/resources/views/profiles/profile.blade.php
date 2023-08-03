@@ -181,8 +181,16 @@
 
             </div>
 
-            <div class="col-2">Teams</div>
-
+            <!-- Display user's teams -->
+            <div class="col-2">
+                <div class="col-10">
+                    <h4>Teams</h4>
+                    @foreach ($userTeams as $team)
+                        <div>{{ $team->name }}</div>
+                    @endforeach
+                </div>
+            </div>
+            
             <!-- Modal -->
             <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog">

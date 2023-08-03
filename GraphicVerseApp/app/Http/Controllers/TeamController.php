@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Team;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class TeamController extends Controller
 {
@@ -21,18 +22,26 @@ class TeamController extends Controller
 
     public function store(Request $request)
     {
-        $request->validate([
-            'team_name' => 'required|string|max:255|unique:teams,name',
-        ]);
+        if (Auth::check()) {
+            $request->validate([
+                'team_name' => 'required|string|max:255|unique:teams,name',
+            ]);
 
-        $randomColor = '#' . str_pad(dechex(mt_rand(0, 0xFFFFFF)), 6, '0', STR_PAD_LEFT);
+            $randomColor = '#' . str_pad(dechex(mt_rand(0, 0xFFFFFF)), 6, '0', STR_PAD_LEFT);
 
-        Team::create([
-            'name' => $request->input('team_name'),
-            'color' => $randomColor,
-        ]);
+            $team = Team::create([
+                'name' => $request->input('team_name'),
+                'color' => $randomColor,
+            ]);
 
-        return redirect()->route('teams.index')->with('success', 'Team created successfully.');
+            // Add the logged-in user as a member of the newly created team
+            $user = Auth::user(); // Get the logged-in user
+            $team->users()->attach($user);
+
+            return redirect()->route('teams.index')->with('success', 'Team created successfully.');
+        }
+        // Handle the case when the user is not authenticated
+        return redirect()->route('login')->with('error', 'Please log in to create a team.');
     }
 
     public function details($teamName)

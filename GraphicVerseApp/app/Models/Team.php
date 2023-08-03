@@ -8,8 +8,8 @@ class Team extends Model
 {
     protected $fillable = ['name', 'color'];
     
-    public function members()
+    public function users()
     {
-        return $this->hasMany(User::class);
+        return $this->belongsToMany(User::class, 'team_users', 'team_id', 'user_id');
     }
 }

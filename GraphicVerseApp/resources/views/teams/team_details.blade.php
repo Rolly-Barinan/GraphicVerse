@@ -80,18 +80,9 @@
                         {{-- Members content here --}}
                         <!-- Example content -->
                         <ul style="list-style-type: none; padding: 0; color:white">
-                            <li>Member 1</li>
-                            <li>Member 2</li>
-                            <li>Member 3</li>
-                            <li>Member 4</li>
-                            <li>Member 5</li>
-                            <li>Member 6</li>
-                            <li>Member 7</li>
-                            <li>Member 8</li>
-                            <li>Member 9</li>
-                            <li>Member 10</li>
-                            <li>Member 11</li>
-                            <!-- Add more members as needed -->
+                            @foreach ($team->users as $member)
+                            <li>{{ $member->name }}</li>
+                        @endforeach
                         </ul>
                     </div>
                 </div>

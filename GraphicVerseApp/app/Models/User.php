@@ -74,4 +74,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(Audio::class);
     }
+
+    public function teams()
+    {
+        return $this->belongsToMany(Team::class, 'team_users', 'user_id', 'team_id');
+    }
 }
