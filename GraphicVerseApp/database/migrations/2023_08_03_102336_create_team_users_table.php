@@ -18,6 +18,7 @@ return new class extends Migration
 
             $table->unsignedBigInteger('team_id');
             $table->unsignedBigInteger('user_id');
+            $table->string('role')->default('Member');
             $table->timestamps();
 
             $table->foreign('team_id')->references('id')->on('teams')->onDelete('cascade');

@@ -39,15 +39,16 @@ class TeamController extends Controller
                 'code' => $randomCode, // Add the random code to the team
             ]);
 
-            // Add the logged-in user as a member of the newly created team
+            // Add the logged-in user as a member of the newly created team with role "Creator"
             $user = Auth::user(); // Get the logged-in user
-            $team->users()->attach($user);
+            $team->users()->attach($user, ['role' => 'Creator']); // Attach the role "Creator" here
 
             return redirect()->route('teams.index')->with('success', 'Team created successfully.');
         }
         // Handle the case when the user is not authenticated
         return redirect()->route('login')->with('error', 'Please log in to create a team.');
     }
+
 
     public function details($teamName)
     {
@@ -64,12 +65,15 @@ class TeamController extends Controller
 
         $user = User::where('email', $request->input('email'))->first();
         if ($user) {
-            $team->users()->attach($user);
-            return redirect()->route('teams.details', $team->name)->with('success', 'Member added successfully.');
+            $role = ($team->users->contains(Auth::user())) ? 'Member' : 'Creator'; // Check if logged-in user is already a member
+        $team->users()->attach($user, ['role' => $role]); // Attach the appropriate role
+
+        return redirect()->route('teams.details', $team->name)->with('success', 'Member added successfully.');
         }
 
         return redirect()->route('teams.details', $team->name)->with('error', 'User not found.');
     }
+
 
     public function destroy(Team $team)
     {

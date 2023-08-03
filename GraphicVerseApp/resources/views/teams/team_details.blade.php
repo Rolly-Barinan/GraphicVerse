@@ -79,14 +79,20 @@
                     <div class="card-body" style="overflow-y: auto;">
                         {{-- Members content here --}}
                         <!-- Example content -->
-                        <ul style="list-style-type: none; padding: 0; color:white">
+                        <ul class="member-list">
                             @foreach ($team->users as $member)
-                            <li>{{ $member->name }}</li>
-                        @endforeach
+                                <li class="member-item">
+                                    <a class="member-link" href="{{ route('profile.show', ['user' => $member->id]) }}">
+                                        <span class="name">{{ $member->name }}</span>
+                                        <span class="role">{{ $member->pivot->role }}</span>
+                                    </a>                                                                      
+                                </li>
+                            @endforeach
                         </ul>
                     </div>
                 </div>
-                
+
+                                            
                 {{-- Files --}}
                 <div class="card" style="flex: 1; background-color: #222344; overflow-y: auto;">
                     <div class="card-header bg-info">
@@ -149,4 +155,42 @@
             </div>
         </div>
     </div>
+
+
+    <style>
+        .member-list {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+    
+        .member-item {
+            margin-bottom: 10px;
+        }
+    
+        .member-link {
+            text-decoration: none;
+            color: white;
+            background-color: #333;
+            padding: 8px 12px;
+            border-radius: 5px;
+            display: flex;
+            width: 100%; /* Fill the entire width */
+            transition: background-color 0.3s ease;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .name {
+            order: 1; /* Display name on the left */
+        }
+
+        .role {
+            order: 2; /* Display role on the right */
+        }
+
+        .member-link:hover {
+            background-color: #555;
+        }
+    </style>
 @endsection
