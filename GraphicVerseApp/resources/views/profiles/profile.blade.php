@@ -24,23 +24,19 @@
                 <div>
                     <div class="d-flex justify-content-between align-items-baseline">
                         <div class="d-flex">
-                            <div class="h4" class="ml-4 p"> {{ $user->username }} </div>
+                            <div class="h4" class="ml-4 p"> {{ $user->name }} </div>
                         </div>
-
                     </div>
-                    @can('update', $user->profile)
-                        <a href="/profile/{{ $user->id }}/edit">edit profile</a>
-                    @endcan
-
-
+                    <div class="">@ {{ $user->profile->title }}</div>
                     <div class="d-flex p-4">
-
                         {{-- <div style=" padding-right:20px;"><strong>{{$user->posts->count()}} </strong> posts</div> --}}
                         <div style=" padding-right:20px;"><strong>20k</strong> followers</div>
                         <div style=" padding-right:20px;"><strong>400</strong> following</div>
-
                     </div>
-                    <div class="">{{ $user->profile->title }}</div>
+                    @can('update', $user->profile)
+                        <a href="/profile/{{ $user->id }}/edit">Edit Profile</a>
+                    @endcan
+                    
                     <div> {{ $user->profile->description }}</div>
                     <div> <a href=""> {{ $user->profile->url ?? 'N/A' }}</a></div>
 
