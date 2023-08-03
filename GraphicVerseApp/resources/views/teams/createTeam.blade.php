@@ -4,9 +4,9 @@
     <div class="container mt-4">
         <div class="row justify-content-center">
             <div class="col-md-8">
-                <div class="card">
+                <div class="card" style="background-color: #222344;">
                     <div class="card-header d-flex justify-content-between">
-                        <h2>Teams</h2>
+                        <h2 style="color: white">Teams</h2>
                         <a href="{{ route('teams.index') }}" class="btn btn-primary">Back</a>
                     </div>
 

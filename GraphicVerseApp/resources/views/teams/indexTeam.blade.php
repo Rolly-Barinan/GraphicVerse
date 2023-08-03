@@ -51,7 +51,7 @@
                                 @endforeach
                             </div>
                         @else
-                            <p>No teams found.</p>
+                            <p style="text-align: center; font-style: italic; color: #ccc;">No teams found.</p>
                         @endif
                     </div>
                 </div>
