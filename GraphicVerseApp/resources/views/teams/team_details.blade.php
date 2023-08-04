@@ -34,14 +34,23 @@
                     </div>
                     <div class="card-body">
                         <p class="mb-3" style="color:white"><strong>Options:</strong></p>
+                        {{-- Inside your Blade template --}}
                         <div class="list-group">
                             <a href="#" class="list-group-item list-group-item-action" data-bs-toggle="modal" data-bs-target="#addMemberModal">Add Member/s</a>
                             <a href="#" class="list-group-item list-group-item-action">Add File/s</a>
-                            <form method="POST" action="{{ route('teams.destroy', $team->id) }}" onsubmit="return confirm('Are you sure you want to delete this team?')">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="btn btn-danger mt-3">Delete Team</button>
-                            </form>
+                            @if ($userRole === 'Creator')
+                                <form method="POST" action="{{ route('teams.destroy', $team->id) }}" onsubmit="return confirm('Are you sure you want to delete this team?')">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn btn-danger mt-3">Delete Team</button>
+                                </form>
+                            @else
+                                <form method="POST" action="{{ route('teams.leave', $team->id) }}" onsubmit="return confirm('Are you sure you want to leave this team?')">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn btn-warning mt-3">Leave Team</button>
+                                </form>
+                            @endif
                         </div>
                     </div>
                 </div>                

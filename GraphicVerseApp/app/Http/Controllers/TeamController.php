@@ -11,8 +11,8 @@ class TeamController extends Controller
 {
     public function index()
     {
-        $teams = Team::all();
-
+        $user = Auth::user();
+        $teams = $user->teams; // Assuming you have a 'teams' relationship on the User model
         return view('Teams.indexTeam', compact('teams'));
     }
 
@@ -53,8 +53,8 @@ class TeamController extends Controller
     public function details($teamName)
     {
         $team = Team::where('name', $teamName)->firstOrFail();
-
-        return view('Teams.team_details', compact('team'));
+        $userRole = $this->getUserRoleForTeam($team); // Get the user's role
+        return view('Teams.team_details', compact('team', 'userRole'));
     }
     
     public function storeMembers(Request $request, Team $team)
@@ -74,6 +74,19 @@ class TeamController extends Controller
         return redirect()->route('teams.details', $team->name)->with('error', 'User not found.');
     }
 
+    public function getUserRoleForTeam(Team $team)
+    {
+        $user = Auth::user();
+        return $team->users->contains($user) ? $team->users->find($user)->pivot->role : null;
+    }
+
+    public function leaveTeam(Team $team)
+    {
+        $user = Auth::user();
+        $team->users()->detach($user);
+
+        return redirect()->route('teams.index')->with('success', 'Left the team successfully.');
+    }
 
     public function destroy(Team $team)
     {
