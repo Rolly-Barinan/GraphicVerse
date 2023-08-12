@@ -24,25 +24,19 @@
                 <div>
                     <div class="d-flex justify-content-between align-items-baseline">
                         <div class="d-flex">
-                            <div class="h4" class="ml-4 p"> {{ $user->username }} </div>
-
-
+                            <div class="h4" class="ml-4 p"> {{ $user->name }} </div>
                         </div>
-
+                    </div>
+                    <div class="">@ {{ $user->profile->title }}</div>
+                    <div class="d-flex p-4">
+                        {{-- <div style=" padding-right:20px;"><strong>{{$user->posts->count()}} </strong> posts</div> --}}
+                        <div style=" padding-right:20px;"><strong>20k</strong> followers</div>
+                        <div style=" padding-right:20px;"><strong>400</strong> following</div>
                     </div>
                     @can('update', $user->profile)
-                        <a href="/profile/{{ $user->id }}/edit">edit profile</a>
+                        <a href="/profile/{{ $user->id }}/edit">Edit Profile</a>
                     @endcan
-
-
-                    <div class="d-flex p-4">
-
-                        {{-- <div style=" padding-right:20px;"><strong>{{$user->posts->count()}} </strong> posts</div> --}}
-                        <div style=" padding-right:20px;"><strong>20k</strong>followers</div>
-                        <div style=" padding-right:20px;"><strong>400</strong>following</div>
-
-                    </div>
-                    <div class="">{{ $user->profile->title }}</div>
+                    
                     <div> {{ $user->profile->description }}</div>
                     <div> <a href=""> {{ $user->profile->url ?? 'N/A' }}</a></div>
 
@@ -53,7 +47,7 @@
 
 
                 @can('update', $user->profile)
-                    <button type="button" class="btn btn-secondary btn-lg  " data-bs-toggle="modal"
+                    <button type="button" class="btn btn-success btn-lg  " data-bs-toggle="modal"
                         data-bs-target="#exampleModal"
                         style="--bs-btn-padding-y: .7rem; --bs-btn-padding-x: 3.5rem; --bs-btn-font-size: .9rem;">Upload
                     </button>
@@ -61,7 +55,7 @@
 
             </div>
             <div class="col-2 col-2 d-flex justify-content-top pt-2 align-items-start">
-                <button type="button" class="btn btn-secondary btn-lg"
+                <button type="button" class="btn btn-primary btn-lg"
                     style="--bs-btn-padding-y: .7rem; --bs-btn-padding-x: 3.5rem; --bs-btn-font-size: .9rem;">Connect</button>
             </div>
         </div>
@@ -183,31 +177,40 @@
 
             </div>
 
-            <div class="col-2">teams</div>
-
+            <!-- Display user's teams -->
+            <div class="col-2">
+                <div class="col-10">
+                    <h4>Teams</h4>
+                    @foreach ($userTeams as $team)
+                        <div>{{ $team->name }}</div>
+                    @endforeach
+                </div>
+            </div>
+            
             <!-- Modal -->
             <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h1 class="modal-title fs-5" id="exampleModalLabel">Upload Asssets</h1>
+                            <h1 class="modal-title fs-5" id="exampleModalLabel">Select which asset type to upload</h1>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
-                        <div class="modal-body">
-                            <a href="/three-dim/create">
+                        <div class="modal-body d-flex justify-content-center align-items-center">
+                            <a href="/two-dim/create" class="mx-3">
+                                <button type="button" class="btn btn-primary">2D</button>
+                            </a>
+                            <a href="/three-dim/create" class="mx-3">
                                 <button type="button" class="btn btn-primary">3D</button>
                             </a>
-                            <a href="/two-dim/create">
-                                <button type="button" class="btn btn-warning">2D</button>
+                            <a href="/audios/create" class="mx-3">
+                                <button type="button" class="btn btn-primary">Audio</button>
                             </a>
-                            <a href="/audios/create"><button type="button" class="btn btn-success">Audio</button></a>
-
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-
+                            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
                         </div>
                     </div>
                 </div>
             </div>
-        @endsection
+            
+@endsection

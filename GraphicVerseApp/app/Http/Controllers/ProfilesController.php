@@ -13,14 +13,14 @@ class ProfilesController extends Controller
         {
             
                 $userThreeDs = $user->threeDs;
-
+                $userTeams = $user->teams; // Fetch user's teams
                 
                 // $userThreeDs = $user->threeDs()->get();
 
                 // $fbxFiles = auth()->user()->threeDs->pluck('asset')->toArray();
                 
 
-                return view('profiles.profile', compact('user', 'userThreeDs'));
+                return view('profiles.profile', compact('user', 'userThreeDs', 'userTeams'));
         }
 
         public function edit(User $user)
