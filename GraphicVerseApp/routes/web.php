@@ -10,6 +10,9 @@ use App\Http\Controllers\ThreeDsController;
 use App\Http\Controllers\PackageController;
 use App\Http\Controllers\TwoDimController;
 use App\Http\Controllers\TeamController;
+
+use App\Http\Controllers\AdminController;
+
 use Illuminate\Support\Facades\Auth;
 
 /*
@@ -22,6 +25,15 @@ use Illuminate\Support\Facades\Auth;
 | contains the "web" middleware group. Now create something great!
 |
 */
+
+//ADMIN
+Route::get('/admin/login', [AdminController::class, 'showLoginForm'])->name('admin.login');
+Route::post('/admin/login', [AdminController::class, 'login']);
+Route::middleware('auth:admin')->group(function () {
+    Route::get('/admin/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
+    // Other admin routes go here
+});
+
 
 Route::get('/', function () {
     return view('welcome');
