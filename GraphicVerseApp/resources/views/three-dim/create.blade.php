@@ -1,58 +1,68 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="container">
-        <div class="row">
-            <h2 class="text-white">3d assets</h2>
-            <form action="/three-dim" enctype="multipart/form-data" method="post">
-                @csrf
-                <div class="col-8 offset-2">
-
-                    <div class="row mb-3">
-                        <label for="name" class="col-md-4 col-form-label text-md-end text-white">name </label>
-
-                        <div class="col-md-6">
-                            <input id="name" type="text" class="form-control @error('name') is-invalid @enderror"
-                                name="name" value="{{ old('name') }}" autocomplete="name" autofocus>
-
-                            @error('name')
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </span>
-                            @enderror
-                        </div>
-                    </div>
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">
+                    <h2>Three Dimensional Objects</h2>
                 </div>
-
                 
-                <div class="col-8 offset-2">
-                    <div class="row mb-3">
-                        <label for="asset" class="col-md-4 col-form-label text-md-end  text-white">Assets files</label>
-
-                        <div class="col-md-6">
-                            <input id="asset" type="file"
-                                class="form-control-file @error('asset') is-invalid @enderror" name="asset"
-                                value="{{ old('asset') }}" autocomplete="asset" autofocus>
-
-                            @error('asset')
-                        
-                                    <strong>{{ $message }}</strong>
-                         
+                <div class="card-body">
+                    <form action="/three-dim" enctype="multipart/form-data" method="post">
+                        @csrf
+                        <div class="mb-3">
+                            <label for="asset_name" class="form-label">Title</label>
+                            <input id="asset_name" type="text" class="form-control @error('asset_name') is-invalid @enderror" name="asset_name"
+                                value="{{ old('asset_name') }}" autocomplete="asset_name" autofocus>
+                            @error('asset_name')
+                                <div class="invalid-feedback">
+                                    {{ $message }}
+                                </div>
                             @enderror
                         </div>
-                    </div>
+                        
+                        <div class="mb-3">
+                            <label for="description" class="form-label">Description</label>
+                            <input id="description" type="text" class="form-control @error('description') is-invalid @enderror" name="description"
+                                value="{{ old('description') }}" autocomplete="description" autofocus>
+                            @error('description')
+                                <div class="invalid-feedback">
+                                    {{ $message }}
+                                </div>
+                            @enderror
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="category" class="form-label">Category</label>
+                            <input id="category" type="text" class="form-control @error('category') is-invalid @enderror" name="category"
+                                value="{{ old('category') }}" autocomplete="category" placeholder="e.g., trees, flowers, rocks">
+                            @error('category')
+                                <div class="invalid-feedback">
+                                    {{ $message }}
+                                </div>
+                            @enderror
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="asset" class="form-label">Asset files</label>
+                            <input id="asset" type="file" class="form-control-file @error('asset') is-invalid @enderror" name="asset"
+                                value="{{ old('asset') }}" autocomplete="asset" autofocus>
+                            @error('asset')
+                                <div class="invalid-feedback">
+                                    {{ $message }}
+                                </div>
+                            @enderror
+                        </div>
+                        
+                        <div class="d-grid gap-2 col-6 mx-auto">
+                            <button type="submit" class="btn btn-primary">Upload</button>
+                        </div>
+                    </form>
                 </div>
-
-              <div class="col-2 offset-6">
-                <div class="row pt-2">
-                    <button type="submit" class="btn btn-primary">Upload</button>
-                </div>
-              </div>
+            </div>
         </div>
-        </form>
     </div>
-
-    </div>
-
-    </div>
+</div>
 @endsection

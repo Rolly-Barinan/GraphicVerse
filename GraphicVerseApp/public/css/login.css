@@ -1,0 +1,38 @@
+body {
+    background-image: url("../svg/Login_background.gif");
+    background-size: cover;
+    background-color: #04294F;
+    background-repeat: no-repeat;
+  }
+
+.card {
+    max-width: 400px; 
+    margin: 0 auto;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.card-header {
+    background-color: #f8f9fa;
+    border-bottom: none;
+    font-weight: bold;
+    text-align: center;
+}
+
+.card-body {
+    padding: 20px;
+}
+
+.form-control {
+    border-radius: 5px;
+}
+
+.btn-primary {
+    background-color: #499096; 
+    border-color: #499096; 
+}
+
+.btn-primary:hover {
+    background-color: #40868b; 
+    border-color: #40868b; 
+}

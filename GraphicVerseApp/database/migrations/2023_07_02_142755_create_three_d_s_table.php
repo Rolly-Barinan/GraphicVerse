@@ -13,13 +13,15 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('three_dim', function (Blueprint $table) {
+        Schema::create('three_d_s', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_id');
-            $table->string('name');
+            $table->string('asset_name');
             $table->string('asset');
+            $table->longText('description');
+            $table->string('category');
             $table->timestamps();
-            
+
             $table->index('user_id');
         });
     }

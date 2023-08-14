@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-
+use App\Models\ThreeD;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Intervention\Image\Facades\Image;
@@ -11,8 +11,16 @@ class ProfilesController extends Controller
 {
         public function index(User $user)
         {
+            
+                $userThreeDs = $user->threeDs;
+                $userTeams = $user->teams; // Fetch user's teams
+                
+                // $userThreeDs = $user->threeDs()->get();
 
-                return view('profiles.profile', compact('user'));
+                // $fbxFiles = auth()->user()->threeDs->pluck('asset')->toArray();
+                
+
+                return view('profiles.profile', compact('user', 'userThreeDs', 'userTeams'));
         }
 
         public function edit(User $user)

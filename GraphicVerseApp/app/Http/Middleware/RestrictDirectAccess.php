@@ -5,7 +5,7 @@ namespace App\Http\Middleware;
 use Closure;
 use Illuminate\Http\Request;
 
-class RestrictDirectAccess
+class  RestrictDirectAccess
 {
     /**
      * Handle an incoming request.
@@ -17,6 +17,7 @@ class RestrictDirectAccess
     public function handle($request, Closure $next)
     {
         if ($request->isMethod('GET') && $request->path() === 'three-dim') {
+      
             return redirect()->route('your-error-route')->with('error', 'Invalid request');
         }
 

@@ -1,69 +1,63 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container">
-
-    <form action="/profile/{{ $user->id }} " enctype="multipart/form-data" method="post">
-
-        @csrf
-        @method('PATCH')
-
-        <div class="row">
-            <div class="col-8 offset-2">
-                <div class="row">
-                    <h2 class=""> Edit profile</h2>
+<div class="container-fluid mt-4">
+    <div class="row">
+        <div class="col-md-8 offset-md-2">
+            <div class="card" style="background-color: #222344; color: white;">
+                <div class="card-header">
+                    <h2 class="mb-4">Edit Profile</h2>
                 </div>
+                <div class="card-body">
+                    <form action="/profile/{{ $user->id }}" enctype="multipart/form-data" method="post">
+                        @csrf
+                        @method('PATCH')
 
+                        <div class="mb-3">
+                            <label for="title" class="form-label">Username</label>
+                            <input id="title" type="text" class="form-control @error('title') is-invalid @enderror"
+                                name="title" value="{{ old('title') ?? $user->profile->title }}" autocomplete="title"
+                                autofocus>
+                            @error('title')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
 
-                <div class="col-md-6">
-                    <label for="title" class="col-md-4 col-form-label text-md-start"> title</label>
-                    <input id="title" type="text" class="form-control @error('title') is-invalid @enderror"
-                     name="title" value="{{ old('title') ?? $user->profile->title }}" autocomplete="title" autofocus>
+                        <div class="mb-3">
+                            <label for="description" class="form-label">Description</label>
+                            <textarea id="description" class="form-control @error('description') is-invalid @enderror"
+                                name="description" rows="4"
+                                autocomplete="description">{{ old('description') ?? $user->profile->description }}</textarea>
+                            @error('description')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
 
-                    @error('title')
-                    <span class="invalid-feedback" role="alert">
-                        <strong>{{ $message }}</strong>
-                    </span>
-                    @enderror
+                        <div class="mb-3">
+                            <label for="url" class="form-label">URL</label>
+                            <input id="url" type="text" class="form-control @error('url') is-invalid @enderror"
+                                name="url" value="{{ old('url') ?? $user->profile->url }}" autocomplete="url"
+                                autofocus>
+                            @error('url')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
 
-                    <label for="description" class="col-md-4 col-form-label text-md-start"> description</label>
-                    <input id="description" type="text" class="form-control @error('description') is-invalid @enderror"
-                     name="description" value="{{ old('description') ?? $user->profile->description }}" autocomplete="description" autofocus>
+                        <div class="mb-3">
+                            <label for="image" class="form-label">Profile Image</label>
+                            <input type="file" class="form-control-file" id="image" name="image">
+                            @error('image')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
 
-                    @error('description')
-                    <span class="invalid-feedback" role="alert">
-                        <strong>{{ $message }}</strong>
-                    </span>
-                    @enderror
-
-                    <label for="url" class="col-md-4 col-form-label text-md-start"> url</label>
-                    <input id="url" type="text" class="form-control @error('url') is-invalid @enderror"
-                     name="url" value="{{ old('url') ?? $user->profile->url }}" autocomplete="url" autofocus>
-
-                    @error('url')
-                    <span class="invalid-feedback" role="alert">
-                        <strong>{{ $message }}</strong>
-                    </span>
-                    @enderror
-
-                    <div class="row">
-                        <label for="image" class="col-md-4 col-form-label"> Profile Image</label>
-                        <input type="file" class="form-control-file" id="image" name="image">
-
-                        @error('image')
-                        <strong>{{ $message }}</strong>
-                        @enderror
-                    </div>
-
-
-
-                    <div class="row pt-4">
-                        <button class="btn btn-primary"> Save profile</button>
-
-                    </div>
-
+                        <div class="mb-3">
+                            <button class="btn btn-primary">Save Profile</button>
+                        </div>
+                    </form>
                 </div>
             </div>
-    </form>
+        </div>
+    </div>
 </div>
 @endsection

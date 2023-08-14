@@ -15,9 +15,10 @@ return new class extends Migration
     {
         Schema::create('packages', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
+            $table->string('package_name');
             $table->enum('category', ['2D', '3D', 'audio']); // Add the category column with enum values
             $table->enum('sub_category', ['fonts', 'character', 'environment', 'GUI', 'props', 'materials', 'animation', 'vegetation', 'vehicles', 'ambient', 'sound_fx', 'music']);
+            $table->longText('description');
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();
@@ -34,3 +35,4 @@ return new class extends Migration
         Schema::dropIfExists('packages');
     }
 };
+    

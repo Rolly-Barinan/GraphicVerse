@@ -42,8 +42,9 @@ class PackageController extends Controller
             $user = Auth::user();
 
             $package = Package::create([
-                'name' => $request->input('name'),
+                'package_name' => $request->input('package_name'),
                 'category' => $request->input('category'),
+                'description' => $request->input('description'),
                 'sub_category' => $request->input('sub_category'),
                 'user_id' => $user->id, 
             ]);
