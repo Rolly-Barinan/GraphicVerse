@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
+
+use App\Models\Admin;
 class AdminController extends Controller
 {
     public function showLoginForm()
@@ -28,7 +30,8 @@ class AdminController extends Controller
 
     public function dashboard()
     {
-        return view('admin.dashboard');
+        $admin = Admin::findOrFail(auth()->user()->id); // Fetch the authenticated admin from the database
+        return view('admin.dashboard', ['admin' => $admin]);
     }
 
     public function logout()
