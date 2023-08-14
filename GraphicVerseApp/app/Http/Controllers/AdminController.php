@@ -25,4 +25,8 @@ class AdminController extends Controller
         return redirect()->route('admin.login')->with('error', 'Invalid credentials.');
     }
 
+    public function dashboard()
+    {
+        return view('admin.dashboard');
+    }
 }

@@ -28,7 +28,7 @@ use Illuminate\Support\Facades\Auth;
 
 //ADMIN
 Route::get('/admin/login', [AdminController::class, 'showLoginForm'])->name('admin.login');
-Route::post('/admin/login', [AdminController::class, 'login']);
+Route::post('/admin/login', [AdminController::class, 'login'])->name('admin.login');
 Route::middleware('auth:admin')->group(function () {
     Route::get('/admin/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
     // Other admin routes go here
