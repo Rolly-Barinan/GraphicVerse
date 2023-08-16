@@ -11,7 +11,8 @@ class ProfilesController extends Controller
 {
         public function index(User $user)
         {
-            
+                // Fetch user's 2D uploads
+                $userUploads = $user->model2D()->get();
                 $userThreeDs = $user->threeDs;
                 $userTeams = $user->teams; // Fetch user's teams
                 
@@ -20,7 +21,7 @@ class ProfilesController extends Controller
                 // $fbxFiles = auth()->user()->threeDs->pluck('asset')->toArray();
                 
 
-                return view('profiles.profile', compact('user', 'userThreeDs', 'userTeams'));
+                return view('profiles.profile', compact('user', 'userThreeDs', 'userTeams', 'userUploads'));
         }
 
         public function edit(User $user)

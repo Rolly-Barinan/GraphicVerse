@@ -3,8 +3,15 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Model2D;
+use App\Models\Categories;
+use App\Models\Categories2D;
+use App\Models\User2D;
 
-class TwoDimController extends Controller
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
+
+class TwoDsController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -22,8 +29,9 @@ class TwoDimController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function create()
-    {
-        return view('two-dim.create');
+    {   
+        $categories = Categories::all();
+        return view('two-dim.create', compact('categories'));
     }
 
     /**
@@ -34,7 +42,35 @@ class TwoDimController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'package_name' => 'required|string|max:255',
+            'description' => 'required|string|max:255',
+            'category' => 'required|exists:categories,id',
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+        ]);
+
+        // Save the uploaded image to the '2D' folder
+        $imagePath = $request->file('image')->store('2D', 'public');
+
+        // Create a new Model2D entry
+        $model2D = Model2D::create([
+            'twoD_name' => $request->input('package_name'),
+            'description' => $request->input('description'),
+            'cat_name' => $request->input('category'),
+            'creator_name' => Auth::user()->name, // Assuming the user is authenticated
+            'filename' => $imagePath,
+        ]);
+
+        // Attach the category to the model2D
+        $model2D->categories2D()->attach($request->input('category'));
+        
+        // Create a User2D entry to associate the authenticated user with the uploaded model
+        User2D::create([
+            'twoD_id' => $model2D->id,
+            'user_id' => Auth::user()->id,
+        ]);
+
+        return redirect()->route('home')->with('success', '2D asset uploaded successfully.');
     }
 
     /**

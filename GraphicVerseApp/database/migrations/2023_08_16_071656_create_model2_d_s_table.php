@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('description');
             $table->string('cat_name');
             $table->string('creator_name');
+            $table->string('filename');
             $table->timestamps();
         });
     }

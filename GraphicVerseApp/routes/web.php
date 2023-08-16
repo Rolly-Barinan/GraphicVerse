@@ -13,6 +13,7 @@ use App\Http\Controllers\TeamController;
 
 use App\Http\Controllers\AdminController;
 
+use App\Http\Controllers\TwoDsController;
 use Illuminate\Support\Facades\Auth;
 
 /*
@@ -61,6 +62,10 @@ Route::delete('/teams/{team}', [TeamController::class, 'destroy'])->name('teams.
 
 Route::get('/teams/{team}/add-members', [TeamController::class, 'addMembers'])->name('teams.addMembers');
 Route::post('/teams/{team}/add-members', [TeamController::class, 'storeMembers'])->name('teams.storeMembers');
+
+//2D router controller
+Route::get('/upload/2d', [TwoDsController::class, 'create'])->name('twoD.create');
+Route::post('/upload/2d', [TwoDsController::class, 'store'])->name('twoD.store');
 
 // //packages router controller
 // Route::get('/packages/show', [PackageController::class, 'show'])->name('packages.show');
