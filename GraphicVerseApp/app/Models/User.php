@@ -70,6 +70,11 @@ class User extends Authenticatable
     {
         return $this->hasMany(Package::class)->orderBy('created_at', 'DESC');
     }
+
+    public function twoDims()
+    {
+        return $this->hasMany(TwoDim::class);
+    }
     public function audios()
     {
         return $this->hasMany(Audio::class);

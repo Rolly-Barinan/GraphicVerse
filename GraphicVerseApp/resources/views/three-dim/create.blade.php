@@ -34,10 +34,24 @@
                             @enderror
                         </div>
                         
-                        <div class="mb-3">
+                        {{-- <div class="mb-3">
                             <label for="category" class="form-label">Category</label>
                             <input id="category" type="text" class="form-control @error('category') is-invalid @enderror" name="category"
                                 value="{{ old('category') }}" autocomplete="category" placeholder="e.g., trees, flowers, rocks">
+                            @error('category')
+                                <div class="invalid-feedback">
+                                    {{ $message }}
+                                </div>
+                            @enderror
+                        </div> --}}
+                        <div class="mb-3">
+                            <label for="category" class="form-label">Category</label>
+                            <select id="category" class="form-select @error('category') is-invalid @enderror" name="category" autocomplete="category">
+                                <option value="" disabled selected>Select a category</option>
+                                @foreach ($categories as $category)
+                                    <option value="{{ $category->id }}">{{ $category->category }}</option>
+                                @endforeach
+                            </select>
                             @error('category')
                                 <div class="invalid-feedback">
                                     {{ $message }}

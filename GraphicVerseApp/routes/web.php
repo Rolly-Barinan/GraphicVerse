@@ -61,7 +61,7 @@ Route::post('/audios', [AudiosController::class,'store'])->name('audios.store');
 
 //two dimensional controller
 Route::get('/two-dim/create', [TwoDimController::class, 'create'])->name('two-dim.create');
-
+Route::post('/two-dim', [TwoDimController::class, 'store'])->name('store');
 // three-dimensional controller
 Route::get('/three-dim/create', [ThreeDsController::class, 'create'])->name('create');
 Route::get('/three-dim/show/{id}', [ThreeDsController::class, 'show'])->name('show');

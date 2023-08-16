@@ -2,22 +2,22 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use App\Models\ThreeD;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
 class ThreeDsController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
 
     public function create()
     {
+        $categories = Category::all();
+
+        return view('three-dim.create',compact('categories'));
 
 
-        return view('three-dim.create');
     }
 
     public function store(Request $request)
@@ -52,6 +52,7 @@ class ThreeDsController extends Controller
     public function show($id)
 
     {
+
         $user = auth()->user();
      
 
