@@ -18,10 +18,22 @@ class TwoDsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $models2D = Model2D::all();
-        return view('two-dim.index', compact('models2D'));
+        $categories = Categories::all();
+        $selectedCategories = $request->input('categories', []);
+        
+        $models2DQuery = Model2D::query();
+
+        if (!empty($selectedCategories)) {
+            $models2DQuery->whereHas('categories2D', function ($query) use ($selectedCategories) {
+                $query->whereIn('cat_id', $selectedCategories);
+            });
+        }
+
+        $models2D = $models2DQuery->get();
+
+        return view('two-dim.index', compact('models2D', 'categories', 'selectedCategories'));
     }
 
     /**
