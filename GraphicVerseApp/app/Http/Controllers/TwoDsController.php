@@ -20,7 +20,8 @@ class TwoDsController extends Controller
      */
     public function index()
     {
-        //
+        $models2D = Model2D::all();
+        return view('two-dim.index', compact('models2D'));
     }
 
     /**
