@@ -83,7 +83,7 @@ class TwoDsController extends Controller
             'user_id' => Auth::user()->id,
         ]);
 
-        return redirect()->route('home')->with('success', '2D asset uploaded successfully.');
+        return redirect()->route('profile.show')->with('success', '2D asset uploaded successfully.');
     }
 
     /**

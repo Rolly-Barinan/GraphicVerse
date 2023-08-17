@@ -33,6 +33,10 @@ Route::post('/admin/login', [AdminController::class, 'login'])->name('admin.logi
 Route::middleware('auth:admin')->group(function () {
     Route::get('/admin/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
     Route::get('/admin/logout', [AdminController::class, 'logout'])->name('admin.logout');
+
+    Route::get('/admin/add-category', [AdminController::class, 'addCategory'])->name('admin.addCategory');
+    Route::post('/admin/add-category', [AdminController::class, 'storeCategory'])->name('admin.storeCategory');
+    Route::get('/admin/delete-category/{id}', [AdminController::class, 'deleteCategory'])->name('admin.deleteCategory');
     // Other admin routes go here
 });
 
