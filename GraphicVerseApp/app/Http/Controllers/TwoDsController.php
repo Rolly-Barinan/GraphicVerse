@@ -94,7 +94,10 @@ class TwoDsController extends Controller
      */
     public function show($id)
     {
-        //
+        // Retrieve the specific Model2D instance
+        $model2D = Model2D::findOrFail($id);
+
+        return view('two-dim.show', compact('model2D'));
     }
 
     /**

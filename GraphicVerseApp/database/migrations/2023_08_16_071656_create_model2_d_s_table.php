@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('model2_d_s', function (Blueprint $table) {
             $table->id();
-            $table->string('twoD_name')->unique();
+            $table->string('twoD_name');
             $table->string('description');
             $table->string('cat_name');
             $table->string('creator_name');

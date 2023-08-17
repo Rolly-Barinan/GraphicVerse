@@ -67,12 +67,12 @@
                     <h5>2D</h5>
                     @foreach($userUploads as $upload)
                         <div class="col-3 p-">
-                            <div class="card" style="width: 15rem;">
+                            <a href="{{ route('twoD.show', ['id' => $upload->id]) }}"> {{-- Link to the show route --}}
                                 <img src="{{ asset('storage/' . $upload->filename) }}" class="card-img-top" alt="{{ $upload->twoD_name }}" style="width: 100%; height: 200px;">
                                 <div class="card-body">
                                     <h5 class="card-title">{{ $upload->twoD_name }}</h5>
                                 </div>
-                            </div>
+                            </a>
                         </div>
                     @endforeach
                     <h5>3D</h5>

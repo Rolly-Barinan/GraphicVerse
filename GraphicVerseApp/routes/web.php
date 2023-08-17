@@ -71,6 +71,7 @@ Route::post('/teams/{team}/add-members', [TeamController::class, 'storeMembers']
 Route::get('/upload/2d', [TwoDsController::class, 'create'])->name('twoD.create');
 Route::post('/upload/2d', [TwoDsController::class, 'store'])->name('twoD.store');
 Route::get('/2d', [TwoDsController::class, 'index'])->name('twoD.index');
+Route::get('2d/{id}', [TwoDsController::class, 'show'])->name('twoD.show');
 
 // //packages router controller
 // Route::get('/packages/show', [PackageController::class, 'show'])->name('packages.show');
