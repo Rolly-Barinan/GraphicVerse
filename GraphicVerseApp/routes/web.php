@@ -85,10 +85,10 @@ Route::get('/2d', [TwoDsController::class, 'index'])->name('twoD.index');
 // //two dimensional controller
 // Route::get('/two-dim/create', [TwoDimController::class, 'create'])->name('two-dim.create');
 
-// // three-dimensional controller
-// Route::get('/three-dim/create', [ThreeDsController::class, 'create'])->name('create');
-// Route::get('/three-dim/show/{id}', [ThreeDsController::class, 'show'])->name('show');
-// Route::post('/three-dim', [ThreeDsController::class, 'store'])->name('store');
+// three-dimensional controller
+Route::get('/three-dim/create', [ThreeDsController::class, 'create'])->name('create');
+Route::get('/three-dim/show/{id}', [ThreeDsController::class, 'show'])->name('show');
+Route::post('/three-dim', [ThreeDsController::class, 'store'])->name('store');
 
 Route::middleware([RestrictDirectAccess::class])->group(function () {
 
