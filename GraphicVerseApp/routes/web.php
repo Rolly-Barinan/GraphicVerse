@@ -10,6 +10,10 @@ use App\Http\Controllers\ThreeDsController;
 use App\Http\Controllers\PackageController;
 use App\Http\Controllers\TwoDimController;
 use App\Http\Controllers\TeamController;
+
+use App\Http\Controllers\AdminController;
+
+use App\Http\Controllers\TwoDsController;
 use Illuminate\Support\Facades\Auth;
 
 /*
@@ -22,6 +26,20 @@ use Illuminate\Support\Facades\Auth;
 | contains the "web" middleware group. Now create something great!
 |
 */
+
+//ADMIN
+Route::get('/admin/login', [AdminController::class, 'showLoginForm'])->name('admin.login');
+Route::post('/admin/login', [AdminController::class, 'login'])->name('admin.login');
+Route::middleware('auth:admin')->group(function () {
+    Route::get('/admin/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
+    Route::get('/admin/logout', [AdminController::class, 'logout'])->name('admin.logout');
+
+    Route::get('/admin/add-category', [AdminController::class, 'addCategory'])->name('admin.addCategory');
+    Route::post('/admin/add-category', [AdminController::class, 'storeCategory'])->name('admin.storeCategory');
+    Route::get('/admin/delete-category/{id}', [AdminController::class, 'deleteCategory'])->name('admin.deleteCategory');
+    // Other admin routes go here
+});
+
 
 Route::get('/', function () {
     return view('welcome');
@@ -49,18 +67,24 @@ Route::delete('/teams/{team}', [TeamController::class, 'destroy'])->name('teams.
 Route::get('/teams/{team}/add-members', [TeamController::class, 'addMembers'])->name('teams.addMembers');
 Route::post('/teams/{team}/add-members', [TeamController::class, 'storeMembers'])->name('teams.storeMembers');
 
-//packages router controller
-Route::get('/packages/show', [PackageController::class, 'show'])->name('packages.show');
-Route::get('/packages/create', [PackageController::class, 'create'])->name('packages.create');
-Route::post('/packages', [PackageController::class, 'store'])->name('packages.store');
+//2D router controller
+Route::get('/upload/2d', [TwoDsController::class, 'create'])->name('twoD.create');
+Route::post('/upload/2d', [TwoDsController::class, 'store'])->name('twoD.store');
+Route::get('/2d', [TwoDsController::class, 'index'])->name('twoD.index');
+Route::get('2d/{id}', [TwoDsController::class, 'show'])->name('twoD.show');
 
-// audio controller
-Route::get('/audios/{id}/play',[AudiosController::class, 'play'])->name('audios.play');
-Route::get('/audios/create', [AudiosController::class, 'create'])->name('audios.create');
-Route::post('/audios', [AudiosController::class,'store'])->name('audios.store');
+// //packages router controller
+// Route::get('/packages/show', [PackageController::class, 'show'])->name('packages.show');
+// Route::get('/packages/create', [PackageController::class, 'create'])->name('packages.create');
+// Route::post('/packages', [PackageController::class, 'store'])->name('packages.store');
 
-//two dimensional controller
-Route::get('/two-dim/create', [TwoDimController::class, 'create'])->name('two-dim.create');
+// // audio controller
+// Route::get('/audios/{id}/play',[AudiosController::class, 'play'])->name('audios.play');
+// Route::get('/audios/create', [AudiosController::class, 'create'])->name('audios.create');
+// Route::post('/audios', [AudiosController::class,'store'])->name('audios.store');
+
+// //two dimensional controller
+// Route::get('/two-dim/create', [TwoDimController::class, 'create'])->name('two-dim.create');
 
 // three-dimensional controller
 Route::get('/three-dim/create', [ThreeDsController::class, 'create'])->name('create');

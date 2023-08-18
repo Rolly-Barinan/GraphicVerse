@@ -8,7 +8,7 @@
     <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/examples/js/controls/OrbitControls.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/examples/js/libs/fflate.min.js"></script>
 
-    <div class="container-fluid py-50 " style="background-color: #DDDDE4;   height: 50rem;">
+    <div class="container-fluid py-50 " style="background-color: #DDDDE4;">
         <div class="row-fluid image-container   border-2">
             <img src="/svg/1201120.jpg" class="img-fluid" alt="...">
         </div>
@@ -65,20 +65,14 @@
 
                     <h4>Recently Upload </h4>
                     <h5>2D</h5>
-                    @foreach ($user->packages as $package)
+                    @foreach($userUploads as $upload)
                         <div class="col-3 p-">
-                            <div class=" card" style="width: 15rem;">
-                                @if ($package->thumbnail)
-                                    <img src="/storage/{{ $package->thumbnail->filename }}" class="card-img-top"
-                                        alt="Thumbnail" />
-                                @else
-                                    <img src="{{ asset('path/to/default-thumbnail.jpg') }}" alt="Default Thumbnail" />
-                                @endif
+                            <a href="{{ route('twoD.show', ['id' => $upload->id]) }}"> {{-- Link to the show route --}}
+                                <img src="{{ asset('storage/' . $upload->filename) }}" class="card-img-top" alt="{{ $upload->twoD_name }}" style="width: 100%; height: 200px;">
                                 <div class="card-body">
-                                    <p> {{ $package->name }}</p>
-                                    <p class="card-text">{{ $package->category }}</p>
+                                    <h5 class="card-title">{{ $upload->twoD_name }}</h5>
                                 </div>
-                            </div>
+                            </a>
                         </div>
                     @endforeach
                     <h5>3D</h5>
@@ -196,7 +190,7 @@
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body d-flex justify-content-center align-items-center">
-                            <a href="/two-dim/create" class="mx-3">
+                            <a href="/upload/2d" class="mx-3">
                                 <button type="button" class="btn btn-primary">2D</button>
                             </a>
                             <a href="/three-dim/create" class="mx-3">
