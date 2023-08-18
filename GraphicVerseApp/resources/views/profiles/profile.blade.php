@@ -44,15 +44,12 @@
 
             </div>
             <div class="col-2 d-flex justify-content-end ps-5 pt-2 align-items-start ">
-
-
                 @can('update', $user->profile)
                     <button type="button" class="btn btn-success btn-lg  " data-bs-toggle="modal"
                         data-bs-target="#exampleModal"
                         style="--bs-btn-padding-y: .7rem; --bs-btn-padding-x: 3.5rem; --bs-btn-font-size: .9rem;">Upload
                     </button>
                 @endcan
-
             </div>
             <div class="col-2 col-2 d-flex justify-content-top pt-2 align-items-start">
                 <button type="button" class="btn btn-primary btn-lg"
@@ -62,7 +59,6 @@
         <div class="row pt-5">
             <div class="col-10">
                 <div class="row">
-
                     <h4>Recently Upload </h4>
                     <h5>2D</h5>
                     @foreach($userUploads as $upload)
@@ -75,8 +71,8 @@
                             </a>
                         </div>
                     @endforeach
+                    
                     <h5>3D</h5>
-
                     <div class="row bg-success bg-gradient">
 
                         @foreach ($userThreeDs as $threeD)
@@ -166,9 +162,7 @@
 
                         initFBXViewers();
                     </script>
-
                 </div>
-
             </div>
 
             <!-- Display user's teams -->
@@ -206,5 +200,6 @@
                     </div>
                 </div>
             </div>
-            
+        </div>
+    </div>
 @endsection
