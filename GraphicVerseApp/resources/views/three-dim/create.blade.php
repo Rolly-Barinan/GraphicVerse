@@ -1,68 +1,66 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container mt-4">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">
-                    <h2>Three Dimensional Objects</h2>
-                </div>
-                
-                <div class="card-body">
-                    <form action="/three-dim" enctype="multipart/form-data" method="post">
-                        @csrf
-                        <div class="mb-3">
-                            <label for="asset_name" class="form-label">Title</label>
-                            <input id="asset_name" type="text" class="form-control @error('asset_name') is-invalid @enderror" name="asset_name"
-                                value="{{ old('asset_name') }}" autocomplete="asset_name" autofocus>
-                            @error('asset_name')
-                                <div class="invalid-feedback">
-                                    {{ $message }}
+    <div class="container mt-4">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-header">
+                        <h1>Upload a 3D</h1>
+                    </div>
+                    <div class="card-body">
+                        <form action="{{ route('threeD.store') }}" method="POST" enctype="multipart/form-data">
+                            @csrf
+                            <div class="form-group row">
+                                <label for="package_name" class="col-md-4 col-form-label text-md-right">Asset Name</label>
+                                <div class="col-md-6">
+                                    <input id="package_name" type="text" class="form-control @error('package_name') is-invalid @enderror"
+                                        name="package_name" value="{{ old('package_name') }}" autocomplete="package_name" autofocus>
+                                    @error('package_name')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                    @enderror
                                 </div>
-                            @enderror
-                        </div>
-                        
-                        <div class="mb-3">
-                            <label for="description" class="form-label">Description</label>
-                            <input id="description" type="text" class="form-control @error('description') is-invalid @enderror" name="description"
-                                value="{{ old('description') }}" autocomplete="description" autofocus>
-                            @error('description')
-                                <div class="invalid-feedback">
-                                    {{ $message }}
+                            </div>
+                            
+                            <div class="form-group row">
+                                <label for="description" class="col-md-4 col-form-label text-md-right">Description</label>
+                                <div class="col-md-6">
+                                    <input id="description" type="text" class="form-control @error('description') is-invalid @enderror"
+                                        name="description" value="{{ old('description') }}" autocomplete="description" autofocus>
+                                    @error('description')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                    @enderror
                                 </div>
-                            @enderror
-                        </div>
-                        
-                        <div class="mb-3">
-                            <label for="category" class="form-label">Category</label>
-                            <input id="category" type="text" class="form-control @error('category') is-invalid @enderror" name="category"
-                                value="{{ old('category') }}" autocomplete="category" placeholder="e.g., trees, flowers, rocks">
-                            @error('category')
-                                <div class="invalid-feedback">
-                                    {{ $message }}
+                            </div>
+
+                            <div class="form-group row">
+                                <select id="category" name="category">
+                                    @foreach($categories as $category)
+                                        <option value="{{ $category->id }}">{{ $category->cat_name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+
+                            <div class="form-group row">
+                                <label for="threeD_asset" class="col-md-4 col-form-label text-md-right">Select 3D asset:</label>
+                                <input type="file" id="threeD_asset" name="threeD_asset" accept="threeD_asset/*" required>
+                            </div>
+
+                            <div class="form-group row mb-0">
+                                <div class="col-md-8 offset-md-4">
+                                    <button type="submit" class="btn btn-primary">
+                                        Submit
+                                    </button>
                                 </div>
-                            @enderror
-                        </div>
-                        
-                        <div class="mb-3">
-                            <label for="asset" class="form-label">Asset files</label>
-                            <input id="asset" type="file" class="form-control-file @error('asset') is-invalid @enderror" name="asset"
-                                value="{{ old('asset') }}" autocomplete="asset" autofocus>
-                            @error('asset')
-                                <div class="invalid-feedback">
-                                    {{ $message }}
-                                </div>
-                            @enderror
-                        </div>
-                        
-                        <div class="d-grid gap-2 col-6 mx-auto">
-                            <button type="submit" class="btn btn-primary">Upload</button>
-                        </div>
-                    </form>
+                            </div>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
 @endsection
