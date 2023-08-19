@@ -6,7 +6,6 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\AboutUsController;
 use App\Http\Controllers\AudiosController;
 use App\Http\Controllers\ProfilesController;
-use App\Http\Controllers\ThreeDsController;
 use App\Http\Controllers\PackageController;
 use App\Http\Controllers\TwoDimController;
 use App\Http\Controllers\TeamController;
@@ -14,6 +13,7 @@ use App\Http\Controllers\TeamController;
 use App\Http\Controllers\AdminController;
 
 use App\Http\Controllers\TwoDsController;
+use App\Http\Controllers\ThreeDsController2;
 use Illuminate\Support\Facades\Auth;
 
 /*
@@ -73,6 +73,12 @@ Route::post('/upload/2d', [TwoDsController::class, 'store'])->name('twoD.store')
 Route::get('/2d', [TwoDsController::class, 'index'])->name('twoD.index');
 Route::get('2d/{id}', [TwoDsController::class, 'show'])->name('twoD.show');
 
+//3D router controller
+Route::get('/upload/3d', [ThreeDsController2::class, 'create'])->name('threeD.create');
+Route::post('/upload/3d', [ThreeDsController2::class, 'store'])->name('threeD.store');
+Route::get('/3d', [ThreeDsController2::class, 'index'])->name('threeD.index');
+Route::get('3d/{id}', [ThreeDsController2::class, 'show'])->name('threeD.show');
+
 // //packages router controller
 // Route::get('/packages/show', [PackageController::class, 'show'])->name('packages.show');
 // Route::get('/packages/create', [PackageController::class, 'create'])->name('packages.create');
@@ -86,10 +92,10 @@ Route::get('2d/{id}', [TwoDsController::class, 'show'])->name('twoD.show');
 // //two dimensional controller
 // Route::get('/two-dim/create', [TwoDimController::class, 'create'])->name('two-dim.create');
 
-// three-dimensional controller
-Route::get('/three-dim/create', [ThreeDsController::class, 'create'])->name('create');
-Route::get('/three-dim/show/{id}', [ThreeDsController::class, 'show'])->name('show');
-Route::post('/three-dim', [ThreeDsController::class, 'store'])->name('store');
+// // three-dimensional controller
+// Route::get('/three-dim/create', [ThreeDsController::class, 'create'])->name('create');
+// Route::get('/three-dim/show/{id}', [ThreeDsController::class, 'show'])->name('show');
+// Route::post('/three-dim', [ThreeDsController::class, 'store'])->name('store');
 
 Route::middleware([RestrictDirectAccess::class])->group(function () {
 

@@ -1,0 +1,136 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use Illuminate\Http\Request;
+use App\Models\Model3D;
+use App\Models\Categories;
+use App\Models\Categories3D;
+use App\Models\User3D;
+
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
+
+class ThreeDsController2 extends Controller
+{
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index(Request $request)
+    {
+        $categories = Categories::all();
+        $selectedCategories = $request->input('categories', []);
+        
+        $models3DQuery = Model3D::query();
+
+        if (!empty($selectedCategories)) {
+            $models3DQuery->whereHas('categories3D', function ($query) use ($selectedCategories) {
+                $query->whereIn('cat_id', $selectedCategories);
+            });
+        }
+
+        $models3D = $models3DQuery->get();
+
+        return view('three-dim.index', compact('models3D', 'categories', 'selectedCategories'));
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create()
+    {   
+        $categories = Categories::all();
+        return view('three-dim.create', compact('categories'));
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(Request $request)
+    {
+        $request->validate([
+            'package_name' => 'required|string|max:255',
+            'description' => 'required|string|max:255',
+            'category' => 'required|exists:categories,id',
+            'threeD_asset' => 'required|file|mimes:bin,fbx',
+        ]);
+
+        // Save the uploaded file to the '3D' folder
+        $assetPath = $request->file('threeD_asset')->store('3D', 'public');
+
+        // Create a new Model3D entry
+        $model3D = Model3D::create([
+            'threeD_name' => $request->input('package_name'),
+            'description' => $request->input('description'),
+            'cat_name' => $request->input('category'),
+            'creator_name' => Auth::user()->name, // Assuming the user is authenticated
+            'filename' => $assetPath,
+        ]);
+
+        // Attach the category to the model3D
+        $model3D->categories3D()->attach($request->input('categories'));
+        
+        // Create a User3D entry to associate the authenticated user with the uploaded model
+        User3D::create([
+            'threeD_id' => $model3D->id,
+            'user_id' => Auth::user()->id,
+        ]);
+
+        return redirect()->route('profile.show', ['user' => Auth::user()])->with('success', '3D asset uploaded successfully.');
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function show($id)
+    {
+        // Retrieve the specific Model2D instance
+        $model3D = Model3D::findOrFail($id);
+
+        return view('three-dim.show', compact('model3D'));
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function edit($id)
+    {
+        //
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, $id)
+    {
+        //
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy($id)
+    {
+        //
+    }
+}

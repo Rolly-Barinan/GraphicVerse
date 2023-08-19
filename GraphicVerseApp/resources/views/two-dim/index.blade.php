@@ -20,11 +20,13 @@
                 </div>
             </div>
         </div>
+        
         <div class="col-md-9">
             <div class="card">
                 <div class="card-body">
                     <h1 class="card-title">2D Models</h1>
                     <div class="row">
+                        @if(count($models2D) > 0)
                         @foreach ($models2D as $model)
                             <div class="col-md-4 mb-4">
                                 <div class="card model-card">
@@ -37,6 +39,9 @@
                                 </div>
                             </div>
                         @endforeach
+                        @else
+                            <p style="text-align: center; font-style: italic; color: black;">No 2D models found.</p>
+                        @endif
                     </div>
                 </div>
             </div>

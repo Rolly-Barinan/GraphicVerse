@@ -85,4 +85,9 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(Model2D::class, 'user2_d_s', 'user_id', 'twoD_id');
     }
+
+    public function model3D()
+    {
+        return $this->belongsToMany(Model3D::class, 'user3_d_s', 'user_id', 'threeD_id');
+    }
 }

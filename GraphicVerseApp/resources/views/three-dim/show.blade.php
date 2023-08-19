@@ -35,21 +35,31 @@
     </head>
 
     <body>
-        <div class="row">
-
-            <div class="col-7">
-      
-                <div class="model-viewer" data-model-path="{{ asset('storage/' . $userThreeD->asset) }}"></div>
-
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-md-8">
+                    <div class="card">
+                        <div class="card-header">{{ $model3D->threeD_name }} Details</div>
+                        
+                        <div class="card-body">
+                            <div class="text-center">
+                                <div class="model-viewer" data-model-path="{{ asset('storage/' . $model3D->filename) }}"></div>
+                            </div>
+                            <hr>
+                            <p><strong>Description:</strong> {{ $model3D->description }}</p>
+                            <p><strong>Category:</strong>
+                                @foreach ($model3D->categories3D as $category)
+                                {{ $category->cat_name }}
+                            @endforeach</p>
+                            <p><strong>Creator:</strong> {{ $model3D->creator_name }}</p>
+                            {{-- Add more details as needed --}}
+                            <a href="{{ url()->previous() }}" class="btn btn-primary">Back</a>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="col-5">
-      
-            <div> {{ $userThreeD->asset_name }}</div>
-            <p>{{ $userThreeD->description }}</p>
-            <div>{{ $userThreeD->category }}</div>
-            </div>
-
         </div>
+
         <script>
             function loadFBX(modelViewer) {
                 const modelPath = modelViewer.getAttribute('data-model-path');

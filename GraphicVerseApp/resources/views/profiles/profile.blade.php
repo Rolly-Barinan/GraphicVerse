@@ -73,18 +73,15 @@
                     @endforeach
                     
                     <h5>3D</h5>
-                    <div class="row bg-success bg-gradient">
-
-                        @foreach ($userThreeDs as $threeD)
-                            <div class="col-4 p-4">
-                                <a href="/three-dim/show/{{ $threeD->id }}">
-                                    <div class="model-viewer" data-model-path="{{ asset('storage/' . $threeD->asset) }}">
-                                    </div>
-                                    <div class="bg-gray"> {{ $threeD->asset_name }}</div>
-                                </a>
-                            </div>
-                        @endforeach
-                    </div>
+                    @foreach ($userUploads3D as $threeD)
+                        <div class="col-4 p-4">
+                            <a href="/3d/{{ $threeD->id }}">
+                                <div class="model-viewer" data-model-path="{{ asset('storage/' . $threeD->filename) }}">
+                                </div>
+                                <div class="bg-gray"> {{ $threeD->threeD_name }}</div>
+                            </a>
+                        </div>
+                    @endforeach
 
                     
                     <script>
@@ -187,7 +184,7 @@
                             <a href="/upload/2d" class="mx-3">
                                 <button type="button" class="btn btn-primary">2D</button>
                             </a>
-                            <a href="/three-dim/create" class="mx-3">
+                            <a href="/upload/3d" class="mx-3">
                                 <button type="button" class="btn btn-primary">3D</button>
                             </a>
                             <a href="/audios/create" class="mx-3">

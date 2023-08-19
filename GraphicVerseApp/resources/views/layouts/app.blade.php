@@ -142,7 +142,7 @@
                 <div class="col-auto navbar-nav ">
                     <div class="d-flex justify-content-center space-between">
                         <a class="twod nav-link text-white pe-5" href="/2d">2D</a>
-                        <a class="threed nav-link text-white pe-5" href="3d">3D</a>
+                        <a class="threed nav-link text-white pe-5" href="/3d">3D</a>
                         <a class="others nav-link text-white pe-5  " href="animation">Animation</a>
                         <a class="others nav-link text-white pe-5  " href="music">Sound/Music</a>
 
