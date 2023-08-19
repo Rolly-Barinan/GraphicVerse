@@ -75,7 +75,7 @@
                     <h5>3D</h5>
                     @foreach ($userUploads3D as $threeD)
                         <div class="col-4 p-4">
-                            <a href="/3d/{{ $threeD->id }}">
+                            <a href="{{ route('threeD.show', ['id' => $threeD->id]) }}">
                                 <div class="model-viewer" data-model-path="{{ asset('storage/' . $threeD->filename) }}">
                                 </div>
                                 <div class="bg-gray"> {{ $threeD->threeD_name }}</div>

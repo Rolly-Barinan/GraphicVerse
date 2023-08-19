@@ -27,18 +27,20 @@
                     <h1 class="card-title">3D Models</h1>
                     <div class="row">
                         @if(count($models3D) > 0)
-                        @foreach ($models3D as $model)
-                            <div class="col-md-4 mb-4">
-                                <div class="card model-card">
-                                    <div class="model-viewer" data-model-path="{{ asset('storage/' . $model->filename) }}"></div>
-                                    <div class="card-body">
-                                        <h5 class="card-title">{{ $model->threeD_name }}</h5>
-                                        <p class="card-text">{{ $model->description }}</p>
-                                        <p class="card-text">Creator: {{ $model->creator_name }}</p>
-                                    </div>
+                            @foreach ($models3D as $model)
+                                <div class="col-md-4 mb-4">
+                                    <a href="{{ route('threeD.show', ['id' => $model->id]) }}">
+                                        <div class="card model-card">
+                                            <div class="model-viewer" data-model-path="{{ asset('storage/' . $model->filename) }}"></div>
+                                            <div class="card-body">
+                                                <h5 class="card-title">{{ $model->threeD_name }}</h5>
+                                                <p class="card-text">{{ $model->description }}</p>
+                                                <p class="card-text">Creator: {{ $model->creator_name }}</p>
+                                            </div>
+                                        </div>
+                                    </a>
                                 </div>
-                            </div>
-                        @endforeach
+                            @endforeach
                         @else
                             <p style="text-align: center; font-style: italic; color: #ccc;">No 3D models found.</p>
                         @endif
