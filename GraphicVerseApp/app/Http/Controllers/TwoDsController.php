@@ -58,7 +58,7 @@ class TwoDsController extends Controller
         $request->validate([
             'package_name' => 'required|string|max:255',
             'description' => 'required|string|max:255',
-            'category' => 'required|exists:categories,id',
+            'categories' => 'required|array',
             'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
@@ -69,14 +69,14 @@ class TwoDsController extends Controller
         $model2D = Model2D::create([
             'twoD_name' => $request->input('package_name'),
             'description' => $request->input('description'),
-            'cat_name' => $request->input('category'),
-            'creator_name' => Auth::user()->name, // Assuming the user is authenticated
+            'creator_name' => Auth::user()->name,
             'filename' => $imagePath,
         ]);
 
-        // Attach the category to the model2D
-        $model2D->categories2D()->attach($request->input('category'));
-        
+        // Attach the selected categories to the model2D
+        $selectedCategories = $request->input('categories', []);
+        $model2D->categories2D()->attach($selectedCategories);
+
         // Create a User2D entry to associate the authenticated user with the uploaded model
         User2D::create([
             'twoD_id' => $model2D->id,
@@ -85,6 +85,7 @@ class TwoDsController extends Controller
 
         return redirect()->route('profile.show', ['user' => Auth::user()])->with('success', '2D asset uploaded successfully.');
     }
+
 
     /**
      * Display the specified resource.
