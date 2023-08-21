@@ -48,9 +48,13 @@
                             <hr>
                             <p><strong>Description:</strong> {{ $model3D->description }}</p>
                             <p><strong>Category:</strong>
-                                @foreach ($model3D->categories3D as $category)
-                                {{ $category->cat_name }}
-                            @endforeach</p>
+                                @foreach ($model3D->categories3D as $index => $category)
+                                    {{ $category->cat_name }}
+                                    @if ($index < count($model3D->categories3D) - 1)
+                                        ,
+                                    @endif
+                                @endforeach
+                            </p>   
                             <p><strong>Creator:</strong> {{ $model3D->creator_name }}</p>
                             {{-- Add more details as needed --}}
                             <a href="{{ url()->previous() }}" class="btn btn-primary">Back</a>

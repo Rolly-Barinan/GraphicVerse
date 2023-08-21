@@ -58,24 +58,27 @@ class ThreeDsController2 extends Controller
         $request->validate([
             'package_name' => 'required|string|max:255',
             'description' => 'required|string|max:255',
-            'category' => 'required|exists:categories,id',
+            'categories' => 'required|array',
             'threeD_asset' => 'required|file|mimes:bin,fbx',
         ]);
 
         // Save the uploaded file to the '3D' folder
         $assetPath = $request->file('threeD_asset')->store('3D', 'public');
 
+        // Get selected category names as a comma-separated string
+        $selectedCategoryNames = Categories::whereIn('id', $request->input('categories'))->pluck('cat_name')->join(', ');
+
         // Create a new Model3D entry
         $model3D = Model3D::create([
             'threeD_name' => $request->input('package_name'),
             'description' => $request->input('description'),
-            'cat_name' => $request->input('category'),
+            'cat_name' => $selectedCategoryNames, // Store selected category names
             'creator_name' => Auth::user()->name, // Assuming the user is authenticated
             'filename' => $assetPath,
         ]);
 
-        // Attach the category to the model3D
-        $model3D->categories3D()->attach($request->input('categories'));
+         // Attach the selected categories to the model3D
+         $model3D->categories3D()->attach($request->input('categories'));
         
         // Create a User3D entry to associate the authenticated user with the uploaded model
         User3D::create([

@@ -38,11 +38,17 @@
                             </div>
 
                             <div class="form-group row">
-                                <select id="category" name="category">
+                                <label for="categories" class="col-md-4 col-form-label text-md-right">Categories</label>
+                                <div class="col-md-6">
                                     @foreach($categories as $category)
-                                        <option value="{{ $category->id }}">{{ $category->cat_name }}</option>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" name="categories[]" value="{{ $category->id }}" id="category{{ $category->id }}">
+                                            <label class="form-check-label" for="category{{ $category->id }}">
+                                                {{ $category->cat_name }}
+                                            </label>
+                                        </div>
                                     @endforeach
-                                </select>
+                                </div>
                             </div>
 
                             <div class="form-group row">
