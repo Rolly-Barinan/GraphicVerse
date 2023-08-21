@@ -15,4 +15,9 @@ class Categories extends Model
     {
         return $this->belongsToMany(model2D::class, 'categories2_d_s', 'cat_id', 'twoD_id');
     }
+
+    public function model3D()
+    {
+        return $this->belongsToMany(model3D::class, 'categories3_d_s', 'cat_id', 'threeD_id');
+    }
 }

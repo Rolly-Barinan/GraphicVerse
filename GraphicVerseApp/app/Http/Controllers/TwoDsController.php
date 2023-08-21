@@ -54,37 +54,41 @@ class TwoDsController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    {
-        $request->validate([
-            'package_name' => 'required|string|max:255',
-            'description' => 'required|string|max:255',
-            'categories' => 'required|array',
-            'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
-        ]);
+{
+    $request->validate([
+        'package_name' => 'required|string|max:255',
+        'description' => 'required|string|max:255',
+        'categories' => 'required|array',
+        'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+    ]);
 
-        // Save the uploaded image to the '2D' folder
-        $imagePath = $request->file('image')->store('2D', 'public');
+    // Save the uploaded image to the '2D' folder
+    $imagePath = $request->file('image')->store('2D', 'public');
 
-        // Create a new Model2D entry
-        $model2D = Model2D::create([
-            'twoD_name' => $request->input('package_name'),
-            'description' => $request->input('description'),
-            'creator_name' => Auth::user()->name,
-            'filename' => $imagePath,
-        ]);
+    // Get selected category names as a comma-separated string
+    $selectedCategoryNames = Categories::whereIn('id', $request->input('categories'))->pluck('cat_name')->join(', ');
 
-        // Attach the selected categories to the model2D
-        $selectedCategories = $request->input('categories', []);
-        $model2D->categories2D()->attach($selectedCategories);
+    // Create a new Model2D entry
+    $model2D = Model2D::create([
+        'twoD_name' => $request->input('package_name'),
+        'description' => $request->input('description'),
+        'creator_name' => Auth::user()->name,
+        'cat_name' => $selectedCategoryNames, // Store selected category names
+        'filename' => $imagePath,
+    ]);
 
-        // Create a User2D entry to associate the authenticated user with the uploaded model
-        User2D::create([
-            'twoD_id' => $model2D->id,
-            'user_id' => Auth::user()->id,
-        ]);
+    // Attach the selected categories to the model2D
+    $model2D->categories2D()->attach($request->input('categories'));
 
-        return redirect()->route('profile.show', ['user' => Auth::user()])->with('success', '2D asset uploaded successfully.');
-    }
+    // Create a User2D entry to associate the authenticated user with the uploaded model
+    User2D::create([
+        'twoD_id' => $model2D->id,
+        'user_id' => Auth::user()->id,
+    ]);
+
+    return redirect()->route('profile.show', ['user' => Auth::user()])->with('success', '2D asset uploaded successfully.');
+}
+
 
 
     /**
