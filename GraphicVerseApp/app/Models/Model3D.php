@@ -19,4 +19,9 @@ class Model3D extends Model
     {
         return $this->belongsToMany(User::class, 'user3_d_s', 'threeD_id', 'user_id');
     }
+
+    public function user3d()
+    {
+        return $this->hasOne(User3D::class, 'threeD_id', 'id');
+    }
 }

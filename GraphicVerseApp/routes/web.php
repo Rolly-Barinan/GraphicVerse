@@ -81,10 +81,16 @@ Route::middleware(['auth'])->group(function () {
     //2D router controller
     Route::get('/upload/2d', [TwoDsController::class, 'create'])->name('twoD.create');
     Route::post('/upload/2d', [TwoDsController::class, 'store'])->name('twoD.store');
+    Route::get('/2d/{id}/edit', [TwoDsController::class, 'edit'])->name('twoD.edit');
+    Route::put('/2d/{id}', [TwoDsController::class, 'update'])->name('twoD.update');
+    Route::delete('/2d/{id}', [TwoDsController::class, 'destroy'])->name('twoD.destroy');
 
     //3D router controller
     Route::get('/upload/3d', [ThreeDsController2::class, 'create'])->name('threeD.create');
     Route::post('/upload/3d', [ThreeDsController2::class, 'store'])->name('threeD.store');
+    Route::get('/3d/{id}/edit', [ThreeDsController2::class, 'edit'])->name('threeD.edit');
+    Route::put('/3d/{id}', [ThreeDsController2::class, 'update'])->name('threeD.update');
+    Route::delete('/3d/{id}', [ThreeDsController2::class, 'destroy'])->name('threeD.destroy');
 });
 
 

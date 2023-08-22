@@ -109,9 +109,22 @@ class ThreeDsController2 extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit($id, Request $request)
     {
-        //
+        // Retrieve the specific Model2D instance
+        $model3D = Model3D::findOrFail($id);
+
+        // Check if the currently authenticated user is the creator/owner of the image
+        if (Auth::user()->id !== $model3D->user3d->user_id) {
+            return redirect()->back()->with('error', 'You do not have permission to edit this image.');
+        }
+
+        $categories = Categories::all();
+
+        // Get the selected categories for the current model
+        $selectedCategories = $model3D->categories3D->pluck('id')->toArray();
+
+        return view('three-dim.edit', compact('model3D', 'categories', 'selectedCategories'));
     }
 
     /**
@@ -123,7 +136,35 @@ class ThreeDsController2 extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        // Validate the input
+        $request->validate([
+            'package_name' => 'required|string|max:255',
+            'description' => 'required|string|max:255',
+            'categories' => 'required|array',
+        ]);
+
+        // Retrieve the specific Model2D instance
+        $model3D = Model3D::findOrFail($id);
+
+        // Check if the currently authenticated user is the creator/owner of the image
+        if (Auth::user()->id !== $model3D->user3d->user_id) {
+            return redirect()->back()->with('error', 'You do not have permission to edit this image.');
+        }
+
+        // Get selected category names as a comma-separated string
+        $selectedCategoryNames = Categories::whereIn('id', $request->input('categories'))->pluck('cat_name')->join(', ');
+
+        // Update the Model2D entry
+        $model3D->update([
+            'threeD_name' => $request->input('package_name'),
+            'description' => $request->input('description'),
+            'cat_name' => $selectedCategoryNames, // Store selected category names
+        ]);
+
+        // Sync the selected categories to the model2D
+        $model3D->categories3D()->sync($request->input('categories'));
+
+        return redirect()->route('threeD.show', $model3D->id)->with('success', '3D asset updated successfully.');
     }
 
     /**
@@ -134,6 +175,26 @@ class ThreeDsController2 extends Controller
      */
     public function destroy($id)
     {
-        //
+        // Retrieve the specific Model2D instance
+        $model3D = Model3D::findOrFail($id);
+
+        // Check if the currently authenticated user is the creator/owner of the image
+        if (Auth::user()->id !== $model3D->user3d->user_id) {
+            return redirect()->back()->with('error', 'You do not have permission to delete this image.');
+        }
+
+        // Delete the associated image file from storage
+        Storage::disk('public')->delete($model3D->filename);
+
+        // Detach the associated categories
+        $model3D->categories3D()->detach();
+
+        // Delete the User3D entry
+        $model3D->user3d->delete();
+
+        // Delete the Model3D entry
+        $model3D->delete();
+
+        return redirect()->route('profile.show', ['user' => Auth::user()])->with('success', '3D asset deleted successfully.');
     }
 }

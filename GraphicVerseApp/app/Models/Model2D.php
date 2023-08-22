@@ -20,4 +20,9 @@ class Model2D extends Model
     {
         return $this->belongsToMany(User::class, 'user2_d_s', 'twoD_id', 'user_id');
     }
+
+    public function user2d()
+    {
+        return $this->hasOne(User2D::class, 'twoD_id', 'id');
+    }
 }
