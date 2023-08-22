@@ -112,22 +112,22 @@ class TwoDsController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function edit($id, Request $request)
-{
-    // Retrieve the specific Model2D instance
-    $model2D = Model2D::findOrFail($id);
+    {
+        // Retrieve the specific Model2D instance
+        $model2D = Model2D::findOrFail($id);
 
-    // Check if the currently authenticated user is the creator/owner of the image
-    if (Auth::user()->id !== $model2D->user2d->user_id) {
-        return redirect()->back()->with('error', 'You do not have permission to edit this image.');
+        // Check if the currently authenticated user is the creator/owner of the image
+        if (Auth::user()->id !== $model2D->user2d->user_id) {
+            return redirect()->back()->with('error', 'You do not have permission to edit this image.');
+        }
+
+        $categories = Categories::all();
+
+        // Get the selected categories for the current model
+        $selectedCategories = $model2D->categories2D->pluck('id')->toArray();
+
+        return view('two-dim.edit', compact('model2D', 'categories', 'selectedCategories'));
     }
-
-    $categories = Categories::all();
-
-    // Get the selected categories for the current model
-    $selectedCategories = $model2D->categories2D->pluck('id')->toArray();
-
-    return view('two-dim.edit', compact('model2D', 'categories', 'selectedCategories'));
-}
 
 
     /**

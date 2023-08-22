@@ -57,7 +57,10 @@
                             </p>   
                             <p><strong>Creator:</strong> {{ $model3D->creator_name }}</p>
                             {{-- Add more details as needed --}}
-                            <a href="{{ url()->previous() }}" class="btn btn-primary">Back</a>
+                            @if(Auth::check() && Auth::user()->id === $model3D->user3d->user_id)
+                                <a href="{{ route('threeD.edit', $model3D->id) }}" class="btn btn-primary">Edit</a>
+                            @endif
+                            <a href="/3d" class="btn btn-primary">Back</a>
                         </div>
                     </div>
                 </div>
