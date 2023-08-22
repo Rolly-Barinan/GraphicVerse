@@ -175,6 +175,26 @@ class ThreeDsController2 extends Controller
      */
     public function destroy($id)
     {
-        //
+        // Retrieve the specific Model2D instance
+        $model3D = Model3D::findOrFail($id);
+
+        // Check if the currently authenticated user is the creator/owner of the image
+        if (Auth::user()->id !== $model3D->user3d->user_id) {
+            return redirect()->back()->with('error', 'You do not have permission to delete this image.');
+        }
+
+        // Delete the associated image file from storage
+        Storage::disk('public')->delete($model3D->filename);
+
+        // Detach the associated categories
+        $model3D->categories3D()->detach();
+
+        // Delete the User3D entry
+        $model3D->user3d->delete();
+
+        // Delete the Model3D entry
+        $model3D->delete();
+
+        return redirect()->route('profile.show', ['user' => Auth::user()])->with('success', '3D asset deleted successfully.');
     }
 }

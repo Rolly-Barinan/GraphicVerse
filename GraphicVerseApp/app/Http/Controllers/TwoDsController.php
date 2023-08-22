@@ -178,6 +178,26 @@ class TwoDsController extends Controller
      */
     public function destroy($id)
     {
-        //
+        // Retrieve the specific Model2D instance
+        $model2D = Model2D::findOrFail($id);
+
+        // Check if the currently authenticated user is the creator/owner of the image
+        if (Auth::user()->id !== $model2D->user2d->user_id) {
+            return redirect()->back()->with('error', 'You do not have permission to delete this image.');
+        }
+
+        // Delete the associated image file from storage
+        Storage::disk('public')->delete($model2D->filename);
+
+        // Detach the associated categories
+        $model2D->categories2D()->detach();
+
+        // Delete the User2D entry
+        $model2D->user2d->delete();
+
+        // Delete the Model2D entry
+        $model2D->delete();
+
+        return redirect()->route('profile.show', ['user' => Auth::user()])->with('success', '2D asset deleted successfully.');
     }
 }

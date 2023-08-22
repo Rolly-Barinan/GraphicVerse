@@ -59,6 +59,12 @@
                             {{-- Add more details as needed --}}
                             @if(Auth::check() && Auth::user()->id === $model3D->user3d->user_id)
                                 <a href="{{ route('threeD.edit', $model3D->id) }}" class="btn btn-primary">Edit</a>
+                                {{-- Delete button --}}
+                                <form action="{{ route('threeD.destroy', $model3D->id) }}" method="POST" style="display: inline-block;">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this 3D asset?')">Delete</button>
+                                </form>
                             @endif
                             <a href="/3d" class="btn btn-primary">Back</a>
                         </div>
