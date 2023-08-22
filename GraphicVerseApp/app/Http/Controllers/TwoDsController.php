@@ -112,30 +112,23 @@ class TwoDsController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function edit($id, Request $request)
-    {
-        // Retrieve the specific Model2D instance
-        $model2D = Model2D::findOrFail($id);
+{
+    // Retrieve the specific Model2D instance
+    $model2D = Model2D::findOrFail($id);
 
-        // Check if the currently authenticated user is the creator/owner of the image
-        if (Auth::user()->id !== $model2D->user2d->user_id) {
-            return redirect()->back()->with('error', 'You do not have permission to edit this image.');
-        }
-
-        $categories = Categories::all();
-        $selectedCategories = $request->input('categories', []);
-        
-        $models2DQuery = Model2D::query();
-
-        if (!empty($selectedCategories)) {
-            $models2DQuery->whereHas('categories2D', function ($query) use ($selectedCategories) {
-                $query->whereIn('cat_id', $selectedCategories);
-            });
-        }
-
-        $models2D = $models2DQuery->get();
-
-        return view('two-dim.edit', compact('model2D', 'categories', 'selectedCategories'));
+    // Check if the currently authenticated user is the creator/owner of the image
+    if (Auth::user()->id !== $model2D->user2d->user_id) {
+        return redirect()->back()->with('error', 'You do not have permission to edit this image.');
     }
+
+    $categories = Categories::all();
+
+    // Get the selected categories for the current model
+    $selectedCategories = $model2D->categories2D->pluck('id')->toArray();
+
+    return view('two-dim.edit', compact('model2D', 'categories', 'selectedCategories'));
+}
+
 
     /**
      * Update the specified resource in storage.
