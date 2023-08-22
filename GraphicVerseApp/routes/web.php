@@ -81,6 +81,8 @@ Route::middleware(['auth'])->group(function () {
     //2D router controller
     Route::get('/upload/2d', [TwoDsController::class, 'create'])->name('twoD.create');
     Route::post('/upload/2d', [TwoDsController::class, 'store'])->name('twoD.store');
+    Route::get('/2d/{id}/edit', [TwoDsController::class, 'edit'])->name('twoD.edit');
+    Route::put('/2d/{id}', [TwoDsController::class, 'update'])->name('twoD.update');
 
     //3D router controller
     Route::get('/upload/3d', [ThreeDsController2::class, 'create'])->name('threeD.create');

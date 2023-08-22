@@ -111,9 +111,30 @@ class TwoDsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit($id, Request $request)
     {
-        //
+        // Retrieve the specific Model2D instance
+        $model2D = Model2D::findOrFail($id);
+
+        // Check if the currently authenticated user is the creator/owner of the image
+        if (Auth::user()->id !== $model2D->user2d->user_id) {
+            return redirect()->back()->with('error', 'You do not have permission to edit this image.');
+        }
+
+        $categories = Categories::all();
+        $selectedCategories = $request->input('categories', []);
+        
+        $models2DQuery = Model2D::query();
+
+        if (!empty($selectedCategories)) {
+            $models2DQuery->whereHas('categories2D', function ($query) use ($selectedCategories) {
+                $query->whereIn('cat_id', $selectedCategories);
+            });
+        }
+
+        $models2D = $models2DQuery->get();
+
+        return view('two-dim.edit', compact('model2D', 'categories', 'selectedCategories'));
     }
 
     /**
@@ -125,7 +146,35 @@ class TwoDsController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        // Validate the input
+        $request->validate([
+            'package_name' => 'required|string|max:255',
+            'description' => 'required|string|max:255',
+            'categories' => 'required|array',
+        ]);
+
+        // Retrieve the specific Model2D instance
+        $model2D = Model2D::findOrFail($id);
+
+        // Check if the currently authenticated user is the creator/owner of the image
+        if (Auth::user()->id !== $model2D->user2d->user_id) {
+            return redirect()->back()->with('error', 'You do not have permission to edit this image.');
+        }
+
+        // Get selected category names as a comma-separated string
+        $selectedCategoryNames = Categories::whereIn('id', $request->input('categories'))->pluck('cat_name')->join(', ');
+
+        // Update the Model2D entry
+        $model2D->update([
+            'twoD_name' => $request->input('package_name'),
+            'description' => $request->input('description'),
+            'cat_name' => $selectedCategoryNames, // Store selected category names
+        ]);
+
+        // Sync the selected categories to the model2D
+        $model2D->categories2D()->sync($request->input('categories'));
+
+        return redirect()->route('twoD.show', $model2D->id)->with('success', '2D asset updated successfully.');
     }
 
     /**
