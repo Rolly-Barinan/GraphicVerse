@@ -8,6 +8,7 @@
                 <div class="card-body">
                     <h3>Filter by Category:</h3>
                     <form action="{{ route('search') }}" method="get">
+                        <input type="hidden" name="q" value="{{ request('q') }}">
                         @foreach ($categories as $category)
                             <label class="checkbox-label">
                                 <input type="checkbox" name="categories[]" value="{{ $category->id }}"
@@ -16,7 +17,7 @@
                             </label><br>
                         @endforeach
                         <button type="submit" class="btn btn-primary">Apply Filters</button>
-                    </form>
+                    </form>                    
                 </div>
             </div>
         </div>
