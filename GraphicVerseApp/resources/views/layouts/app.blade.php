@@ -70,10 +70,10 @@
             </div>
 
             <div class="col " style="margin-top: 10px">
-                <form class="d-flex custom-search-form" role="search">
-                    <input class="form-control me-2 custom-search-input" type="search" placeholder=" &#128269; Search"
-                        aria-label="Search">
-                </form>
+                <form action="{{ route('search') }}" method="get" class="d-flex custom-search-form">
+                    <input class="form-control me-2 custom-search-input" type="search" name="q" placeholder="&#128269; Search assets" aria-label="Search">
+                    <button class="btn btn-outline-success" type="submit">Search</button>
+                </form>                                
             </div>
 
 
@@ -145,7 +145,6 @@
                         <a class="threed nav-link text-white pe-5" href="/3d">3D</a>
                         <a class="others nav-link text-white pe-5  " href="animation">Animation</a>
                         <a class="others nav-link text-white pe-5  " href="music">Sound/Music</a>
-
                     </div>
                 </div>
             </div>
