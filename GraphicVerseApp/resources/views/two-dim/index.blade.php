@@ -1,7 +1,7 @@
 @extends('layouts.app')
-
+<link href="{{ asset('css/index.css') }}" rel="stylesheet">
 @section('content')
-<div class="container mt-4">
+<div class="container-fluid mt-4 mb-4">
     <div class="row">
         <div class="col-md-3">
             <div class="card">
@@ -45,28 +45,15 @@
                             <p style="text-align: center; font-style: italic; color: black;">No 2D models found.</p>
                         @endif
                     </div>
+                    
+                    <!-- Display pagination links -->
+
+                    <div class="pagination-container justify-content-center">
+                        {{ $models2D->links('pagination::bootstrap-4') }}
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
-@endsection
-
-@section('styles')
-<style>
-    .checkbox-label {
-        display: block;
-        margin-bottom: 5px;
-    }
-
-    .model-card {
-        height: 100%;
-    }
-
-    .model-image {
-        max-width: 100%;
-        max-height: 200px; /* Adjust the height as needed */
-        object-fit: cover;
-    }
-</style>
 @endsection

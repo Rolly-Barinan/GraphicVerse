@@ -1,4 +1,5 @@
 @extends('layouts.app')
+<link href="{{ asset('css/profile.css') }}" rel="stylesheet">
 
 @section('content')
     <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/build/three.min.js"></script>

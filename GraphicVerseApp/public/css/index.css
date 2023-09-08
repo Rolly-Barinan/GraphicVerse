@@ -1,0 +1,19 @@
+    .checkbox-label {
+        display: block;
+        margin-bottom: 5px;
+    }
+
+    .model-card {
+        height: 100%;
+    }
+
+    .model-image {
+        max-width: 100%;
+        max-height: 200px; /* Adjust the height as needed */
+        object-fit: cover;
+    }
+    
+    /* Add custom styles for pagination links if needed */
+    .pagination {
+        margin-top: 20px;
+    }

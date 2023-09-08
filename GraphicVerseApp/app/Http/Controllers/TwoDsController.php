@@ -18,11 +18,10 @@ class TwoDsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
-    {
+    public function index(Request $request){
         $categories = Categories::all();
         $selectedCategories = $request->input('categories', []);
-        
+
         $models2DQuery = Model2D::query();
 
         if (!empty($selectedCategories)) {
@@ -31,7 +30,7 @@ class TwoDsController extends Controller
             });
         }
 
-        $models2D = $models2DQuery->get();
+        $models2D = $models2DQuery->paginate(10); // Paginate with 10 records per page
 
         return view('two-dim.index', compact('models2D', 'categories', 'selectedCategories'));
     }
