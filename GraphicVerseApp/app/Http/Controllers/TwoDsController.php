@@ -18,59 +18,22 @@ class TwoDsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request) {
+    public function index(Request $request){
         $categories = Categories::all();
         $selectedCategories = $request->input('categories', []);
-        $dateFilter = $request->input('date_filter', 'all');
-    
-        $query = Model2D::query();
 
         $models2DQuery = Model2D::query();
-    
+
         if (!empty($selectedCategories)) {
             $models2DQuery->whereHas('categories2D', function ($query) use ($selectedCategories) {
                 $query->whereIn('cat_id', $selectedCategories);
             });
         }
 
-        if ($dateFilter === '1week') {
-            $models2DQuery->where('created_at', '<=', now()->subWeek());
-        } elseif ($dateFilter === '1month') {
-            $models2DQuery->where('created_at', '<=', now()->subMonth());
-        } elseif ($dateFilter === '1year') {
-            $models2DQuery->where('created_at', '<=', now()->subYear());
-        }
+        $models2D = $models2DQuery->paginate(10); // Paginate with 10 records per page
 
-    
-        // Sort models based on the selected option
-        $sort = $request->input('sort', 'default'); // 'default' is your default sorting method
-    
-        switch ($sort) {
-            case 'name_asc':
-                $models2DQuery->orderBy('twoD_name', 'asc');
-                break;
-            case 'name_desc':
-                $models2DQuery->orderBy('twoD_name', 'desc');
-                break;
-            case 'date_asc':
-                $models2DQuery->orderBy('created_at', 'asc'); // Assuming 'created_at' is the published date column
-                break;
-            case 'date_desc':
-                $models2DQuery->orderBy('created_at', 'desc'); // Assuming 'created_at' is the published date column
-                break;
-            default:
-                // Handle the default sorting case here
-                break;
-        }
-        // Add more sorting options and their corresponding orderBy clauses as needed
-        
-
-
-        $models2D = $models2DQuery->paginate(12); // Paginate with 12 records per page
-    
-        return view('two-dim.index', compact('models2D', 'categories', 'selectedCategories', 'dateFilter'));
+        return view('two-dim.index', compact('models2D', 'categories', 'selectedCategories'));
     }
-    
 
     /**
      * Show the form for creating a new resource.

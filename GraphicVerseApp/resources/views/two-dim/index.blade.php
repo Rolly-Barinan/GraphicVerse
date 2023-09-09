@@ -34,36 +34,6 @@
                         </div>
                     </div>
                     <hr>
-                    <!-- New Release Date Accordion section -->
-                    <div class="accordion" id="dateAccordion" style="background-color: #DDDDE4; ">
-                        <div class="accordion-item" style="background-color: #DDDDE4; border: none;">
-                            <h2 class="accordion-header" id="dateHeading">
-                                <a class="accordion-button collapsed" type="link" data-toggle="collapse" data-target="#dateCollapse" aria-expanded="false" aria-controls="dateCollapse">
-                                    Release Date
-                                </a>
-                            </h2>
-                            <div id="dateCollapse" class="accordion-collapse collapse" style="background-color: #DDDDE4; border: none;">
-                                <div class="card card-body" style="background-color: #DDDDE4; border: none;">
-                                    <form id="dateFilterForm" action="{{ route('twoD.index') }}" method="get">
-                                        <label class="checkbox-label custom-checkbox-label pt-1 pb-1" style="font-family: 'Roboto'; color:">
-                                            <input type="radio" name="date_filter" value="1week">
-                                            Last 1 week
-                                        </label><br>
-                                        <label class="checkbox-label custom-checkbox-label pt-1 pb-1" style="font-family: 'Roboto'; color:">
-                                            <input type="radio" name="date_filter" value="1month">
-                                            Last 1 month
-                                        </label><br>
-                                        <label class="checkbox-label custom-checkbox-label pt-1 pb-1" style="font-family: 'Roboto'; color:">
-                                            <input type="radio" name="date_filter" value="1year">
-                                            Last 1 year
-                                        </label><br>
-                                        <button type="submit" class="btn btn-primary">Apply Date Filter</button>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <hr>
                 </div>
             </div>
         </div>
@@ -75,7 +45,6 @@
                         <div class="d-flex justify-content-between align-items-center">
 
                             <p class="n-results"><strong>{{ $models2D->firstItem() }} - {{ $models2D->lastItem() }}</strong> of <strong>{{ $models2D->total() }}</strong> results</p>
-                            <p class="selected-date-filter">Selected Date Filter: {{ ucfirst($dateFilter) }}</p>
                             <!-- Sorting dropdown -->
                             <!-- Sorting dropdown (without Bootstrap) -->
                             <select id="sortDropdown" onchange="sortModels(this)" class="custom-dropdown">

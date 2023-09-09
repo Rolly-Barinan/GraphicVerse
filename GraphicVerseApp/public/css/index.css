@@ -5,109 +5,15 @@
 
     .model-card {
         height: 100%;
-        border: none !important;
     }
 
     .model-image {
         max-width: 100%;
         max-height: 200px; /* Adjust the height as needed */
         object-fit: cover;
-        border-radius: 3px;
     }
     
     /* Add custom styles for pagination links if needed */
     .pagination {
         margin-top: 20px;
     }
-
-    .card-header {
-        font-family: 'Oswald';
-        color: #5F5F79 !important;
-        font-weight: bold;
-        text-align: center;
-        font-size: 50px;
-    }
-    .col-md-3 {
-        padding-left: 0 !important;
-        padding-right: 0 !important;
-        background-color: #DDDDE4;
-    }
-
-    .col-md-9 {
-        padding-left: 0  !important;
-        padding-right: 0 !important;
-    }
-
-    .accordion-button {
-        background: #DDDDE4 !important;
-        border-color: #DDDDE4 !important;
-        color: #595959 !important;
-        padding: 0;
-        font-family: 'Roboto';
-        font-weight: bold;
-        text-align: left;
-        text-decoration: none;
-    }
-
-    hr {
-        size: 2px;
-    }
-
-    .custom-checkbox {
-        appearance: none; /* Remove the default browser styling */
-        -webkit-appearance: none;
-        -moz-appearance: none;
-        width: 15px; /* Set the width and height of the checkbox */
-        height: 15px;
-        border: none; /* Add a border */
-        border-radius: 3px; /* Rounded corners */
-        outline: none; /* Remove the default focus outline */
-        cursor: pointer; /* Show a pointer cursor on hover */
-        vertical-align: middle;
-        margin-right: 5px; /* Add some spacing between the checkbox and label */
-        background-color: white;
-    }
-
-    /* Custom checkbox when checked */
-    .custom-checkbox:checked {
-        background-color: #4CB9FF; /* Change the background color when checked */
-        border: 1px solid #4CB9FF; /* Change the border color when checked */
-    }
-
-    /* Custom checkbox label styling */
-    .checkbox-label {
-        font-family: 'Roboto';
-        font-size: 14.5px;
-        color: #595959; /* Set the label text color */
-        margin-top: 2px;
-    }
-
-    /* Custom checkbox label when checked */
-    .custom-checkbox:checked + .checkbox-label {
-        color: #4CB9FF; /* Change the label text color when checked */
-        font-weight: bold; /* Make the label bold when checked */
-    }
-
-    .custom-checkbox-label {
-        margin-bottom: -5px; /* Adjust the margin-bottom value as needed */
-    }
-
-    .n-results {
-        font-family: 'Roboto';
-        color: #5F5F79;
-        font-size: 16.5;
-    }
-
-    .custom-dropdown {
-        color: #F1F1F1;
-        background-color: #5F5F79;
-        font-family: 'Roboto', sans-serif;
-        font-size: 16.5px;
-        border: none;
-        outline: none; /* Remove focus border */
-        border-radius: 3px;
-        margin-bottom: 1px;
-        padding: 2px;
-    }
-
-    
