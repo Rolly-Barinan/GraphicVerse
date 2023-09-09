@@ -12,8 +12,6 @@
     <div class="container-fluid custom-container py-50 " style="background-color:#DDDDE4;">
 
         <img class="cover-photo" class- src="/svg/coverphoto.png" class="img-fluid" alt="...">
-
-
         <div class="row ">
 
             <div class="col-3 p-2 profile-img justify-content-center align-items-center">
