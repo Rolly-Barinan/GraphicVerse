@@ -1,19 +1,4 @@
-
 /* 
-* {
-    outline: 1px solid;
-}  */
-
-/* @media (max-width: 768px) {
-    .my-element {
-        background-size: contain;
-    }
-} */
-
-/* .container-fluid {
-    background-color: #222344;
-} */
-
 .navbar-light {
     color: white;
 }
@@ -22,9 +7,7 @@
     font-family: "Kollektif", sans-serif;
 }
 
-nav {
-    background-color: #222344;
-}
+
 .custom-search-form {
     height: 35px;
     width: 500px;
@@ -44,4 +27,6 @@ a {
     font-family: "Roboto", sans-serif;
 }
 
-
+nav {
+    background-color: #222344;
+} */

@@ -6,6 +6,7 @@ use App\Models\ThreeD;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Intervention\Image\Facades\Image;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 class ProfilesController extends Controller
 {
@@ -13,16 +14,39 @@ class ProfilesController extends Controller
         {
                 // Fetch user's 2D uploads
                 $userUploads = $user->model2D()->get();
-                $userUploads3D = $user->model3D()->get();
                 $userTeams = $user->teams; // Fetch user's teams
-                
-                // $userThreeDs = $user->threeDs()->get();
 
-                // $fbxFiles = auth()->user()->threeDs->pluck('asset')->toArray();
-                
+                $perPage = 8; // Number of items per page for 2D uploads
+                $currentPage = request()->get('page', 1); // Use the default 'page' query parameter
 
-                return view('profiles.profile', compact('user', 'userUploads3D', 'userTeams', 'userUploads'));
+                // Create a LengthAwarePaginator instance for 2D uploads
+                $userUploadsPaginated = new LengthAwarePaginator(
+                        $userUploads->slice(($currentPage - 1) * $perPage, $perPage),
+                        $userUploads->count(),
+                        $perPage,
+                        $currentPage,
+                        ['path' => request()->url(), 'query' => request()->query()]
+                );
+
+                $userUploads3d = $user->model3D()->get();
+                $perPage3D = 6; // Number of items per page for 3D uploads
+                $currentPage3D = request()->get('page3d', 1); // Use a custom 'page3d' query parameter for 3D uploads
+
+                // Create a LengthAwarePaginator instance for 3D uploads
+                $userUploads3DPaginated = new LengthAwarePaginator(
+                        $userUploads3d->slice(($currentPage3D - 1) * $perPage3D, $perPage3D),
+                        $userUploads3d->count(),
+                        $perPage3D,
+                        $currentPage3D,
+                        ['path' => request()->url(), 'query' => request()->query()]
+                );
+
+
+
+                return view('profiles.profile', compact('user', 'userUploadsPaginated', 'userTeams', 'userUploads', 'userUploads3DPaginated','userUploads3d' ));
         }
+
+
 
         public function edit(User $user)
         {
@@ -42,8 +66,8 @@ class ProfilesController extends Controller
                         'image' => '',
 
                 ]);
-       
-                
+
+
                 if (request('image')) {
                         $imagePath = (request('image')->store('profile', 'public'));
 

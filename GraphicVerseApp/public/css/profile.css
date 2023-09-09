@@ -1,48 +1,141 @@
-.image-container {
-    width: 100%;
-    height: 260px; /* Set the desired height */
-    overflow: hidden;
-    position: relative;
-    border: 8px solid;
-    border-color: #DDDDE4;
+.container-fluid{
+    font-family: "Roboto Condensed";
+    color: #5F5F79;
  
 }
+.custom-container {
+    padding: 0;
+    background-color: #dddde4;
+}
 
-.image-container img {
+.cover-photo-container {
+    position: relative;
+    overflow: hidden;
+}
+
+.cover-photo {
     width: 100%;
     height: auto;
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    z-index: 1;
-    overflow-y: auto;
-
+    display: block;
+    padding: 10px; /* Add padding as needed */
 }
+
 .rounded-circle-container {
-    width: 200px; /* Set the desired width */
-    height: 200px; /* Set the desired height */
-    position: relative;
-    overflow: hidden;
+    width: 260px; /* Adjust the size as needed */
+    height: 260px; /* Adjust the size as needed */
     border-radius: 50%;
-    border: 4px solid;
-    padding-right: 30px;
-    border-color: #DDDDE4;
-    margin-top: -100px;
-    z-index: 2;
-    align-items: center;
- 
+    overflow: hidden;
+    border: 5px solid #dddde4; /* Add a border to the profile picture */
+    position: absolute;
+    top: 52%; /* Position it in the center vertically */
+    left: 10%; /* Adjust the left position as needed */
+    transform: translate(
+        -50%,
+        -50%
+    ); /* Center the profile picture vertically */
 }
 
 .rounded-circle-container img {
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
     width: 100%;
-    height: 100%;
-    object-fit: cover;
-  
-    
+    height: auto;
+    display: block;
+}
+
+.d-flex .usersname {
+    font-weight: bold;
+    font-family: "Roboto Condensed";
+    font-size: 40px;
+    padding-right: 50px;
+}
+
+.upload {
+    background-color: white;
+    padding-left: 10px;
+
+}
+
+.teams {
+    background-color: white;
+    padding-left: 0;
+    padding-right: 0;
+    /* padding-left: 10px; */
+
+    padding-inline-start: 2px;
+}
+
+.threedupload {
+
+    background-color: white;
+    padding-left: 30px;
+}
+
+
+
+/* CSS for your card elements */
+.card2d {
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    overflow: hidden;
+    margin: 5px;
+}
+
+.card2d a {
+    text-decoration: none; /* Remove underline from links */
+    color: #333; /* Set the link color */
+}
+
+.card2d a:hover {
+    color: #555; /* Change link color on hover if desired */
+}
+
+.card2d .card-title {
+    font-size: 12px; /* Adjust the font size as desired */
+    padding: 10px; /* Add padding to the card title */
+}
+
+
+
+.custom-pagination .pagination {
+    display: flex;
+    justify-content: center;
+}
+
+.custom-pagination .pagination > .page-item > .page-link {
+    font-size: 16px; 
+    color: #333; 
+    background-color: transparent; 
+    border: 1px solid #ccc; 
+    padding: 6px 12px;
+}
+
+.custom-pagination .pagination > .page-item.active > .page-link {
+    background-color: #007bff;
+    color: #fff; 
+    border-color: #007bff; 
+}
+
+.custom-pagination .pagination > .page-item > .page-link:hover {
+    background-color: #007bff; 
+    color: #fff; 
+    border-color: #007bff; 
+}
+
+
+.custom-pagination .pagination-nav {
+    background-color: #DDDDE4; 
+}
+
+
+/* .teams-title{
+    justify-content: flex-start;
+padding-left: 60px;
+
+} */
+
+.recentlyuploaded{
+    padding-left: 7%;
+}
+.teams-title{
+    padding-left: 6%;
 }
 

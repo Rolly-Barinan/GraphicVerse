@@ -22,7 +22,7 @@
     font-family: "Kollektif", sans-serif;
 }
 
-nav {
+.navbar-fluid {
     background-color: #222344;
 }
 .custom-search-form {
