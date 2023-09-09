@@ -45,6 +45,10 @@
                         <div class="d-flex justify-content-between align-items-center">
 
                             <p class="n-results"><strong>{{ $models2D->firstItem() }} - {{ $models2D->lastItem() }}</strong> of <strong>{{ $models2D->total() }}</strong> results</p>
+<<<<<<< Updated upstream
+=======
+                            <p class="selected-date-filter">Selected Date Filter: {{ ucfirst($dateFilter) }}</p>
+>>>>>>> Stashed changes
                             <!-- Sorting dropdown -->
                             <!-- Sorting dropdown (without Bootstrap) -->
                             <select id="sortDropdown" onchange="sortModels(this)" class="custom-dropdown">
