@@ -49,9 +49,9 @@
                 @endcan
             </div>
             <div class="col-2 col-2 d-flex justify-content-top pt-2 align-items-start">
-                <button type="button" class="btn btn-primary btn-lg"
-                    style="--bs-btn-padding-y: .7rem; --bs-btn-padding-x: 3.5rem; --bs-btn-font-size: .9rem;">Add
-                    Team</button>
+            <a href="/teams">    <button type="button" class="btn btn-primary btn-lg"
+                style="--bs-btn-padding-y: .7rem; --bs-btn-padding-x: 3.5rem; --bs-btn-font-size: .9rem;">Add
+                Team</button></a>
             </div>
 
         </div>
@@ -88,7 +88,7 @@
                         </div>
                     </div>
 
-
+            {{-- 3d assets --}}
                     <div class="row upload">
                         <h4>3D assets</h4>
                         @foreach ($userUploads3DPaginated as $threeD)
@@ -97,7 +97,7 @@
                                     <a href="{{ route('threeD.show', ['id' => $threeD->id]) }}">
                                         <div class="model-viewer"
                                             data-model-path="{{ asset('storage/' . $threeD->filename) }}"></div>
-                                        <div class="bg-gray">{{ $threeD->threeD_name }}</div>
+                                        <div class="bg-gray card-title">{{ $threeD->threeD_name }}</div>
                                     </a>
                                 </div>
                             </div>
