@@ -8,6 +8,44 @@
     <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/examples/js/controls/OrbitControls.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/examples/js/libs/fflate.min.js"></script>
 
+    <style>
+        .white-bg {
+            background-color: #fff; /* White background color */
+            margin-bottom: 20px; /* Margin to separate the sections */
+            padding: 20px; /* Add padding for spacing inside the white divs */
+        }
+
+        .carousel-control-prev-icon,
+        .carousel-control-next-icon {
+            background-color: black; /* Set the background color to black */
+            color: white; /* Set the arrow color to white */
+            border-radius: 50%; /* Optional: Add some border-radius for rounded arrows */
+            padding: 10px; /* Optional: Add padding to the arrows for better visibility */
+        }
+
+        /* CSS for your card elements */
+        .card2d {
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            overflow: hidden;
+            margin: 5px;
+        }
+
+        .card2d a {
+            text-decoration: none; /* Remove underline from links */
+            color: #333; /* Set the link color */
+        }
+
+        .card2d a:hover {
+            color: #555; /* Change link color on hover if desired */
+        }
+
+        .card2d .card-title {
+            font-size: 12px; /* Adjust the font size as desired */
+            padding: 10px; /* Add padding to the card title */
+        }
+    </style>
+
     <div class="container-fluid py-50 " style="background-color: #DDDDE4;">
         <div class="row-fluid image-container   border-2">
             <img src="/svg/1201120.jpg" class="img-fluid" alt="...">
@@ -58,31 +96,75 @@
         </div>
         <div class="row pt-5">
             <div class="col-10">
-                <div class="row">
-                    <h4>Recently Upload </h4>
-                    <h5>2D</h5>
-                    @foreach($userUploads as $upload)
-                        <div class="col-3 p-">
-                            <a href="{{ route('twoD.show', ['id' => $upload->id]) }}"> {{-- Link to the show route --}}
-                                <img src="{{ asset('storage/' . $upload->filename) }}" class="card-img-top" alt="{{ $upload->twoD_name }}" style="width: 100%; height: 200px;">
-                                <div class="card-body">
-                                    <h5 class="card-title">{{ $upload->twoD_name }}</h5>
-                                </div>
-                            </a>
+                <div class="white-bg">
+                    <h4>Recently Uploaded</h4>
+                    <h5>2D ASSETS</h5>
+                    <div id="carousel2D" class="carousel slide" data-bs-ride="carousel">
+                        <div class="carousel-inner">
+                            @foreach($userUploads as $index => $upload)
+                                @if($index % 4 == 0)
+                                    <div class="carousel-item {{ $index === 0 ? 'active' : '' }}">
+                                        <div class="row">
+                                            @endif
+                                            <div class="col-md-3 mb-3">
+                                                <div class="card2d">
+                                                    <a href="{{ route('twoD.show', ['id' => $upload->id]) }}">
+                                                        <img src="{{ asset('storage/' . $upload->filename) }}" class="card-img-top"
+                                                            alt="{{ $upload->twoD_name }}" style="width: 100%; height: 150px;">
+                                                        <div class="card-body">
+                                                            <h5 class="card-title">{{ $upload->twoD_name }}</h5>
+                                                        </div>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                            @if(($index + 1) % 4 == 0 || $loop->last)
+                                        </div>
+                                    </div>
+                                @endif
+                            @endforeach
                         </div>
-                    @endforeach
-                    
-                    <h5>3D</h5>
-                    @foreach ($userUploads3D as $threeD)
-                        <div class="col-4 p-4">
-                            <a href="{{ route('threeD.show', ['id' => $threeD->id]) }}">
-                                <div class="model-viewer" data-model-path="{{ asset('storage/' . $threeD->filename) }}">
-                                </div>
-                                <div class="bg-gray"> {{ $threeD->threeD_name }}</div>
-                            </a>
+                        <a class="carousel-control-prev" href="#carousel2D" role="button" data-bs-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Previous</span>
+                        </a>
+                        <a class="carousel-control-next" href="#carousel2D" role="button" data-bs-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Next</span>
+                        </a>
+                    </div>
+                
+                    <h5>3D ASSETS</h5>
+                    <div id="carousel3D" class="carousel slide" data-bs-ride="carousel">
+                        <div class="carousel-inner">
+                            @foreach($userUploads3D as $index => $threeD)
+                                @if($index % 3 == 0)
+                                    <div class="carousel-item {{ $index === 0 ? 'active' : '' }}">
+                                        <div class="row">
+                                            @endif
+                                            <div class="col-md-4 mb-3">
+                                                <div class="card2d">
+                                                    <a href="{{ route('threeD.show', ['id' => $threeD->id]) }}">
+                                                        <div class="model-viewer"
+                                                            data-model-path="{{ asset('storage/' . $threeD->filename) }}"></div>
+                                                        <div class="bg-gray">{{ $threeD->threeD_name }}</div>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                            @if(($index + 1) % 3 == 0 || $loop->last)
+                                        </div>
+                                    </div>
+                                @endif
+                            @endforeach
                         </div>
-                    @endforeach
-
+                        <a class="carousel-control-prev" href="#carousel3D" role="button" data-bs-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Previous</span>
+                        </a>
+                        <a class="carousel-control-next" href="#carousel3D" role="button" data-bs-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Next</span>
+                        </a>
+                    </div>
                     
                     <script>
                         function loadFBX(modelViewer) {
@@ -164,36 +246,36 @@
 
             <!-- Display user's teams -->
             <div class="col-2">
-                <div class="col-10">
+                <div class="white-bg">
                     <h4>Teams</h4>
                     @foreach ($userTeams as $team)
-                        <div>{{ $team->name }}</div>
+                        <div class="col-md-4 col-sm-6 p-2">{{ $team->name }}</div>
                     @endforeach
                 </div>
             </div>
-            
-            <!-- Modal -->
-            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h1 class="modal-title fs-5" id="exampleModalLabel">Select which asset type to upload</h1>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body d-flex justify-content-center align-items-center">
-                            <a href="/upload/2d" class="mx-3">
-                                <button type="button" class="btn btn-primary">2D</button>
-                            </a>
-                            <a href="/upload/3d" class="mx-3">
-                                <button type="button" class="btn btn-primary">3D</button>
-                            </a>
-                            <a href="/audios/create" class="mx-3">
-                                <button type="button" class="btn btn-primary">Audio</button>
-                            </a>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
-                        </div>
+        </div>
+
+        <!-- Modal -->
+        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="exampleModalLabel">Select which asset type to upload</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body d-flex justify-content-center align-items-center">
+                        <a href="/upload/2d" class="mx-3">
+                            <button type="button" class="btn btn-primary">2D</button>
+                        </a>
+                        <a href="/upload/3d" class="mx-3">
+                            <button type="button" class="btn btn-primary">3D</button>
+                        </a>
+                        <a href="/audios/create" class="mx-3">
+                            <button type="button" class="btn btn-primary">Audio</button>
+                        </a>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
                     </div>
                 </div>
             </div>
