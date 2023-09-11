@@ -44,6 +44,44 @@
             font-size: 12px; /* Adjust the font size as desired */
             padding: 10px; /* Add padding to the card title */
         }
+
+        /* CSS for your 3D asset cards */
+        .card3d {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            overflow: hidden;
+            margin: 5px;
+            width: 100%;
+            max-width: 300px;
+        }
+
+        .card3d a {
+            text-decoration: none;
+            color: #333;
+        }
+
+        .card3d a:hover {
+            color: #555;
+        }
+
+        .card3d .model-viewer {
+            width: 100%;
+        }
+
+        .title-container {
+            background-color: #333; /* Background color for the title container */
+            color: #fff; /* Text color for the title */
+            padding: 10px;
+            text-align: center;
+            font-weight: bold;
+            width: 100%;
+            box-sizing: border-box;
+            border-bottom-left-radius: 8px;
+            border-bottom-right-radius: 8px;
+        }
     </style>
 
     <div class="container-fluid py-50 " style="background-color: #DDDDE4;">
@@ -66,11 +104,6 @@
                         </div>
                     </div>
                     <div class="">@ {{ $user->profile->title }}</div>
-                    <div class="d-flex p-4">
-                        {{-- <div style=" padding-right:20px;"><strong>{{$user->posts->count()}} </strong> posts</div> --}}
-                        <div style=" padding-right:20px;"><strong>20k</strong> followers</div>
-                        <div style=" padding-right:20px;"><strong>400</strong> following</div>
-                    </div>
                     @can('update', $user->profile)
                         <a href="/profile/{{ $user->id }}/edit">Edit Profile</a>
                     @endcan
@@ -94,10 +127,11 @@
                     style="--bs-btn-padding-y: .7rem; --bs-btn-padding-x: 3.5rem; --bs-btn-font-size: .9rem;">Connect</button>
             </div>
         </div>
+
         <div class="row pt-5">
-            <div class="col-10">
+            <div class="col-md-10">
+                <h4>Recently Uploaded</h4>
                 <div class="white-bg">
-                    <h4>Recently Uploaded</h4>
                     <h5>2D ASSETS</h5>
                     <div id="carousel2D" class="carousel slide" data-bs-ride="carousel">
                         <div class="carousel-inner">
@@ -112,7 +146,7 @@
                                                         <img src="{{ asset('storage/' . $upload->filename) }}" class="card-img-top"
                                                             alt="{{ $upload->twoD_name }}" style="width: 100%; height: 150px;">
                                                         <div class="card-body">
-                                                            <h5 class="card-title">{{ $upload->twoD_name }}</h5>
+                                                            <h5 class="title-container">{{ $upload->twoD_name }}</h5>
                                                         </div>
                                                     </a>
                                                 </div>
@@ -142,11 +176,11 @@
                                         <div class="row">
                                             @endif
                                             <div class="col-md-4 mb-3">
-                                                <div class="card2d">
+                                                <div class="card3d">
                                                     <a href="{{ route('threeD.show', ['id' => $threeD->id]) }}">
                                                         <div class="model-viewer"
                                                             data-model-path="{{ asset('storage/' . $threeD->filename) }}"></div>
-                                                        <div class="bg-gray">{{ $threeD->threeD_name }}</div>
+                                                        <div class="title-container">{{ $threeD->threeD_name }}</div>
                                                     </a>
                                                 </div>
                                             </div>
@@ -245,9 +279,9 @@
             </div>
 
             <!-- Display user's teams -->
-            <div class="col-2">
+            <div class="col-md-2">
+                <h4>Teams</h4>
                 <div class="white-bg">
-                    <h4>Teams</h4>
                     @foreach ($userTeams as $team)
                         <div class="col-md-4 col-sm-6 p-2">{{ $team->name }}</div>
                     @endforeach
