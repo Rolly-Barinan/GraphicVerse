@@ -84,47 +84,42 @@
         }
     </style>
 
-    <div class="container-fluid py-50 " style="background-color: #DDDDE4;">
-        <div class="row-fluid image-container   border-2">
+    <div class="container-fluid py-50" style="background-color: #DDDDE4;">
+        <div class="row-fluid image-container border-2">
             <img src="/svg/1201120.jpg" class="img-fluid" alt="...">
         </div>
 
         <div class="row">
-            <div class="col-3 p-2 d-flex justify-content-center align-items-start">
+            <div class="col-12 col-md-3 p-2 d-flex justify-content-center align-items-start">
                 <div class="rounded-circle-container">
                     <img src="{{ $user->profile->profileImage() }}" class="rounded-circle img-fluid" alt="...">
                 </div>
-
             </div>
-            <div class="col-5 pt-3 ">
+            <div class="col-12 col-md-5 pt-3">
                 <div>
                     <div class="d-flex justify-content-between align-items-baseline">
                         <div class="d-flex">
-                            <div class="h4" class="ml-4 p"> {{ $user->name }} </div>
+                            <div class="h4">{{ $user->name }}</div>
                         </div>
                     </div>
                     <div class="">@ {{ $user->profile->title }}</div>
                     @can('update', $user->profile)
                         <a href="/profile/{{ $user->id }}/edit">Edit Profile</a>
                     @endcan
-                    
-                    <div> {{ $user->profile->description }}</div>
-                    <div> <a href=""> {{ $user->profile->url ?? 'N/A' }}</a></div>
-
+                    <div>{{ $user->profile->description }}</div>
+                    <div><a href="">{{ $user->profile->url ?? 'N/A' }}</a></div>
                 </div>
-
             </div>
-            <div class="col-2 d-flex justify-content-end ps-5 pt-2 align-items-start ">
+            <div class="col-12 col-md-2 d-flex justify-content-end ps-md-5 pt-2 align-items-start">
                 @can('update', $user->profile)
-                    <button type="button" class="btn btn-success btn-lg  " data-bs-toggle="modal"
-                        data-bs-target="#exampleModal"
-                        style="--bs-btn-padding-y: .7rem; --bs-btn-padding-x: 3.5rem; --bs-btn-font-size: .9rem;">Upload
+                    <button type="button" class="btn btn-success btn-lg"
+                        style="--bs-btn-padding-y: .7rem; --bs-btn-padding-x: 1.5rem; --bs-btn-font-size: .9rem;">Upload
                     </button>
                 @endcan
             </div>
-            <div class="col-2 col-2 d-flex justify-content-top pt-2 align-items-start">
+            <div class="col-12 col-md-2 pt-2 align-items-start">
                 <button type="button" class="btn btn-primary btn-lg"
-                    style="--bs-btn-padding-y: .7rem; --bs-btn-padding-x: 3.5rem; --bs-btn-font-size: .9rem;">Connect</button>
+                    style="--bs-btn-padding-y: .7rem; --bs-btn-padding-x: 1.5rem; --bs-btn-font-size: .9rem;">Connect</button>
             </div>
         </div>
 
