@@ -14,12 +14,12 @@
                     <div class="accordion" id="categoryAccordion" style="background-color: #DDDDE4; border-bottom: 1px;">
                         <div class="accordion-item" style= "background-color: #DDDDE4; border: none;">
                             <h2 class="accordion-header" id="categoryHeading">
-                            <a class="accordion-button collapsed" type="button" data-toggle="collapse" data-target="#categoryCollapse" aria-expanded="false" aria-controls="categoryCollapse">
+                            <a class="accordion-button collapsed" type="link" data-toggle="collapse" data-target="#categoryCollapse" aria-expanded="false" aria-controls="categoryCollapse">
                                 Categories
                             </a>
                             </h2>
                             <div id="categoryCollapse" class="accordion-collapse collapse" style="background-color: #DDDDE4; border: none;">
-                                <div class="card card-body" style="background-color: #DDDDE4; border: none">
+                                <div class="card-body d-flex justify-content-between align-items-center" style="background-color: #DDDDE4; border: none">
                                     <form id="filterForm" action="{{ route('twoD.index') }}" method="get">
                                         @foreach ($categories as $category)
                                             <label class="checkbox-label custom-checkbox-label pt-1 pb-1" style="font-family: 'Roboto'; color:">
@@ -40,15 +40,11 @@
         <div class="col-md-9">
             <div class="card-2">
                 <div class="card-body mt-4 ms-4 me-4">
-                    <h1 class="card-header">2D Models</h1>
+                    <h1 class="card-header">2D ASSETS</h1>
                         <!-- "n of n results" and Sorting -->
                         <div class="d-flex justify-content-between align-items-center">
 
                             <p class="n-results"><strong>{{ $models2D->firstItem() }} - {{ $models2D->lastItem() }}</strong> of <strong>{{ $models2D->total() }}</strong> results</p>
-<<<<<<< Updated upstream
-=======
-                            <p class="selected-date-filter">Selected Date Filter: {{ ucfirst($dateFilter) }}</p>
->>>>>>> Stashed changes
                             <!-- Sorting dropdown -->
                             <!-- Sorting dropdown (without Bootstrap) -->
                             <select id="sortDropdown" onchange="sortModels(this)" class="custom-dropdown">
@@ -65,19 +61,29 @@
                             @foreach ($models2D as $model)
                                 <div class="col-md-4 mb-4">
                                     <a href="{{ route('twoD.show', ['id' => $model->id]) }}" class="model-link">
-                                        <div class="card model-card">
+                                        <div class="card model-card " style="text-decoration: none !important">
                                             <img class="card-img-top model-image" src="{{ Storage::url($model->filename) }}" alt="{{ $model->twoD_name }}">
-                                            <div class="card-body">
-                                                <h5 class="card-title">{{ $model->twoD_name }}</h5>
-                                                <p class="card-text">{{ $model->description }}</p>
-                                                <p class="card-text">Creator: {{ $model->creator_name }}</p>
+                                            <div class="favorite-icon" style="position: absolute; top: 10px; right: 10px; cursor: pointer;">
+                                                <i class="heart-icon fas fa-heart"></i>
+                                            </div>
+                                            <div class="card-body" style="text-decoration: none !important">
+                                                <h5 class="card-title" style="text-decoration: none !important">{{ $model->twoD_name }}
+                                                    <span class="heart float-end me-2" style="align-items: center;"><i class="fas fa-heart"></i>
+                                                        <span style="font-family: 'Oswald'; font-size: 15px; color: #9494AD; ">(10)</span>
+                                                    </span>
+                                                </h5>
+                                                <p class="card-text">{{ $model->creator_username }}
+                                                    <span class="dl float-end me-2"><i class="dl-icon fas fa-download"></i>
+                                                        <span style="font-family: 'Oswald'; font-size: 15px; color: #9494AD; ">(37)</span>
+                                                    </span>
+                                                </p>
                                             </div>
                                         </div>
                                     </a>   
                                 </div>
                             @endforeach
                         @else
-                            <p style="text-align: center; font-style: italic; color: black;">No 2D models found.</p>
+                            <p style="text-align: center; font-style: italic; color: black;">No 2D assets found.</p>
                         @endif
                     </div>
 
@@ -136,6 +142,29 @@
             });
         });
     });
+
+    // Add this JavaScript code at the end of your HTML body or in an external JS file
+document.addEventListener('DOMContentLoaded', function () {
+    const fileTypeAccordion = document.getElementById('fileTypeAccordion');
+    const accordionButton = fileTypeAccordion.querySelector('.accordion-button');
+    const accordionPanel = fileTypeAccordion.querySelector('.accordion-panel');
+    const applyFilterButton = fileTypeAccordion.querySelector('.apply-filter-button');
+
+    accordionButton.addEventListener('click', function () {
+        const expanded = accordionButton.getAttribute('aria-expanded') === 'true';
+        accordionButton.setAttribute('aria-expanded', !expanded);
+        accordionPanel.style.display = expanded ? 'none' : 'block';
+    });
+
+    applyFilterButton.addEventListener('click', function () {
+        // Handle the filter logic here
+        const selectedFileTypes = Array.from(document.querySelectorAll('.file-type-checkbox:checked')).map(checkbox => checkbox.value);
+        console.log(selectedFileTypes);
+        // You can use the selected file types to filter your models
+        // Update your models based on the selected file types and reload the page or update the view
+    });
+});
+
 </script>
 
 
@@ -148,3 +177,14 @@
         window.location.href = "{{ route('twoD.index') }}?sort=" + selectedValue;
     }
 </script>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function() {
+        $('.favorite-icon').click(function(event) {
+            event.preventDefault(); // Stop the click event from propagating
+            $(this).toggleClass('active');
+        });
+    });
+</script>
+

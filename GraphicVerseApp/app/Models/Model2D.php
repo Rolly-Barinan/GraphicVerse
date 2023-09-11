@@ -9,7 +9,7 @@ class Model2D extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['twoD_name', 'description', 'cat_name', 'creator_name', 'filename'];
+    protected $fillable = ['twoD_name', 'description', 'cat_name', 'creator_name', 'filename', 'file_type', 'creator_username'];
 
     public function categories2D()
     {
