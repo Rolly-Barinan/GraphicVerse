@@ -1,6 +1,23 @@
 @extends('layouts.app')
 <link href="{{ asset('css/index.css') }}" rel="stylesheet">
 @section('content')
+<style>
+    .checkbox-label {
+        display: block;
+        margin-bottom: 5px;
+    }
+
+    .model-card {
+        height: 100%;
+    }
+
+    .model-image {
+        max-width: 100%;
+        max-height: 200px; /* Adjust the height as needed */
+        object-fit: cover;
+    }
+</style>
+
 <div class="container-fluid">
     <div class="row">
         <div class="col-md-3">
@@ -39,9 +56,8 @@
         </div>
         <div class="col-md-9">
             <div class="card-2">
-                <div class="card-body">
-                    <h1 class="card-title">3D Models</h1>
-                    <div class="card-body mt-4 ms-4 me-4">
+                <div class="card-body mt-4 ms-4 me-4">
+                    <h1 class="card-header">3D ASSETS</h1>
                         <!-- "n of n results" and Sorting -->
                         <div class="d-flex justify-content-between align-items-center">
 
@@ -59,7 +75,7 @@
                         </div>
                         <div class="row">
                         @if(count($models3D) > 0)
-                                           @foreach ($models3D as $model)
+                            @foreach ($models3D as $model)
                                 <div class="col-md-4 mb-4">
                                     <a href="{{ route('threeD.show', ['id' => $model->id]) }}">
                                         <div class="card model-card " style="text-decoration: none !important">
@@ -92,7 +108,6 @@
         </div>
     </div>
 </div>
-@endsection
 
 <script>
     function loadFBX(modelViewer) {
@@ -260,24 +275,4 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 </script>
-
-@section('styles')
-<style>
-    .checkbox-label {
-        display: block;
-        margin-bottom: 5px;
-    }
-
-    .model-card {
-        height: 100%;
-    }
-
-    .model-image {
-        max-width: 100%;
-        max-height: 200px; /* Adjust the height as needed */
-        object-fit: cover;
-    }
-</style>
 @endsection
-
-
