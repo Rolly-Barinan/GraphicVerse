@@ -46,11 +46,10 @@
 
 
 <nav class="navbar navbar-expand-lg pb-0 mb-0">
+    <a class="navbar-brand" href="{{ url('/') }}">
+        <img src="/svg/GraphicVerse_Logo.png" class="pr-3" style="height: 50px; width: 200px; margin-top: .5rem; margin-left: 50px;" alt="Logo">
+    </a>
     <div class="container">
-        <a class="navbar-brand" href="{{ url('/') }}">
-            <img src="/svg/GraphicVerse_Logo.png" class="pr-3" style="height: 50px; width: 150px; margin-top: .5rem;" alt="Logo">
-        </a>
-
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
             aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
