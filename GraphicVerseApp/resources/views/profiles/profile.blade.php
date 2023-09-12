@@ -93,13 +93,7 @@
         <div class="row">
             <div class="col-12 col-md-3 p-2 d-flex justify-content-center align-items-start">
                 <div class="rounded-circle-container">
-                    @if(is_null($user->profile->profileImage()))
-                        <!-- Display your default image here -->
-                        <img src="/svg/defaultpfp.jpg" class="rounded-circle img-fluid" alt="Default Image">
-                    @else
-                        <!-- Display the user's profile image -->
-                        <img src="{{ $user->profile->profileImage() }}" class="rounded-circle img-fluid" alt="User Profile Image">
-                    @endif
+                    <img src="{{ $user->profile->profileImage() }}" class="rounded-circle img-fluid" alt="User Profile Image">
                 </div>
             </div>
             
@@ -295,24 +289,28 @@
             <div class="col-md-2">
                 <h4>Teams</h4>
                 <div class="white-bg">
-                    @foreach ($userTeams as $team)
-                        <div class="d-flex align-items-center mb-3">
-                            <div class="avatar text-white rounded-circle d-flex align-items-center justify-content-center" style="width: 50px; height: 50px; font-size: auto; background-color: {{ $team->color }};">
-                                @php
-                                    $words = explode(" ", $team->name); // Split the team name into an array of words
-                            
-                                    if (count($words) === 1) {
-                                        echo strtoupper(substr($team->name, 0, 3)); // Use the first three letters for single-word team names
-                                    } else {
-                                        foreach ($words as $word) {
-                                            echo strtoupper(substr($word, 0, 1)); // Output the first letter of each word for multi-word team names
+                    @if(count($userTeams) > 0)
+                        @foreach ($userTeams as $team)
+                            <div class="d-flex align-items-center mb-3">
+                                <div class="avatar text-white rounded-circle d-flex align-items-center justify-content-center" style="width: 50px; height: 50px; font-size: auto; background-color: {{ $team->color }};">
+                                    @php
+                                        $words = explode(" ", $team->name); // Split the team name into an array of words
+                                
+                                        if (count($words) === 1) {
+                                            echo strtoupper(substr($team->name, 0, 3)); // Use the first three letters for single-word team names
+                                        } else {
+                                            foreach ($words as $word) {
+                                                echo strtoupper(substr($word, 0, 1)); // Output the first letter of each word for multi-word team names
+                                            }
                                         }
-                                    }
-                                @endphp
+                                    @endphp
+                                </div>
+                                <div class="col-md-4 col-sm-6 ml-2">{{ $team->name }}</div>
                             </div>
-                            <div class="col-md-4 col-sm-6 ml-2">{{ $team->name }}</div>
-                        </div>
-                    @endforeach
+                        @endforeach
+                    @else
+                        <p style="text-align: center; font-style: italic; color: black;">No associated teams.</p>
+                    @endif    
                 </div>
             </div>
         </div>
