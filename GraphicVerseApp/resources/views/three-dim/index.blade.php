@@ -21,7 +21,7 @@
 <div class="container-fluid">
     <div class="row">
         <div class="col-md-3">
-            <div class="card">
+            <div class="card-1">
                 <div class="card-body mt-4 ms-4 me-4">
                     <div class="ref-head d-flex justify-content-between mb-2">
                         <h4 style="font-family: 'Roboto'; font-weight: Bold; color: #424382">Refine By</h4>
@@ -77,7 +77,7 @@
                         @if(count($models3D) > 0)
                             @foreach ($models3D as $model)
                                 <div class="col-md-4 mb-4">
-                                    <a href="{{ route('threeD.show', ['id' => $model->id]) }}">
+                                    <a href="{{ route('threeD.show', ['id' => $model->id]) }}" class="model-link" style= "text-decoration: none;">
                                         <div class="card model-card " style="text-decoration: none !important">
                                         <div class="model-viewer" data-model-path="{{ asset('storage/' . $model->filename) }}"></div>
                                             <div class="favorite-icon" style="position: absolute; top: 10px; right: 10px; cursor: pointer;">
@@ -117,7 +117,7 @@
         scene.background = new THREE.Color(0xdddddd);
 
         const aspectRatio = window.innerWidth / window.innerHeight;
-        const width = 300;
+        const width = 450;
         const height = width / aspectRatio;
 
         const camera = new THREE.PerspectiveCamera(50, aspectRatio, 1, 5000);

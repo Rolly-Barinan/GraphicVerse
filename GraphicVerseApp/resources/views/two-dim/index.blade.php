@@ -4,7 +4,7 @@
 <div class="container-fluid">
     <div class="row">
         <div class="col-md-3">
-            <div class="card">
+            <div class="card-1">
                 <div class="card-body mt-4 ms-4 me-4">
                     <div class="ref-head d-flex justify-content-between mb-2">
                         <h4 style="font-family: 'Roboto'; font-weight: Bold; color: #424382">Refine By</h4>
@@ -60,7 +60,7 @@
                         @if(count($models2D) > 0)
                             @foreach ($models2D as $model)
                                 <div class="col-md-4 mb-4">
-                                    <a href="{{ route('twoD.show', ['id' => $model->id]) }}" class="model-link">
+                                    <a href="{{ route('twoD.show', ['id' => $model->id]) }}" class="model-link"  style= "text-decoration: none;">
                                         <div class="card model-card " style="text-decoration: none !important">
                                             <img class="card-img-top model-image" src="{{ Storage::url($model->filename) }}" alt="{{ $model->twoD_name }}">
                                             <div class="favorite-icon" style="position: absolute; top: 10px; right: 10px; cursor: pointer;">

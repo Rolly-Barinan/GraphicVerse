@@ -152,8 +152,6 @@
                                                 @if(($index + 1) % 4 == 0 || $loop->last)
                                             </div>
                                         </div>
-                                    @else
-                                        <p style="text-align: center; font-style: italic; color: black;">No 2D assets found.</p>
                                     @endif
                                 @endforeach
                             </div>
