@@ -23,7 +23,6 @@ class TwoDsController extends Controller
         $selectedCategories = $request->input('categories', []);
         $models2DQuery = Model2D::query();
         $imageTypes = $request->input('image_type', []);
-        $models2DQuery = Model2D::query();
 
         if (!empty($imageTypes)) {
             $models2DQuery->whereIn('image_type', $imageTypes);

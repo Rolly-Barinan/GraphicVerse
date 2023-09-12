@@ -4,7 +4,7 @@
 <div class="container-fluid">
     <div class="row">
         <div class="col-md-3">
-            <div class="card-1">
+            <div class="card">
                 <div class="card-body mt-4 ms-4 me-4">
                     <div class="ref-head d-flex justify-content-between mb-2">
                         <h4 style="font-family: 'Roboto'; font-weight: Bold; color: #424382">Refine By</h4>
