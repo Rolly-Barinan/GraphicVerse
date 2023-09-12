@@ -122,13 +122,13 @@
 
         <div class="collapse navbar-collapse" id="navbarNav2">
             <ul class="navbar-nav mx-auto">
-                <li class="nav-item">
+                <li class="nav-item" style="margin-right: 150px">
                     <a class="nav-link text-white" href="/2d">2D</a>
                 </li>
-                <li class="nav-item">
+                <li class="nav-item" style="margin-right: 150px">
                     <a class="nav-link text-white" href="/3d">3D</a>
                 </li>
-                <li class="nav-item">
+                <li class="nav-item" style="margin-right: 150px">
                     <a class="nav-link text-white" href="/animation">Animation</a>
                 </li>
                 <li class="nav-item">
