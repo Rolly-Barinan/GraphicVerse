@@ -85,7 +85,7 @@
         }
     </style>
 
-    <div class="container-fluid py-50" style="background-color: #DDDDE4;">
+    <div class="container-fluid py-50" style="background-color: #DDDDE4; height: 100%;">
         <div class="row-fluid image-container border-2">
             <img src="/svg/graphicVerse _background.png" class="img-fluid" alt="...">
         </div>
