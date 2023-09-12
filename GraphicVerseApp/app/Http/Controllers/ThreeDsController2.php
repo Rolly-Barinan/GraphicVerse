@@ -22,20 +22,41 @@ class ThreeDsController2 extends Controller
     {
         $categories = Categories::all();
         $selectedCategories = $request->input('categories', []);
-        
         $models3DQuery = Model3D::query();
-
+    
         if (!empty($selectedCategories)) {
             $models3DQuery->whereHas('categories3D', function ($query) use ($selectedCategories) {
                 $query->whereIn('cat_id', $selectedCategories);
             });
         }
-
-        $models3D = $models3DQuery->get();
-
+    
+        // Sort models based on the selected option
+        $sort = $request->input('sort', 'default'); // 'default' is your default sorting method
+    
+        switch ($sort) {
+            case 'name_asc':
+                $models3DQuery->orderBy('threeD_name', 'asc'); // Update this to threeD_name
+                break;
+            case 'name_desc':
+                $models3DQuery->orderBy('threeD_name', 'desc'); // Update this to threeD_name
+                break;
+            case 'date_asc':
+                $models3DQuery->orderBy('created_at', 'asc'); // Assuming 'created_at' is the published date column
+                break;
+            case 'date_desc':
+                $models3DQuery->orderBy('created_at', 'desc'); // Assuming 'created_at' is the published date column
+                break;
+            default:
+                // Handle the default sorting case here
+                break;
+        }
+        // Add more sorting options and their corresponding orderBy clauses as needed
+    
+        $models3D = $models3DQuery->paginate(12); // Define $models3D here
+    
         return view('three-dim.index', compact('models3D', 'categories', 'selectedCategories'));
-    }
 
+    }
     /**
      * Show the form for creating a new resource.
      *
@@ -75,6 +96,7 @@ class ThreeDsController2 extends Controller
             'cat_name' => $selectedCategoryNames, // Store selected category names
             'creator_name' => Auth::user()->name, // Assuming the user is authenticated
             'filename' => $assetPath,
+            'creator_username' => Auth::user()->username,
         ]);
 
          // Attach the selected categories to the model3D

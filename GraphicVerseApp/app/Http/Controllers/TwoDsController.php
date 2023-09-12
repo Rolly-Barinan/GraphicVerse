@@ -18,23 +18,54 @@ class TwoDsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
-    {
+    public function index(Request $request) {
         $categories = Categories::all();
         $selectedCategories = $request->input('categories', []);
-        
         $models2DQuery = Model2D::query();
+        $imageTypes = $request->input('image_type', []);
 
+        if (!empty($imageTypes)) {
+            $models2DQuery->whereIn('image_type', $imageTypes);
+        }
+
+
+    
         if (!empty($selectedCategories)) {
             $models2DQuery->whereHas('categories2D', function ($query) use ($selectedCategories) {
                 $query->whereIn('cat_id', $selectedCategories);
             });
         }
 
-        $models2D = $models2DQuery->get();
+    
+        // Sort models based on the selected option
+        $sort = $request->input('sort', 'default'); // 'default' is your default sorting method
+    
+        switch ($sort) {
+            case 'name_asc':
+                $models2DQuery->orderBy('twoD_name', 'asc');
+                break;
+            case 'name_desc':
+                $models2DQuery->orderBy('twoD_name', 'desc');
+                break;
+            case 'date_asc':
+                $models2DQuery->orderBy('created_at', 'asc'); // Assuming 'created_at' is the published date column
+                break;
+            case 'date_desc':
+                $models2DQuery->orderBy('created_at', 'desc'); // Assuming 'created_at' is the published date column
+                break;
+            default:
+                // Handle the default sorting case here
+                break;
+        }
+        // Add more sorting options and their corresponding orderBy clauses as needed
+        
 
-        return view('two-dim.index', compact('models2D', 'categories', 'selectedCategories'));
-    }
+
+       $models2D = $models2DQuery->paginate(12);
+
+    return view('two-dim.index', compact('models2D', 'categories', 'selectedCategories'));
+}
+    
 
     /**
      * Show the form for creating a new resource.
@@ -61,31 +92,37 @@ class TwoDsController extends Controller
             'categories' => 'required|array',
             'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
-
+        
+        // Determine file type based on MIME
+        $uploadedFile = $request->file('image');
+        $fileType = $uploadedFile->getMimeType();
+        
         // Save the uploaded image to the '2D' folder
-        $imagePath = $request->file('image')->store('2D', 'public');
-
+        $imagePath = $uploadedFile->store('2D', 'public');
+        
         // Get selected category names as a comma-separated string
         $selectedCategoryNames = Categories::whereIn('id', $request->input('categories'))->pluck('cat_name')->join(', ');
-
-        // Create a new Model2D entry
+        
+        // Create a new Model2D entry with the file type
         $model2D = Model2D::create([
             'twoD_name' => $request->input('package_name'),
             'description' => $request->input('description'),
             'creator_name' => Auth::user()->name,
             'cat_name' => $selectedCategoryNames, // Store selected category names
             'filename' => $imagePath,
+            'file_type' => $fileType, // Store the detected file type
+            'creator_username' => Auth::user()->username,
         ]);
-
+        
         // Attach the selected categories to the model2D
         $model2D->categories2D()->attach($request->input('categories'));
-
+        
         // Create a User2D entry to associate the authenticated user with the uploaded model
         User2D::create([
             'twoD_id' => $model2D->id,
             'user_id' => Auth::user()->id,
         ]);
-
+        
         return redirect()->route('profile.show', ['user' => Auth::user()])->with('success', '2D asset uploaded successfully.');
     }
 

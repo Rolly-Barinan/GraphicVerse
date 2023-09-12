@@ -1,8 +1,8 @@
 @extends('layouts.app')
 <link href="{{ asset('css/home.css') }}" rel="stylesheet">
 @section('content')
-    <div class="container">
-        <div class="row justify-content-center">
+    <div class="container pt-4">
+        <div class="row justify-content-center pt-4">
             <div class="col">
                 <div id="carouselExampleCaptions" class="carousel slide">
                     <div class="carousel-indicators">

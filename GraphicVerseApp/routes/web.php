@@ -11,6 +11,7 @@ use App\Http\Controllers\TwoDimController;
 use App\Http\Controllers\TeamController;
 
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\SearchController;
 
 use App\Http\Controllers\TwoDsController;
 use App\Http\Controllers\ThreeDsController2;
@@ -41,13 +42,12 @@ Route::middleware('auth:admin')->group(function () {
 });
 
 
-Route::get('/', function () {
-    return view('welcome');
-});
+
 
 Auth::routes();
 
 Route::get('/home', [HomeController::class, 'index'])->name('home');   
+Route::get('/', [HomeController::class, 'index'])->name('home');   
 Route::get('/aboutus', [AboutUsController::class, 'index'])->name('aboutus');
 
 //User profile
@@ -60,6 +60,9 @@ Route::get('2d/{id}', [TwoDsController::class, 'show'])->name('twoD.show');
 //3D router controller
 Route::get('/3d', [ThreeDsController2::class, 'index'])->name('threeD.index');
 Route::get('3d/{id}', [ThreeDsController2::class, 'show'])->name('threeD.show');
+
+//Search Controller
+Route::get('/search', [SearchController::class, 'search'])->name('search');
 
 Route::middleware(['auth'])->group(function () {
     //profile router contoller
