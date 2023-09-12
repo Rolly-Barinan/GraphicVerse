@@ -35,7 +35,7 @@
             <div class="col-md-8">
                 <div class="card">
                     <div class="card-header text-center">
-                        <img src="{{ asset('..\svg\GraphicVerse_Capstone.png') }}" alt="App Logo"><br>
+                        <img src="{{ asset('..\svg\AdminGV.png') }}" alt="App Logo"><br>
                     </div>
 
                     <div class="card-body">

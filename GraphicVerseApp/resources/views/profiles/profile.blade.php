@@ -87,15 +87,22 @@
 
     <div class="container-fluid py-50" style="background-color: #DDDDE4;">
         <div class="row-fluid image-container border-2">
-            <img src="/svg/1201120.jpg" class="img-fluid" alt="...">
+            <img src="/svg/graphicVerse _background.png" class="img-fluid" alt="...">
         </div>
 
         <div class="row">
             <div class="col-12 col-md-3 p-2 d-flex justify-content-center align-items-start">
                 <div class="rounded-circle-container">
-                    <img src="{{ $user->profile->profileImage() }}" class="rounded-circle img-fluid" alt="...">
+                    @if(is_null($user->profile->profileImage()))
+                        <!-- Display your default image here -->
+                        <img src="/svg/defaultpfp.jpg" class="rounded-circle img-fluid" alt="Default Image">
+                    @else
+                        <!-- Display the user's profile image -->
+                        <img src="{{ $user->profile->profileImage() }}" class="rounded-circle img-fluid" alt="User Profile Image">
+                    @endif
                 </div>
             </div>
+            
             <div class="col-12 col-md-5 pt-3">
                 <div>
                     <div class="d-flex justify-content-between align-items-baseline">
@@ -129,73 +136,83 @@
                 <h4>Recently Uploaded</h4>
                 <div class="white-bg">
                     <h5>2D ASSETS</h5>
-                    <div id="carousel2D" class="carousel slide" data-bs-ride="carousel">
-                        <div class="carousel-inner">
-                            @foreach($userUploads as $index => $upload)
-                                @if($index % 4 == 0)
-                                    <div class="carousel-item {{ $index === 0 ? 'active' : '' }}">
-                                        <div class="row">
-                                            @endif
-                                            <div class="col-md-3 mb-3">
-                                                <div class="card2d">
-                                                    <a href="{{ route('twoD.show', ['id' => $upload->id]) }}">
-                                                        <img src="{{ asset('storage/' . $upload->filename) }}" class="card-img-top"
-                                                            alt="{{ $upload->twoD_name }}" style="width: 100%; height: 150px;">
-                                                        <div class="card-body">
-                                                            <h5 class="title-container">{{ $upload->twoD_name }}</h5>
-                                                        </div>
-                                                    </a>
+                    @if(count($userUploads) > 0)
+                        <div id="carousel2D" class="carousel slide" data-bs-ride="carousel">
+                            <div class="carousel-inner">
+                                @foreach($userUploads as $index => $upload)
+                                    @if($index % 4 == 0)
+                                        <div class="carousel-item {{ $index === 0 ? 'active' : '' }}">
+                                            <div class="row">
+                                                @endif
+                                                <div class="col-md-3 mb-3">
+                                                    <div class="card2d">
+                                                        <a href="{{ route('twoD.show', ['id' => $upload->id]) }}">
+                                                            <img src="{{ asset('storage/' . $upload->filename) }}" class="card-img-top"
+                                                                alt="{{ $upload->twoD_name }}" style="width: 100%; height: 150px;">
+                                                            <div class="card-body">
+                                                                <h5 class="title-container">{{ $upload->twoD_name }}</h5>
+                                                            </div>
+                                                        </a>
+                                                    </div>
                                                 </div>
+                                                @if(($index + 1) % 4 == 0 || $loop->last)
                                             </div>
-                                            @if(($index + 1) % 4 == 0 || $loop->last)
                                         </div>
-                                    </div>
-                                @endif
-                            @endforeach
+                                    @else
+                                        <p style="text-align: center; font-style: italic; color: black;">No 2D assets found.</p>
+                                    @endif
+                                @endforeach
+                            </div>
+                            <a class="carousel-control-prev" href="#carousel2D" role="button" data-bs-slide="prev">
+                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Previous</span>
+                            </a>
+                            <a class="carousel-control-next" href="#carousel2D" role="button" data-bs-slide="next">
+                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Next</span>
+                            </a>
                         </div>
-                        <a class="carousel-control-prev" href="#carousel2D" role="button" data-bs-slide="prev">
-                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                            <span class="visually-hidden">Previous</span>
-                        </a>
-                        <a class="carousel-control-next" href="#carousel2D" role="button" data-bs-slide="next">
-                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                            <span class="visually-hidden">Next</span>
-                        </a>
-                    </div>
-                
+                    @else
+                        <p style="text-align: center; font-style: italic; color: black;">No 2D assets found.</p>
+                    @endif
+
                     <h5>3D ASSETS</h5>
-                    <div id="carousel3D" class="carousel slide" data-bs-ride="carousel">
-                        <div class="carousel-inner">
-                            @foreach($userUploads3D as $index => $threeD)
-                                @if($index % 3 == 0)
-                                    <div class="carousel-item {{ $index === 0 ? 'active' : '' }}">
-                                        <div class="row">
-                                            @endif
-                                            <div class="col-md-4 mb-3">
-                                                <div class="card3d">
-                                                    <a href="{{ route('threeD.show', ['id' => $threeD->id]) }}">
-                                                        <div class="model-viewer"
-                                                            data-model-path="{{ asset('storage/' . $threeD->filename) }}"></div>
-                                                        <div class="title-container">{{ $threeD->threeD_name }}</div>
-                                                    </a>
+                    @if(count($userUploads3D) > 0)
+                        <div id="carousel3D" class="carousel slide" data-bs-ride="carousel">
+                            <div class="carousel-inner">
+                                @foreach($userUploads3D as $index => $threeD)
+                                    @if($index % 3 == 0)
+                                        <div class="carousel-item {{ $index === 0 ? 'active' : '' }}">
+                                            <div class="row">
+                                                @endif
+                                                <div class="col-md-4 mb-3">
+                                                    <div class="card3d">
+                                                        <a href="{{ route('threeD.show', ['id' => $threeD->id]) }}">
+                                                            <div class="model-viewer"
+                                                                data-model-path="{{ asset('storage/' . $threeD->filename) }}"></div>
+                                                            <div class="title-container">{{ $threeD->threeD_name }}</div>
+                                                        </a>
+                                                    </div>
                                                 </div>
+                                                @if(($index + 1) % 3 == 0 || $loop->last)
                                             </div>
-                                            @if(($index + 1) % 3 == 0 || $loop->last)
                                         </div>
-                                    </div>
-                                @endif
-                            @endforeach
+                                    @endif
+                                @endforeach
+                            </div>
+                            <a class="carousel-control-prev" href="#carousel3D" role="button" data-bs-slide="prev">
+                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Previous</span>
+                            </a>
+                            <a class="carousel-control-next" href="#carousel3D" role="button" data-bs-slide="next">
+                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Next</span>
+                            </a>
                         </div>
-                        <a class="carousel-control-prev" href="#carousel3D" role="button" data-bs-slide="prev">
-                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                            <span class="visually-hidden">Previous</span>
-                        </a>
-                        <a class="carousel-control-next" href="#carousel3D" role="button" data-bs-slide="next">
-                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                            <span class="visually-hidden">Next</span>
-                        </a>
-                    </div>
-                    
+                    @else
+                        <p style="text-align: center; font-style: italic; color: black;">No 3D assets found.</p>
+                    @endif
+
                     <script>
                         function loadFBX(modelViewer) {
                             const modelPath = modelViewer.getAttribute('data-model-path');
@@ -279,7 +296,22 @@
                 <h4>Teams</h4>
                 <div class="white-bg">
                     @foreach ($userTeams as $team)
-                        <div class="col-md-4 col-sm-6 p-2">{{ $team->name }}</div>
+                        <div class="d-flex align-items-center mb-3">
+                            <div class="avatar text-white rounded-circle d-flex align-items-center justify-content-center" style="width: 50px; height: 50px; font-size: auto; background-color: {{ $team->color }};">
+                                @php
+                                    $words = explode(" ", $team->name); // Split the team name into an array of words
+                            
+                                    if (count($words) === 1) {
+                                        echo strtoupper(substr($team->name, 0, 3)); // Use the first three letters for single-word team names
+                                    } else {
+                                        foreach ($words as $word) {
+                                            echo strtoupper(substr($word, 0, 1)); // Output the first letter of each word for multi-word team names
+                                        }
+                                    }
+                                @endphp
+                            </div>
+                            <div class="col-md-4 col-sm-6 ml-2">{{ $team->name }}</div>
+                        </div>
                     @endforeach
                 </div>
             </div>

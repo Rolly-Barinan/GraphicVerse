@@ -89,11 +89,11 @@
                                                         <span style="font-family: 'Oswald'; font-size: 15px; color: #9494AD; ">(10)</span>
                                                     </span>
                                                 </h5>
-                                                <!-- <p class="card-text">{{ $model->creator_username }}
+                                                <p class="card-text">{{ $model->creator_username }}
                                                     <span class="dl float-end me-2"><i class="dl-icon fas fa-download"></i>
                                                         <span style="font-family: 'Oswald'; font-size: 15px; color: #9494AD; ">(37)</span>
                                                     </span>
-                                                </p> -->
+                                                </p>
                                             </div>
                                         </div>
                                     </a>   

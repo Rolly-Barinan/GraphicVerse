@@ -69,8 +69,8 @@
                 </li>
             </ul>
             
-            <form class="d-flex ml-lg-3 custom-search-form mt-4" role="search">
-                <input class="form-control me-2 custom-search-input" type="search" placeholder=" &#128269; "
+            <form class="d-flex ml-lg-3 custom-search-form mt-4" role="search" action="{{ route('search')}}">
+                <input class="form-control me-2 custom-search-input" type="search" placeholder="&#128269; Search assets" name="q"
                     aria-label="Search" style="width: 90%">
             </form>
             

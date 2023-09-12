@@ -50,7 +50,6 @@
                                 <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this 2D asset?')">Delete</button>
                             </form>
                         @endif
-                        <a href="/2d" class="btn btn-primary">Back</a>
                     </div>
             </div>
         </div>
