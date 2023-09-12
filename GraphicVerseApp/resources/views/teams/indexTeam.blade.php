@@ -1,5 +1,16 @@
 @extends('layouts.app')
+<style>
+    body {
+        font-family: 'Nunito', sans-serif;
+        background-image: url('https://cdn.discordapp.com/attachments/1121006331323760680/1123571308496691210/Copy_of_GraphicVerse_Capstone_Hearing.png');
+        background-size: cover;
+        background-repeat: no-repeat;
+    }
 
+    .navbar-nav .nav-item {
+        display: flex;
+    }
+</style>
 @section('content')
     <div class="container-fluid mt-4">
         {{-- List of teams --}}
