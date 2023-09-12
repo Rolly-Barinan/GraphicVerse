@@ -113,7 +113,7 @@
             </div>
             <div class="col-12 col-md-2 d-flex justify-content-end ps-md-5 pt-2 align-items-start">
                 @can('update', $user->profile)
-                    <button type="button" class="btn btn-success btn-lg"
+                    <button type="button" class="btn btn-success btn-lg" data-bs-toggle="modal" data-bs-target="#exampleModal"
                         style="--bs-btn-padding-y: .7rem; --bs-btn-padding-x: 1.5rem; --bs-btn-font-size: .9rem;">Upload
                     </button>
                 @endcan
