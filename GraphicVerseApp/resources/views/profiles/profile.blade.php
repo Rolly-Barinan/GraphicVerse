@@ -173,11 +173,11 @@
                         <div id="carousel3D" class="carousel slide" data-bs-ride="carousel">
                             <div class="carousel-inner">
                                 @foreach($userUploads3D as $index => $threeD)
-                                    @if($index % 3 == 0)
+                                    @if($index % 4 == 0)
                                         <div class="carousel-item {{ $index === 0 ? 'active' : '' }}">
                                             <div class="row">
                                                 @endif
-                                                <div class="col-md-4 mb-3">
+                                                <div class="col-md-3 mb-3">
                                                     <div class="card3d">
                                                         <a href="{{ route('threeD.show', ['id' => $threeD->id]) }}">
                                                             <div class="model-viewer"
@@ -186,7 +186,7 @@
                                                         </a>
                                                     </div>
                                                 </div>
-                                                @if(($index + 1) % 3 == 0 || $loop->last)
+                                                @if(($index + 1) % 4 == 0 || $loop->last)
                                             </div>
                                         </div>
                                     @endif
