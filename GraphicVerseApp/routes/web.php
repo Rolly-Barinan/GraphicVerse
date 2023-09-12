@@ -42,13 +42,12 @@ Route::middleware('auth:admin')->group(function () {
 });
 
 
-Route::get('/', function () {
-    return view('welcome');
-});
+
 
 Auth::routes();
 
 Route::get('/home', [HomeController::class, 'index'])->name('home');   
+Route::get('/', [HomeController::class, 'index'])->name('home');   
 Route::get('/aboutus', [AboutUsController::class, 'index'])->name('aboutus');
 
 //User profile

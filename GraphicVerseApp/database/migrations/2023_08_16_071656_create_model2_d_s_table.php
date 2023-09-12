@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('cat_name');
             $table->string('creator_name');
             $table->string('filename');
+            $table->string('creator_username');
             $table->timestamps();
         });
     }
