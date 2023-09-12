@@ -45,105 +45,107 @@
 </head>
 
 
-<nav class="navbar-fluid navbar-expand-lg shadow">
+<nav class="navbar navbar-expand-lg pb-0 mb-0">
     <div class="container">
-        <div class="row justify-content-center">
-            <div class="row ">
+        <a class="navbar-brand" href="{{ url('/') }}">
+            <img src="/svg/GraphicVerse_Logo.png" class="pr-3" style="height: 50px; width: 150px; margin-top: .5rem;" alt="Logo">
+        </a>
 
-
-                <div class="col" style="display: flex; align-items: center;" href="{{ url('/') }}">
-                    <img src="/svg/GraphicVerse_Logo.png" class="pr-3" style="height: 50px; width: 150px margin-top: .5rem;">
-                </div>
-
-                <div class="col " style="margin-top: 10px">
-                    <form class="d-flex custom-search-form" role="search">
-                        <input class="form-control me-2 custom-search-input" type="search" placeholder=" &#128269; "
-                            aria-label="Search">
-                    </form>
-                </div>
-
-
-                <div class="col" style="margin-top: 10px">
-                    {{-- <div class="collapse navbar-collapse" id="navbarSupportedContent"> --}}
-                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link text-white" aria-current="page" href="/home">HOME</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-white" href="/aboutus">ABOUT US</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-white" href="/community">COMMUNITY</a>
+                </li>
+            </ul>
+            
+            <form class="d-flex ml-lg-3 custom-search-form mt-4" role="search">
+                <input class="form-control me-2 custom-search-input" type="search" placeholder=" &#128269; "
+                    aria-label="Search" style="width: 90%">
+            </form>
+            
+            <ul class="navbar-nav ms-auto">
+                @guest
+                    @if (Route::has('login'))
                         <li class="nav-item">
-                            <a class="nav-link active text-white pe-4" aria-current="page" href="/home">HOME</a>
-                            <a class="nav-link text-white pe-4" href="/aboutus">ABOUT US</a>
-                            <a class="nav-link text-white pe-4" href="/community">COMMUNITY</a>
+                            <a class="nav-link text-white" href="{{ route('login') }}">{{ __('Login') }}</a>
                         </li>
-                    </ul>
-                    {{-- </div> --}}
-                </div>
-                <div class="mx-auto col-auto ps-5">
-                    <ul class="navbar-nav ms-auto ps-5">
-                        <!-- Authentication Links -->
-                        @guest
-                            @if (Route::has('login'))
-                                <li class="nav-item pe-2">
-                                    <a class="nav-link text-white" href="{{ route('login') }}">{{ __('Login') }}</a>
-                                </li>
-                            @endif
-
-                            @if (Route::has('register'))
-                                <li class="nav-item pe-2">
-                                    <a class="nav-link text-white" href="{{ route('register') }}">{{ __('Register') }}</a>
-                                </li>
-                            @endif
-                        @else
-                            <div class="dropdown">
-                                <button class="dropdown-button" type="button" data-bs-toggle="dropdown">
-                                    <div class="row1">
-                                        <div class="col"> <h5 class="name">{{ Auth::user()->profile->title }}</h5>
-                                            <h5 class="credits">P 130.49</h5>
-                                        </div>
-                                        <div class="col">
-                                            <img src="{{ Auth::user()->profile->profileImage() }}" class="" style="height: 50px; border-radius:100%; margin-right: 25px;">
-                                        </div>
-                                    </div>
-
-                                </button>
-                                <ul class="dropdown-menu">
-                                    <li><a class="dropdown-item" href="/profile/{{ Auth::user()->id }}">My Profile</a></li>
-                                    <li><a class="dropdown-item" href="#">Wishlist</a></li>
-                                    <li><a class="dropdown-item" href="/teams">Teams</a></li>
-                                    <li> <a class="dropdown-item" href="{{ route('logout') }}"
-                                            onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                                            {{ __('Logout') }}
-                                        </a></li>
-
-                                </ul>
-                            </div>
-                            <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-                                @csrf
-                            </form>
-
-
-                        @endguest
-                    </ul>
-                </div>
-
-            <div class="row justify-content-center navTwo">
-                <div class="col-auto navbar-nav ">
-                    <div class="d-flex justify-content-center space-between">
-                        <a class="twod nav-link text-white pe-5" href="/2d">2D</a>
-                        <a class="threed nav-link text-white pe-5" href="3d">3D</a>
-                        <a class="others nav-link text-white pe-5  " href="animation">Animation</a>
-                        <a class="others nav-link text-white pe-5  " href="music">Sound/Music</a>
-
-                        </div>
-                    </div>
-                </div>
-            </div>
+                    @endif
+                    @if (Route::has('register'))
+                        <li class="nav-item">
+                            <a class="nav-link text-white" href="{{ route('register') }}">{{ __('Register') }}</a>
+                        </li>
+                    @endif
+                @else
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle text-white" href="#" id="navbarDropdown" role="button"
+                            data-bs-toggle="dropdown" aria-expanded="false">
+                            <img src="{{ Auth::user()->profile->profileImage() }}" class="img-fluid rounded-circle" style="height: 30px; width: 30px; margin-right: 5px;">
+                            {{ Auth::user()->profile->title }}
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <li><a class="dropdown-item" href="/profile/{{ Auth::user()->id }}">My Profile</a></li>
+                            <li><a class="dropdown-item" href="#">Wishlist</a></li>
+                            <li><a class="dropdown-item" href="/teams">Teams</a></li>
+                            <li>
+                                <a class="dropdown-item" href="{{ route('logout') }}"
+                                    onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                                    {{ __('Logout') }}
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                        @csrf
+                    </form>
+                @endguest
+            </ul>
         </div>
     </div>
 </nav>
 
+<nav class="navbar navbar-expand-lg pt-0 mt-0">
+    <div class="container">
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav2"
+            aria-controls="navbarNav2" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
 
-
+        <div class="collapse navbar-collapse" id="navbarNav2">
+            <ul class="navbar-nav mx-auto">
+                <li class="nav-item">
+                    <a class="nav-link text-white" href="/2d">2D</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-white" href="/3d">3D</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-white" href="/animation">Animation</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-white" href="/music">Sound/Music</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
 
 <main class="">
     @yield('content')
 </main>
 
+<!-- ... (Your scripts) ... -->
+
+</body>
 
 </html>
