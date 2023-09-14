@@ -16,7 +16,7 @@
                     <div class="info-card">
                         <h3 class="user-team">Team Webslingers</h3>
                         <h2 class="model-name">{{ $model2D->twoD_name }}</h2> 
-                        <h3 class="user-name"> {{ $model2D->creator_name }}
+                        <h3 class="user-name"> {{ $model2D->creator_username }}
                             <span class="dl float-end me-2"><i class="dl-icon fas fa-download"></i>
                                 <span style="font-family: 'Oswald'; font-size: 20px; color: #9494AD; ">(37)</span>
                             </span>

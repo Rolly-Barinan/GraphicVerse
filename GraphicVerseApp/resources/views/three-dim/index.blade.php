@@ -37,7 +37,7 @@
                             </h2>
                             <div id="categoryCollapse" class="accordion-collapse collapse" style="background-color: #DDDDE4; border: none;">
                                 <div class="card-body d-flex justify-content-between align-items-center" style="background-color: #DDDDE4; border: none">
-                                    <form id="filterForm" action="{{ route('twoD.index') }}" method="get">
+                                    <form id="filterForm" action="{{ route('threeD.index') }}" method="get">
                                         @foreach ($categories as $category)
                                             <label class="checkbox-label custom-checkbox-label pt-1 pb-1" style="font-family: 'Roboto'; color:">
                                             <input type="checkbox" name="categories[]" value="{{ $category->id }}" class="custom-checkbox {{ in_array($category->id, $selectedCategories) ? 'checked' : '' }}">
@@ -260,9 +260,15 @@ document.addEventListener('DOMContentLoaded', function () {
 <script>
     function sortModels(select) {
         const selectedValue = select.value;
-        
-        // Redirect to the index page with the selected sort option
-        window.location.href = "{{ route('twoD.index') }}?sort=" + selectedValue;
+
+        // Get the current URL and parse it
+        const currentUrl = new URL(window.location.href);
+
+        // Set the selected sort option as a query parameter
+        currentUrl.searchParams.set('sort', selectedValue);
+
+        // Redirect to the updated URL with the sort parameter
+        window.location.href = currentUrl.toString();
     }
 </script>
 
