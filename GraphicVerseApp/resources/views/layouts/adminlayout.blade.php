@@ -122,7 +122,7 @@
                         <a class="nav-link" href="{{ route('admin.dashboard') }}">Dashboard</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" data-bs-toggle="modal" data-bs-target="#addCategoryModal" style="cursor: pointer">Add Category</a>
+                        <a class="nav-link" href="{{ route('admin.categories') }}">Manage Categories</a>
                     </li>
                 </ul>
                 <div class="nav flex-column mt-auto">
