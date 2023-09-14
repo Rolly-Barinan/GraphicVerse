@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Model2D;
 use App\Models\Categories;
+use App\Models\ImageType;
 use App\Models\Categories2D;
 use App\Models\User2D;
 
@@ -22,12 +23,15 @@ class TwoDsController extends Controller
         $categories = Categories::all();
         $selectedCategories = $request->input('categories', []);
         $models2DQuery = Model2D::query();
-        $imageTypes = $request->input('image_type', []);
+        // Get available image types from the database
+        $imageTypes = ImageType::all();
 
-        if (!empty($imageTypes)) {
-            $models2DQuery->whereIn('image_type', $imageTypes);
+        // Selected image types from the request
+        $selectedImageTypes = $request->input('image_type', []);
+
+        if (!empty($selectedImageTypes)) {
+            $models2DQuery->whereIn('image_type', $selectedImageTypes);
         }
-
 
     
         if (!empty($selectedCategories)) {
@@ -63,7 +67,7 @@ class TwoDsController extends Controller
 
        $models2D = $models2DQuery->paginate(12);
 
-    return view('two-dim.index', compact('models2D', 'categories', 'selectedCategories'));
+    return view('two-dim.index', compact('models2D', 'categories', 'selectedCategories', 'imageTypes', 'selectedImageTypes'));
 }
     
 
@@ -96,7 +100,8 @@ class TwoDsController extends Controller
         // Determine file type based on MIME
         $uploadedFile = $request->file('image');
         $fileType = $uploadedFile->getMimeType();
-        
+        // Remove the "image/" prefix from the MIME type
+        $fileType = str_replace('image/', '', $fileType);
         // Save the uploaded image to the '2D' folder
         $imagePath = $uploadedFile->store('2D', 'public');
         
@@ -107,11 +112,10 @@ class TwoDsController extends Controller
         $model2D = Model2D::create([
             'twoD_name' => $request->input('package_name'),
             'description' => $request->input('description'),
-            'creator_name' => Auth::user()->name,
+            'creator_username' => Auth::user()->username,
             'cat_name' => $selectedCategoryNames, // Store selected category names
             'filename' => $imagePath,
-            'file_type' => $fileType, // Store the detected file type
-            'creator_username' => Auth::user()->username,
+            'image_type' => $fileType, // Store the detected file type
         ]);
         
         // Attach the selected categories to the model2D

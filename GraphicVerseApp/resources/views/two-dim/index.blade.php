@@ -11,32 +11,56 @@
                         <a class="clr-button" type="link" style="color:#4CB9FF; margin-top: 3px; font-size: 14.5px; text-decoration: none; cursor: pointer;">Clear Filters</a>
                     </div>
                     <hr>
-                    <div class="accordion" id="categoryAccordion" style="background-color: #DDDDE4; border-bottom: 1px;">
-                        <div class="accordion-item" style= "background-color: #DDDDE4; border: none;">
-                            <h2 class="accordion-header" id="categoryHeading">
-                            <a class="accordion-button collapsed" type="link" data-toggle="collapse" data-target="#categoryCollapse" aria-expanded="false" aria-controls="categoryCollapse">
-                                Categories
-                            </a>
-                            </h2>
-                            <div id="categoryCollapse" class="accordion-collapse collapse" style="background-color: #DDDDE4; border: none;">
-                                <div class="card-body d-flex justify-content-between align-items-center" style="background-color: #DDDDE4; border: none">
-                                    <form id="filterForm" action="{{ route('twoD.index') }}" method="get">
+                    <form id="filterForm" action="{{ route('twoD.index') }}" method="get">
+                        <!-- Categories -->
+                        <div class="accordion" id="categoryAccordion" style="background-color: #DDDDE4; border-bottom: 1px;">
+                            <div class="accordion-item" style="background-color: #DDDDE4; border: none;">
+                                <h2 class="accordion-header" id="categoryHeading">
+                                    <a class="accordion-button collapsed" type="link" data-toggle="collapse" data-target="#categoryCollapse" aria-expanded="false" aria-controls="categoryCollapse">
+                                        Categories
+                                    </a>
+                                </h2>
+                                <div id="categoryCollapse" class="accordion-collapse collapse" style="background-color: #DDDDE4; border: none;">
+                                    <div class="card-body" style="background-color: #DDDDE4; border: none">
                                         @foreach ($categories as $category)
                                             <label class="checkbox-label custom-checkbox-label pt-1 pb-1" style="font-family: 'Roboto'; color:">
-                                            <input type="checkbox" name="categories[]" value="{{ $category->id }}" class="custom-checkbox {{ in_array($category->id, $selectedCategories) ? 'checked' : '' }}">
+                                                <input type="checkbox" name="categories[]" value="{{ $category->id }}" class="custom-checkbox {{ in_array($category->id, $selectedCategories) ? 'checked' : '' }}">
                                                 {{ $category->cat_name }}
                                             </label><br>
                                         @endforeach
-                                        <button type="submit" class="btn btn-primary">Apply Filters</button>
-                                    </form>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <hr>
+                        <hr>
+                        <!-- Image Types -->
+                        <div class="accordion" id="imageTypeAccordion">
+                            <div class="accordion-item" style="background-color: #DDDDE4; border: none;">
+                                <h2 class="accordion-header" id="imageTypeHeading">
+                                    <a class="accordion-button collapsed" type="link" data-toggle="collapse" data-target="#imageTypeCollapse" aria-expanded="false" aria-controls="imageTypeCollapse">
+                                        Image Types
+                                    </a>
+                                </h2>
+                                <div id="imageTypeCollapse" class="accordion-collapse collapse">
+                                    <div class="card-body">
+                                        @foreach ($imageTypes as $imageType)
+                                            <label class="checkbox-label custom-checkbox-label pt-1 pb-1">
+                                                <input type="checkbox" name="image_type[]" value="{{ $imageType->name }}" class="custom-checkbox {{ in_array($imageType->name, $selectedImageTypes) ? 'checked' : '' }}">
+                                                {{ strtoupper($imageType->name) }}
+                                            </label><br>
+                                        @endforeach
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <hr>
+                        <!-- Apply Filters Button -->
+                        <button type="submit" class="btn btn-primary">Apply Filters</button>
+                    </form>
                 </div>
             </div>
-        </div>
+        </div>        
+        
         <div class="col-md-9">
             <div class="card-2">
                 <div class="card-body mt-4 ms-4 me-4">
@@ -144,26 +168,28 @@
     });
 
     // Add this JavaScript code at the end of your HTML body or in an external JS file
-document.addEventListener('DOMContentLoaded', function () {
-    const fileTypeAccordion = document.getElementById('fileTypeAccordion');
-    const accordionButton = fileTypeAccordion.querySelector('.accordion-button');
-    const accordionPanel = fileTypeAccordion.querySelector('.accordion-panel');
-    const applyFilterButton = fileTypeAccordion.querySelector('.apply-filter-button');
+    document.addEventListener('DOMContentLoaded', function () {
+        const imageTypeAccordion = document.getElementById('imageTypeAccordion');
+        const imageTypeAccordionHeaders = imageTypeAccordion.querySelectorAll('.accordion-button');
+        const imageTypeAccordionContents = imageTypeAccordion.querySelectorAll('.accordion-collapse');
 
-    accordionButton.addEventListener('click', function () {
-        const expanded = accordionButton.getAttribute('aria-expanded') === 'true';
-        accordionButton.setAttribute('aria-expanded', !expanded);
-        accordionPanel.style.display = expanded ? 'none' : 'block';
-    });
+        imageTypeAccordionHeaders.forEach(header => {
+            header.addEventListener('click', () => {
+                const expanded = header.getAttribute('aria-expanded') === 'true';
 
-    applyFilterButton.addEventListener('click', function () {
-        // Handle the filter logic here
-        const selectedFileTypes = Array.from(document.querySelectorAll('.file-type-checkbox:checked')).map(checkbox => checkbox.value);
-        console.log(selectedFileTypes);
-        // You can use the selected file types to filter your models
-        // Update your models based on the selected file types and reload the page or update the view
+                // Toggle the class to switch between + and - icons
+                header.classList.toggle('collapsed', !expanded);
+
+                imageTypeAccordionContents.forEach(content => {
+                    content.style.display = expanded ? 'none' : 'block';
+                });
+
+                imageTypeAccordionHeaders.forEach(h => {
+                    h.setAttribute('aria-expanded', !expanded);
+                });
+            });
+        });
     });
-});
 
 </script>
 
@@ -172,9 +198,15 @@ document.addEventListener('DOMContentLoaded', function () {
 <script>
     function sortModels(select) {
         const selectedValue = select.value;
-        
-        // Redirect to the index page with the selected sort option
-        window.location.href = "{{ route('twoD.index') }}?sort=" + selectedValue;
+
+        // Get the current URL and parse it
+        const currentUrl = new URL(window.location.href);
+
+        // Set the selected sort option as a query parameter
+        currentUrl.searchParams.set('sort', selectedValue);
+
+        // Redirect to the updated URL with the sort parameter
+        window.location.href = currentUrl.toString();
     }
 </script>
 
