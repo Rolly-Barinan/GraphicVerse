@@ -94,9 +94,8 @@ class ThreeDsController2 extends Controller
             'threeD_name' => $request->input('package_name'),
             'description' => $request->input('description'),
             'cat_name' => $selectedCategoryNames, // Store selected category names
-            'creator_name' => Auth::user()->name, // Assuming the user is authenticated
             'filename' => $assetPath,
-            'creator_username' => Auth::user()->username,
+            'creator_username' => Auth::user()->username, // Assuming the user is authenticated
         ]);
 
          // Attach the selected categories to the model3D

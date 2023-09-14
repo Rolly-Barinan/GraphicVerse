@@ -9,7 +9,7 @@ class Model3D extends Model // Update the class name here
 {
     use HasFactory;
 
-    protected $fillable = ['threeD_name', 'description', 'cat_name', 'creator_name', 'filename', 'file_type', 'creator_username'];
+    protected $fillable = ['threeD_name', 'description', 'cat_name', 'filename', 'file_type', 'creator_username'];
 
     public function categories3D() // Update the function name here
     {
