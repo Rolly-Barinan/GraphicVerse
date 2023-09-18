@@ -131,6 +131,11 @@
                     </a>
                 </div>
             </div>
+            <!-- Collapsible Sidebar Button -->
+            <button class="btn btn-dark d-md-none" id="sidebarToggle">
+                <i class="fas fa-bars"></i>
+            </button>
+
 
             <!-- Right Content -->
             <div class="col">
@@ -143,3 +148,33 @@
 </body>
 
 </html>
+
+<!-- Include jQuery -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<!-- JavaScript to handle sidebar toggling -->
+<script>
+$(document).ready(function () {
+    // Function to check the screen size and toggle the sidebar accordingly
+    function toggleSidebar() {
+        if ($(window).width() < 768) {
+            $(".sidebar").addClass("d-none");
+        } else {
+            $(".sidebar").removeClass("d-none");
+        }
+    }
+
+    // Initial check when the page loads
+    toggleSidebar();
+
+    // Check the screen size when the window is resized
+    $(window).resize(function () {
+        toggleSidebar();
+    });
+
+    // Toggle sidebar when the button is clicked
+    $("#sidebarToggle").click(function () {
+        $(".sidebar").toggleClass("d-none");
+    });
+});
+</script>
