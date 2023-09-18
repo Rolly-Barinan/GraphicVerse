@@ -43,46 +43,43 @@
     <!-- Scripts -->
     {{-- @vite(['resources/sass/app.scss', 'resources/js/app.js']) --}}
 </head>
+<nav class="navbar navbar-expand-lg" >
 
-
-<nav class="navbar navbar-expand-lg pb-0 mb-0">
-    <a class="navbar-brand" href="{{ url('/') }}">
-        <img src="/svg/GraphicVerse_Logo.png" class="pr-3" style="height: 50px; width: 200px; margin-top: .5rem; margin-left: 50px;" alt="Logo">
-    </a>
-    <div class="container">
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
+    <div class="container-fluid ">
+    <img src="/svg/logo.svg" class="logo" alt="Logo">
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav2"
+            aria-controls="navbarNav2" aria-expanded="false" aria-label="Toggle navigation">
         </button>
-        
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                <li class="nav-item">
-                    <a class="nav-link text-white" aria-current="page" href="/home">HOME</a>
+        <div class="collapse navbar-collapse" id="navbarNav2">
+            <ul class="navbar-nav pt-2">
+                <li class="nav-item pb-3 pe-3">
+                    <a class="nav-link" href="/2d">2D</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link text-white" href="/aboutus">ABOUT US</a>
+                <li class="nav-item pb-3 pe-3" style="">
+                    <a class="nav-link" href="/3d">3D</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link text-white" href="/community">COMMUNITY</a>
+                <li class="nav-item pb-3 pe-3" style="">
+                    <a class="nav-link" href="/animation">Audio</a>
+                </li>
+                <li class="nav-item pb-3 pe-3">
+                    <a class="nav-link" href="/music">Others</a>
                 </li>
             </ul>
-            
-            <form class="d-flex ml-lg-3 custom-search-form mt-4" role="search" action="{{ route('search')}}">
-                <input class="form-control me-2 custom-search-input" type="search" placeholder="&#128269; Search assets" name="q"
-                    aria-label="Search" style="width: 90%">
+            <form class="custom-search-form MT-4" role="search" action="{{ route('search')}}">
+                <input class="form-control me-2 custom-search-input" type="search" placeholder="Search assets" name="q"
+                    aria-label="Search" style="width: 100%">
+                    <!-- <button class="" -->
             </form>
-            
-            <ul class="navbar-nav ms-auto">
+            <ul class="navbar-nav ms-auto me-4 pt-2">
                 @guest
                     @if (Route::has('login'))
-                        <li class="nav-item">
-                            <a class="nav-link text-white" href="{{ route('login') }}">{{ __('Login') }}</a>
+                        <li class="nav-item pb-3 pe-3">
+                            <a class="nav-link " href="{{ route('login') }}">{{ __('Login') }}</a>
                         </li>
                     @endif
                     @if (Route::has('register'))
-                        <li class="nav-item">
-                            <a class="nav-link text-white" href="{{ route('register') }}">{{ __('Register') }}</a>
+                        <li class="nav-item pb-3 pe-3">
+                            <a class="nav-link " href="{{ route('register') }}">{{ __('Register') }}</a>
                         </li>
                     @endif
                 @else
@@ -108,32 +105,6 @@
                         @csrf
                     </form>
                 @endguest
-            </ul>
-        </div>
-    </div>
-</nav>
-
-<nav class="navbar navbar-expand-lg pt-0 mt-0">
-    <div class="container">
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav2"
-            aria-controls="navbarNav2" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-
-        <div class="collapse navbar-collapse" id="navbarNav2">
-            <ul class="navbar-nav mx-auto">
-                <li class="nav-item" style="margin-right: 150px">
-                    <a class="nav-link text-white" href="/2d">2D</a>
-                </li>
-                <li class="nav-item" style="margin-right: 150px">
-                    <a class="nav-link text-white" href="/3d">3D</a>
-                </li>
-                <li class="nav-item" style="margin-right: 150px">
-                    <a class="nav-link text-white" href="/animation">Animation</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link text-white" href="/music">Sound/Music</a>
-                </li>
             </ul>
         </div>
     </div>

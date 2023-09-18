@@ -1,45 +1,28 @@
 /* Add background image */
 body {
-  background-image: url("../svg/Register_background.gif");
-  background-size: 100%;
   background-color: #04294F;
-  background-repeat: no-repeat;
-  background-position: center;
-  background-position-y: 25px;
-  overflow-y: hidden !important;
-  overflow-x: hidden !important;
-  
 }
 
-.container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 50vh;
-}
 
 .card {
-  background: none;
-  margin-right: 1000px; /* Adjust the value to set the space on the left */
+  background:none;
+  margin-right: 1100px; /* Adjust the value to set the space on the left */
   margin-bottom: 200px;
   border-radius: 15px;
-  border: none;
+  border:none;
   width: 500px;
-  margin-top: 150px;
+  margin-top: 250px;
 }
 
 .card-header {
   font-family: 'Oswald', sans-serif;
-  background: none;
+  background:none;
   color: #FDFDFD;
   font-weight: bold;
   font-size: 30px;
   box-shadow: none;
   text-align: center;
-  padding: 20px 0;
-  border-top-left-radius: 15px;
-  border-top-right-radius: 15px;
-  border: none;
+  border:none;
 }
 
 .card-header img {
@@ -51,46 +34,20 @@ body {
   border-color: #FDFDFD;
 }
 
-.form-group {
-  position: relative;
-}
-
-.form-group .input-group-text {
-  background: none;
-  border-color: #cfcfcf;
-  border-radius: 30px;
-  height: 40px;
-  width: 40px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  z-index: 2;
-  color: #04294F;
-}
-
 .form-control {
-  padding-left: 45px;
   border-radius: 30px;
   border-color: #cfcfcf;
   border-left-color: #FDFDFD;
   margin-bottom: 10px;
   height: 40px;
   min-width: 300px !important;
-  border-top-left-radius: 30px !important; 
-  border-bottom-left-radius: 30px !important;
-  outline: none;
-  background-color: #FDFDFD;
-  color: #04294F;
+  border-top-left-radius: 30px;
+  border-bottom-left-radius: 30px;
+  outline: none; 
 }
 
-.form-control:focus {
-  border-color: #04294F;
-  box-shadow: none;
-}
+
+
 
 .form-check-label {
   font-family: 'Roboto';
@@ -99,7 +56,7 @@ body {
 .form-check-row {
   display: flex;
   align-items: left;
-  color: #FDFDFD;
+  color:#FDFDFD
 }
 
 .form-check {
@@ -117,42 +74,50 @@ body {
   background-color: #88207c; /* Change to the desired color when checkbox is checked */
 }
 
-.form-check-row .form-check-input {
-  margin-right: 1px;
+.form-check-input:focus,
+.form-check-input:active {
+  box-shadow: none;
 }
 
-.btn-link {
+.form-check-row .form-check-input {
+  margin-right: 1px;
+  
+}
+
+
+
+.btn-link{
   color: #FDFDFD;
   font-family: 'Roboto';
   text-decoration: none;
   margin-bottom: 5px;
-  margin-right: 100px;
+  margin-left: 130px;
 }
-
-.btn-link:hover {
-  color: #b129a2;
+.btn-link:hover{
+  color:#b129a2;
   font-family: 'Roboto';
   text-decoration: none;
 }
 
-.btn2 {
+.btn2{
   color: #FDFDFD;
   font-family: 'Roboto';
   text-decoration: none;
   margin-left: 115px;
   margin-top: 10px;
 }
-
-.btn2:hover {
-  color: #b129a2;
+.btn2:hover{
+  color:#b129a2;
   font-family: 'Roboto';
   text-decoration: none;
 }
 
 .btn-primary {
-  margin-top: 20px;
   background-color: #b129a2;
   border: none;
+  width: 310px;
+  justify-content: center;
+  margin-left: 70px;
   font-family: 'Roboto';
   border-radius: 60px;
 }
@@ -164,17 +129,17 @@ body {
 .input-group-prepend {
   display: flex;
   margin-left: 20px;
-  background: none;
+  background:none;
 }
 
 .input-group-prepend .input-group-text {
-  background: none;
+  background:none;
   height: 40px;
   border-color: #FDFDFD;
   border-left-color: #cfcfcf;
   border-top-color: #cfcfcf;
   border-bottom-color: #cfcfcf;
-  border-radius: 0%; /* Change to 30px for left rounded corner */
+  border-radius: 0%;
   border-top-left-radius: 30px;
   border-bottom-left-radius: 30px;
   margin-bottom: 10px;
@@ -187,18 +152,45 @@ body {
 
 .input-group-prepend,
 .input-group-append {
-  background: none;
+  background:none;
   border-color: #FDFDFD;
 }
 
-.login{
-  padding-top: 10px;
-  position: absolute;
-  margin-left: 50px;
-  font-family: 'Roboto';
-}
 @media (max-width: 576px) {
   .card {
     margin-left: 0;
   }
+}
+
+.form-group {
+  position: relative;
+}
+
+.form-group .input-group-text {
+  background:none;
+  border-color:none;
+  border-radius: 30px;
+  height: 40px;
+  width: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 2;
+}
+
+.form-control {
+  padding-left: 45px;
+}
+
+.form-control:focus {
+  border:none;
+  box-shadow: none;
+}
+
+.btn{
+  margin-right: 20px;
 }

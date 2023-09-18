@@ -4,11 +4,11 @@
     outline: 1px solid;
 }  */
 
-@media (max-width: 768px) {
+/* @media (max-width: 768px) {
     .my-element {
         background-size: contain;
     }
-}
+} */
 
 /* .container-fluid {
     background-color: #222344;
@@ -30,38 +30,77 @@ main {
 
 }
 .navbar-light {
-    color: white;
+    color: rgb(255, 254, 255);
 }
 
 .GraphicVerse {
     font-family: "Kollektif", sans-serif;
 }
 
-nav {
-    background-color: #222344;
+
+.nav-link {
+    font-weight: bold;
+    font-size: large;
+    font-family: 'Roboto';
+    color: #222344;
+    text-decoration: none; /* Remove the default underline */
+    position: relative; /* Position relative for pseudo-element */
+    display: inline-block; /* Make the link inline-block to fit the underline to the text */
+}
+  
+  .nav-link::after {
+    content: ''; /* Create an empty pseudo-element */
+    position: absolute;
+    width: 100%;
+    height: 2px; /* Height of the underline */
+    bottom: 0; /* Position at the bottom of the link text */
+    left: 0;
+    background-color: #B129A2; /* Color of the underline */
+    transform: scaleX(0); /* Initially set the width to zero */
+    transform-origin: center; /* Transform origin at the center */
+    transition: transform 0.3s ease-in-out; /* Add a transition effect */
+  }
+  
+  .nav-link:hover {
+    color: #B129A2; /* Change the text color on hover */
+  }
+
+  .nav-link:hover::after {
+    transform: scaleX(1); /* Expand the underline to full width on hover */
+  }
+
+.logo {
+    height: 100px;
+    margin-right: 40px;
 }
 
 .custom-search-form {
-    height: 35px;
-    width: 450px;
+    height: 50px;
+    width: 900px;
     border-radius: 10px;
     padding-left: 30px;
-    padding: auto;
     position: relative;  
+
 }
 
 .custom-search-input {
     height: 100%;
     width: 100%;
     border-radius: inherit;
+    color: #424382;
+    border-color: #dfdfff;
+}
+
+.custom-search-input:focus {
+    border-color: #9799ff;
+    box-shadow: 0 0 5px #9799ff;
+    outline: none;
+    
 }
 
 a {
     font-family: "Roboto";
     
-}
-.row{
-    min-height: 52px;
 }
 .row1{
     max-height: 90px;
@@ -106,7 +145,6 @@ a {
     border-radius: 5px;
     margin-top: -10px;
     box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
-    
 }
 
 
