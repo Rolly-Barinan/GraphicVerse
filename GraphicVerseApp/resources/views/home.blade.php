@@ -19,8 +19,10 @@
             <div class="col justify-content-center">
                 <img src="/svg/astronautcaptain.png" class="astro">
                 <h1 class="elevate-title text-white">Discover the creativity and skills of Josenian Multimedia Students.</h1>
-                <button type="button" class="btn-2" id="learnMoreButton">2D</button>
-                <button type="button" class="btn-2" id="learnMoreButton">3D</button>
+                <a class="link text-white mt-5 me-5" href="/2d">2D</a>
+                <a class="link text-white mb-5 me-5" href="/3d">3D</a>
+                <a class="link text-white mb-5 me-5" href="/animation">Audio</a>
+                <a class="link text-white mb-5" href="/music">Others</a>
             </div>
         </div>
     <div class="row-3 justify-content-center align-items-center ">

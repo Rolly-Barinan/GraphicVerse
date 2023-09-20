@@ -42,11 +42,56 @@
    
     <!-- Scripts -->
     {{-- @vite(['resources/sass/app.scss', 'resources/js/app.js']) --}}
+    
+    <script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const loginDropdown = document.getElementById('loginDropdown');
+        const loginDropdownContent = document.getElementById('loginDropdownContent');
+        
+        const registerDropdown = document.getElementById('registerDropdown');
+        const registerDropdownContent = document.getElementById('registerDropdownContent');
+
+        loginDropdown.addEventListener('mousedown', function (e) {
+            e.preventDefault(); // Prevent the anchor link's default behavior
+            e.stopPropagation(); // Prevent the event from propagating to the anchor
+
+            loginDropdownContent.classList.toggle('show');
+        });
+
+        registerDropdown.addEventListener('mousedown', function (e) {
+            e.preventDefault(); // Prevent the anchor link's default behavior
+            e.stopPropagation(); // Prevent the event from propagating to the anchor
+
+            registerDropdownContent.classList.toggle('show');
+        });
+
+        // Close the login dropdown if the user clicks outside of it
+        window.addEventListener('mousedown', function (event) {
+            if (!event.target.matches('#loginDropdown')) {
+                if (loginDropdownContent.classList.contains('show')) {
+                    loginDropdownContent.classList.remove('show');
+                }
+            }
+        });
+
+        // Close the register dropdown if the user clicks outside of it
+        window.addEventListener('mousedown', function (event) {
+            if (!event.target.matches('#registerDropdown')) {
+                if (registerDropdownContent.classList.contains('show')) {
+                    registerDropdownContent.classList.remove('show');
+                }
+            }
+        });
+    });
+</script>
+
 </head>
 <nav class="navbar navbar-expand-lg" >
 
     <div class="container-fluid ">
-    <img src="/svg/logo.svg" class="logo" alt="Logo">
+    <a href="/">
+        <img src="/svg/logo.svg" class="logo" alt="Logo">
+    <a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav2"
             aria-controls="navbarNav2" aria-expanded="false" aria-label="Toggle navigation">
         </button>
@@ -73,14 +118,24 @@
             <ul class="navbar-nav ms-auto me-4 pt-2">
                 @guest
                     @if (Route::has('login'))
-                        <li class="nav-item pb-3 pe-3">
-                            <a class="nav-link " href="{{ route('login') }}">{{ __('Login') }}</a>
-                        </li>
+                    <li class="nav-item pb-3 pe-3 position-relative">
+                        <a id="loginDropdown" class="nav-link">
+                            {{ __('Login') }}
+                        </a>
+                        <div id="loginDropdownContent" class="dropdown-content">
+                            @include('auth.login')
+                        </div>
+                    </li>
                     @endif
                     @if (Route::has('register'))
-                        <li class="nav-item pb-3 pe-3">
-                            <a class="nav-link " href="{{ route('register') }}">{{ __('Register') }}</a>
-                        </li>
+                    <li class="nav-item pb-3 pe-3 position-relative">
+                        <a id="registerDropdown" class="nav-link">
+                            {{ __('Register') }}
+                        </a>
+                        <div id="registerDropdownContent" class="dropdown-content">
+                            @include('auth.login')
+                        </div>
+                    </li>
                     @endif
                 @else
                     <li class="nav-item dropdown">
@@ -109,6 +164,7 @@
         </div>
     </div>
 </nav>
+
 
 <main class="">
     @yield('content')
