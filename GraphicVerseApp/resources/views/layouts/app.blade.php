@@ -133,7 +133,7 @@
                             {{ __('Register') }}
                         </a>
                         <div id="registerDropdownContent" class="dropdown-content">
-                            @include('auth.login')
+                            @include('auth.register')
                         </div>
                     </li>
                     @endif
