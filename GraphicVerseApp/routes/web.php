@@ -56,6 +56,8 @@ Route::get('/profile/{user}', [ProfilesController::class, 'index'])->name('profi
 //2D router controller
 Route::get('/2d', [TwoDsController::class, 'index'])->name('twoD.index');
 Route::get('2d/{id}', [TwoDsController::class, 'show'])->name('twoD.show');
+Route::get('/twoD/download/{id}',  [TwoDsController::class, 'download'])->name('twoD.download');
+
 
 //3D router controller
 Route::get('/3d', [ThreeDsController2::class, 'index'])->name('threeD.index');
