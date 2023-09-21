@@ -82,13 +82,24 @@ class ThreeDsController2 extends Controller
             'categories' => 'required|array',
             'threeD_asset' => 'required|file|mimes:bin,fbx',
         ]);
-
-        // Save the uploaded file to the '3D' folder
-        $assetPath = $request->file('threeD_asset')->store('3D', 'public');
-
+    
+        // Get the uploaded file
+        $uploadedFile = $request->file('threeD_asset');
+    
+        // Ensure the file retains its original extension (e.g., .fbx)
+        $originalFileName = $uploadedFile->getClientOriginalName();
+        $fileNameWithoutExtension = pathinfo($originalFileName, PATHINFO_FILENAME);
+        $fileExtension = $uploadedFile->getClientOriginalExtension();
+    
+        // Generate a unique file name for storage
+        $uniqueFileName = $fileNameWithoutExtension . '_' . time() . '.' . $fileExtension;
+    
+        // Save the uploaded file to the '3D' folder with the unique file name
+        $assetPath = $uploadedFile->storeAs('3D', $uniqueFileName, 'public');
+    
         // Get selected category names as a comma-separated string
         $selectedCategoryNames = Categories::whereIn('id', $request->input('categories'))->pluck('cat_name')->join(', ');
-
+    
         // Create a new Model3D entry
         $model3D = Model3D::create([
             'threeD_name' => $request->input('package_name'),
@@ -97,18 +108,19 @@ class ThreeDsController2 extends Controller
             'filename' => $assetPath,
             'creator_username' => Auth::user()->username, // Assuming the user is authenticated
         ]);
-
-         // Attach the selected categories to the model3D
-         $model3D->categories3D()->attach($request->input('categories'));
-        
+    
+        // Attach the selected categories to the model3D
+        $model3D->categories3D()->attach($request->input('categories'));
+    
         // Create a User3D entry to associate the authenticated user with the uploaded model
         User3D::create([
             'threeD_id' => $model3D->id,
             'user_id' => Auth::user()->id,
         ]);
-
+    
         return redirect()->route('profile.show', ['user' => Auth::user()])->with('success', '3D asset uploaded successfully.');
     }
+    
 
     /**
      * Display the specified resource.
@@ -194,6 +206,21 @@ class ThreeDsController2 extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
+
+     public function download($id)
+{
+    $model3D = Model3D::findOrFail($id);
+
+    // Check if the file exists
+    if (!Storage::disk('public')->exists($model3D->filename)) {
+        return redirect()->back()->with('error', 'File not found.');
+    }
+
+    // Generate the download response
+    return response()->download(storage_path('app/public/' . $model3D->filename));
+}
+
+     
     public function destroy($id)
     {
         // Retrieve the specific Model2D instance

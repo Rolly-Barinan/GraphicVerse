@@ -55,11 +55,14 @@
                                 @foreach ($model3D->categories3D as $index => $category)
                                     {{ $category->cat_name }}
                                     @if ($index < count($model3D->categories3D) - 1)
-                                        ,
+                                        
                                     @endif
                                 @endforeach
                             </p>   
                             <p><strong>Creator:</strong> {{ $model3D->creator_username }}</p>
+{{ $model3D->id }}
+                            <a href="{{ route('threeD.download', $model3D->id) }}" class="btn btn-success">Download</a>
+
                             {{-- Add more details as needed --}}
                             @if(Auth::check() && Auth::user()->id === $model3D->user3d->user_id)
                                 <a href="{{ route('threeD.edit', $model3D->id) }}" class="btn btn-primary">Edit</a>
@@ -71,7 +74,9 @@
                                 </form>
                             @endif
                         </div>
+                       
                     </div>
+                  
                 </div>
             </div>
         </div>
