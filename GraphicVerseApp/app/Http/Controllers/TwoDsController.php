@@ -157,7 +157,7 @@ class TwoDsController extends Controller
         // Implement logic to check if the user is allowed to download the image
         // You can add your logic here, for example, checking if it's a free download or if the user has purchased it.
     
-        // Assuming it's a free download, you can serve the image file with watermark
+        // Assuming it's a free download, you can serve the image file with a watermark
         $path = storage_path('app/public/' . $model2D->filename);
     
         // Check if the file exists
@@ -165,15 +165,12 @@ class TwoDsController extends Controller
             // Load the original image
             $image = Image::make($path);
     
-            // Load the watermark image
-            $watermark = Image::make(public_path('storage/GraphicVerse_Capstone.png'));
+            // Load the watermark image and resize it to match the size of the original image
+            $watermark = Image::make(public_path('svg/watermark.png'));
+            $watermark->resize($image->width(), $image->height());
     
-            // Calculate the position to overlay the watermark (you can adjust this)
-            $watermarkX = 5; // Adjust the X position as needed
-            $watermarkY = 5; // Adjust the Y position as needed
-    
-            // Overlay the watermark on the image
-            $image->insert($watermark, 'bottom-left', $watermarkX, $watermarkY);
+            // Overlay the watermark on the image without specifying an X and Y position
+            $image->insert($watermark, 'center');
     
             // Define a directory for storing watermarked images
             $watermarkedDirectory = storage_path('app/public/watermarked/');
@@ -195,6 +192,7 @@ class TwoDsController extends Controller
             return redirect()->back()->with('error', 'File not found.');
         }
     }
+    
     
 
 
