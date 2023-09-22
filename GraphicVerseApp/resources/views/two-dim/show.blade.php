@@ -41,6 +41,8 @@
                         </p>
                         </h3>                     
                         {{-- Add more details as needed --}}
+                        <a href="{{ route('twoD.download', $model2D->id) }}" class="btn btn-success">Download</a>
+
                         @if(Auth::check() && Auth::user()->id === $model2D->user2d->user_id)
                             <a href="{{ route('twoD.edit', $model2D->id) }}" class="btn btn-primary">Edit</a>
                             {{-- Delete button --}}

@@ -23,16 +23,16 @@ class ThreeDsController2 extends Controller
         $categories = Categories::all();
         $selectedCategories = $request->input('categories', []);
         $models3DQuery = Model3D::query();
-    
+
         if (!empty($selectedCategories)) {
             $models3DQuery->whereHas('categories3D', function ($query) use ($selectedCategories) {
                 $query->whereIn('cat_id', $selectedCategories);
             });
         }
-    
+
         // Sort models based on the selected option
         $sort = $request->input('sort', 'default'); // 'default' is your default sorting method
-    
+
         switch ($sort) {
             case 'name_asc':
                 $models3DQuery->orderBy('threeD_name', 'asc'); // Update this to threeD_name
@@ -51,11 +51,10 @@ class ThreeDsController2 extends Controller
                 break;
         }
         // Add more sorting options and their corresponding orderBy clauses as needed
-    
-        $models3D = $models3DQuery->paginate(12); // Define $models3D here
-    
-        return view('three-dim.index', compact('models3D', 'categories', 'selectedCategories'));
 
+        $models3D = $models3DQuery->paginate(12); // Define $models3D here
+
+        return view('three-dim.index', compact('models3D', 'categories', 'selectedCategories'));
     }
     /**
      * Show the form for creating a new resource.
@@ -63,7 +62,7 @@ class ThreeDsController2 extends Controller
      * @return \Illuminate\Http\Response
      */
     public function create()
-    {   
+    {
         $categories = Categories::all();
         return view('three-dim.create', compact('categories'));
     }
@@ -83,8 +82,19 @@ class ThreeDsController2 extends Controller
             'threeD_asset' => 'required|file|mimes:bin,fbx',
         ]);
 
-        // Save the uploaded file to the '3D' folder
-        $assetPath = $request->file('threeD_asset')->store('3D', 'public');
+        // Get the uploaded file
+        $uploadedFile = $request->file('threeD_asset');
+
+        // Ensure the file retains its original extension (e.g., .fbx)
+        $originalFileName = $uploadedFile->getClientOriginalName();
+        $fileNameWithoutExtension = pathinfo($originalFileName, PATHINFO_FILENAME);
+        $fileExtension = $uploadedFile->getClientOriginalExtension();
+
+        // Generate a unique file name for storage
+        $uniqueFileName = $fileNameWithoutExtension . '_' . time() . '.' . $fileExtension;
+
+        // Save the uploaded file to the '3D' folder with the unique file name
+        $assetPath = $uploadedFile->storeAs('3D', $uniqueFileName, 'public');
 
         // Get selected category names as a comma-separated string
         $selectedCategoryNames = Categories::whereIn('id', $request->input('categories'))->pluck('cat_name')->join(', ');
@@ -98,9 +108,9 @@ class ThreeDsController2 extends Controller
             'creator_username' => Auth::user()->username, // Assuming the user is authenticated
         ]);
 
-         // Attach the selected categories to the model3D
-         $model3D->categories3D()->attach($request->input('categories'));
-        
+        // Attach the selected categories to the model3D
+        $model3D->categories3D()->attach($request->input('categories'));
+
         // Create a User3D entry to associate the authenticated user with the uploaded model
         User3D::create([
             'threeD_id' => $model3D->id,
@@ -109,6 +119,7 @@ class ThreeDsController2 extends Controller
 
         return redirect()->route('profile.show', ['user' => Auth::user()])->with('success', '3D asset uploaded successfully.');
     }
+
 
     /**
      * Display the specified resource.
@@ -194,6 +205,21 @@ class ThreeDsController2 extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
+
+    public function download($id)
+    {
+        $model3D = Model3D::findOrFail($id);
+
+        // Check if the file exists
+        if (!Storage::disk('public')->exists($model3D->filename)) {
+            return redirect()->back()->with('error', 'File not found.');
+        }
+
+        // Generate the download response
+        return response()->download(storage_path('app/public/' . $model3D->filename));
+    }
+
+
     public function destroy($id)
     {
         // Retrieve the specific Model2D instance

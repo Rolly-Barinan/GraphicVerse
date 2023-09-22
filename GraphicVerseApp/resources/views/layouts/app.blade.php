@@ -42,48 +42,100 @@
    
     <!-- Scripts -->
     {{-- @vite(['resources/sass/app.scss', 'resources/js/app.js']) --}}
-</head>
-
-
-<nav class="navbar navbar-expand-lg pb-0 mb-0">
-    <a class="navbar-brand" href="{{ url('/') }}">
-        <img src="/svg/GraphicVerse_Logo.png" class="pr-3" style="height: 50px; width: 200px; margin-top: .5rem; margin-left: 50px;" alt="Logo">
-    </a>
-    <div class="container">
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
+    
+    <script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const loginDropdown = document.getElementById('loginDropdown');
+        const loginDropdownContent = document.getElementById('loginDropdownContent');
         
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                <li class="nav-item">
-                    <a class="nav-link text-white" aria-current="page" href="/home">HOME</a>
+        const registerDropdown = document.getElementById('registerDropdown');
+        const registerDropdownContent = document.getElementById('registerDropdownContent');
+
+        loginDropdown.addEventListener('mousedown', function (e) {
+            e.preventDefault(); // Prevent the anchor link's default behavior
+            e.stopPropagation(); // Prevent the event from propagating to the anchor
+
+            loginDropdownContent.classList.toggle('show');
+        });
+
+        registerDropdown.addEventListener('mousedown', function (e) {
+            e.preventDefault(); // Prevent the anchor link's default behavior
+            e.stopPropagation(); // Prevent the event from propagating to the anchor
+
+            registerDropdownContent.classList.toggle('show');
+        });
+
+        // Close the login dropdown if the user clicks outside of it
+        window.addEventListener('mousedown', function (event) {
+            if (!event.target.matches('#loginDropdown')) {
+                if (loginDropdownContent.classList.contains('show')) {
+                    loginDropdownContent.classList.remove('show');
+                }
+            }
+        });
+
+        // Close the register dropdown if the user clicks outside of it
+        window.addEventListener('mousedown', function (event) {
+            if (!event.target.matches('#registerDropdown')) {
+                if (registerDropdownContent.classList.contains('show')) {
+                    registerDropdownContent.classList.remove('show');
+                }
+            }
+        });
+    });
+</script>
+
+</head>
+<nav class="navbar navbar-expand-lg" >
+
+    <div class="container-fluid ">
+    <a href="/">
+        <img src="/svg/logo.svg" class="logo" alt="Logo">
+    <a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav2"
+            aria-controls="navbarNav2" aria-expanded="false" aria-label="Toggle navigation">
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav2">
+            <ul class="navbar-nav pt-2">
+                <li class="nav-item pb-3 pe-3">
+                    <a class="nav-link" href="/2d">2D</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link text-white" href="/aboutus">ABOUT US</a>
+                <li class="nav-item pb-3 pe-3" style="">
+                    <a class="nav-link" href="/3d">3D</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link text-white" href="/community">COMMUNITY</a>
+                <li class="nav-item pb-3 pe-3" style="">
+                    <a class="nav-link" href="/animation">Audio</a>
+                </li>
+                <li class="nav-item pb-3 pe-3">
+                    <a class="nav-link" href="/music">Others</a>
                 </li>
             </ul>
-            
-            <form class="d-flex ml-lg-3 custom-search-form mt-4" role="search" action="{{ route('search')}}">
-                <input class="form-control me-2 custom-search-input" type="search" placeholder="&#128269; Search assets" name="q"
-                    aria-label="Search" style="width: 90%">
+            <form class="custom-search-form MT-4" role="search" action="{{ route('search')}}">
+                <input class="form-control me-2 custom-search-input" type="search" placeholder="Search assets" name="q"
+                    aria-label="Search" style="width: 100%">
+                    <!-- <button class="" -->
             </form>
-            
-            <ul class="navbar-nav ms-auto">
+            <ul class="navbar-nav ms-auto me-4 pt-2">
                 @guest
                     @if (Route::has('login'))
-                        <li class="nav-item">
-                            <a class="nav-link text-white" href="{{ route('login') }}">{{ __('Login') }}</a>
-                        </li>
+                    <li class="nav-item pb-3 pe-3 position-relative">
+                        <a id="loginDropdown" class="nav-link">
+                            {{ __('Login') }}
+                        </a>
+                        <div id="loginDropdownContent" class="dropdown-content">
+                            @include('auth.login')
+                        </div>
+                    </li>
                     @endif
                     @if (Route::has('register'))
-                        <li class="nav-item">
-                            <a class="nav-link text-white" href="{{ route('register') }}">{{ __('Register') }}</a>
-                        </li>
+                    <li class="nav-item pb-3 pe-3 position-relative">
+                        <a id="registerDropdown" class="nav-link">
+                            {{ __('Register') }}
+                        </a>
+                        <div id="registerDropdownContent" class="dropdown-content">
+                            @include('auth.register')
+                        </div>
+                    </li>
                     @endif
                 @else
                     <li class="nav-item dropdown">
@@ -113,31 +165,6 @@
     </div>
 </nav>
 
-<nav class="navbar navbar-expand-lg pt-0 mt-0">
-    <div class="container">
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav2"
-            aria-controls="navbarNav2" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-
-        <div class="collapse navbar-collapse" id="navbarNav2">
-            <ul class="navbar-nav mx-auto">
-                <li class="nav-item" style="margin-right: 150px">
-                    <a class="nav-link text-white" href="/2d">2D</a>
-                </li>
-                <li class="nav-item" style="margin-right: 150px">
-                    <a class="nav-link text-white" href="/3d">3D</a>
-                </li>
-                <li class="nav-item" style="margin-right: 150px">
-                    <a class="nav-link text-white" href="/animation">Animation</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link text-white" href="/music">Sound/Music</a>
-                </li>
-            </ul>
-        </div>
-    </div>
-</nav>
 
 <main class="">
     @yield('content')

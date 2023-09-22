@@ -1,29 +1,106 @@
 body {
-  background-image: url('https://cdn.discordapp.com/attachments/1121006331323760680/1123571308496691210/Copy_of_GraphicVerse_Capstone_Hearing.png');
+  color: rgb(255, 254, 255);
+  background-color: #DDDDE4;
+  align-items: center;
+  text-align: center;
 }
 
+.col {
+text-align: center;
+align-items: center;
+justify-content: center
+}
+
+.row {
+  height: 100vh;
+}
+
+
 .learnmore {
-    color: white;
-    background-color: #B129A2;
-    height: 40px;
-    width: 120px;
-    font-weight: bold;
-    border: none;
-  } 
+  color: #2D3352;
+  background-image: linear-gradient(to bottom, #B129A2, #a72998); /* Gradient from left to right */
+  height: 50px;
+  width: 150px;
+  font-weight: bold;
+  border: none;
+  border-radius: 5px;
+  transition: background-color 0.2s, color 0.2s;
+}
+
+.learnmore:hover {
+  background-image: linear-gradient(to bottom, #2D3352, #2D3352); /* Gradient from left to right */
+  color: #ffffff;
+}
 
   .experience {
     font-family: Roboto, sans-serif;
-    color: white; /* Change the color value to your desired color */
+    color: rgb(46, 46, 46); /* Change the color value to your desired color */
     font-size: 20px;
     padding-top: 15px;
+
   }
 
   .elevate-title {
-    font-family: Oswald, sans-serif;
+    font-family: 'Century Gothic';
     font-weight: bold;
+    color: rgb(46, 46, 46);
     font-size: 65px;
-    padding-top: 100px;
+    text-align: center;
   }
 
+  .dino {
+    padding-bottom:50px;
+    padding-top: 50px;
+    transition: transform 3s linear;
+  }
 
+  .slide-out {
+    transform: translateX(400%); /* Move the dino element 100% to the right */
+  }
 
+  .row-2 {
+    background-color: #FABC30;
+    height: 100vh;
+    padding-top: 150px;
+  }
+
+  .astro {
+    height: 50%;
+  }
+
+  .link {
+    font-weight: bold;
+    font-size: x-large;
+    font-family: 'Roboto';
+    color: #222344;
+    text-decoration: none; /* Remove the default underline */
+    position: relative; /* Position relative for pseudo-element */
+    display: inline-block; /* Make the link inline-block to fit the underline to the text */
+    
+}
+  
+  .link::after {
+    content: ''; /* Create an empty pseudo-element */
+    position: absolute;
+    width: 100%;
+    height: 2px; /* Height of the underline */
+    bottom: 0; /* Position at the bottom of the link text */
+    left: 0;
+    background-color: #B129A2; /* Color of the underline */
+    transform: scaleX(0); /* Initially set the width to zero */
+    transform-origin: center; /* Transform origin at the center */
+    transition: transform 0.3s ease-in-out; /* Add a transition effect */
+  }
+  
+  .link:hover {
+    color: #B129A2; /* Change the text color on hover */
+  }
+
+  .link:hover::after {
+    transform: scaleX(1); /* Expand the underline to full width on hover */
+  }
+
+  .row-3 {
+    height: 500px;
+    align-items: center;
+  }

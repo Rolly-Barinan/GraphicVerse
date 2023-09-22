@@ -56,13 +56,20 @@ Route::get('/profile/{user}', [ProfilesController::class, 'index'])->name('profi
 //2D router controller
 Route::get('/2d', [TwoDsController::class, 'index'])->name('twoD.index');
 Route::get('2d/{id}', [TwoDsController::class, 'show'])->name('twoD.show');
+Route::get('/twoD/download/{id}',  [TwoDsController::class, 'download'])->name('twoD.download');
+
 
 //3D router controller
 Route::get('/3d', [ThreeDsController2::class, 'index'])->name('threeD.index');
+Route::get('/three-dim/{id}/download',[ThreeDsController2::class, 'download'])->name('threeD.download');
 Route::get('3d/{id}', [ThreeDsController2::class, 'show'])->name('threeD.show');
 
 //Search Controller
 Route::get('/search', [SearchController::class, 'search'])->name('search');
+
+
+
+
 
 Route::middleware(['auth'])->group(function () {
     //profile router contoller
@@ -95,25 +102,6 @@ Route::middleware(['auth'])->group(function () {
     Route::put('/3d/{id}', [ThreeDsController2::class, 'update'])->name('threeD.update');
     Route::delete('/3d/{id}', [ThreeDsController2::class, 'destroy'])->name('threeD.destroy');
 });
-
-
-// //packages router controller
-// Route::get('/packages/show', [PackageController::class, 'show'])->name('packages.show');
-// Route::get('/packages/create', [PackageController::class, 'create'])->name('packages.create');
-// Route::post('/packages', [PackageController::class, 'store'])->name('packages.store');
-
-// // audio controller
-// Route::get('/audios/{id}/play',[AudiosController::class, 'play'])->name('audios.play');
-// Route::get('/audios/create', [AudiosController::class, 'create'])->name('audios.create');
-// Route::post('/audios', [AudiosController::class,'store'])->name('audios.store');
-
-// //two dimensional controller
-// Route::get('/two-dim/create', [TwoDimController::class, 'create'])->name('two-dim.create');
-
-// // three-dimensional controller
-// Route::get('/three-dim/create', [ThreeDsController::class, 'create'])->name('create');
-// Route::get('/three-dim/show/{id}', [ThreeDsController::class, 'show'])->name('show');
-// Route::post('/three-dim', [ThreeDsController::class, 'store'])->name('store');
 
 Route::middleware([RestrictDirectAccess::class])->group(function () {
 

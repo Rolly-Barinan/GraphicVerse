@@ -11,6 +11,7 @@ use App\Models\User2D;
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use Intervention\Image\Facades\Image;
 
 class TwoDsController extends Controller
 {
@@ -19,7 +20,8 @@ class TwoDsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request) {
+    public function index(Request $request)
+    {
         $categories = Categories::all();
         $selectedCategories = $request->input('categories', []);
         $models2DQuery = Model2D::query();
@@ -33,17 +35,17 @@ class TwoDsController extends Controller
             $models2DQuery->whereIn('image_type', $selectedImageTypes);
         }
 
-    
+
         if (!empty($selectedCategories)) {
             $models2DQuery->whereHas('categories2D', function ($query) use ($selectedCategories) {
                 $query->whereIn('cat_id', $selectedCategories);
             });
         }
 
-    
+
         // Sort models based on the selected option
         $sort = $request->input('sort', 'default'); // 'default' is your default sorting method
-    
+
         switch ($sort) {
             case 'name_asc':
                 $models2DQuery->orderBy('twoD_name', 'asc');
@@ -62,14 +64,14 @@ class TwoDsController extends Controller
                 break;
         }
         // Add more sorting options and their corresponding orderBy clauses as needed
-        
 
 
-       $models2D = $models2DQuery->paginate(12);
 
-    return view('two-dim.index', compact('models2D', 'categories', 'selectedCategories', 'imageTypes', 'selectedImageTypes'));
-}
-    
+        $models2D = $models2DQuery->paginate(12);
+
+        return view('two-dim.index', compact('models2D', 'categories', 'selectedCategories', 'imageTypes', 'selectedImageTypes'));
+    }
+
 
     /**
      * Show the form for creating a new resource.
@@ -77,7 +79,7 @@ class TwoDsController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function create()
-    {   
+    {
         $categories = Categories::all();
         return view('two-dim.create', compact('categories'));
     }
@@ -96,7 +98,7 @@ class TwoDsController extends Controller
             'categories' => 'required|array',
             'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
-        
+
         // Determine file type based on MIME
         $uploadedFile = $request->file('image');
         $fileType = $uploadedFile->getMimeType();
@@ -104,10 +106,10 @@ class TwoDsController extends Controller
         $fileType = str_replace('image/', '', $fileType);
         // Save the uploaded image to the '2D' folder
         $imagePath = $uploadedFile->store('2D', 'public');
-        
+
         // Get selected category names as a comma-separated string
         $selectedCategoryNames = Categories::whereIn('id', $request->input('categories'))->pluck('cat_name')->join(', ');
-        
+
         // Create a new Model2D entry with the file type
         $model2D = Model2D::create([
             'twoD_name' => $request->input('package_name'),
@@ -117,16 +119,16 @@ class TwoDsController extends Controller
             'filename' => $imagePath,
             'image_type' => $fileType, // Store the detected file type
         ]);
-        
+
         // Attach the selected categories to the model2D
         $model2D->categories2D()->attach($request->input('categories'));
-        
+
         // Create a User2D entry to associate the authenticated user with the uploaded model
         User2D::create([
             'twoD_id' => $model2D->id,
             'user_id' => Auth::user()->id,
         ]);
-        
+
         return redirect()->route('profile.show', ['user' => Auth::user()])->with('success', '2D asset uploaded successfully.');
     }
 
@@ -146,12 +148,63 @@ class TwoDsController extends Controller
         return view('two-dim.show', compact('model2D'));
     }
 
+
+    public function download($id)
+    {
+        // Retrieve the specific Model2D instance
+        $model2D = Model2D::findOrFail($id);
+    
+        // Implement logic to check if the user is allowed to download the image
+        // You can add your logic here, for example, checking if it's a free download or if the user has purchased it.
+    
+        // Assuming it's a free download, you can serve the image file with a watermark
+        $path = storage_path('app/public/' . $model2D->filename);
+    
+        // Check if the file exists
+        if (file_exists($path)) {
+            // Load the original image
+            $image = Image::make($path);
+    
+            // Load the watermark image and resize it to match the size of the original image
+            $watermark = Image::make(public_path('svg/watermark.png'));
+            $watermark->resize($image->width(), $image->height());
+    
+            // Overlay the watermark on the image without specifying an X and Y position
+            $image->insert($watermark, 'center');
+    
+            // Define a directory for storing watermarked images
+            $watermarkedDirectory = storage_path('app/public/watermarked/');
+    
+            // Ensure the directory exists, or create it if it doesn't
+            if (!file_exists($watermarkedDirectory)) {
+                mkdir($watermarkedDirectory, 0755, true);
+            }
+    
+            // Define the path for the watermarked image
+            $watermarkedImagePath = $watermarkedDirectory . $model2D->twoD_name . '-watermarked.png';
+    
+            // Save the watermarked image
+            $image->save($watermarkedImagePath);
+    
+            // Serve the watermarked image for download
+            return response()->download($watermarkedImagePath); // Adjust the filename as needed
+        } else {
+            return redirect()->back()->with('error', 'File not found.');
+        }
+    }
+    
+    
+
+
+
     /**
      * Show the form for editing the specified resource.
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
+
+
     public function edit($id, Request $request)
     {
         // Retrieve the specific Model2D instance
