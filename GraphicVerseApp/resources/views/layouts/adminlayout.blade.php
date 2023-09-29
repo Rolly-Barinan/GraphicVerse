@@ -124,6 +124,9 @@
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('admin.categories') }}">Manage Categories</a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('admin.users') }}">Manage Users</a>
+                    </li>
                 </ul>
                 <div class="nav flex-column mt-auto">
                     <a class="nav-link" style="color: red" href="{{ route('admin.logout') }}">

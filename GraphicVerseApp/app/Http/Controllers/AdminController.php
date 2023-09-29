@@ -42,6 +42,14 @@ class AdminController extends Controller
         return view('admin.dashboard', ['admin' => $admin, 'categories' => $categories, 'users' => $users, 'models2D' => $models2D, 'models3D' => $models3D]);
     }
 
+    public function users()
+    {
+        $admin = Admin::findOrFail(auth()->user()->id); // Fetch the authenticated admin from the database
+        $users = User::paginate(5);
+
+        return view('admin.users', ['admin' => $admin, 'users' => $users]);
+    }
+
     public function categories()
     {
         $admin = Admin::findOrFail(auth()->user()->id); // Fetch the authenticated admin from the database
