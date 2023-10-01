@@ -13,11 +13,13 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('images', function (Blueprint $table) {
+        Schema::create('packages', function (Blueprint $table) {
             $table->id();
-            $table->string('filename');
-            $table->unsignedBigInteger('package_id');
-            $table->foreign('package_id')->references('id')->on('packages')->onDelete('cascade');
+            $table->string('PackageName');
+            $table->string('preview');
+            $table->string('Location');
+            $table->text('Description')->nullable();
+            $table->unsignedBigInteger('UserID'); // Foreign key to link to the User model
             $table->timestamps();
         });
     }
@@ -29,6 +31,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('images');
+        Schema::dropIfExists('packages');
     }
 };

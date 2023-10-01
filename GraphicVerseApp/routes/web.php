@@ -4,18 +4,14 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\RestrictDirectAccess;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\AboutUsController;
-use App\Http\Controllers\AudiosController;
 use App\Http\Controllers\ProfilesController;
-use App\Http\Controllers\PackageController;
-use App\Http\Controllers\TwoDimController;
 use App\Http\Controllers\TeamController;
-
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\SearchController;
-
 use App\Http\Controllers\TwoDsController;
 use App\Http\Controllers\ThreeDsController2;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\AssetPackageController;
 
 /*
 |--------------------------------------------------------------------------
@@ -45,10 +41,16 @@ Route::middleware('auth:admin')->group(function () {
 
 
 Auth::routes();
-
-Route::get('/home', [HomeController::class, 'index'])->name('home');   
-Route::get('/', [HomeController::class, 'index'])->name('home');   
+Route::get('/home', [HomeController::class, 'index'])->name('home');
+Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/aboutus', [AboutUsController::class, 'index'])->name('aboutus');
+
+
+
+
+Route::get('/asset-package', [AssetPackageController::class, 'index'])->name('asset.index');
+Route::get('/asset-package/create', [AssetPackageController::class, 'create'])->name('asset.create');
+Route::post('/asset-package/store', [AssetPackageController::class, 'store'])->name('asset.store');
 
 //User profile
 Route::get('/profile/{user}', [ProfilesController::class, 'index'])->name('profile.show');
@@ -61,7 +63,7 @@ Route::get('/twoD/download/{id}',  [TwoDsController::class, 'download'])->name('
 
 //3D router controller
 Route::get('/3d', [ThreeDsController2::class, 'index'])->name('threeD.index');
-Route::get('/three-dim/{id}/download',[ThreeDsController2::class, 'download'])->name('threeD.download');
+Route::get('/three-dim/{id}/download', [ThreeDsController2::class, 'download'])->name('threeD.download');
 Route::get('3d/{id}', [ThreeDsController2::class, 'show'])->name('threeD.show');
 
 //Search Controller
@@ -104,7 +106,4 @@ Route::middleware(['auth'])->group(function () {
 });
 
 Route::middleware([RestrictDirectAccess::class])->group(function () {
-
-  
-    
 });

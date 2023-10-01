@@ -45,6 +45,16 @@ class User extends Authenticatable
             ]);
         });
     }
+    
+    public function packages()
+    {
+        return $this->hasMany(Package::class, 'UserID'); 
+    }
+
+    public function assets()
+    {
+        return $this->hasMany(Asset::class);
+    }
 
     /**
      * The attributes that should be cast.
@@ -66,10 +76,7 @@ class User extends Authenticatable
         return $this->hasMany(ThreeD::class);
     }
 
-    public function packages()
-    {
-        return $this->hasMany(Package::class)->orderBy('created_at', 'DESC');
-    }
+
     public function audios()
     {
         return $this->hasMany(Audio::class);

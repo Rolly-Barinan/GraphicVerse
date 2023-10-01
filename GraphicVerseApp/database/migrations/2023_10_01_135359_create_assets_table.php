@@ -15,9 +15,14 @@ return new class extends Migration
     {
         Schema::create('assets', function (Blueprint $table) {
             $table->id();
+            $table->string('AssetName');
+            $table->text('Description')->nullable();
+            $table->string('FileType');
+            $table->unsignedBigInteger('FileSize');
+            $table->string('Location'); // Path to the stored asset file
+            $table->unsignedBigInteger('PackageID'); // Foreign key to link to the Package model
+            $table->unsignedBigInteger('UserID'); // Foreign key to link to the User model
             $table->timestamps();
-            $table->string('asset_name');
-            
         });
     }
 
