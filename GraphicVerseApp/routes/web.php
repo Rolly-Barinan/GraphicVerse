@@ -50,6 +50,7 @@ Route::get('/aboutus', [AboutUsController::class, 'index'])->name('aboutus');
 
 Route::get('/asset-package', [AssetPackageController::class, 'index'])->name('asset.index');
 Route::get('/asset-package/create', [AssetPackageController::class, 'create'])->name('asset.create');
+Route::get('/asset-package/{id}', [AssetPackageController::class, 'show'])->name('asset.show');
 Route::post('/asset-package/store', [AssetPackageController::class, 'store'])->name('asset.store');
 
 //User profile

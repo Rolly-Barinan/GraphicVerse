@@ -11,9 +11,16 @@ class AssetPackageController extends Controller
 
     public function index()
     {
-        $packages = Package::all(); // Retrieve all packages from the database
 
+        $packages = Package::all();
         return view('asset.index', compact('packages'));
+    }
+    public function show($id)
+    {
+        $package = Package::with('assets')->findOrFail($id);
+        $assets = $package->assets;
+    
+        return view('asset.show', compact('package', 'assets'));
     }
     public function create()
     {
@@ -30,25 +37,19 @@ class AssetPackageController extends Controller
     {
         $user = auth()->user();
 
-        // Validate the incoming request data
-
-        // Handle the image upload and store it in the public directory or storage as per your configuration.
-        $imagePath = $request->file('preview')->store('preview'); // You can configure the storage path as needed.
-
-        // Create a new Package instance and fill it with the validated data
-
-
+        $previewFile = $request->file('preview');
+        $originalFileName = $previewFile->getClientOriginalName();
+        
+        $imagePath = $previewFile->storeAs('public/preview', $originalFileName);
+        
         $package = new Package([
-
             'PackageName' => $request['PackageName'],
             'Description' => $request['Description'],
-            'preview' => $request->file('preview'),
-            'Location' => $imagePath,
+            'preview' => $originalFileName, // Use the original filename
+            'Location' => $imagePath, // Store the file in Laravel storage
             'UserID' => $user->id,
-            // Set the 'PackageID' to associate the asset with the new package
         ]);
-
-
+        
         // Save the package to the database
 
         $package->save();
@@ -68,7 +69,7 @@ class AssetPackageController extends Controller
                 'AssetName' => $asset->getClientOriginalName(),
                 'FileType' => $asset->getClientOriginalExtension(),
                 'FileSize' => $asset->getSize(),
-                'Location' => $path,
+                'Location' => $path,    
                 'UserID' => $user->id,
                 'PackageID' => $package->id, // Set the 'PackageID' to associate the asset with the new package
             ]);

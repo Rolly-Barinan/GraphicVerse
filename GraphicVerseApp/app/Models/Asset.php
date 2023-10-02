@@ -16,12 +16,10 @@ class Asset extends Model
         'UserID',
         'PackageID'
     ];
+
     public function package()
     {
-        return $this->belongsTo(Package::class);
+        return $this->belongsTo(Package::class, 'PackageID', 'id');
     }
-    public function assets()
-    {
-        return $this->hasMany(Asset::class);
-    }
+    
 }

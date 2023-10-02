@@ -154,10 +154,6 @@ class TwoDsController extends Controller
         // Retrieve the specific Model2D instance
         $model2D = Model2D::findOrFail($id);
     
-        // Implement logic to check if the user is allowed to download the image
-        // You can add your logic here, for example, checking if it's a free download or if the user has purchased it.
-    
-        // Assuming it's a free download, you can serve the image file with a watermark
         $path = storage_path('app/public/' . $model2D->filename);
     
         // Check if the file exists
