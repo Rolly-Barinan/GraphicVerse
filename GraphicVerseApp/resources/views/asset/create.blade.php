@@ -21,7 +21,7 @@
 
                         <div class="form-group">
                             <label for="PackageName">Package Name:</label>
-                            <input type="text" name="PackageName" class="form-control" value="New Package">
+                            <input type="text" name="PackageName" class="form-control">
                         </div>
 
                         <div class="form-group">
@@ -31,20 +31,16 @@
 
                         <div class="form-group">
                             <label for="preview">Package Preview:</label>
-                            <input type="text" name="preview" class="form-control" value="default_preview_value">
+                            <input type="file" name="preview" class="form-control" class="form-control-file">
                         </div>
+
 
                         <div class="form-group">
-                            <label for="Location">Package Location:</label>
-                            <input type="text" name="Location" class="form-control" value="default_location_value">
+                            <label for="asset">Upload Asset:</label>
+                            <input type="file" name="asset[]" multiple class="form-control-file">
                         </div>
 
-                        <div class="form-group">
-                            <label for="images">Upload Images:</label>
-                            <input type="file" name="images[]" multiple class="form-control-file">
-                        </div>
-
-                        <button type="submit" class="btn btn-primary">Upload Images</button>
+                        <button type="submit" class="btn btn-primary">Upload</button>
                     </form>
                 </div>
             </div>
