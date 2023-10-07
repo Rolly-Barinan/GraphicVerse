@@ -44,9 +44,11 @@
 
 <style>
     body {
-        background-image: url('https://cdn.discordapp.com/attachments/1121006331323760680/1123571308496691210/Copy_of_GraphicVerse_Capstone_Hearing.png');
-        background-size: cover;
-        background-repeat: no-repeat;
+        background-color: #dcdcdc; /* or any other shade of grey you prefer */
+    }
+
+    .content {
+        color: black; /* Set the font color to black */
     }
 
     .navbar-nav .nav-item {

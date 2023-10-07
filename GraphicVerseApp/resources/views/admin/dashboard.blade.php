@@ -36,7 +36,7 @@
 </style>
 
 <div class="container mt-4">
-    <div class="dashboard-container">
+    <div class="dashboard-container" style="border-left: 10px solid #333;">
         <h2 class="dashboard-title">Dashboard</h2>
         
         <div class="row">

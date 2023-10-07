@@ -53,7 +53,7 @@ class AdminController extends Controller
     public function categories()
     {
         $admin = Admin::findOrFail(auth()->user()->id); // Fetch the authenticated admin from the database
-        $categories = Categories::paginate(5);
+        $categories = Categories::paginate(10);
 
         return view('admin.categories', ['admin' => $admin, 'categories' => $categories]);
     }
@@ -71,7 +71,7 @@ class AdminController extends Controller
         // Save the category to the database
         $category->save();
     
-        return redirect()->route('admin.dashboard')->with('success', 'Category added successfully.');
+        return redirect()->route('admin.categories')->with('success', 'Category added successfully.');
     }
 
     public function deleteCategory($id)
@@ -86,7 +86,7 @@ class AdminController extends Controller
 
         $category->delete();
 
-        return redirect()->route('admin.dashboard')->with('success', 'Category deleted successfully.');
+        return redirect()->route('admin.categories')->with('success', 'Category deleted successfully.');
     }
 
     public function logout()
