@@ -13,28 +13,20 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('packages', function (Blueprint $table) {
+        Schema::create('package_categories', function (Blueprint $table) {
             $table->id();
-            $table->string('PackageName');
-            $table->text('Description')->nullable();
-            $table->string('preview');
-            $table->string('Location');
-            $table->decimal('Price', 10, 2)->nullable();
-                
-            $table->unsignedBigInteger('UserID');
+            $table->string('categoryName');
             $table->timestamps();
-            
-   
         });
     }
+
     /**
      * Reverse the migrations.
-     * 
      *
      * @return void
      */
     public function down()
     {
-        Schema::dropIfExists('packages');
+        Schema::dropIfExists('package_categories');
     }
 };

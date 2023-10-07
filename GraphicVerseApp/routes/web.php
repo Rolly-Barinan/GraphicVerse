@@ -46,12 +46,11 @@ Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/aboutus', [AboutUsController::class, 'index'])->name('aboutus');
 
 
-
-
 Route::get('/asset-package', [AssetPackageController::class, 'index'])->name('asset.index');
 Route::get('/asset-package/create', [AssetPackageController::class, 'create'])->name('asset.create');
 Route::get('/asset-package/{id}', [AssetPackageController::class, 'show'])->name('asset.show');
 Route::post('/asset-package/store', [AssetPackageController::class, 'store'])->name('asset.store');
+Route::get('/asset-package/{id}/download', [AssetPackageController::class, 'download'])->name('asset.download');
 
 //User profile
 Route::get('/profile/{user}', [ProfilesController::class, 'index'])->name('profile.show');

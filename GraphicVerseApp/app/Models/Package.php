@@ -9,7 +9,7 @@ class Package extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'PackageName', 
+        'PackageName',
         'Description',
         'preview',
         'Location',
@@ -21,7 +21,16 @@ class Package extends Model
     }
 
     public function assets()
-{
-    return $this->hasMany(Asset::class, 'PackageID', 'id');
-}
+    {
+        return $this->hasMany(Asset::class, 'PackageID', 'id');
+    }
+    
+    public function categories()
+    {
+        return $this->belongsToMany(Category::class, 'asset_categories', 'PackageID', 'CategoryID');
+    }
+
+  
+
+    
 }
