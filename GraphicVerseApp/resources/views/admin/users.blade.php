@@ -29,23 +29,24 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($users as $user)
+                            @if ($users->isEmpty())
                                 <tr>
-                                    <td>{{ $user->id }}</td>
-                                    <td>{{ $user->username }}</td>
-                                    <td>{{ $user->created_at->format('Y-m-d') }}</td>
-                                    <td class="text-center">
-                                        <a href="{{ route('admin.deleteCategory', $user->id) }}" class="btn btn-success">
-                                            View Details
-                                        </a>                                        
-                                        <span style="margin: 0 10px;"> <!-- Add space between icons -->
-                                            <a href="{{ route('admin.deleteCategory', $user->id) }}" onclick="return confirm('Are you sure you want to delete this category?')" style="text-decoration: none; color: red;">
-                                                <i class="fas fa-trash-alt"></i> <!-- Font Awesome delete icon -->
-                                            </a>
-                                        </span>
-                                    </td>  
+                                    <td colspan="4" class="text-center">No users found</td>
                                 </tr>
-                            @endforeach
+                            @else
+                                @foreach ($users as $user)
+                                    <tr>
+                                        <td>{{ $user->id }}</td>
+                                        <td>{{ $user->username }}</td>
+                                        <td>{{ $user->created_at->format('Y-m-d') }}</td>
+                                        <td class="text-center">
+                                            <a href="{{ route('admin.userDetails', $user->id) }}" class="btn btn-success">
+                                                View Details
+                                            </a>                                        
+                                        </td>  
+                                    </tr>
+                                @endforeach
+                            @endif
                         </tbody>
                     </table>
                 </div>

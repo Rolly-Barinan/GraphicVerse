@@ -50,6 +50,33 @@ class AdminController extends Controller
         return view('admin.users', ['admin' => $admin, 'users' => $users]);
     }
 
+    public function userDetails($id)
+    {
+        $admin = Admin::findOrFail(auth()->user()->id);
+        $user = User::find($id);
+
+        if (!$user) {
+            return redirect()->route('admin.users')->with('error', 'User not found.');
+        }
+
+        return view('admin.userDetails', ['admin' => $admin, 'user' => $user]);
+    }
+
+    public function deleteUser($id)
+    {
+        $user = User::find($id);
+
+        if (!$user) {
+            return redirect()->route('admin.users')->with('error', 'User not found.');
+        }
+
+        // Perform any additional checks or logic before deleting if needed
+
+        $user->delete();
+
+        return redirect()->route('admin.users')->with('success', 'User deleted successfully.');
+    }
+
     public function categories()
     {
         $admin = Admin::findOrFail(auth()->user()->id); // Fetch the authenticated admin from the database
