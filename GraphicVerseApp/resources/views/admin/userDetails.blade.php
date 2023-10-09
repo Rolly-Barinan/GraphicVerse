@@ -32,8 +32,24 @@
                                 <td>{{ $user->email }}</td>
                             </tr>
                             <tr>
+                                <th>Description:</th>
+                                <td>{{ $user->profile->description ?? 'N/A'}}</td>
+                            </tr>
+                            <tr>
+                                <th>URL:</th>
+                                <td>{{ $user->profile->url ?? 'N/A' }}</td>
+                            </tr>
+                            <tr>
                                 <th>Created At:</th>
                                 <td>{{ $user->created_at->format('Y-m-d') }}</td>
+                            </tr>
+                            <tr>
+                                <th>2D assets uploaded:</th>
+                                <td>{{ $userUploadsCount2D }}</td>
+                            </tr>
+                            <tr>
+                                <th>3D assets uploaded:</th>
+                                <td>{{ $userUploadsCount3D }}</td>
                             </tr>
                             <!-- Add more user details as needed -->
                         </tbody>

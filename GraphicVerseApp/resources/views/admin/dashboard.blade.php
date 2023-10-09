@@ -41,25 +41,25 @@
         
         <div class="row">
             <div class="col-md-4">
-                <div class="dashboard-card">
+                <div class="dashboard-card" style="border-left: 10px solid #333;">
                     <h3>Total Categories</h3>
                     <p>{{ $categories->count() }}</p>
                 </div>
             </div>
             <div class="col-md-4">
-                <div class="dashboard-card">
+                <div class="dashboard-card" style="border-left: 10px solid #333;">
                     <h3>Total Users</h3>
                     <p>{{ $users->count() }}</p>
                 </div>
             </div>
             <div class="col-md-4">
-                <div class="dashboard-card">
+                <div class="dashboard-card" style="border-left: 10px solid #333;">
                     <h3>Total 2D Assets</h3>
                     <p>{{ $models2D->count() }}</p>
                 </div>
             </div>
             <div class="col-md-4">
-                <div class="dashboard-card">
+                <div class="dashboard-card" style="border-left: 10px solid #333;">
                     <h3>Total 3D Assets</h3>
                     <p>{{ $models3D->count() }}</p>
                 </div>
