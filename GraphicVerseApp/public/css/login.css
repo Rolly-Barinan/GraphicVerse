@@ -8,3 +8,7 @@
     margin: 0 auto; /* Center the form horizontally within the dropdown */
     padding: 20px; /* Add padding for spacing */
 }
+
+.show-dropdown {
+    display: block !important;
+}

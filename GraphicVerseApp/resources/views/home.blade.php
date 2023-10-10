@@ -11,7 +11,7 @@
                 <p class="experience"> Experience the power of efficient asset management, collaborative workspaces, and a stunning portfolio
                     showcase. Join GraphicVerse and elevate your creative journey to new heights.
                 </p>
-                <button type="link" class="learnmore" id="learnMoreButton" href="{{ route('login') }}">Get started </button><i class="bi bi-chevron-right"></i>
+                <button type="link" class="learnmore" id="learnMoreButton" href="{{ route('twoD.index') }}">Browse Assets</button><i class="bi bi-chevron-right"></i>
             </div>
         </div>
     </div>
@@ -27,6 +27,7 @@
         </div>
     <div class="row-3 justify-content-center align-items-center ">
         <div class="col justify-content-center">
+            <img src="/svg/discord.png" class="discord pt-5" >
             <h1 class="elevate-title pt-5 mt-5">Join our Discord Server!</h1>
             <p class="experience mt-4"> Join our community to collaborate, communicate and exchange creative ideas with other artists!.
                 </p>

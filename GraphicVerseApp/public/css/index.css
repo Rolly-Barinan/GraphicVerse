@@ -17,7 +17,9 @@
         object-fit: cover;
         border-radius: 5px;
     }
-    
+    .rounded-model-viewer {
+        border-radius: 5px;
+    }
     /* Add custom styles for pagination links if needed */
     .pagination {
         margin-top: 20px;
@@ -95,7 +97,6 @@
         padding-left: 0  !important;
         padding-right: 0 !important;
         background-color: white !important;
-        border-top-left-radius: 15px;
         
     }
 

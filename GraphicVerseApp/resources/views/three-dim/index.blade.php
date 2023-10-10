@@ -79,7 +79,7 @@
                                 <div class="col-md-4 mb-4">
                                     <a href="{{ route('threeD.show', ['id' => $model->id]) }}" class="model-link" style= "text-decoration: none;">
                                         <div class="card model-card " style="text-decoration: none !important">
-                                        <div class="model-viewer" data-model-path="{{ asset('storage/' . $model->filename) }}"></div>
+                                        <div class="model-viewer" data-model-path="{{ asset('storage/' . $model->filename) }}" ></div>
                                             <div class="favorite-icon" style="position: absolute; top: 10px; right: 10px; cursor: pointer;">
                                                 <i class="heart-icon fas fa-heart"></i>
                                             </div>
@@ -127,6 +127,7 @@
             antialias: true
         });
         renderer.setSize(width, height);
+        renderer.domElement.style.borderRadius = '5px';
         modelViewer.appendChild(renderer.domElement);
 
         const controls = new THREE.OrbitControls(camera, renderer.domElement);

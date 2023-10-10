@@ -41,56 +41,21 @@
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
    
     <!-- Scripts -->
-    {{-- @vite(['resources/sass/app.scss', 'resources/js/app.js']) --}}
-    
-    <script>
-    document.addEventListener('DOMContentLoaded', function () {
-        const loginDropdown = document.getElementById('loginDropdown');
-        const loginDropdownContent = document.getElementById('loginDropdownContent');
-        
-        const registerDropdown = document.getElementById('registerDropdown');
-        const registerDropdownContent = document.getElementById('registerDropdownContent');
-
-        loginDropdown.addEventListener('mousedown', function (e) {
-            e.preventDefault(); // Prevent the anchor link's default behavior
-            e.stopPropagation(); // Prevent the event from propagating to the anchor
-
-            loginDropdownContent.classList.toggle('show');
-        });
-
-        registerDropdown.addEventListener('mousedown', function (e) {
-            e.preventDefault(); // Prevent the anchor link's default behavior
-            e.stopPropagation(); // Prevent the event from propagating to the anchor
-
-            registerDropdownContent.classList.toggle('show');
-        });
-
-        // Close the login dropdown if the user clicks outside of it
-        window.addEventListener('mousedown', function (event) {
-            if (!event.target.matches('#loginDropdown')) {
-                if (loginDropdownContent.classList.contains('show')) {
-                    loginDropdownContent.classList.remove('show');
-                }
-            }
-        });
-
-        // Close the register dropdown if the user clicks outside of it
-        window.addEventListener('mousedown', function (event) {
-            if (!event.target.matches('#registerDropdown')) {
-                if (registerDropdownContent.classList.contains('show')) {
-                    registerDropdownContent.classList.remove('show');
-                }
-            }
-        });
-    });
-</script>
+    {{-- @vite(['resources/sass/app.scss', 'resources/js/app.js']) --}}   
 
 </head>
+
+<body class="{{ Route::currentRouteName() }}">
+
 <nav class="navbar navbar-expand-lg" >
 
     <div class="container-fluid ">
     <a href="/">
-        <img src="/svg/logo.svg" class="logo" alt="Logo">
+        @if (Route::currentRouteName() === 'home')
+            <img src="{{ asset('svg/logo.svg') }}" class="logo" alt="Logo">
+        @else
+            <img src="{{ asset('svg/logo2.svg') }}" class="logo" alt="Default Logo">
+        @endif
     <a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav2"
             aria-controls="navbarNav2" aria-expanded="false" aria-label="Toggle navigation">
@@ -112,39 +77,41 @@
             </ul>
             <form class="custom-search-form MT-4" role="search" action="{{ route('search')}}">
                 <input class="form-control me-2 custom-search-input" type="search" placeholder="Search assets" name="q"
-                    aria-label="Search" style="width: 100%">
+                    aria-label="Search">
                     <!-- <button class="" -->
             </form>
             <ul class="navbar-nav ms-auto me-4 pt-2">
                 @guest
                     @if (Route::has('login'))
                     <li class="nav-item pb-3 pe-3 position-relative">
-                        <a id="loginDropdown" class="nav-link">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                            data-bs-toggle="dropdown" aria-expanded="false">
                             {{ __('Login') }}
                         </a>
-                        <div id="loginDropdownContent" class="dropdown-content">
+                        <div class="dropdown-content" aria-labelledby="navbarDropdown">
                             @include('auth.login')
                         </div>
                     </li>
                     @endif
                     @if (Route::has('register'))
                     <li class="nav-item pb-3 pe-3 position-relative">
-                        <a id="registerDropdown" class="nav-link">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                            data-bs-toggle="dropdown" aria-expanded="false">
                             {{ __('Register') }}
                         </a>
-                        <div id="registerDropdownContent" class="dropdown-content">
+                        <div class="dropdown-content" aria-labelledby="navbarDropdown">
                             @include('auth.register')
                         </div>
                     </li>
                     @endif
                 @else
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle text-white" href="#" id="navbarDropdown" role="button"
-                            data-bs-toggle="dropdown" aria-expanded="false">
-                            <img src="{{ Auth::user()->profile->profileImage() }}" class="img-fluid rounded-circle" style="height: 30px; width: 30px; margin-right: 5px;">
-                            {{ Auth::user()->profile->title }}
+                    <li class="nav-item dropdown position-relative">
+                        <a class="nav-link1 dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                            data-bs-toggle="dropdown" aria-expanded="false" style="height: 60px; width: 60px; margin-bottom: 25px;">
+                            <img src="{{ Auth::user()->profile->profileImage() }}" class="img-fluid rounded-circle">
                         </a>
-                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <ul class="dropdown-menu dropdown-menu-left" aria-labelledby="navbarDropdown">
+                            <li><h4 class="dropdown-item">{{ Auth::user()->profile->title }}</h4></li>
                             <li><a class="dropdown-item" href="/profile/{{ Auth::user()->id }}">My Profile</a></li>
                             <li><a class="dropdown-item" href="#">Wishlist</a></li>
                             <li><a class="dropdown-item" href="/teams">Teams</a></li>

@@ -1,12 +1,12 @@
 .col-md-8{
-    background-color: #DDDDE4;
+    background-color: #fff;
 }
 .model-card {
     background-color: #DDDDE4;
 }
 
 .card-body {
-    background-color: #DDDDE4;
+    background-color: #fff;
 }
 
 .img-fluid {
@@ -47,7 +47,7 @@ margin: 30px;
 
 .dl {
     font-size: 20px;
-    color: #D4D4D4;
+    color: #5F5F79;
     padding-left: 50px;
 }
 

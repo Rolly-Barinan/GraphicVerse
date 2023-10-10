@@ -1,5 +1,5 @@
 <link href="{{ asset('css/login.css') }}" rel="stylesheet">
-<div class="container">
+<div class="container background-color-light">
     <div class="row justify-content-center py-4">
         <div class="col-md-8">
             <div class="card border-0 h-10">
@@ -39,7 +39,7 @@
                         </div>
 
                         <div class="text-center">
-                            <button type="submit" class="btn btn-primary mt-3">
+                            <button type="submit" class="btn btn-primary mt-3" href="/2d">
                                 {{ __('Login') }}
                             </button>
                         </div>
