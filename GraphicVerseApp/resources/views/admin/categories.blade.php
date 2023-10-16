@@ -41,6 +41,7 @@
                             <tr>
                                 <th>Name</th>
                                 <th>Date Created</th>
+                                <th>Date Updated</th>
                                 <th>Actions</th>
                             </tr>
                         </thead>
@@ -49,6 +50,7 @@
                                 <tr>
                                     <td>{{ $category->cat_name }}</td>
                                     <td>{{ $category->created_at->format('Y-m-d') }}</td>
+                                    <td>{{ optional($category->updated_at)->format('Y-m-d') ?? 'N/A'}}</td>
                                     <td class="text-center">
                                         <a href="#" style="text-decoration: none; color: green;" data-bs-toggle="modal" data-bs-target="#editCategoryModal{{ $category->id }}">
                                             <i class="fas fa-edit"></i> <!-- Font Awesome edit icon -->
