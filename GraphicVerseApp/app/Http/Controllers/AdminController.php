@@ -111,6 +111,24 @@ class AdminController extends Controller
         return redirect()->route('admin.categories')->with('success', 'Category added successfully.');
     }
 
+    public function updateCategory(Request $request, $id)
+    {
+        $request->validate([
+            'category' => 'required|max:255', // Add any validation rules you need
+        ]);
+
+        $category = Categories::find($id);
+
+        if (!$category) {
+            return redirect()->route('admin.categories')->with('error', 'Category not found.');
+        }
+
+        $category->cat_name = $request->input('category');
+        $category->save();
+
+        return redirect()->route('admin.categories')->with('success', 'Category updated successfully.');
+    }
+
     public function deleteCategory($id)
     {
         $category = Categories::find($id);
