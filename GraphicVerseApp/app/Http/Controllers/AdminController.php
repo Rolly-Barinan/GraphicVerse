@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Validation\Rule;
 
 use App\Models\Admin;
 use App\Models\Categories;
@@ -98,7 +99,7 @@ class AdminController extends Controller
     public function storeCategory(Request $request)
     {
         $request->validate([
-            'category' => 'required|max:255', // Add any validation rules you need
+            'category' => ['required', 'string', 'max:255', Rule::unique('categories', 'cat_name')], // Add any validation rules you need
         ]);
     
         // Create a new category instance and set its properties
@@ -114,7 +115,7 @@ class AdminController extends Controller
     public function updateCategory(Request $request, $id)
     {
         $request->validate([
-            'category' => 'required|max:255', // Add any validation rules you need
+            'category' => ['required', 'string', 'max:255', Rule::unique('categories', 'cat_name')->ignore($id)], // Add any validation rules you need
         ]);
 
         $category = Categories::find($id);

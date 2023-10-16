@@ -23,7 +23,16 @@
                 <p>{{ $message }}</p>
             </div>
         @endif
-        
+        @if ($errors->any())
+            <div class="alert alert-danger">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
+    
         <div class="card rounded" style="border-left: 10px solid #333;">
             <div class="card-body">
                 <div class="table-responsive">
@@ -68,9 +77,6 @@
                                                     <div class="form-group">
                                                         <label for="category">Category name:</label>
                                                         <input type="text" id="category" name="category" value="{{ $category->cat_name }}" required>
-                                                        @error('category')
-                                                            <div class="invalid-feedback">{{ $message }}</div>
-                                                        @enderror
                                                     </div>
                                                 </div>
                                                 <div class="modal-footer">
@@ -110,9 +116,6 @@
                             <div class="form-group">
                                 <label for="category">Category name:</label>
                                 <input type="text" id="category" name="category" required>
-                                @error('category')
-                                    <div class="invalid-feedback">{{ $message }}</div>
-                                @enderror
                             </div>
                         </div>
                         <div class="modal-footer">
