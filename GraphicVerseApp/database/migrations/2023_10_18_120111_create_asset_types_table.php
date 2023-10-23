@@ -13,14 +13,10 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('asset_categories', function (Blueprint $table) {
+        Schema::create('asset_types', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('package_id');
-            $table->unsignedBigInteger('category_id');
+            $table->string('asset_type');
             $table->timestamps();
-            
-            $table->foreign('package_id')->references('id')->on('packages')->onDelete('cascade');
-            $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade');
         });
     }
 
@@ -31,6 +27,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('asset_categories');
+        Schema::dropIfExists('asset_types');
     }
 };

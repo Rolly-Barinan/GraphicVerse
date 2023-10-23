@@ -13,7 +13,9 @@ class Package extends Model
         'Description',
         'preview',
         'Location',
+        'Price',
         'UserID',
+        'asset_type_id',
     ];
     public function user()
     {
@@ -24,13 +26,14 @@ class Package extends Model
     {
         return $this->hasMany(Asset::class, 'PackageID', 'id');
     }
-    
+
     public function categories()
     {
-        return $this->belongsToMany(Category::class, 'asset_categories', 'PackageID', 'CategoryID');
+        return $this->belongsToMany(Categories::class, 'package_category', 'package_id', 'category_id');
     }
 
-  
-
-    
+    public function assetType()
+    {
+        return $this->belongsTo(AssetType::class);
+    }
 }
