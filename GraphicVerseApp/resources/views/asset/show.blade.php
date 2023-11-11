@@ -9,6 +9,7 @@
         <div class="card-body">
             <h5 class="card-title">{{ $package->PackageName }}</h5>
             <p class="card-text">{{ $package->Description }}</p>
+            <p>Price: ${{ $package->Price }}</p>
         </div>
     </div>
 
