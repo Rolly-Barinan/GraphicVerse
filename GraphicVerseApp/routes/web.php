@@ -12,6 +12,7 @@ use App\Http\Controllers\TwoDsController;
 use App\Http\Controllers\ThreeDsController2;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\AssetPackageController;
+use App\Http\Controllers\PaypalController;
 
 /*
 |--------------------------------------------------------------------------
@@ -45,12 +46,17 @@ Route::get('/home', [HomeController::class, 'index'])->name('home');
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/aboutus', [AboutUsController::class, 'index'])->name('aboutus');
 
-
+//packages
 Route::get('/asset-package', [AssetPackageController::class, 'index'])->name('asset.index');
 Route::get('/asset-package/create', [AssetPackageController::class, 'create'])->name('asset.create');
 Route::get('/asset-package/{id}', [AssetPackageController::class, 'show'])->name('asset.show');
 Route::post('/asset-package/store', [AssetPackageController::class, 'store'])->name('asset.store');
 Route::get('/asset-package/{id}/download', [AssetPackageController::class, 'download'])->name('asset.download');
+
+////////paypal 
+Route::post('paypal/payment', [PaypalController::class, 'payment'])->name('paypal');
+Route::get('paypal/success', [PaypalController::class, 'success'])->name('paypal_success');
+Route::get('paypal/cancel', [PaypalController::class, 'cancel'])->name('paypal_cancel');
 
 //User profile
 Route::get('/profile/{user}', [ProfilesController::class, 'index'])->name('profile.show');

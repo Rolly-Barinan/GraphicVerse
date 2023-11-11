@@ -23,6 +23,13 @@
             <li>No assets found for this package.</li>
         @endif
     </ul> --}}
+
+    <form action="{{ route('paypal') }}" method="POST">
+    @csrf
+
+    <input type="hidden" name="price" value={{ $package->Price  }}>
+    <button type="submit"> Pay with paypal</button>
+    </form>
     
 
     <a href="{{ route('asset.index') }}" class="btn btn-primary">Back to Packages</a>
