@@ -121,20 +121,29 @@
                 </div>
                 <ul class="nav flex-column">
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('admin.dashboard') }}">Dashboard</a>
+                        <a class="nav-link" href="{{ route('admin.dashboard') }}">
+                            <i class="fas fa-tachometer-alt"></i> Dashboard
+                        </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('admin.categories') }}">Manage Categories</a>
+                        <a class="nav-link" href="{{ route('admin.categories') }}">
+                            <i class="fas fa-folder"></i> Manage Categories
+                        </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('admin.users') }}">Manage Users</a>
+                        <a class="nav-link" href="{{ route('admin.users') }}">
+                            <i class="fas fa-users"></i> Manage Users
+                        </a>
                     </li>
                 </ul>
                 <div class="nav flex-column mt-auto">
-                    <a class="nav-link" style="color: red" href="{{ route('admin.logout') }}">
-                        LOGOUT
+                    <a class="nav-link mb-4" style="color: red" href="{{ route('admin.logout') }}">
+                        <i class="fas fa-sign-out-alt"></i> LOGOUT
                     </a>
-                </div>
+                    <div style="display: flex; align-items: center; justify-content: center;">
+                        <img src="{{ asset('svg\GraphicVerse_Logo.png') }}" alt="Logo" style="max-width: 50%;">
+                    </div>
+                </div>                
             </div>
             <!-- Collapsible Sidebar Button -->
             <button class="btn btn-dark d-md-none" id="sidebarToggle">
