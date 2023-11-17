@@ -1,4 +1,4 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 
 <head>
@@ -44,11 +44,13 @@
 
 <style>
     body {
-        background-color: #dcdcdc; /* or any other shade of grey you prefer */
+        background-color: #dcdcdc;
+        /* or any other shade of grey you prefer */
     }
 
     .content {
-        color: black; /* Set the font color to black */
+        color: black;
+        /* Set the font color to black */
     }
 
     .navbar-nav .nav-item {
@@ -68,7 +70,6 @@
         display: flex;
         flex-direction: column;
         align-items: center;
-        margin-bottom: 50px;
         align-self: center;
     }
 
@@ -92,11 +93,6 @@
         transition: color 0.3s;
     }
 
-    .nav-link.active {
-        color: #fff;
-        font-weight: bold;
-    }
-
     /* Add spacing between navigation items */
     .nav-item {
         margin-bottom: 10px;
@@ -111,6 +107,15 @@
 <body>
     <div class="container-fluid">
         <div class="row">
+            <!-- Navbar with Collapse Button (updated structure) -->
+            <nav class="navbar navbar-expand-md navbar-dark bg-dark d-md-none">
+                <!-- Collapsible Sidebar Button -->
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse"
+                    aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+            </nav>
+
             <!-- Left Sidebar -->
             <div class="col-md-2 sidebar bg-dark">
                 <div class="profile text-center">
@@ -119,6 +124,7 @@
                         <h5>{{ $admin->name }}</h5>
                     </div>
                 </div>
+                <hr>
                 <ul class="nav flex-column">
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('admin.dashboard') }}">
@@ -143,13 +149,8 @@
                     <div style="display: flex; align-items: center; justify-content: center;">
                         <img src="{{ asset('svg\GraphicVerse_Logo.png') }}" alt="Logo" style="max-width: 50%;">
                     </div>
-                </div>                
+                </div>
             </div>
-            <!-- Collapsible Sidebar Button -->
-            <button class="btn btn-dark d-md-none" id="sidebarToggle">
-                <i class="fas fa-bars"></i>
-            </button>
-
 
             <!-- Right Content -->
             <div class="col">
@@ -159,36 +160,38 @@
             </div>
         </div>
     </div>
+
+    <!-- Bootstrap JS (added to enable responsive behavior) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Include jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <!-- JavaScript to handle sidebar toggling -->
+    <script>
+        $(document).ready(function () {
+            // Function to check the screen size and toggle the sidebar accordingly
+            function toggleSidebar() {
+                if ($(window).width() < 768) {
+                    $(".sidebar").addClass("d-none");
+                } else {
+                    $(".sidebar").removeClass("d-none");
+                }
+            }
+
+            // Initial check when the page loads
+            toggleSidebar();
+
+            // Check the screen size when the window is resized
+            $(window).resize(function () {
+                toggleSidebar();
+            });
+
+            // Toggle sidebar when the button is clicked
+            $(".navbar-toggler").click(function () {
+                $(".sidebar").toggleClass("d-none");
+            });
+        });
+    </script>
 </body>
 
 </html>
-
-<!-- Include jQuery -->
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
-<!-- JavaScript to handle sidebar toggling -->
-<script>
-$(document).ready(function () {
-    // Function to check the screen size and toggle the sidebar accordingly
-    function toggleSidebar() {
-        if ($(window).width() < 768) {
-            $(".sidebar").addClass("d-none");
-        } else {
-            $(".sidebar").removeClass("d-none");
-        }
-    }
-
-    // Initial check when the page loads
-    toggleSidebar();
-
-    // Check the screen size when the window is resized
-    $(window).resize(function () {
-        toggleSidebar();
-    });
-
-    // Toggle sidebar when the button is clicked
-    $("#sidebarToggle").click(function () {
-        $(".sidebar").toggleClass("d-none");
-    });
-});
-</script>

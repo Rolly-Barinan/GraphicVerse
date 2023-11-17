@@ -6,7 +6,7 @@
         <div class="row">
             <div class="col-lg-12 margin-tb">
                 <div class="pull-right mb-4">
-                    <h2>Users</h2>
+                    <h2>USERS</h2>
                 </div>
             </div>
         </div>

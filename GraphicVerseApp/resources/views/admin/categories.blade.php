@@ -8,7 +8,7 @@
             <div class="col-lg-12 margin-tb">
                 <div class="pull-right mb-4">
                     <h2>
-                        Categories
+                        CATEGORIES
                         <span style="margin: 0 25px;"> <!-- Add space between icons -->
                             <a href="#" data-bs-toggle="modal" data-bs-target="#addCategoryModal" style="cursor: pointer; text-decoration: none;">
                                 <i class="fas fa-plus-square"></i> <!-- Font Awesome plus icon -->
