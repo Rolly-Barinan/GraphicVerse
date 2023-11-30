@@ -1,3 +1,4 @@
+
 <?php
 
 use Illuminate\Support\Facades\Route;
@@ -50,6 +51,9 @@ Route::get('/aboutus', [AboutUsController::class, 'index'])->name('aboutus');
 Route::get('/asset-package', [AssetPackageController::class, 'index'])->name('asset.index');
 Route::get('/asset-package/create', [AssetPackageController::class, 'create'])->name('asset.create');
 Route::get('/asset-package/{id}', [AssetPackageController::class, 'show'])->name('asset.show');
+Route::get('/asset-package3d/{id}', [AssetPackageController::class, 'display3d'])->name('asset.display3d');
+Route::get('/asset-package2d/{id}', [AssetPackageController::class, 'display2d'])->name('asset.display2d');
+
 Route::post('/asset-package/store', [AssetPackageController::class, 'store'])->name('asset.store');
 Route::get('/asset-package/{id}/download', [AssetPackageController::class, 'download'])->name('asset.download');
 

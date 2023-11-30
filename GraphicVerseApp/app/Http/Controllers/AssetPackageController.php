@@ -8,6 +8,7 @@ use App\Models\AssetType;
 use App\Models\Categories;
 use App\Models\Package;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use ZipArchive;
 use Illuminate\Validation\Rule;
@@ -18,6 +19,7 @@ class AssetPackageController extends Controller
 
     public function index()
     {
+
         $packages = Package::all();
         return view('asset.index', compact('packages'));
     }
@@ -29,97 +31,105 @@ class AssetPackageController extends Controller
 
         return view('asset.show', compact('package', 'assets'));
     }
-
-    public function create()
+    public function display3d($id)
 
     {
-        $user = auth()->user();
+        $package = Package::with('assets')->findOrFail($id);
+        $assets = $package->assets;
 
+        return view('asset.display3d', compact('package', 'assets'));
+    }
 
-        $packages = $user->packages;
-        $assetTypes = AssetType::all(); // Fetch asset types from the database
-        $categories = Categories::all(); // Fetch categories from the database
+    public function display2d($id)
+    {
+        $package = Package::with('assets')->findOrFail($id);
+        $assets = $package->assets;
 
-        return view('asset.create', compact('packages', 'assetTypes', 'categories'));
+        return view('asset.display2d', compact('package', 'assets'));
+    }
+
+    public function create()
+    {
+        if (Auth::check()) {
+            $user = auth()->user();
+            $packages = $user->packages;
+            $assetTypes = AssetType::all(); // Fetch asset types from the database
+            $categories = Categories::all(); // Fetch categories from the database
+            return view('asset.create', compact('packages', 'assetTypes', 'categories'));
+        }
+        return redirect()->route('login')->with('error', 'Please log in to create a package.');
     }
 
     public function store(Request $request)
     {
+        if (Auth::check()) {
 
+            $user = auth()->user();
+            $rules = [
+                'PackageName' => 'required',
+                'Description' => 'required',
+                'preview' => 'required|image',
+                'asset' => 'required|array',
+                'asset.*' => 'required|file|mimes:jpeg,png,txt,bin, fbx',
+                'asset_type_id' => 'required',
+                'category_ids' => 'required|array',
+                'category_ids.*' => Rule::exists('categories', 'id'),
+            ];
 
-        $user = auth()->user();
-
-        $rules = [
-            'PackageName' => 'required',
-            'Description' => 'required',
-            'preview' => 'required|image', 
-            'asset' => 'required|array',
-            'asset.*' => 'required|file|mimes:jpeg,png,txt,bin, fbx', 
-            'asset_type_id' => 'required',
-            'category_ids' => 'required|array',
-            'category_ids.*' => Rule::exists('categories', 'id'), 
-        ];
-    
-       
-        $request->validate($rules);
-
-        $previewFile = $request->file('preview');
-        $originalFileName = $previewFile->getClientOriginalName();
-        $imagePath = $previewFile->storeAs('public/preview', $originalFileName);
-
-        $package = new Package([
-            'PackageName' => $request['PackageName'],
-            'Description' => $request['Description'],
-            'preview' => $originalFileName,
-            'Location' => $imagePath,
-            'UserID' => $user->id,
-            'asset_type_id' => $request['asset_type_id'], // Store selected asset type
-            'Price' => $request['Price'], // Store the price
-        ]);
-
-        $package->save();
-
-        // Process and save categories
-        $selectedCategories = $request->input('category_ids', []);
-        $package->categories()->attach($selectedCategories);
-
-        // Process and save assets
-        $uploadedAssetIds = [];
-
-        foreach ($request->file('asset') as $asset) {
-            $extension = $asset->getClientOriginalExtension();
-
-            // Generate a unique filename for the FBX file
-            $uniqueFilename = time() . '-' . Str::random(10) . '.' . $extension;
-            $path = $asset->storeAs('public/assets', $uniqueFilename);
-
-            $asset = new Asset([
-                'AssetName' => $asset->getClientOriginalName(),
-                'FileType' => $extension,
-                'FileSize' => $asset->getSize(),
-                'Location' => $path,
+            $request->validate($rules);
+            $previewFile = $request->file('preview');
+            $originalFileName = $previewFile->getClientOriginalName();
+            $imagePath = $previewFile->storeAs('public/preview', $originalFileName);
+            $package = new Package([
+                'PackageName' => $request['PackageName'],
+                'Description' => $request['Description'],
+                'preview' => $originalFileName,
+                'Location' => $imagePath,
                 'UserID' => $user->id,
-                'PackageID' => $package->id,
+                'asset_type_id' => $request['asset_type_id'], // Store selected asset type
+                'Price' => $request['Price'], // Store the price
             ]);
+            $package->save();
+            // Process and save categories
+            $selectedCategories = $request->input('category_ids', []);
+            $package->categories()->attach($selectedCategories);
+            // Process and save assets
+            $uploadedAssetIds = [];
+            foreach ($request->file('asset') as $asset) {
+                $extension = $asset->getClientOriginalExtension();
 
-            $asset->save();
+                // Generate a unique filename for the FBX file
+                $uniqueFilename = time() . '-' . Str::random(10) . '.' . $extension;
+                $path = $asset->storeAs('public/assets', $uniqueFilename);
 
-            $uploadedAssetIds[] = $asset->id; // Store the IDs of uploaded assets
+                $asset = new Asset([
+                    'AssetName' => $asset->getClientOriginalName(),
+                    'FileType' => $extension,
+                    'FileSize' => $asset->getSize(),
+                    'Location' => $path,
+                    'UserID' => $user->id,
+                    'PackageID' => $package->id,
+                ]);
+
+                $asset->save();
+
+                $uploadedAssetIds[] = $asset->id; // Store the IDs of uploaded assets
+            }
+
+            // Redirect with success message and uploadedAssetIds
+            return redirect()->back()->with([
+                'success' => 'Images uploaded successfully',
+                'uploadedAssetIds' => $uploadedAssetIds, // Include the array of asset IDs
+            ]);
         }
-
-        // Redirect with success message and uploadedAssetIds
-        return redirect()->back()->with([
-            'success' => 'Images uploaded successfully',
-            'uploadedAssetIds' => $uploadedAssetIds, // Include the array of asset IDs
-        ]);
+        return redirect()->route('login')->with('error', 'Please log in to create a package.');
     }
-
-
 
 
 
     public function download($id)
     {
+
         $package = Package::findOrFail($id);
 
 
@@ -127,12 +137,9 @@ class AssetPackageController extends Controller
         if (!file_exists($tempDir)) {
             mkdir($tempDir, 0755, true);
         }
-
-
         $previewFilePath = storage_path('app/' . $package->Location);
         $previewFileName = $package->PackageName . '.jpg';
         copy($previewFilePath, $tempDir . '/' . $previewFileName);
-
 
         $assets = $package->assets;
         foreach ($assets as $asset) {
@@ -140,7 +147,6 @@ class AssetPackageController extends Controller
             $assetFileName = $asset->AssetName;
             copy($assetFilePath, $tempDir . '/' . $assetFileName);
         }
-
         $zipFileName = 'package_' . $package->id . '.zip';
         $zip = new ZipArchive;
         if ($zip->open($tempDir . '/' . $zipFileName, ZipArchive::CREATE) === TRUE) {

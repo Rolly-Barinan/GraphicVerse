@@ -36,7 +36,7 @@ class PaypalController extends Controller
                 if($link['rel']==='approve'){
                     return redirect()->away($link['href']);
                 }
-            }
+            }  
         }else {
             return redirect()->route('paypal_cancel');
         }
