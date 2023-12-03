@@ -14,6 +14,8 @@ use App\Http\Controllers\ThreeDsController2;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\AssetPackageController;
 use App\Http\Controllers\PaypalController;
+use App\Http\Controllers\ThreeDController;
+use App\Http\Controllers\TwoDController;
 
 /*
 |--------------------------------------------------------------------------
@@ -53,10 +55,20 @@ Route::get('/asset-package/create', [AssetPackageController::class, 'create'])->
 Route::get('/asset-package/{id}', [AssetPackageController::class, 'show'])->name('asset.show');
 Route::get('/asset-package3d/{id}', [AssetPackageController::class, 'display3d'])->name('asset.display3d');
 Route::get('/asset-package2d/{id}', [AssetPackageController::class, 'display2d'])->name('asset.display2d');
-
 Route::post('/asset-package/store', [AssetPackageController::class, 'store'])->name('asset.store');
 Route::get('/asset-package/{id}/download', [AssetPackageController::class, 'download'])->name('asset.download');
+Route::get('/watermarked-assets/{id}', [AssetPackageController::class, 'showWatermarked'])->name('watermarked-assets.show');
+// Route::get('/watermarked-assets/{id}', 'AssetController@showWatermarked')->name('watermarked-assets.show');
 
+//new 2d images with asset like sprites
+Route::get('/2d-models', [TwoDController::class, 'index'])->name('twoDim.index');
+Route::get('/2d-models/{id}', [TwoDController::class, 'show'])->name('twoDim.show');
+Route::get('/filter-2d-models', [TwoDController::class, 'filterPackages'])->name('filter.2d');
+
+//3d
+Route::get('/3d-models', [ThreeDController::class, 'index'])->name('threeDim.index');
+Route::get('/3d-models/{id}', [ThreeDController::class, 'show'])->name('threeDim.show');
+Route::get('/filter-3d-models', [ThreeDController::class, 'filterPackages'])->name('filter.3d');
 ////////paypal 
 Route::post('paypal/payment', [PaypalController::class, 'payment'])->name('paypal');
 Route::get('paypal/success', [PaypalController::class, 'success'])->name('paypal_success');

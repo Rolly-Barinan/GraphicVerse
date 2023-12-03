@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Asset extends Model
 {
     use HasFactory;
+    protected $primaryKey = 'AssetID';
     protected $fillable = [
         'AssetName', // Add 'AssetName' to the $fillable array
         'FileType',

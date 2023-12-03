@@ -6,10 +6,12 @@ use Illuminate\Support\Str;
 use App\Models\Asset;
 use App\Models\AssetType;
 use App\Models\Categories;
+use Intervention\Image\Facades\Image;
 use App\Models\Package;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Log;
+
 use ZipArchive;
 use Illuminate\Validation\Rule;
 
@@ -29,6 +31,7 @@ class AssetPackageController extends Controller
         $package = Package::with('assets')->findOrFail($id);
         $assets = $package->assets;
 
+
         return view('asset.show', compact('package', 'assets'));
     }
     public function display3d($id)
@@ -40,13 +43,33 @@ class AssetPackageController extends Controller
         return view('asset.display3d', compact('package', 'assets'));
     }
 
-    public function display2d($id)
+    public function showWatermarked($id)
     {
-        $package = Package::with('assets')->findOrFail($id);
-        $assets = $package->assets;
+        $asset = Asset::findOrFail($id);
 
-        return view('asset.display2d', compact('package', 'assets'));
+        // Get the image contents using the Storage facade
+        $path = storage_path('app/' . $asset->Location);
+        // dd($imageContent);
+
+
+        // Create an image instance from the contents
+        $image = Image::make($path);
+
+        // Provide the correct path to your watermark image
+        $watermark =  Image::make(public_path('svg/watermark.png'));
+        // dd($watermark);
+        $watermark->resize($image->width(), $image->height());
+        $image->insert($watermark, 'center');
+
+        $watermarkedDirectory = storage_path('app/public/watermarked/');
+        $watermarkedImagePath = $watermarkedDirectory . $asset->AssetName . '-watermarked.png';
+
+        $image->save($watermarkedImagePath);
+        // dd($image);
+        // Output the watermarked image to the browser
+        return response()->download($watermarkedImagePath);
     }
+    
 
     public function create()
     {

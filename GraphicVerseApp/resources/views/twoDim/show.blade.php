@@ -1,7 +1,9 @@
 @extends('layouts.app')
 
 @section('content')
-
+    <div class="container-fluid">
+    
+        
     <div class="container">
         <h1>Package Details</h1>
 
@@ -19,16 +21,14 @@
             @if ($assets)
                 @foreach ($assets as $asset)
                     <li>{{ $asset->AssetName }}</li>
-                   
-              
 
                     <div class="card text-bg-secondary mb-3" style="width: 18rem;">
-                        <img src="{{ Storage::url($asset->Location) }}" class="card-img-top" alt="...">
-                        <div class="card-body">
-                         
-                         
-                        </div>
-                      </div>
+                       
+                        <img src="{{ Storage::url($asset->Location) }}" class="card-img-top">
+                        {{-- {{ dd(route('watermarked-assets.show', ['id' => $asset->AssetID])) }} --}}
+                        {{-- <img src="{{ route('watermarked-assets.show', ['id' => $asset->AssetID]) }}" class="card-img-top"> --}}
+
+                    </div>
                 @endforeach
             @else
                 <li>No assets found for this package.</li>
@@ -39,12 +39,16 @@
             @csrf
 
             <input type="hidden" name="price" value={{ $package->Price }}>
-            <button type="submit"> Pay withss paypal</button>
+
+            <button type="submit" class="btn btn-primary">Pay with Paypal</button>
+            {{-- <button type="submit"> Pay withss paypal</button> --}}
+
         </form>
 
-        <a href="{{ route('asset.index') }}" class="btn btn-primary">Back to Packages</a>
+        <a href="{{ route('asset.index') }}" class="btn btn-secondary">Back to Packages</a>
         <a href="{{ route('asset.download', $package->id) }}" class="btn btn-success">Download</a>
 
     </div>
 
+    </div>
 @endsection

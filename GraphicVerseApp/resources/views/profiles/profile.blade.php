@@ -201,7 +201,7 @@
                                         <div class="title-container">{{ $threeD->threeD_name }}</div>
                                     </a>
                                 </div>
-                                {{ dd(asset('storage/' . $threeD->filename)) }}
+                              
                             </div>
                             @if (($index + 1) % 4 == 0 || $loop->last)
                     </div>

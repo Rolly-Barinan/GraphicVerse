@@ -153,43 +153,43 @@ class TwoDsController extends Controller
     {
         // Retrieve the specific Model2D instance
         $model2D = Model2D::findOrFail($id);
-    
+
         $path = storage_path('app/public/' . $model2D->filename);
-    
+        // dd($path);
         // Check if the file exists
         if (file_exists($path)) {
             // Load the original image
             $image = Image::make($path);
-    
+
             // Load the watermark image and resize it to match the size of the original image
             $watermark = Image::make(public_path('svg/watermark.png'));
             $watermark->resize($image->width(), $image->height());
-    
+
             // Overlay the watermark on the image without specifying an X and Y position
             $image->insert($watermark, 'center');
-    
+
             // Define a directory for storing watermarked images
             $watermarkedDirectory = storage_path('app/public/watermarked/');
-    
+
             // Ensure the directory exists, or create it if it doesn't
             if (!file_exists($watermarkedDirectory)) {
                 mkdir($watermarkedDirectory, 0755, true);
             }
-    
+
             // Define the path for the watermarked image
             $watermarkedImagePath = $watermarkedDirectory . $model2D->twoD_name . '-watermarked.png';
-    
+
             // Save the watermarked image
             $image->save($watermarkedImagePath);
-    
+
             // Serve the watermarked image for download
             return response()->download($watermarkedImagePath); // Adjust the filename as needed
         } else {
             return redirect()->back()->with('error', 'File not found.');
         }
     }
-    
-    
+
+
 
 
 
