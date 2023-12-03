@@ -15,8 +15,9 @@ class ThreeDController extends Controller
      */
     public function index()
     {
+        $categories = Categories::all();
         $packages = Package::all();
-        return view('threeDim.index', compact('packages'));
+        return view('threeDim.index', compact('packages','categories'));
     }
 
     /**
