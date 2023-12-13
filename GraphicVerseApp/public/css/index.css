@@ -1,177 +1,97 @@
-    .checkbox-label {
-        display: block;
-    }
-    
-    .model-link {
-        text-decoration: none;
-    }
+/* Add your existing styles and modify as needed */
 
-    .model-card {
-        height: 250px;
-        border: none !important;
-    }
+.container-fluid {
+    padding: 20px;
+}
 
-    .model-image {
-        max-width: 100%;
-        max-height: 250px; /* Adjust the height as needed */
-        object-fit: cover;
-        border-radius: 5px;
-    }
-    
-    /* Add custom styles for pagination links if needed */
-    .pagination {
-        margin-top: 20px;
-    }
+.col-md-3 {
+    background-color: #DDDDE4;
+    padding: 20px;
+    border-radius: 10px;
+}
 
-    .card-header {
-        font-family: 'Oswald';
-        color: #5F5F79 !important;
-        font-weight: bold;
-        text-align: center;
-        font-size: 50px;
-    }
-    
-    .card-1 {
-        background-color: #DDDDE4 !important;
-        border:none !important;
-    }
+.filter-section {
+    margin-bottom: 20px;
+}
 
-    .card-body {
-        padding: 5px !important;
-    }
+.col-md-9 {
+    background-color: white;
+    padding: 20px;
+}
 
-    
-    .card-title {
-        font-family: 'Roboto';
-        color: #5F5F79 !important;
-        font-weight: bold;
-        font-size: 25px;
-        margin: 0px !important;
-        text-decoration: none;
-    }
+.package-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 20px;
+}
 
-    .card-text {
-            font-family: 'Roboto';
-            color: #9494AD !important;
-            font-size: 18px;
-            font-weight: normal;
-            margin: 0px !important;
-            margin-top: 5px !important;
-            text-decoration: none;
-    }
-    .heart-text .dl-text {
-        font-family: 'Roboto';
-        font-size: 10px;
-        
-    }
-    .heart{
-        margin-top: 5px;
-        color: #FF7272;
-        font-size: 15px;
-        font-weight: normal;
-    }
+.card {
+    border: none;
+    transition: transform 0.3s ease-in-out;
+}
 
-    .heart-icon {
-        color: #F2F2F2; /* Default color when not active */
-    }
+.card:hover {
+    transform: scale(1.05);
+}
 
-    .favorite-icon.active .heart-icon {
-        color: #FF7272; /* Color when active (clicked) */
-    }
-    .dl{
-        margin-top: 5px;
-        color: #D4D4D4;
-        font-size: 15px;
-    }
+.card-img {
+    max-width: 100%;
+    max-height: 250px;
+    object-fit: cover;
+    border-radius: 5px;
+}
 
-    .col-md-3 {
-        padding-left: 0 !important;
-        padding-right: 0 !important;
-        background-color: #DDDDE4;
-        min-height: 1080px;
-    }
+.card-body {
+    padding: 10px;
+}
 
-    .col-md-9 {
-        padding-left: 0  !important;
-        padding-right: 0 !important;
-        background-color: white !important;
-        border-top-left-radius: 15px;
-        
-    }
+.card-title {
+    font-size: 18px;
+    font-weight: bold;
+    margin: 0;
+}
 
-    .accordion-button {
-        background: #DDDDE4 !important;
-        border-color: #DDDDE4 !important;
-        color: #595959 !important;
-        padding: 0;
-        font-family: 'Roboto';
-        font-weight: bold;
-        text-align: left;
-        text-decoration: none;
-    }
+.card-text {
+    font-size: 14px;
+    color: #595959;
+    margin: 5px 0;
+}
 
-    hr {
-        size: 2px;
-    }
+.btn-primary {
+    background-color: #4CB9FF;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s ease-in-out;
+}
 
-    .custom-checkbox {
-        appearance: none; /* Remove the default browser styling */
-        -webkit-appearance: none;
-        -moz-appearance: none;
-        width: 15px; /* Set the width and height of the checkbox */
-        height: 15px;
-        border: none; /* Add a border */
-        border-radius: 3px; /* Rounded corners */
-        outline: none; /* Remove the default focus outline */
-        cursor: pointer; /* Show a pointer cursor on hover */
-        vertical-align: middle;
-        margin-right: 5px; /* Add some spacing between the checkbox and label */
-        background-color: white;
-    }
+.btn-primary:hover {
+    background-color: #3281C6;
+}
 
-    /* Custom checkbox when checked */
-    .custom-checkbox:checked {
-        background-color: #4CB9FF; /* Change the background color when checked */
-        border: 1px solid #4CB9FF; /* Change the border color when checked */
-    }
+.custom-checkbox {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    width: 15px;
+    height: 15px;
+    border: 2px solid #4CB9FF;
+    border-radius: 3px;
+    cursor: pointer;
+    vertical-align: middle;
+    margin-right: 5px;
+    background-color: white;
+}
 
-    /* Custom checkbox label styling */
-    .checkbox-label {
-        font-family: 'Roboto';
-        font-size: 14.5px;
-        color: #595959; /* Set the label text color */
-        margin-top: 2px;
-    }
+.custom-checkbox:checked {
+    background-color: #4CB9FF;
+    border: 2px solid #4CB9FF;
+}
 
-    /* Custom checkbox label when checked */
-    .custom-checkbox:checked + .checkbox-label {
-        color: #4CB9FF; /* Change the label text color when checked */
-        font-weight: bold; /* Make the label bold when checked */
-    }
-
-    .custom-checkbox-label {
-        margin-bottom: -5px; /* Adjust the margin-bottom value as needed */
-    }
-
-    .n-results {
-        font-family: 'Roboto';
-        color: #5F5F79;
-        font-size: 16.5;
-    }
-
-    .custom-dropdown {
-        color: #F1F1F1;
-        background-color: #5F5F79;
-        font-family: 'Roboto', sans-serif;
-        font-size: 16.5px;
-        border: none;
-        outline: none; /* Remove focus border */
-        border-radius: 6px;
-        padding: 2px;
-        margin-bottom: 20px;
-    }
-    
-
-
-    
-    
+.checkbox-label {
+    font-size: 14px;
+    color: #595959;
+    margin-top: 2px;
+}

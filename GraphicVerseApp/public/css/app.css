@@ -24,6 +24,8 @@ body {
 .navbar-nav .nav-item {
     display: flex;
     margin-top: 10px;
+    font-family: 'Roboto';
+    font-weight: 1000;
 }
 
 main {
@@ -40,7 +42,7 @@ main {
 
 
 .nav-link {
-    font-weight: bold;
+    font-weight: bolder;
     font-size: large;
     font-family: 'Roboto';
     color: #222344;

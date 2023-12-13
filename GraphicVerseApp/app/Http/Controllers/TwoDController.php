@@ -16,7 +16,7 @@ class TwoDController extends Controller
     public function index()
     {
         $categories = Categories::all();
-        $packages = Package::all();
+        $packages = Package::paginate(10);
         return view('TwoDim.index', compact('packages', 'categories'));
     }
 

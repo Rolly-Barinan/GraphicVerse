@@ -15,7 +15,7 @@
     <!-- Scripts -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
-    <link href="{{ asset('css/login.css') }}" rel="stylesheets">
+    <!-- <link href="{{ asset('css/login.css') }}" rel="stylesheets"> -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Oswald&display=swap">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto&display=swap">
 
@@ -42,49 +42,6 @@
    
     <!-- Scripts -->
     {{-- @vite(['resources/sass/app.scss', 'resources/js/app.js']) --}}
-    
-    <script>
-    document.addEventListener('DOMContentLoaded', function () {
-        const loginDropdown = document.getElementById('loginDropdown');
-        const loginDropdownContent = document.getElementById('loginDropdownContent');
-        
-        const registerDropdown = document.getElementById('registerDropdown');
-        const registerDropdownContent = document.getElementById('registerDropdownContent');
-
-        loginDropdown.addEventListener('mousedown', function (e) {
-            e.preventDefault(); // Prevent the anchor link's default behavior
-            e.stopPropagation(); // Prevent the event from propagating to the anchor
-
-            loginDropdownContent.classList.toggle('show');
-        });
-
-        registerDropdown.addEventListener('mousedown', function (e) {
-            e.preventDefault(); // Prevent the anchor link's default behavior
-            e.stopPropagation(); // Prevent the event from propagating to the anchor
-
-            registerDropdownContent.classList.toggle('show');
-        });
-
-        // Close the login dropdown if the user clicks outside of it
-        window.addEventListener('mousedown', function (event) {
-            if (!event.target.matches('#loginDropdown')) {
-                if (loginDropdownContent.classList.contains('show')) {
-                    loginDropdownContent.classList.remove('show');
-                }
-            }
-        });
-
-        // Close the register dropdown if the user clicks outside of it
-        window.addEventListener('mousedown', function (event) {
-            if (!event.target.matches('#registerDropdown')) {
-                if (registerDropdownContent.classList.contains('show')) {
-                    registerDropdownContent.classList.remove('show');
-                }
-            }
-        });
-    });
-</script>
-
 </head>
 <nav class="navbar navbar-expand-lg" >
 
@@ -111,7 +68,7 @@
                     <a class="nav-link" href="/music">Others</a>
                 </li>
                 <li class="nav-item pb-3 pe-3">
-                    <a class="nav-link" href="/2d">wallpaper</a>
+                    <a class="nav-link" href="/2d">Wallpaper</a>
                 </li>
                 
             </ul>
@@ -126,22 +83,18 @@
                 @guest
                     @if (Route::has('login'))
                     <li class="nav-item pb-3 pe-3 position-relative">
-                        <a id="loginDropdown" class="nav-link">
+                    <a href="#" class="nav-link" data-bs-toggle="modal" data-bs-target="#loginModal">
                             {{ __('Login') }}
                         </a>
-                        <div id="loginDropdownContent" class="dropdown-content">
-                            @include('auth.login')
-                        </div>
+                        
                     </li>
                     @endif
                     @if (Route::has('register'))
                     <li class="nav-item pb-3 pe-3 position-relative">
-                        <a id="registerDropdown" class="nav-link">
+                        <a id="show-registration" class="nav-link" href='#'>
                             {{ __('Register') }}
                         </a>
-                        <div id="registerDropdownContent" class="dropdown-content">
-                            @include('auth.register')
-                        </div>
+                        
                     </li>
                     @endif
                 @else
