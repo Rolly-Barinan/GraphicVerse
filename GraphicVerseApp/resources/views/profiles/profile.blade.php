@@ -130,7 +130,7 @@
                 <h4>Recently Uploaded</h4>
                 <div class="white-bg">
                     <h5>2D ASSETS</h5>
-                    @if(count($userUploads) > 0)
+                    {{-- @if(count($userUploads) > 0)
                         <div id="carousel2D" class="carousel slide" data-bs-ride="carousel">
                             <div class="carousel-inner">
                                 @foreach($userUploads as $index => $upload)
@@ -166,10 +166,10 @@
                         </div>
                     @else
                         <p style="text-align: center; font-style: italic; color: black;">No 2D assets found.</p>
-                    @endif
+                    @endif --}}
 
                     <h5>3D ASSETS</h5>
-                    @if(count($userUploads3D) > 0)
+                    {{-- @if(count($userUploads3D) > 0)
                         <div id="carousel3D" class="carousel slide" data-bs-ride="carousel">
                             <div class="carousel-inner">
                                 @foreach($userUploads3D as $index => $threeD)
@@ -203,7 +203,7 @@
                         </div>
                     @else
                         <p style="text-align: center; font-style: italic; color: black;">No 3D assets found.</p>
-                    @endif
+                    @endif --}}
 
                     <script>
                         function loadFBX(modelViewer) {

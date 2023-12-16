@@ -98,16 +98,16 @@
         <div class="collapse navbar-collapse" id="navbarNav2">
             <ul class="navbar-nav pt-2">
                 <li class="nav-item pb-3 pe-3">
-                    <a class="nav-link" href="/2d">2D</a>
+                    <a class="nav-link" href="/2d-models">2D</a>
                 </li>
                 <li class="nav-item pb-3 pe-3" style="">
-                    <a class="nav-link" href="/3d">3D</a>
+                    <a class="nav-link" href="/3d-models">3D</a>
                 </li>
                 <li class="nav-item pb-3 pe-3" style="">
-                    <a class="nav-link" href="/animation">Audio</a>
+                    <a class="nav-link" href="#">Audio</a>
                 </li>
                 <li class="nav-item pb-3 pe-3">
-                    <a class="nav-link" href="/music">Others</a>
+                    <a class="nav-link" href="#">Others</a>
                 </li>
                 
             </ul>

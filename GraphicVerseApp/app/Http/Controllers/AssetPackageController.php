@@ -45,25 +45,41 @@ class AssetPackageController extends Controller
 
     public function store(Request $request)
     {
-
-
         $user = auth()->user();
-
         $rules = [
             'PackageName' => 'required',
             'Description' => 'required',
-            'preview' => 'required|image', 
+            'preview' => 'required|image',
             'asset' => 'required|array',
-            'asset.*' => 'required|file|mimes:jpeg,png,txt,bin, fbx', 
+            'asset.*' => 'required|file|mimes:jpeg,png,bin, fbx',
             'asset_type_id' => 'required',
-            'category_ids' => 'required|array',
-            'category_ids.*' => Rule::exists('categories', 'id'), 
+            'category_ids' => 'required|array|min:1',
+            'category_ids.*' => Rule::exists('categories', 'id'),
         ];
-    
-       
-        $request->validate($rules);
 
+        $messages = [
+            'category_ids.min' => 'Please select at least one category.',
+        ];
+        $request->validate($rules, $messages);
+        // Check if asset type selected is 3D or 2D
+        $selectedAssetType = AssetType::find($request->input('asset_type_id'));
+
+        foreach ($request->file('asset') as $asset) {
+            $extension = $asset->getClientOriginalExtension();
+
+            // Validate based on selected asset type
+            if (($selectedAssetType->asset_type === '3D' && strtolower($extension) !== 'fbx') ||
+                ($selectedAssetType->asset_type === '2D' && !in_array(strtolower($extension), ['jpeg', 'png', 'txt', 'bin']))
+            ) {
+                return redirect()->back()->with('error', 'Invalid file type for selected asset type.');
+            }
+        }    
         $previewFile = $request->file('preview');
+
+        // Check if the preview file is an image
+        if (!$previewFile->isValid() || !in_array($previewFile->getClientOriginalExtension(), ['jpg', 'jpeg', 'png', 'gif'])) {
+            return redirect()->back()->with('error', 'Preview file must be an image (JPEG, PNG, GIF).');
+        }
         $originalFileName = $previewFile->getClientOriginalName();
         $imagePath = $previewFile->storeAs('public/preview', $originalFileName);
 

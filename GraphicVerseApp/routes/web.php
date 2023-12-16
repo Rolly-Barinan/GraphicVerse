@@ -8,11 +8,12 @@ use App\Http\Controllers\ProfilesController;
 use App\Http\Controllers\TeamController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\SearchController;
-use App\Http\Controllers\TwoDsController;
-use App\Http\Controllers\ThreeDsController2;
+
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\AssetPackageController;
 use App\Http\Controllers\PaypalController;
+use App\Http\Controllers\ThreeDimContoller;
+use App\Http\Controllers\TwoDimContoller;
 
 /*
 |--------------------------------------------------------------------------
@@ -38,53 +39,42 @@ Route::middleware('auth:admin')->group(function () {
     // Other admin routes go here
 });
 
-
-
-
 Auth::routes();
 Route::get('/home', [HomeController::class, 'index'])->name('home');
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/aboutus', [AboutUsController::class, 'index'])->name('aboutus');
 
 //packages
-Route::get('/asset-package', [AssetPackageController::class, 'index'])->name('asset.index');
-Route::get('/asset-package/create', [AssetPackageController::class, 'create'])->name('asset.create');
-Route::get('/asset-package/{id}', [AssetPackageController::class, 'show'])->name('asset.show');
-Route::post('/asset-package/store', [AssetPackageController::class, 'store'])->name('asset.store');
-Route::get('/asset-package/{id}/download', [AssetPackageController::class, 'download'])->name('asset.download');
+Route::get('/asset', [AssetPackageController::class, 'index'])->name('asset.index');
+Route::get('/asset/create', [AssetPackageController::class, 'create'])->name('asset.create');
+Route::get('/asset/{id}', [AssetPackageController::class, 'show'])->name('asset.show');
+Route::post('/asset/store', [AssetPackageController::class, 'store'])->name('asset.store');
+Route::get('/asset/{id}/download', [AssetPackageController::class, 'download'])->name('asset.download');
 
 ////////paypal 
 Route::post('paypal/payment', [PaypalController::class, 'payment'])->name('paypal');
 Route::get('paypal/success', [PaypalController::class, 'success'])->name('paypal_success');
 Route::get('paypal/cancel', [PaypalController::class, 'cancel'])->name('paypal_cancel');
 
+//asset layout 2d
+Route::get('/2d-models', [TwoDimContoller::class, 'index'])->name('twoDim.index');
+Route::get('/2d-models', [TwoDimContoller::class, 'filterPackages'])->name('filter.2d');
+Route::get('/2d-models/{id}', [TwoDimContoller::class, 'show'])->name('twoDim.show');
+
+//asset layout 3d
+Route::get('/3d-models', [ThreeDimContoller::class, 'index'])->name('threeDim.index');
+Route::get('/3d-models', [ThreeDimContoller::class, 'filterPackages'])->name('filter.3d');
+Route::get('/3d-models/{id}', [ThreeDimContoller::class, 'show'])->name('threeDim.show');
+
 //User profile
 Route::get('/profile/{user}', [ProfilesController::class, 'index'])->name('profile.show');
-
-//2D router controller
-Route::get('/2d', [TwoDsController::class, 'index'])->name('twoD.index');
-Route::get('2d/{id}', [TwoDsController::class, 'show'])->name('twoD.show');
-Route::get('/twoD/download/{id}',  [TwoDsController::class, 'download'])->name('twoD.download');
-
-
-//3D router controller
-Route::get('/3d', [ThreeDsController2::class, 'index'])->name('threeD.index');
-Route::get('/three-dim/{id}/download', [ThreeDsController2::class, 'download'])->name('threeD.download');
-Route::get('3d/{id}', [ThreeDsController2::class, 'show'])->name('threeD.show');
-
 //Search Controller
 Route::get('/search', [SearchController::class, 'search'])->name('search');
-
-
-
-
 
 Route::middleware(['auth'])->group(function () {
     //profile router contoller
     Route::get('/profile/{user}/edit', [ProfilesController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile/{user}', [ProfilesController::class, 'update'])->name('profile.update');
-
-
     //Teams router
     Route::get('/teams', [TeamController::class, 'index'])->name('teams.index');
     Route::get('/teams/create', [TeamController::class, 'create'])->name('teams.create');
@@ -96,19 +86,6 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/teams/{team}/add-members', [TeamController::class, 'addMembers'])->name('teams.addMembers');
     Route::post('/teams/{team}/add-members', [TeamController::class, 'storeMembers'])->name('teams.storeMembers');
 
-    //2D router controller
-    Route::get('/upload/2d', [TwoDsController::class, 'create'])->name('twoD.create');
-    Route::post('/upload/2d', [TwoDsController::class, 'store'])->name('twoD.store');
-    Route::get('/2d/{id}/edit', [TwoDsController::class, 'edit'])->name('twoD.edit');
-    Route::put('/2d/{id}', [TwoDsController::class, 'update'])->name('twoD.update');
-    Route::delete('/2d/{id}', [TwoDsController::class, 'destroy'])->name('twoD.destroy');
-
-    //3D router controller
-    Route::get('/upload/3d', [ThreeDsController2::class, 'create'])->name('threeD.create');
-    Route::post('/upload/3d', [ThreeDsController2::class, 'store'])->name('threeD.store');
-    Route::get('/3d/{id}/edit', [ThreeDsController2::class, 'edit'])->name('threeD.edit');
-    Route::put('/3d/{id}', [ThreeDsController2::class, 'update'])->name('threeD.update');
-    Route::delete('/3d/{id}', [ThreeDsController2::class, 'destroy'])->name('threeD.destroy');
 });
 
 Route::middleware([RestrictDirectAccess::class])->group(function () {
