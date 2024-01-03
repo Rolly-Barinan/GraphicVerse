@@ -22,13 +22,7 @@ class AssetPackageController extends Controller
         return view('asset.index', compact('packages'));
     }
 
-    public function show($id)
-    {
-        $package = Package::with('assets')->findOrFail($id);
-        $assets = $package->assets;
 
-        return view('asset.show', compact('package', 'assets'));
-    }
 
     public function create()
 
@@ -73,7 +67,7 @@ class AssetPackageController extends Controller
             ) {
                 return redirect()->back()->with('error', 'Invalid file type for selected asset type.');
             }
-        }    
+        }
         $previewFile = $request->file('preview');
 
         // Check if the preview file is an image
@@ -129,11 +123,6 @@ class AssetPackageController extends Controller
             'uploadedAssetIds' => $uploadedAssetIds, // Include the array of asset IDs
         ]);
     }
-
-
-
-
-
     public function download($id)
     {
         $package = Package::findOrFail($id);

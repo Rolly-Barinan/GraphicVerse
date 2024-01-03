@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Asset;
 use App\Models\Categories;
 use App\Models\Package;
 use Illuminate\Http\Request;
+use Intervention\Image\Facades\Image;
+use Illuminate\Support\Facades\Storage;
 
 class TwoDimContoller extends Controller
 {
@@ -52,6 +55,8 @@ class TwoDimContoller extends Controller
         $package = Package::with('assets')->findOrFail($id);
         $assets = $package->assets;
         return view('twoDim.show', compact('package', 'assets'));
+
+
     }
 
     /**

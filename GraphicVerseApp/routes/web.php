@@ -15,6 +15,10 @@ use App\Http\Controllers\PaypalController;
 use App\Http\Controllers\ThreeDimContoller;
 use App\Http\Controllers\TwoDimContoller;
 
+use Intervention\Image\Facades\Image;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Response;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -65,7 +69,6 @@ Route::get('/2d-models/{id}', [TwoDimContoller::class, 'show'])->name('twoDim.sh
 Route::get('/3d-models', [ThreeDimContoller::class, 'index'])->name('threeDim.index');
 Route::get('/3d-models', [ThreeDimContoller::class, 'filterPackages'])->name('filter.3d');
 Route::get('/3d-models/{id}', [ThreeDimContoller::class, 'show'])->name('threeDim.show');
-
 //User profile
 Route::get('/profile/{user}', [ProfilesController::class, 'index'])->name('profile.show');
 //Search Controller
