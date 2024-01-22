@@ -12,13 +12,11 @@ use App\Http\Controllers\SearchController;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\AssetPackageController;
 use App\Http\Controllers\AudioController;
+use App\Http\Controllers\ImageAssetController;
 use App\Http\Controllers\PaypalController;
 use App\Http\Controllers\ThreeDimContoller;
 use App\Http\Controllers\TwoDimContoller;
 
-use Intervention\Image\Facades\Image;
-use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Facades\Response;
 
 /*
 |--------------------------------------------------------------------------
@@ -56,6 +54,12 @@ Route::get('/asset/{id}', [AssetPackageController::class, 'show'])->name('asset.
 Route::post('/asset/store', [AssetPackageController::class, 'store'])->name('asset.store');
 Route::get('/asset/{id}/download', [AssetPackageController::class, 'download'])->name('asset.download');
 
+////Image Asset routes
+Route::get('/image', [ImageAssetController::class, 'index'])->name('image.index');
+Route::get('/image/create', [ImageAssetController::class, 'create'])->name('image.create');
+Route::get('/image/{id}', [ImageAssetController::class, 'show'])->name('image.show');
+Route::post('/image/store', [ImageAssetController::class, 'store'])->name('image.store');
+Route::get('/image/{id}/download', [ImageAssetController::class, 'download'])->name('image.download');
 ////////paypal 
 Route::post('paypal/payment', [PaypalController::class, 'payment'])->name('paypal');
 Route::get('paypal/success', [PaypalController::class, 'success'])->name('paypal_success');

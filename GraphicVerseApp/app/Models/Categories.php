@@ -16,4 +16,9 @@ class Categories extends Model
         return $this->belongsToMany(Package::class, 'package_category', 'category_id', 'package_id');
     }
 
+    public function imageAssets()
+    {
+        return $this->belongsToMany(ImageAsset::class, 'image_category', 'category_id', 'imageAsset_id');
+    }
+
 }

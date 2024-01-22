@@ -111,13 +111,13 @@
                 </li>
                 
             </ul>
-            <form class="custom-search-form MT-4" role="search" action="{{ route('search')}}">
-                <input class="form-control me-2 custom-search-input" type="search" placeholder="Search assets" name="q"
+            <form class="custom-search-form MT-3" role="search" action="{{ route('search')}}">
+                <input class="form-control me-1 custom-search-input" type="search" placeholder="Search assets" name="q"
                     aria-label="Search" style="width: 100%">
                     <!-- <button class="" -->
             </form>
-            <a href="{{ route('asset.create') }}"><button type="button" class="btn   btn-warning ">upload</button></a>
-            
+            <a href="{{ route('asset.create') }}"><button type="button" class="btn   btn-warning ">upload Package</button></a>
+            <a href="{{ route('asset.create') }}"><button type="button" class="btn   btn-warning ">upload Image</button></a>
             <ul class="navbar-nav ms-auto me-4 pt-2">
                 @guest
                     @if (Route::has('login'))

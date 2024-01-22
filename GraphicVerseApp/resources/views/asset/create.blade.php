@@ -58,12 +58,10 @@ function hideAlerts() {
                 return false;
             }
         }
-
         // Additional custom validation if needed...
-
         return true;
     }
-    }
+    
 </script>
     <div class="container">
         <div class="row">
@@ -128,6 +126,5 @@ function hideAlerts() {
             </div>
         </div>
     </div>
-
   
 @endsection
