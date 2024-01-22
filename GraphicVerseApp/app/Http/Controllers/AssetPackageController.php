@@ -45,7 +45,7 @@ class AssetPackageController extends Controller
             'Description' => 'required',
             'preview' => 'required|image',
             'asset' => 'required|array',
-            'asset.*' => 'required|file|mimes:jpeg,png,bin, fbx',
+            'asset.*' => 'required|file|mimes:jpeg,png,bin,wav, fbx',
             'asset_type_id' => 'required',
             'category_ids' => 'required|array|min:1',
             'category_ids.*' => Rule::exists('categories', 'id'),

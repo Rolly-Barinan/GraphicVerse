@@ -45,7 +45,6 @@ class User extends Authenticatable
             ]);
         });
     }
-    
     public function packages()
     {
         return $this->hasMany(Package::class, 'UserID'); 
@@ -55,7 +54,6 @@ class User extends Authenticatable
     {
         return $this->hasMany(Asset::class);
     }
-
     /**
      * The attributes that should be cast.
      *
@@ -70,15 +68,10 @@ class User extends Authenticatable
         return $this->hasOne(Profile::class);
     }
 
-
-
-  
-
     //////////////////////////////////////////
     public function teams()
     {
         return $this->belongsToMany(Team::class, 'team_users', 'user_id', 'team_id')->withPivot('role');
     }
-
 
 }

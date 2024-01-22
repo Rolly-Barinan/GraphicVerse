@@ -11,6 +11,7 @@ use App\Http\Controllers\SearchController;
 
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\AssetPackageController;
+use App\Http\Controllers\AudioController;
 use App\Http\Controllers\PaypalController;
 use App\Http\Controllers\ThreeDimContoller;
 use App\Http\Controllers\TwoDimContoller;
@@ -69,6 +70,10 @@ Route::get('/2d-models/{id}', [TwoDimContoller::class, 'show'])->name('twoDim.sh
 Route::get('/3d-models', [ThreeDimContoller::class, 'index'])->name('threeDim.index');
 Route::get('/3d-models', [ThreeDimContoller::class, 'filterPackages'])->name('filter.3d');
 Route::get('/3d-models/{id}', [ThreeDimContoller::class, 'show'])->name('threeDim.show');
+
+////audios 
+Route::get('/audio-models', [AudioController::class, 'index'])->name('audio.index');
+Route::get('/audio-models/{id}', [AudioController::class, 'show'])->name('audio.show');
 //User profile
 Route::get('/profile/{user}', [ProfilesController::class, 'index'])->name('profile.show');
 //Search Controller

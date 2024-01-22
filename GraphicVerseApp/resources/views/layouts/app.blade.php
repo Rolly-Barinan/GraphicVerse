@@ -104,7 +104,7 @@
                     <a class="nav-link" href="/3d-models">3D</a>
                 </li>
                 <li class="nav-item pb-3 pe-3" style="">
-                    <a class="nav-link" href="#">Audio</a>
+                    <a class="nav-link" href="audio-models">Audio</a>
                 </li>
                 <li class="nav-item pb-3 pe-3">
                     <a class="nav-link" href="#">Others</a>

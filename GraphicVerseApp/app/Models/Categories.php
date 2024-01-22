@@ -15,7 +15,5 @@ class Categories extends Model
     {
         return $this->belongsToMany(Package::class, 'package_category', 'category_id', 'package_id');
     }
-   
-
 
 }
