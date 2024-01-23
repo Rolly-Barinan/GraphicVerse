@@ -117,7 +117,7 @@
                     <!-- <button class="" -->
             </form>
             <a href="{{ route('asset.create') }}"><button type="button" class="btn   btn-warning ">upload Package</button></a>
-            <a href="{{ route('asset.create') }}"><button type="button" class="btn   btn-warning ">upload Image</button></a>
+            <a href="{{ route('image.create') }}"><button type="button" class="btn   btn-warning ">upload Image</button></a>
             <ul class="navbar-nav ms-auto me-4 pt-2">
                 @guest
                     @if (Route::has('login'))

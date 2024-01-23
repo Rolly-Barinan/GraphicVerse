@@ -8,7 +8,6 @@ use App\Http\Controllers\ProfilesController;
 use App\Http\Controllers\TeamController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\SearchController;
-
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\AssetPackageController;
 use App\Http\Controllers\AudioController;

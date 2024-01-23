@@ -1,4 +1,4 @@
-<!-- resources/views/imageassets/create.blade.php -->
+<!-- resources/views/image/create.blade.php -->
 
 @extends('layouts.app')
 
@@ -10,17 +10,16 @@
                     <div class="card-header">{{ __('Create ImageAsset') }}</div>
 
                     <div class="card-body">
-                        <form method="POST" action="{{ route('image.store') }}">
+                        <form method="POST" action="{{ route('image.store') }}" enctype="multipart/form-data">
                             @csrf
 
                             <div class="form-group">
-                                <label for="userID">User ID:</label>
-                                <input type="text" name="userID" class="form-control" required>
-                            </div>
-
-                            <div class="form-group">
-                                <label for="assetTypeID">Asset Type ID:</label>
-                                <input type="text" name="assetTypeID" class="form-control" required>
+                                <label for="asset_type_id">Asset Type:</label>
+                                <select name="asset_type_id" class="form-control" disabled>
+                                    <option value="1" selected>2D</option>
+                                    <!-- You can add more options for other asset types if needed -->
+                                </select>
+                                <input type="hidden" name="asset_type_id" value="1"> <!-- Set the default value here -->
                             </div>
 
                             <div class="form-group">
@@ -33,26 +32,28 @@
                                 <textarea name="ImageDescription" class="form-control"></textarea>
                             </div>
 
-                            <div class="form-group">
-                                <label for="Location">Location:</label>
-                                <input type="text" name="Location" class="form-control" required>
-                            </div>
+                        
 
                             <div class="form-group">
                                 <label for="Price">Price:</label>
                                 <input type="text" name="Price" class="form-control" required>
                             </div>
-
+                      
                             <div class="form-group">
-                                <label for="ImageSize">Image Size:</label>
-                                <input type="text" name="ImageSize" class="form-control" required>
+                                <label for="imageFile">Upload Image:</label>
+                                <input type="file" name="imageFile" class="form-control-file" required>
                             </div>
 
                             <div class="form-group">
-                                <label for="watermarkedImage">Watermarked Image:</label>
-                                <input type="text" name="watermarkedImage" class="form-control" required>
+                                <label for="category_ids">Categories:</label>
+                                @foreach ($categories as $category)
+                                    <div class="form-check">
+                                        <input type="checkbox" name="category_ids[]" value="{{ $category->id }}"
+                                            class="form-check-input" >
+                                        <label class="form-check-label">{{ $category->cat_name }}</label>
+                                    </div>
+                                @endforeach
                             </div>
-
                             <button type="submit" class="btn btn-primary">Create ImageAsset</button>
                         </form>
                     </div>

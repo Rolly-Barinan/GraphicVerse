@@ -8,6 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class ImageAsset extends Model
 {
     use HasFactory;
+    protected $fillable = [
+        'userID', 'assetTypeID', 'ImageName', 'ImageDescription', 'Location', 'Price', 'ImageSize', 'watermarkedImage',
+    ];
 
     public function user()
     {
