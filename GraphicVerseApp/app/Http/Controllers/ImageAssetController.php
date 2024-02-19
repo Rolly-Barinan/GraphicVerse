@@ -30,9 +30,6 @@ class ImageAssetController extends Controller
         $categories = Categories::all();
         $assetTypes = AssetType::all();
         return view('image.create', compact('assetTypes', 'categories'));
-    
-
-
     }
 
     /**
@@ -43,55 +40,67 @@ class ImageAssetController extends Controller
      */
     public function store(Request $request)
     {
+        if (!auth()->check()) {
+            return redirect()->route('login')->with('error', 'Please log in to upload images.');
+        }
+    
         // Validate the form data
         $validatedData = $request->validate([
             'ImageName' => 'required',
-           
             'Price' => 'required',
             'imageFile' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
-           
-            'category_ids' => 'array', // Assuming category_ids is an array
+            'watermarkFile' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
+            'category_ids' => 'array', 
         ]);
     
-        // Get the current authenticated user using auth()
         $user = auth()->user();
-        dd($user);
     
-        // Upload and store the image
         $imagePath = $request->file('imageFile')->store('images', 'public');
     
-        // Upload and store the watermark image
-        $watermarkPath = $request->file('watermarkFile')->store('watermarks', 'public');
+        $watermarkPath = null;
     
-        // Calculate the image size
-        $imageSize = $request->file('imageFile')->getSize();
+        if ($request->hasFile('watermarkFile')) {
+            $watermarkPath = $request->file('watermarkFile')->store('watermarks', 'public');
+        }
     
         // Create a new ImageAsset instance
         $imageAsset = new ImageAsset;
         $imageAsset->userID = $user->id;
-        $imageAsset->assetTypeID = 1; // Assuming a default asset type ID
+        $imageAsset->assetTypeID = 1; 
         $imageAsset->ImageName = $validatedData['ImageName'];
         $imageAsset->ImageDescription = $request->input('ImageDescription');
-        $imageAsset->Location = $imagePath; // Path to the uploaded image
+        $imageAsset->Location = $imagePath; 
         $imageAsset->Price = $validatedData['Price'];
-        $imageAsset->ImageSize = $imageSize;
-        $imageAsset->watermarkedImage = $watermarkPath; // Path to the watermark image
-
-    dd($imageAsset);
-
+        $imageAsset->ImageSize = $request->file('imageFile')->getSize();
     
-        // Attach selected categories to the image asset
-        if ($request->has('category_ids')) {
-            $imageAsset->categories()->attach($validatedData['category_ids']);
+        // Process watermarking
+        if ($watermarkPath) {
+            $image = Image::make(public_path('storage/' . $imagePath));
+            $watermark = Image::make(public_path('storage/' . $watermarkPath));
+    
+            // Fit the watermark to the dimensions of the image
+            $watermark->fit($image->width(), $image->height());
+    
+            // Insert the watermark onto the image
+            $image->insert($watermark, 'center');
+    
+            // Save the watermarked image
+            $watermarkedDirectory = storage_path('app/public/watermarked/');
+            $watermarkedImagePath = $watermarkedDirectory . $validatedData['ImageName'] . '-watermarked.png';
+            $image->save($watermarkedImagePath);
+    
+            // Update the image asset record with the path to the watermarked image
+            $imageAsset->watermarkedImage = 'watermarked/' . $validatedData['ImageName'] . '-watermarked.png';
         }
     
-        // Redirect with success message
-        return redirect()->route('image.show', $imageAsset->id)
-            ->with('success', 'ImageAsset created successfully! Your additional success prompt here.');
-    }
+        $imageAsset->save();
     
-
-
+        $selectedCategories = $request->input('category_ids', []);
+        $imageAsset->categories()->attach($selectedCategories);
+    
+        return redirect()->route('image.show', $imageAsset->id)
+            ->with('success', 'ImageAsset created successfully!');
+    }
 
     /**
      * Display the specified resource.

@@ -22,7 +22,7 @@ return new class extends Migration
             $table->string('Location');
             $table->decimal('Price', 10, 2);
             $table->string('ImageSize');
-            $table->string('watermarkedImage');
+            $table->string('watermarkedImage')->nullable();
             $table->timestamps();
 
             $table->foreign('userID')->references('id')->on('users')->onDelete('cascade');

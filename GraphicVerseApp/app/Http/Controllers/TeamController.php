@@ -12,7 +12,7 @@ class TeamController extends Controller
     public function index()
     {
         $user = Auth::user();
-        $teams = $user->teams; // Assuming you have a 'teams' relationship on the User model
+        $teams = $user->teams;  
         return view('Teams.indexTeam', compact('teams'));
     }
 
