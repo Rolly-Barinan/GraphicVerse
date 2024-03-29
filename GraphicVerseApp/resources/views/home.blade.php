@@ -21,7 +21,7 @@
                 <h1 class="elevate-title text-white">Discover the creativity and skills of Josenian Multimedia Students.</h1>
                 <a class="link text-white mt-5 me-5" href="/2d">2D</a>
                 <a class="link text-white mb-5 me-5" href="/3d">3D</a>
-                <a class="link text-white mb-5 me-5" href="/animation">Audio</a>
+                <a class="link text-white mb-5 me-5" href="/audio-models">Audio</a>
                 <a class="link text-white mb-5" href="/music">Others</a>
             </div>
         </div>

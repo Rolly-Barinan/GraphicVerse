@@ -13,26 +13,18 @@ use Illuminate\Validation\Rule;
 
 class AssetPackageController extends Controller
 {
-
-
     public function index()
     {
         $packages = Package::all();
         return view('asset.index', compact('packages'));
     }
 
-
-
     public function create()
-
     {
         $user = auth()->user();
-
-
         $packages = $user->packages;
-        $assetTypes = AssetType::all(); // Fetch asset types from the database
-        $categories = Categories::all(); // Fetch categories from the database
-
+        $assetTypes = AssetType::all();
+        $categories = Categories::all();
         return view('asset.create', compact('packages', 'assetTypes', 'categories'));
     }
 
@@ -54,13 +46,9 @@ class AssetPackageController extends Controller
             'category_ids.min' => 'Please select at least one category.',
         ];
         $request->validate($rules, $messages);
-        // Check if asset type selected is 3D or 2D
         $selectedAssetType = AssetType::find($request->input('asset_type_id'));
-
         foreach ($request->file('asset') as $asset) {
             $extension = $asset->getClientOriginalExtension();
-
-            // Validate based on selected asset type
             if (($selectedAssetType->asset_type === '3D' && strtolower($extension) !== 'fbx') ||
                 ($selectedAssetType->asset_type === '2D' && !in_array(strtolower($extension), ['jpeg', 'png', 'txt', 'bin']))
             ) {
@@ -69,10 +57,10 @@ class AssetPackageController extends Controller
         }
         $previewFile = $request->file('preview');
 
-        // Check if the preview file is an image
         if (!$previewFile->isValid() || !in_array($previewFile->getClientOriginalExtension(), ['jpg', 'jpeg', 'png', 'gif'])) {
             return redirect()->back()->with('error', 'Preview file must be an image (JPEG, PNG, GIF).');
         }
+
         $originalFileName = $previewFile->getClientOriginalName();
         $imagePath = $previewFile->storeAs('public/preview', $originalFileName);
 
@@ -82,23 +70,20 @@ class AssetPackageController extends Controller
             'preview' => $originalFileName,
             'Location' => $imagePath,
             'UserID' => $user->id,
-            'asset_type_id' => $request['asset_type_id'], // Store selected asset type
-            'Price' => $request['Price'], // Store the price
+            'asset_type_id' => $request['asset_type_id'], 
+            'Price' => $request['Price'], 
         ]);
 
         $package->save();
 
-        // Process and save categories
         $selectedCategories = $request->input('category_ids', []);
         $package->categories()->attach($selectedCategories);
 
-        // Process and save assets
         $uploadedAssetIds = [];
 
         foreach ($request->file('asset') as $asset) {
             $extension = $asset->getClientOriginalExtension();
-
-            // Generate a unique filename for the FBX file
+           
             $uniqueFilename = time() . '-' . Str::random(10) . '.' . $extension;
             $path = $asset->storeAs('public/assets', $uniqueFilename);
 
@@ -110,33 +95,25 @@ class AssetPackageController extends Controller
                 'UserID' => $user->id,
                 'PackageID' => $package->id,
             ]);
-
             $asset->save();
-
-            $uploadedAssetIds[] = $asset->id; // Store the IDs of uploaded assets
+            $uploadedAssetIds[] = $asset->id; 
         }
-
-        // Redirect with success message and uploadedAssetIds
         return redirect()->back()->with([
             'success' => 'Images uploaded successfully',
-            'uploadedAssetIds' => $uploadedAssetIds, // Include the array of asset IDs
+            'uploadedAssetIds' => $uploadedAssetIds, 
         ]);
     }
+
     public function download($id)
     {
         $package = Package::findOrFail($id);
-
-
         $tempDir = storage_path('app/temp_zip');
         if (!file_exists($tempDir)) {
             mkdir($tempDir, 0755, true);
         }
-
-
         $previewFilePath = storage_path('app/' . $package->Location);
         $previewFileName = $package->PackageName . '.jpg';
         copy($previewFilePath, $tempDir . '/' . $previewFileName);
-
 
         $assets = $package->assets;
         foreach ($assets as $asset) {
@@ -154,14 +131,11 @@ class AssetPackageController extends Controller
             foreach ($assets as $asset) {
                 $zip->addFile($tempDir . '/' . $asset->AssetName, 'assets/' . $asset->AssetName);
             }
-
             $zip->close();
         }
-
         $headers = [
             'Content-Type' => 'application/zip',
         ];
-
         return response()->download($tempDir . '/' . $zipFileName, $zipFileName, $headers);
     }
 }

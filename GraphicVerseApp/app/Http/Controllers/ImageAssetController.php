@@ -17,7 +17,8 @@ class ImageAssetController extends Controller
      */
     public function index()
     {
-        //
+        $images = ImageAsset::all();
+        return view('image.index', compact('images'));     
     }
 
     /**
@@ -85,12 +86,12 @@ class ImageAssetController extends Controller
             $image->insert($watermark, 'center');
     
             // Save the watermarked image
-            $watermarkedDirectory = storage_path('app/public/watermarked/');
-            $watermarkedImagePath = $watermarkedDirectory . $validatedData['ImageName'] . '-watermarked.png';
-            $image->save($watermarkedImagePath);
+            $watermarkedDirectory = 'public/watermarked/';
+            $watermarkedImagePath = $validatedData['ImageName'] . '-watermarked.jpg'; // Assuming you want to save it as JPG
+            $image->save(storage_path('app/' . $watermarkedDirectory . $watermarkedImagePath));
     
             // Update the image asset record with the path to the watermarked image
-            $imageAsset->watermarkedImage = 'watermarked/' . $validatedData['ImageName'] . '-watermarked.png';
+            $imageAsset->watermarkedImage = $watermarkedDirectory . $watermarkedImagePath;
         }
     
         $imageAsset->save();
@@ -110,7 +111,9 @@ class ImageAssetController extends Controller
      */
     public function show($id)
     {
-        //
+        $image = ImageAsset::findOrFail($id);
+    
+        return view('image.show', compact('image'));
     }
 
     /**

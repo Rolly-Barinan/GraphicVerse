@@ -18,8 +18,8 @@
 
             <h2>Assets in this Package</h2>
             <ul>
-                @if ($assets)
-                    @foreach ($assets as $asset)
+                @if ($assets->count() > 0)
+                    @foreach ($assets->take(5) as $asset)
                         <li>{{ $asset->AssetName }}</li>
                     
                         <div class="card text-bg-secondary mb-3" style="width: 18rem;">

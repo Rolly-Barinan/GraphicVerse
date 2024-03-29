@@ -13,27 +13,12 @@
         </div>
     </div>
 
-    {{-- <h2>Assets in this Package</h2>
-    <ul>
-        @if ($assets)
-            @foreach ($assets as $asset)
-                <li>{{ $asset->AssetName }}</li>
-            @endforeach
-        @else
-            <li>No assets found for this package.</li>
-        @endif
-    </ul> --}}
-
     <form action="{{ route('paypal') }}" method="POST">
     @csrf
-
     <input type="hidden" name="price" value={{ $package->Price  }}>
     <button type="submit"> Pay with paypal</button>
     </form>
-    
-
     <a href="{{ route('asset.index') }}" class="btn btn-primary">Back to Packages</a>
     <a href="{{ route('asset.download', $package->id) }}" class="btn btn-success">Download</a>
-
 </div>
 @endsection

@@ -30,14 +30,15 @@ main {
     align-items: center;
 
 }
+ /*--------------------------------------navbar-----------------------*/
 .navbar-light {
     color: rgb(255, 254, 255);
 }
 
+
 .GraphicVerse {
     font-family: "Kollektif", sans-serif;
 }
-
 
 .nav-link {
     font-weight: bold;
@@ -163,4 +164,43 @@ a {
 
 .navbar-nav .nav-item:hover .dropdown-content {
     display: block;
+    position: sticky;
 }
+ /* ---------------------------------index.blade---------------------------*/
+.filter_column {
+    position: sticky;
+    top: 0;
+    height: 100vh; /* Fill the height of the viewport */
+    background-color: rgb(175, 182, 184); /* Optional: Just to visualize the sticky column */
+    padding-right: 120px;
+    padding-left: 40px;
+    display: flex; /* Add this line */
+    flex-direction: column; /* Add this line */
+    align-items: flex-start;
+   
+}
+
+.packages_column {
+    flex-grow: 1;
+    padding: 20px;
+    overflow-y: auto;
+}
+
+.package_row {
+    margin-right: 0;
+    margin-left: 0;
+}
+
+.preview_card {
+    padding-top: 10px;
+}
+
+/*--------------------------show.blade-----------------*/
+
+
+
+/* 
+div{
+    border: 1px solid #000000; 
+  
+} */

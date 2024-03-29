@@ -86,7 +86,7 @@
 </script>
 
 </head>
-<nav class="navbar navbar-expand-lg" >
+<nav class="navbar navbar-expand-lg" id="navbar" >
 
     <div class="container-fluid ">
     <a href="/">
@@ -104,10 +104,10 @@
                     <a class="nav-link" href="/3d-models">3D</a>
                 </li>
                 <li class="nav-item pb-3 pe-3" style="">
-                    <a class="nav-link" href="audio-models">Audio</a>
+                    <a class="nav-link" href="/audio-models">Audio</a>
                 </li>
                 <li class="nav-item pb-3 pe-3">
-                    <a class="nav-link" href="#">Others</a>
+                    <a class="nav-link" href="/image">Image</a>
                 </li>
                 
             </ul>
@@ -169,12 +169,9 @@
 </nav>
 
 
-<main class="">
+<main class="" id="main-content">
     @yield('content')
 </main>
 
-<!-- ... (Your scripts) ... -->
-
 </body>
-
 </html>
