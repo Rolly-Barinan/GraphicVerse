@@ -33,11 +33,18 @@ Route::get('/admin/login', [AdminController::class, 'showLoginForm'])->name('adm
 Route::post('/admin/login', [AdminController::class, 'login'])->name('admin.login');
 Route::middleware('auth:admin')->group(function () {
     Route::get('/admin/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
+    Route::get('/admin/categories', [AdminController::class, 'categories'])->name('admin.categories');
+    Route::get('/admin/users', [AdminController::class, 'users'])->name('admin.users');
     Route::get('/admin/logout', [AdminController::class, 'logout'])->name('admin.logout');
 
     Route::get('/admin/add-category', [AdminController::class, 'addCategory'])->name('admin.addCategory');
     Route::post('/admin/add-category', [AdminController::class, 'storeCategory'])->name('admin.storeCategory');
+    Route::get('/admin/categories/edit/{id}', [AdminController::class, 'editCategory'])->name('admin.editCategory');
+    Route::post('/admin/categories/update/{id}', [AdminController::class, 'updateCategory'])->name('admin.updateCategory');
     Route::get('/admin/delete-category/{id}', [AdminController::class, 'deleteCategory'])->name('admin.deleteCategory');
+
+    Route::get('/admin/users/details/{id}', [AdminController::class, 'userDetails'])->name('admin.userDetails');
+    Route::get('/admin/delete-user/{id}', [AdminController::class, 'deleteUser'])->name('admin.deleteUser');
     // Other admin routes go here
 });
 

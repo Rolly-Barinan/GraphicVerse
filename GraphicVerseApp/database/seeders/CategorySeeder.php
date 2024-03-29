@@ -16,11 +16,11 @@ class CategorySeeder extends Seeder
     public function run()
     {
         $category = [
-            ['cat_name'=> 'Characters'],
-            ['cat_name' => 'Vehicles'],
-            ['cat_name' => 'Props'],
-            ['cat_name' => 'Vegetation'],
-            ['cat_name' => 'Environment'],
+            ['cat_name'=> 'Characters', 'created_at' => now()],
+            ['cat_name' => 'Vehicles', 'created_at' => now()],
+            ['cat_name' => 'Props', 'created_at' => now()],
+            ['cat_name' => 'Vegetation', 'created_at' => now()],
+            ['cat_name' => 'Environment', 'created_at' => now()],
         ];
 
         DB::table('categories')->insert($category);

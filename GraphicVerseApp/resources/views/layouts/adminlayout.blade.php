@@ -1,4 +1,4 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 
 <head>
@@ -44,9 +44,13 @@
 
 <style>
     body {
-        background-image: url('https://cdn.discordapp.com/attachments/1121006331323760680/1123571308496691210/Copy_of_GraphicVerse_Capstone_Hearing.png');
-        background-size: cover;
-        background-repeat: no-repeat;
+        background-color: #dcdcdc;
+        /* or any other shade of grey you prefer */
+    }
+
+    .content {
+        color: black;
+        /* Set the font color to black */
     }
 
     .navbar-nav .nav-item {
@@ -66,7 +70,6 @@
         display: flex;
         flex-direction: column;
         align-items: center;
-        margin-bottom: 50px;
         align-self: center;
     }
 
@@ -90,11 +93,6 @@
         transition: color 0.3s;
     }
 
-    .nav-link.active {
-        color: #fff;
-        font-weight: bold;
-    }
-
     /* Add spacing between navigation items */
     .nav-item {
         margin-bottom: 10px;
@@ -109,6 +107,15 @@
 <body>
     <div class="container-fluid">
         <div class="row">
+            <!-- Navbar with Collapse Button (updated structure) -->
+            <nav class="navbar navbar-expand-md navbar-dark bg-dark d-md-none">
+                <!-- Collapsible Sidebar Button -->
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse"
+                    aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+            </nav>
+
             <!-- Left Sidebar -->
             <div class="col-md-2 sidebar bg-dark">
                 <div class="profile text-center">
@@ -117,18 +124,31 @@
                         <h5>{{ $admin->name }}</h5>
                     </div>
                 </div>
+                <hr>
                 <ul class="nav flex-column">
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('admin.dashboard') }}">Dashboard</a>
+                        <a class="nav-link" href="{{ route('admin.dashboard') }}">
+                            <i class="fas fa-tachometer-alt"></i> Dashboard
+                        </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" data-bs-toggle="modal" data-bs-target="#addCategoryModal" style="cursor: pointer">Add Category</a>
+                        <a class="nav-link" href="{{ route('admin.categories') }}">
+                            <i class="fas fa-folder"></i> Manage Categories
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('admin.users') }}">
+                            <i class="fas fa-users"></i> Manage Users
+                        </a>
                     </li>
                 </ul>
                 <div class="nav flex-column mt-auto">
-                    <a class="nav-link" style="color: red" href="{{ route('admin.logout') }}">
-                        LOGOUT
+                    <a class="nav-link mb-4" style="color: red" href="{{ route('admin.logout') }}">
+                        <i class="fas fa-sign-out-alt"></i> LOGOUT
                     </a>
+                    <div style="display: flex; align-items: center; justify-content: center;">
+                        <img src="{{ asset('svg\GraphicVerse_Logo.png') }}" alt="Logo" style="max-width: 50%;">
+                    </div>
                 </div>
             </div>
 
@@ -140,6 +160,38 @@
             </div>
         </div>
     </div>
+
+    <!-- Bootstrap JS (added to enable responsive behavior) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Include jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <!-- JavaScript to handle sidebar toggling -->
+    <script>
+        $(document).ready(function () {
+            // Function to check the screen size and toggle the sidebar accordingly
+            function toggleSidebar() {
+                if ($(window).width() < 768) {
+                    $(".sidebar").addClass("d-none");
+                } else {
+                    $(".sidebar").removeClass("d-none");
+                }
+            }
+
+            // Initial check when the page loads
+            toggleSidebar();
+
+            // Check the screen size when the window is resized
+            $(window).resize(function () {
+                toggleSidebar();
+            });
+
+            // Toggle sidebar when the button is clicked
+            $(".navbar-toggler").click(function () {
+                $(".sidebar").toggleClass("d-none");
+            });
+        });
+    </script>
 </body>
 
 </html>
