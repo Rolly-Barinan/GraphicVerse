@@ -1,21 +1,22 @@
 @extends('layouts.app')
 
 @section('content')
-
     <div class="container-fluid">
         <h1>Package Details</h1>
-
         <div class="card">
             <img src="{{ Storage::url($package->Location) }}" class="card-img-top" alt="{{ $package->PackageName }}">
             <div class="card-body">
                 <h5 class="card-title">{{ $package->PackageName }}</h5>
                 <p class="card-text">{{ $package->Description }}</p>
-                <p>Price: ${{ $package->Price }}</p>
+                @if ($package->Price != null && $package->Price != 0)
+                    <p>Price: ${{ $package->Price }}</p>
+                @endif
+                <p>File Types: {{ implode(', ', $fileTypes->toArray()) }}</p>
+                <p>File Size: {{ number_format($totalSizeMB, 2) }}mb</p>
+                <p>Created By: {{ $user->name }}</p>
             </div>
         </div>
-
         <h2>Assets in this Package</h2>
-
         @if ($assets)
             <div class="audio-cards">
                 <div class="container-fluid text-center">
@@ -29,7 +30,6 @@
                                             <source src="{{ Storage::url($asset->Location) }}" type="audio/mpeg">
                                             Your browser does not support the audio element.
                                         </audio>
-
                                     </div>
                                 </div>
                             </div>
@@ -40,12 +40,16 @@
         @else
             <p>No assets found for this package.</p>
         @endif
-
-
-
-
-
-
+        @if ($package->Price == null || $package->Price == 0)
+            <a href="{{ route('asset.download', $package->id) }}" class="btn btn-success">Download</a>
+        @else
+            <form action="{{ route('paypal') }}" method="POST">
+                @csrf
+                <input type="hidden" name="price" value="{{ $package->Price }}">
+                <button type="submit" class="btn btn-primary">Pay with PayPal</button>
+            </form>
+        @endif
+        <a href="/audio-models" class="btn btn-secondary">Back</a>
 
         <script>
             document.addEventListener('DOMContentLoaded', function() {

@@ -11,7 +11,6 @@ class PaypalController extends Controller
     {
         $provider = new PayPalClient;
         $provider->setApiCredentials(config('paypal'));
-
         $paypalToken = $provider->getAccessToken();
         $response = $provider->createOrder([
             "intent" => "CAPTURE",
@@ -19,7 +18,6 @@ class PaypalController extends Controller
                 "return_url" => route('paypal_success'),
                 "cancel_url" => route('paypal_cancel')
             ],
-        
             "purchase_units" => [
                 [
                     "amount" => [
@@ -29,7 +27,6 @@ class PaypalController extends Controller
                 ]
             ]
         ]);
-    //   dd($response);
         if(isset($response['id']) && $response['id']!= null){
 
             foreach($response['links'] as $link){
@@ -40,27 +37,21 @@ class PaypalController extends Controller
         }else {
             return redirect()->route('paypal_cancel');
         }
-
     }
 
     public function success(Request $request)
-    {
-       
+    {       
         $provider = new PayPalClient;
         $provider->setApiCredentials(config('paypal'));
         $paypalToken = $provider->getAccessToken(); 
         $response = $provider->capturePaymentOrder($request->token);
-        // dd($response);
-
         if(isset($response['status']) && $response['status']=== "COMPLETED"){
-
-            //get the data  to store in database, unya nalng i emplement
             return "Payment is Success";
-
         }else  {
             return redirect()->route('paypal_cancel');
         }
     }
+
     public function cancel()
     {
         return "Payment is canceled";

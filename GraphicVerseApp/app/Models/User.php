@@ -54,6 +54,12 @@ class User extends Authenticatable
     {
         return $this->hasMany(Asset::class);
     }
+
+    public function images()
+    {
+        return $this->hasMany(ImageAsset::class, 'UserID'); 
+    }
+
     /**
      * The attributes that should be cast.
      *
