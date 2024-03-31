@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Package;
 use App\Models\ThreeD;
 use App\Models\User;
+use Faker\Provider\ar_EG\Company;
 use Illuminate\Http\Request;
 use Intervention\Image\Facades\Image;
 
@@ -11,17 +13,11 @@ class ProfilesController extends Controller
 {
         public function index(User $user)
         {
-                // Fetch user's 2D uploads
-                
-               
-                $userTeams = $user->teams; // Fetch user's teams
-                
+                // Fetch user's 2D uploads                         
+                $userTeams = $user->teams; // Fetch user's teams               
                 // $userThreeDs = $user->threeDs()->get();
-
                 // $fbxFiles = auth()->user()->threeDs->pluck('asset')->toArray();
-                
-
-                return view('profiles.profile', compact('user',  'userTeams' ));
+                return view('profiles.profile', compact('user',  'userTeams'));
         }
 
         public function edit(User $user)
@@ -34,16 +30,12 @@ class ProfilesController extends Controller
         public function update(User $user)
         {
                 $this->authorize('update', $user->profile);
-
                 $data = request()->validate([
                         'title' => 'required',
                         'description' => 'required',
                         'url' => 'url',
                         'image' => '',
-
                 ]);
-       
-                
                 if (request('image')) {
                         $imagePath = (request('image')->store('profile', 'public'));
 
@@ -51,12 +43,38 @@ class ProfilesController extends Controller
                         $image->save();
                         $imageArray = ['image' => $imagePath];
                 }
-
                 auth()->user()->profile->update(array_merge(
                         $data,
                         $imageArray ?? []
                 ));
-
                 return redirect("/profile/{$user->id}");
+        }
+
+        public function twoDimDisplay()
+        {
+                $user = auth()->user();
+                $packages = Package::where('UserID', $user->id)->get();
+
+                return view('profiles.twoDimDisplay', compact('packages'));
+        }
+
+        public function threeDimDisplay(User $user)
+        {
+                $user = auth()->user();
+                $packages = Package::where('UserID', $user->id)->get();
+
+                return view('profiles.threeDimDisplay', compact('packages'));
+        }
+
+        public function audioDisplay(User $user)
+        {
+                $user = auth()->user();
+                $packages = Package::where('UserID', $user->id)->get();
+                return view('profiles.audioDisplay', compact('packages'));
+        }
+
+        public function imageDisplay(User $user)
+        {
+                return view('profiles.imageDisplay');
         }
 }

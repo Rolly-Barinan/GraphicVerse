@@ -12,7 +12,7 @@
                         <p>Price: ${{ $package->Price }}</p>
                     @endif
                     <p>File Types: {{ implode(', ', $fileTypes->toArray()) }}</p>
-                    <p>File Size: {{ number_format($totalSizeMB, 2) }}mb</p>
+                    <p>File Size: {{ number_format($totalSizeMB, 2) }}kb</p>
                     <p>Created By: {{ $user->name }}</p>
                 </div>
             </div>
@@ -42,7 +42,5 @@
             @endif
             <a href="/2d-models" class="btn btn-secondary">Back</a>
         </div>
-
     </div>
-
 @endsection

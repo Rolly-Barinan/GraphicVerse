@@ -7,6 +7,7 @@ use App\Models\Categories;
 use App\Models\ImageAsset;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Intervention\Image\Facades\Image;
 
 class ImageAssetController extends Controller
@@ -98,4 +99,14 @@ class ImageAssetController extends Controller
         return view('image.show', compact('image', 'user', 'imageSize'));
     }
 
+    public function download($id)
+    {
+        $image = ImageAsset::findOrFail($id);
+        $filePath = storage_path('app/public/' . $image->Location);
+        if (!file_exists($filePath)) {
+            abort(404);
+        }
+        $fileName = basename($image->Location);
+        return response()->download($filePath, $fileName);
+    }
 }

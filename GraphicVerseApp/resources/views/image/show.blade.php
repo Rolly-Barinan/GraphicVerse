@@ -22,7 +22,7 @@
             </div>
         </div>
         @if ($image->Price == null || $image->Price == 0)
-            <a href="{{ route('asset.download', $price->id) }}" class="btn btn-success">Download</a>
+            <a href="{{ route('image.download', $image->id) }}" class="btn btn-success">Download</a>
         @else
             <form action="{{ route('paypal') }}" method="POST">
                 @csrf

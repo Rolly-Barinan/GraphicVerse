@@ -85,14 +85,19 @@ Route::get('/3d-models/{id}', [ThreeDimContoller::class, 'show'])->name('threeDi
 Route::get('/audio-models', [AudioController::class, 'index'])->name('audio.index');
 Route::get('/audio-models/{id}', [AudioController::class, 'show'])->name('audio.show');
 //User profile
-Route::get('/profile/{user}', [ProfilesController::class, 'index'])->name('profile.show');
+
 //Search Controller
 Route::get('/search', [SearchController::class, 'search'])->name('search');
 
 Route::middleware(['auth'])->group(function () {
+    Route::get('/profile/{user}', [ProfilesController::class, 'index'])->name('profile.show');
     //profile router contoller
     Route::get('/profile/{user}/edit', [ProfilesController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile/{user}', [ProfilesController::class, 'update'])->name('profile.update');
+    Route::get('/profile/display/2d-models', [ProfilesController::class, 'twoDimDisplay'])->name('profile.twoDimDisplay');
+    Route::get('/profile/display/3d-models', [ProfilesController::class, 'threeDimDisplay'])->name('profile.threeDimDisplay');
+    Route::get('/profile/display/audio-models', [ProfilesController::class, 'audioDisplay'])->name('profile.audioDisplayaudioDisplay');
+    Route::get('/profile/display/image-models', [ProfilesController::class, 'imageDisplay'])->name('profile.imageDisplay');
     //Teams router
     Route::get('/teams', [TeamController::class, 'index'])->name('teams.index');
     Route::get('/teams/create', [TeamController::class, 'create'])->name('teams.create');
