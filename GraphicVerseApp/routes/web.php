@@ -52,6 +52,7 @@ Route::middleware('auth:admin')->group(function () {
     Route::get('/admin/packages/details/{id}', [AdminController::class, 'packageDetails'])->name('admin.packageDetails');
     Route::get('/admin/delete-package/{id}', [AdminController::class, 'deletePackage'])->name('admin.deletePackage');
 
+    Route::get('/admin/image/search', [AdminController::class, 'imageSearch'])->name('admin.imageSearch');
     Route::get('/admin/images/details/{id}', [AdminController::class, 'imageDetails'])->name('admin.imageDetails');
     Route::get('/admin/delete-image/{id}', [AdminController::class, 'deleteImage'])->name('admin.deleteImage');
     // Other admin routes go here

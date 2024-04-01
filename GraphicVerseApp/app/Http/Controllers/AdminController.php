@@ -200,6 +200,15 @@ class AdminController extends Controller
         return view('admin.imageAssets', ['admin' => $admin, 'images' => $images]);
     }
 
+    public function imageSearch(Request $request)
+    {
+        $searchQuery = $request->input('q');
+
+        $images = ImageAsset::where('ImageName', 'like', '%'.$searchQuery.'%')->paginate(10);
+
+        return view('admin.imageSearchResults', ['images' => $images])->render();
+    }
+
     public function imageDetails($id)
     {
         $admin = Admin::findOrFail(auth()->user()->id);
