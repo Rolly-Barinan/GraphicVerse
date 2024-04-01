@@ -46,7 +46,7 @@
                                         <td>{{ $package->created_at->format('Y-m-d') }}</td>
                                         <td>{{ $package->updated_at->format('Y-m-d') }}</td>
                                         <td class="text-center">
-                                            <a href="{{ route('admin.userDetails', $package->id) }}" class="btn btn-success">
+                                            <a href="{{ route('admin.packageDetails', $package->id) }}" class="btn btn-success">
                                                 View Details
                                             </a>                                        
                                         </td>  

@@ -36,7 +36,7 @@ class AssetPackageController extends Controller
             'Description' => 'required',
             'preview' => 'required|image',
             'asset' => 'required|array',
-            'asset.*' => 'required|file|mimes:jpeg,png,bin,wav, fbx',
+            'asset.*' => 'required|file|mimes:jpeg,png,bin,wav,jpg,fbx',
             'asset_type_id' => 'required',
             'category_ids' => 'required|array|min:1',
             'category_ids.*' => Rule::exists('categories', 'id'),
@@ -50,7 +50,7 @@ class AssetPackageController extends Controller
         foreach ($request->file('asset') as $asset) {
             $extension = $asset->getClientOriginalExtension();
             if (($selectedAssetType->asset_type === '3D' && strtolower($extension) !== 'fbx') ||
-                ($selectedAssetType->asset_type === '2D' && !in_array(strtolower($extension), ['jpeg', 'png', 'txt', 'bin']))
+                ($selectedAssetType->asset_type === '2D' && !in_array(strtolower($extension), ['jpeg', 'png', 'txt', 'bin', 'jpg']))
             ) {
                 return redirect()->back()->with('error', 'Invalid file type for selected asset type.');
             }

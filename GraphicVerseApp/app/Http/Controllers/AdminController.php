@@ -155,6 +155,40 @@ class AdminController extends Controller
         return view('admin.packages', ['admin' => $admin, 'packages' => $packages]);
     }
 
+    public function packageDetails($id)
+    {
+        $admin = Admin::findOrFail(auth()->user()->id);
+        $user = User::find($id);
+        $package = Package::find($id);
+
+        if (!$package) {
+            return redirect()->route('admin.packages')->with('error', 'Package not found.');
+        }
+
+        // Count the number of Assets uploads for the user
+        $userUploadsCountAssets = $package->assets()->count();
+        
+        return view('admin.packageDetails', [
+            'admin' => $admin, 'user' => $user, 'package' => $package, 
+            'userUploadsCountAssets' => $userUploadsCountAssets,
+        ]);
+    }
+
+    public function deletePackage($id)
+    {
+        $package = Package::find($id);
+
+        if (!$package) {
+            return redirect()->route('admin.packages')->with('error', 'Package not found.');
+        }
+
+        // Perform any additional checks or logic before deleting if needed
+
+        $package->delete();
+
+        return redirect()->route('admin.packages')->with('success', 'Package deleted successfully.');
+    }
+
     public function logout()
     {
         Session::flush();
