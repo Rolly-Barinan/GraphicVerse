@@ -11,17 +11,24 @@
 
     <style>
         .white-bg {
-            background-color: #fff; /* White background color */
-            margin-bottom: 20px; /* Margin to separate the sections */
-            padding: 20px; /* Add padding for spacing inside the white divs */
+            background-color: #fff;
+            /* White background color */
+            margin-bottom: 20px;
+            /* Margin to separate the sections */
+            padding: 20px;
+            /* Add padding for spacing inside the white divs */
         }
 
         .carousel-control-prev-icon,
         .carousel-control-next-icon {
-            background-color: black; /* Set the background color to black */
-            color: white; /* Set the arrow color to white */
-            border-radius: 50%; /* Optional: Add some border-radius for rounded arrows */
-            padding: 10px; /* Optional: Add padding to the arrows for better visibility */
+            background-color: black;
+            /* Set the background color to black */
+            color: white;
+            /* Set the arrow color to white */
+            border-radius: 50%;
+            /* Optional: Add some border-radius for rounded arrows */
+            padding: 10px;
+            /* Optional: Add padding to the arrows for better visibility */
         }
 
         /* CSS for your card elements */
@@ -33,17 +40,22 @@
         }
 
         .card2d a {
-            text-decoration: none; /* Remove underline from links */
-            color: #333; /* Set the link color */
+            text-decoration: none;
+            /* Remove underline from links */
+            color: #333;
+            /* Set the link color */
         }
 
         .card2d a:hover {
-            color: #555; /* Change link color on hover if desired */
+            color: #555;
+            /* Change link color on hover if desired */
         }
 
         .card2d .card-title {
-            font-size: 12px; /* Adjust the font size as desired */
-            padding: 10px; /* Add padding to the card title */
+            font-size: 12px;
+            /* Adjust the font size as desired */
+            padding: 10px;
+            /* Add padding to the card title */
         }
 
         /* CSS for your 3D asset cards */
@@ -73,8 +85,10 @@
         }
 
         .title-container {
-            background-color: #333; /* Background color for the title container */
-            color: #fff; /* Text color for the title */
+            background-color: #333;
+            /* Background color for the title container */
+            color: #fff;
+            /* Text color for the title */
             padding: 10px;
             text-align: center;
             font-weight: bold;
@@ -93,10 +107,11 @@
         <div class="row">
             <div class="col-12 col-md-3 p-2 d-flex justify-content-center align-items-start">
                 <div class="rounded-circle-container">
-                    <img src="{{ $user->profile->profileImage() }}" class="rounded-circle img-fluid" alt="User Profile Image">
+                    <img src="{{ $user->profile->profileImage() }}" class="rounded-circle img-fluid"
+                        alt="User Profile Image">
                 </div>
             </div>
-            
+
             <div class="col-12 col-md-5 pt-3">
                 <div>
                     <div class="d-flex justify-content-between align-items-baseline">
@@ -128,82 +143,110 @@
         <div class="row pt-5">
             <div class="col-md-10">
                 <h4>Recently Uploaded</h4>
-                <div class="white-bg">
-                    <h5>2D ASSETS</h5>
-                    {{-- @if(count($userUploads) > 0)
-                        <div id="carousel2D" class="carousel slide" data-bs-ride="carousel">
-                            <div class="carousel-inner">
-                                @foreach($userUploads as $index => $upload)
-                                    @if($index % 4 == 0)
-                                        <div class="carousel-item {{ $index === 0 ? 'active' : '' }}">
-                                            <div class="row">
-                                                @endif
-                                                <div class="col-md-3 mb-3">
-                                                    <div class="card2d">
-                                                        <a href="{{ route('twoD.show', ['id' => $upload->id]) }}">
-                                                            <img src="{{ asset('storage/' . $upload->filename) }}" class="card-img-top"
-                                                                alt="{{ $upload->twoD_name }}" style="width: 100%; height: 150px;">
-                                                            <div class="card-body">
-                                                                <h5 class="title-container">{{ $upload->twoD_name }}</h5>
-                                                            </div>
-                                                        </a>
-                                                    </div>
-                                                </div>
-                                                @if(($index + 1) % 4 == 0 || $loop->last)
-                                            </div>
-                                        </div>
-                                    @endif
-                                @endforeach
-                            </div>
-                            <a class="carousel-control-prev" href="#carousel2D" role="button" data-bs-slide="prev">
-                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                                <span class="visually-hidden">Previous</span>
-                            </a>
-                            <a class="carousel-control-next" href="#carousel2D" role="button" data-bs-slide="next">
-                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                                <span class="visually-hidden">Next</span>
-                            </a>
-                        </div>
-                    @else
-                        <p style="text-align: center; font-style: italic; color: black;">No 2D assets found.</p>
-                    @endif --}}
 
-                    <h5>3D ASSETS</h5>
-                    {{-- @if(count($userUploads3D) > 0)
-                        <div id="carousel3D" class="carousel slide" data-bs-ride="carousel">
-                            <div class="carousel-inner">
-                                @foreach($userUploads3D as $index => $threeD)
-                                    @if($index % 4 == 0)
-                                        <div class="carousel-item {{ $index === 0 ? 'active' : '' }}">
-                                            <div class="row">
-                                                @endif
-                                                <div class="col-md-3 mb-3">
-                                                    <div class="card3d">
-                                                        <a href="{{ route('threeD.show', ['id' => $threeD->id]) }}">
-                                                            <div class="model-viewer"
-                                                                data-model-path="{{ asset('storage/' . $threeD->filename) }}"></div>
-                                                            <div class="title-container">{{ $threeD->threeD_name }}</div>
-                                                        </a>
-                                                    </div>
-                                                </div>
-                                                @if(($index + 1) % 4 == 0 || $loop->last)
-                                            </div>
+                <div class="white-bg">
+
+                    <div class="container-fluid py-50" style="background-color: #DDDDE4;">
+                        <div class="row">
+                            <!-- Vertical Navbar -->
+                            <div class="col-md-3">
+                                <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                                    <div class="container-fluid">
+                                        <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                                            data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false"
+                                            aria-label="Toggle navigation">
+                                            <span class="navbar-toggler-icon"></span>
+                                        </button>
+                                        <div class="collapse navbar-collapse justify-content-start" id="navbarNav">
+                                            <ul class="navbar-nav flex-column">
+                                                <li class="nav-item">
+                                                    <a class="nav-link active" id="2d">2d</a>
+                                                </li>
+                                                <li class="nav-item">
+                                                    <a class="nav-link" id="3d">3d </a>
+                                                </li>
+                                                <li class="nav-item">
+                                                    <a class="nav-link" id="audio">audio </a>
+                                                </li>
+                                                <li class="nav-item">
+                                                    <a class="nav-link" id="image">image </a>
+                                                </li>
+                                                <!-- Add more links as needed -->
+                                            </ul>
                                         </div>
-                                    @endif
-                                @endforeach
+                                    </div>
+                                </nav>
                             </div>
-                            <a class="carousel-control-prev" href="#carousel3D" role="button" data-bs-slide="prev">
-                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                                <span class="visually-hidden">Previous</span>
-                            </a>
-                            <a class="carousel-control-next" href="#carousel3D" role="button" data-bs-slide="next">
-                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                                <span class="visually-hidden">Next</span>
-                            </a>
+                            <!-- Main Content Area -->
+                            <div class="col-md-9" id="mainContent">
+                                <!-- Content from twoDim.blade.php will be loaded here -->
+                            </div>
                         </div>
-                    @else
-                        <p style="text-align: center; font-style: italic; color: black;">No 3D assets found.</p>
-                    @endif --}}
+                    </div>
+
+                    <script>
+                        // Function to load content dynamically using AJAX
+                        function loadContent(url) {
+                            fetch(url)
+                                .then(response => response.text())
+                                .then(html => {
+                                    document.getElementById('mainContent').innerHTML = html;
+                                })
+                                .catch(error => console.error('Error loading content:', error));
+                        }
+
+                        // Event listeners for each link
+                        document.getElementById('2d').addEventListener('click', function(event) {
+                            event.preventDefault();
+                            loadContent('/profile/display/2d-models');
+                            // Store the active link in localStorage
+                            localStorage.setItem('activeLink', '2d');
+                            // Update the active class for all links
+                            updateActiveClass('2d');
+                        });
+
+                        document.getElementById('3d').addEventListener('click', function(event) {
+                            event.preventDefault();
+                            loadContent('/profile/display/3d-models');
+                            // Store the active link in localStorage
+                            localStorage.setItem('activeLink', '3d');
+                            // Update the active class for all links
+                            updateActiveClass('3d');
+                        });
+
+                        document.getElementById('audio').addEventListener('click', function(event) {
+                            event.preventDefault();
+                            loadContent('/profile/display/audio-models');
+
+                            localStorage.setItem('activeLink', 'audio');
+
+                            updateActiveClass('audio');
+                        });
+
+                        document.getElementById('image').addEventListener('click', function(event) {
+                            event.preventDefault();
+                            loadContent('/profile/display/image-models');
+
+                            localStorage.setItem('activeLink', 'image');
+
+                            updateActiveClass('image');
+                        });
+
+                        function updateActiveClass(activeLinkId) {
+                            const links = document.querySelectorAll('.nav-link');
+                            links.forEach(link => {
+                                link.classList.remove('active');
+                            });
+                            document.getElementById(activeLinkId).classList.add('active');
+                        }
+                        document.addEventListener('DOMContentLoaded', function() {
+                            const activeLink = localStorage.getItem('activeLink');
+                            if (activeLink) {
+                                loadContent(`/profile/display/${activeLink}-models`);
+                                updateActiveClass(activeLink);
+                            }
+                        });
+                    </script>
 
                     <script>
                         function loadFBX(modelViewer) {
@@ -280,14 +323,15 @@
 
                         initFBXViewers();
                     </script>
+
                 </div>
             </div>
 
             <!-- Display user's teams -->
-            <div class="col-md-2">
+            {{-- <div class="col-md-2">
                 <h4>Teams</h4>
                 <div class="white-bg">
-                    @if(count($userTeams) > 0)
+                    @if (count($userTeams) > 0)
                         @foreach ($userTeams as $team)
                             <div class="d-flex align-items-center mb-3">
                                 <div class="avatar text-white rounded-circle d-flex align-items-center justify-content-center" style="width: 50px; height: 50px; font-size: auto; background-color: {{ $team->color }};">
@@ -310,7 +354,7 @@
                         <p style="text-align: center; font-style: italic; color: black;">No associated teams.</p>
                     @endif    
                 </div>
-            </div>
+            </div> --}}
         </div>
 
         <!-- Modal -->
@@ -339,4 +383,33 @@
             </div>
         </div>
     </div>
+
+               <!-- Display user's teams -->
+            <div class="">
+                <h4>Teams</h4>
+                <div class="white-bg">
+                    @if (count($userTeams) > 0)
+                        @foreach ($userTeams as $team)
+                            <div class="d-flex align-items-center mb-3">
+                                <div class="avatar text-white rounded-circle d-flex align-items-center justify-content-center" style="width: 50px; height: 50px; font-size: auto; background-color: {{ $team->color }};">
+                                    @php
+                                        $words = explode(" ", $team->name); // Split the team name into an array of words
+                                
+                                        if (count($words) === 1) {
+                                            echo strtoupper(substr($team->name, 0, 3)); // Use the first three letters for single-word team names
+                                        } else {
+                                            foreach ($words as $word) {
+                                                echo strtoupper(substr($word, 0, 1)); // Output the first letter of each word for multi-word team names
+                                            }
+                                        }
+                                    @endphp
+                                </div>
+                                <div class="col-md-4 col-sm-6 ml-2">{{ $team->name }}</div>
+                            </div>
+                        @endforeach
+                    @else
+                        <p style="text-align: center; font-style: italic; color: black;">No associated teams.</p>
+                    @endif    
+                </div>
+            </div>
 @endsection

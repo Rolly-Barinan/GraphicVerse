@@ -17,8 +17,7 @@ class ImageAsset extends Model
     {
         return $this->belongsTo(User::class, 'userID');
     }
-
-
+    
     public function assetType()
     {
         return $this->belongsTo(AssetType::class, 'assetTypeID');

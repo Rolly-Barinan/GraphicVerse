@@ -12,6 +12,8 @@ use App\Models\Categories;
 use App\Models\User;
 use App\Models\Model2D;
 use App\Models\Model3D;
+use App\Models\Package;
+
 class AdminController extends Controller
 {
     public function showLoginForm()
@@ -38,8 +40,8 @@ class AdminController extends Controller
         $admin = Admin::findOrFail(auth()->user()->id); // Fetch the authenticated admin from the database
         $categories = Categories::all();
         $users = User::all();
-        $models2D = Model2D::all();
-        $models3D = Model3D::all();
+        $models2D = Package::all();
+        $models3D = Package::all();
         return view('admin.dashboard', ['admin' => $admin, 'categories' => $categories, 'users' => $users, 'models2D' => $models2D, 'models3D' => $models3D]);
     }
 
