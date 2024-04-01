@@ -42,109 +42,62 @@
    
     <!-- Scripts -->
     {{-- @vite(['resources/sass/app.scss', 'resources/js/app.js']) --}}
-    
-    <script>
-    document.addEventListener('DOMContentLoaded', function () {
-        const loginDropdown = document.getElementById('loginDropdown');
-        const loginDropdownContent = document.getElementById('loginDropdownContent');
-        
-        const registerDropdown = document.getElementById('registerDropdown');
-        const registerDropdownContent = document.getElementById('registerDropdownContent');
-
-        loginDropdown.addEventListener('mousedown', function (e) {
-            e.preventDefault(); // Prevent the anchor link's default behavior
-            e.stopPropagation(); // Prevent the event from propagating to the anchor
-
-            loginDropdownContent.classList.toggle('show');
-        });
-
-        registerDropdown.addEventListener('mousedown', function (e) {
-            e.preventDefault(); // Prevent the anchor link's default behavior
-            e.stopPropagation(); // Prevent the event from propagating to the anchor
-
-            registerDropdownContent.classList.toggle('show');
-        });
-
-        // Close the login dropdown if the user clicks outside of it
-        window.addEventListener('mousedown', function (event) {
-            if (!event.target.matches('#loginDropdown')) {
-                if (loginDropdownContent.classList.contains('show')) {
-                    loginDropdownContent.classList.remove('show');
-                }
-            }
-        });
-
-        // Close the register dropdown if the user clicks outside of it
-        window.addEventListener('mousedown', function (event) {
-            if (!event.target.matches('#registerDropdown')) {
-                if (registerDropdownContent.classList.contains('show')) {
-                    registerDropdownContent.classList.remove('show');
-                }
-            }
-        });
-    });
-</script>
 
 </head>
-<nav class="navbar navbar-expand-lg" id="navbar" >
-
-    <div class="container-fluid ">
-    <a href="/">
-        <img src="/svg/logo.svg" class="logo" alt="Logo">
-    <a>
+<nav class="navbar navbar-expand-lg" id="navbar">
+    <div class="container-fluid ps-5 pe-5">
+        <a class="navbar-brand" href="/">
+            <img src="/svg/logo.svg" class="logo" alt="Logo">
+        </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav2"
             aria-controls="navbarNav2" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
         </button>
-        <div class="collapse navbar-collapse" id="navbarNav2">
-            <ul class="navbar-nav pt-2">
-                <li class="nav-item pb-3 pe-3">
-                    <a class="nav-link" href="/2d-models">2D</a>
-                </li>
-                <li class="nav-item pb-3 pe-3" style="">
-                    <a class="nav-link" href="/3d-models">3D</a>
-                </li>
-                <li class="nav-item pb-3 pe-3" style="">
-                    <a class="nav-link" href="/audio-models">Audio</a>
-                </li>
-                <li class="nav-item pb-3 pe-3">
-                    <a class="nav-link" href="/image">Image</a>
-                </li>
-                
-            </ul>
-            <form class="custom-search-form MT-3" role="search" action="{{ route('search')}}">
-                <input class="form-control me-1 custom-search-input" type="search" placeholder="Search assets" name="q"
-                    aria-label="Search" style="width: 100%">
-                    <!-- <button class="" -->
-            </form>
-            <a href="{{ route('asset.create') }}"><button type="button" class="btn   btn-warning ">upload Package</button></a>
-            <a href="{{ route('image.create') }}"><button type="button" class="btn   btn-warning ">upload Image</button></a>
-            <ul class="navbar-nav ms-auto me-4 pt-2">
-                @guest
-                    @if (Route::has('login'))
-                    <li class="nav-item pb-3 pe-3 position-relative">
-                        <a id="loginDropdown" class="nav-link">
-                            {{ __('Login') }}
-                        </a>
-                        <div id="loginDropdownContent" class="dropdown-content">
-                            @include('auth.login')
-                        </div>
-                    </li>
-                    @endif
-                    @if (Route::has('register'))
-                    <li class="nav-item pb-3 pe-3 position-relative">
-                        <a id="registerDropdown" class="nav-link">
-                            {{ __('Register') }}
-                        </a>
-                        <div id="registerDropdownContent" class="dropdown-content">
-                            @include('auth.register')
-                        </div>
-                    </li>
-                    @endif
+        <div class="collapse navbar-collapse ps-5" id="navbarNav2">
+            <div class="test container-fluid pt-3">
+                <form class="d-flex flex-grow-1">
+                    <input class="search form-control me-2" type="search" placeholder="Search assets" name="q"
+                        aria-label="Search" style="width: 100%; color: #E6E7FD;">
+                </form>
+                <div class="container-fluid pb-0">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0 pt-0 justify-content-around">
+                        <li class="nav-item">
+                            <a class="nav-link" href="/2d-models">2D</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/3d-models">3D</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/audio-models">Audio</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/image">Image</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <a href="{{ route('asset.create') }}"><button type="button" class="btn btn-warning me-2">Upload
+                        Package</button></a>
+                <a href="{{ route('image.create') }}"><button type="button" class="btn btn-warning">Upload
+                        Image</button></a>
+            <ul class="navbar-nav ms-auto me-4 pt-5">
+            @guest
+                        @if (Route::has('login'))
+                            <li class="nav-item2 pb-5 pe-5 position-relative">
+                                <a href="{{ route('login') }}" class="nav-link">{{ __('Login') }}</a>
+                            </li>
+                        @endif
+                        @if (Route::has('register'))
+                            <li class="nav-item2 pb-5 pe-5 position-relative">
+                                <a href="{{ route('register') }}" class="nav-link">{{ __('Register') }}</a>
+                            </li>
+                        @endif
                 @else
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle text-white" href="#" id="navbarDropdown" role="button"
                             data-bs-toggle="dropdown" aria-expanded="false">
-                            <img src="{{ Auth::user()->profile->profileImage() }}" class="img-fluid rounded-circle" style="height: 30px; width: 30px; margin-right: 5px;">
+                            <img src="{{ Auth::user()->profile->profileImage() }}" class="img-fluid rounded-circle"
+                                style="height: 30px; width: 30px; margin-right: 5px;">
                             {{ Auth::user()->profile->title }}
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
@@ -167,6 +120,8 @@
         </div>
     </div>
 </nav>
+
+
 <main class="" id="main-content">
     @yield('content')
 </main>

@@ -1,18 +1,4 @@
 
-
-/* * {
-    outline: 1px solid;
-}  */
-
-/* @media (max-width: 768px) {
-    .my-element {
-        background-size: contain;
-    }
-} */
-
-/* .container-fluid {
-    background-color: #222344;
-} */
 body {
     font-family: 'Nunito', sans-serif;
     border-color: #DDDDE4;
@@ -21,9 +7,17 @@ body {
     background-color: #DDDDE4;
 }
 
+.navbar, .navbar2{
+    background-color: #222344;
+    box-shadow: 0 20px 35px 0 rgba(0,0,0,.2)
+}
+
+.navbar2{
+    padding-top: -5px;
+}
 .navbar-nav .nav-item {
     display: flex;
-    margin-top: 10px;
+    justify-content: space-between;
 }
 
 main {
@@ -31,10 +25,16 @@ main {
 
 }
  /*--------------------------------------navbar-----------------------*/
-.navbar-light {
-    color: rgb(255, 254, 255);
+
+/* .outer {
+    display: grid;
+    grid-template-columns: 1fr;
 }
 
+.inner {
+    grid-row-start: 1;
+    grid-column-start: 1;
+} */
 
 .GraphicVerse {
     font-family: "Kollektif", sans-serif;
@@ -44,7 +44,7 @@ main {
     font-weight: bold;
     font-size: large;
     font-family: 'Roboto';
-    color: #222344;
+    color:#fff;
     text-decoration: none; /* Remove the default underline */
     position: relative; /* Position relative for pseudo-element */
     display: inline-block; /* Make the link inline-block to fit the underline to the text */
@@ -63,6 +63,24 @@ main {
     transition: transform 0.3s ease-in-out; /* Add a transition effect */
   }
   
+  .form-control {
+    border-radius: 25px;
+    height: 50px;
+  }
+
+  .test{
+    padding-left: 50px;
+    padding-right: 100px;
+    
+  }
+
+  .search{
+    background-color: #424382;
+    border-color: #424382;
+  }
+  .search::placeholder {
+    color: #E6E7FD;
+  }
   .nav-link:hover {
     color: #B129A2; /* Change the text color on hover */
   }
@@ -72,33 +90,40 @@ main {
   }
 
 .logo {
-    height: 100px;
-    margin-right: 40px;
+    height: 130px;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.nav-item2 {
+    padding-left: 50px;
+    padding-right: 50px;
+
+}
+
+.inner{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
 }
 
 .custom-search-form {
-    height: 50px;
-    width: 900px;
-    border-radius: 10px;
-    padding-left: 30px;
-    position: relative;  
-
+    padding-top: 60px;
 }
-
 .custom-search-input {
-    height: 100%;
-    width: 100%;
-    border-radius: inherit;
-    color: #424382;
-    border-color: #dfdfff;
+
+height: 50px;
+width: auto;
+border-radius: 25px;
 }
 
-.custom-search-input:focus {
+/* .custom-search-input:focus {
     border-color: #9799ff;
     box-shadow: 0 0 5px #9799ff;
     outline: none;
     
-}
+} */
 
 a {
     font-family: "Roboto";

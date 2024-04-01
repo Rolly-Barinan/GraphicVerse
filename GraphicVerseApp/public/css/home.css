@@ -1,18 +1,39 @@
 body {
   color: rgb(255, 254, 255);
-  background-color: #DDDDE4;
-  align-items: center;
-  text-align: center;
+  align-items: center !important;
+  text-align: center !important;
+  overflow: auto !important;
+  background: linear-gradient(315deg, #7525e2 0%, #001136 25%, #1b1d55  51%,  #f7137e 150%); 
+  background-size: 400% 400% !important;
+  animation: gradientAnimation 6s ease infinite !important; /* Increase the animation duration to 10s and use a linear timing function */
 }
+
+
+
+@keyframes gradientAnimation {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
 
 .col {
 text-align: center;
 align-items: center;
-justify-content: center
+justify-content: center;
+margin:50px;
 }
 
 .row {
   height: 100vh;
+  margin-left: -100px  !important;
+  margin-right: -100px  !important;
 }
 
 
@@ -32,9 +53,13 @@ justify-content: center
   color: #ffffff;
 }
 
+.text-right{
+
+}
+
   .experience {
     font-family: Roboto, sans-serif;
-    color: rgb(46, 46, 46); /* Change the color value to your desired color */
+    color: #ffffff; /* Change the color value to your desired color */
     font-size: 20px;
     padding-top: 15px;
 
@@ -43,7 +68,7 @@ justify-content: center
   .elevate-title {
     font-family: 'Century Gothic';
     font-weight: bold;
-    color: rgb(46, 46, 46);
+    color: #ffffff;
     font-size: 65px;
     text-align: center;
   }
@@ -59,7 +84,6 @@ justify-content: center
   }
 
   .row-2 {
-    background-color: #FABC30;
     height: 100vh;
     padding-top: 150px;
   }

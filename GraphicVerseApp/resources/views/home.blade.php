@@ -3,16 +3,16 @@
 <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.15.0/font/bootstrap-icons.css" rel="stylesheet">
 
 @section('content')
-    <div class="container pt-4">
-        <div class="row justify-content-center pt-4">
-            <div class="col justify-content-center mt-5">
-                <img src="/svg/dino.gif" class="dino">
-                <h1 class="elevate-title">The one-stop shop for your multimedia asset needs.</h1>
-                <p class="experience"> Experience the power of efficient asset management, collaborative workspaces, and a stunning portfolio
-                    showcase. Join GraphicVerse and elevate your creative journey to new heights.
-                </p>
-                <button type="link" class="learnmore" id="learnMoreButton" href="{{ route('login') }}">Get started </button><i class="bi bi-chevron-right"></i>
-            </div>
+<div class="container pt-5 mt-5">
+    <div class="row  justify-content-center pt-4">
+        <div class="col">
+            <img src="/svg/astronautcaptain.png" alt="Image" class="astro">
+        </div>
+                <div class="col">
+                    <h1 class="elevate-title">The one-stop shop for your multimedia asset needs.</h1>
+                    <p class="experience">Experience the power of efficient asset management, collaborative workspaces, and a stunning portfolio showcase. Join GraphicVerse and elevate your creative journey to new heights.</p>
+                    <a href="{{ route('login') }}" class="btn btn-primary">Get started <i class="bi bi-chevron-right"></i></a>
+                </div>
         </div>
     </div>
     <div class="row-2 justify-content-center">
@@ -53,5 +53,13 @@
         });
     });
 </script>
+<script>
+    document.body.addEventListener("pointermove", (e)=>{
+  const { currentTarget: el, clientX: x, clientY: y } = e;
+  const { top: t, left: l, width: w, height: h } = el.getBoundingClientRect();
+  el.style.setProperty('--posX',  x-l-w/2);
+  el.style.setProperty('--posY',  y-t-h/2);
+})
+    </script>
     
 @endsection
