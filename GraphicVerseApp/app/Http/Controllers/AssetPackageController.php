@@ -7,6 +7,7 @@ use App\Models\Asset;
 use App\Models\AssetType;
 use App\Models\Categories;
 use App\Models\Package;
+use App\Models\User;
 use Illuminate\Http\Request;
 use ZipArchive;
 use Illuminate\Validation\Rule;
@@ -27,7 +28,41 @@ class AssetPackageController extends Controller
         $categories = Categories::all();
         return view('asset.create', compact('packages', 'assetTypes', 'categories'));
     }
+    public function edit($id)
+    {
+        $package = Package::findOrFail($id);
+        $assetTypes = AssetType::all();
+        $categories = Categories::all();
+        
+        return view('asset.edit', compact('package', 'assetTypes', 'categories'));
+    }
 
+    public function update(Request $request, $id)
+    {
+        $package = Package::findOrFail($id);
+        $request->validate([
+            'asset_type_id' => 'required',
+            'PackageName' => 'required',
+            'Description' => 'required',
+            'Price' => 'nullable|numeric',
+        ]);
+
+        $package->asset_type_id = $request->input('asset_type_id');
+        $package->PackageName  = $request->input('PackageName');
+        $package->Description = $request->input('Description');
+        $package->Price = $request->input('Price');
+
+        if ($request->hasFile('preview')) {
+            $previewPath = $request->file('preview')->store('previews', 'public');
+            $package->preview = $previewPath;
+        }
+        $package->categories()->sync($request->input('category_ids', []));
+
+
+        $package->save();
+
+        return redirect()->route('asset.edit', $package->id)->with('success', 'Package updated successfully.');
+    }
     public function store(Request $request)
     {
         $user = auth()->user();
@@ -70,8 +105,8 @@ class AssetPackageController extends Controller
             'preview' => $originalFileName,
             'Location' => $imagePath,
             'UserID' => $user->id,
-            'asset_type_id' => $request['asset_type_id'], 
-            'Price' => $request['Price'], 
+            'asset_type_id' => $request['asset_type_id'],
+            'Price' => $request['Price'],
         ]);
 
         $package->save();
@@ -83,7 +118,7 @@ class AssetPackageController extends Controller
 
         foreach ($request->file('asset') as $asset) {
             $extension = $asset->getClientOriginalExtension();
-           
+
             $uniqueFilename = time() . '-' . Str::random(10) . '.' . $extension;
             $path = $asset->storeAs('public/assets', $uniqueFilename);
 
@@ -96,11 +131,11 @@ class AssetPackageController extends Controller
                 'PackageID' => $package->id,
             ]);
             $asset->save();
-            $uploadedAssetIds[] = $asset->id; 
+            $uploadedAssetIds[] = $asset->id;
         }
         return redirect()->back()->with([
             'success' => 'Images uploaded successfully',
-            'uploadedAssetIds' => $uploadedAssetIds, 
+            'uploadedAssetIds' => $uploadedAssetIds,
         ]);
     }
 
@@ -138,4 +173,16 @@ class AssetPackageController extends Controller
         ];
         return response()->download($tempDir . '/' . $zipFileName, $zipFileName, $headers);
     }
+
+    public function destroy(Package $package)
+    {
+        $package->assets()->delete(); // This deletes all associated assets
+        $package->delete(); // This deletes the package itself
+        
+        return redirect()->back()->with('success', 'Package deleted successfully.');
+
+    }
+    
+
+
 }

@@ -1,3 +1,4 @@
+
 <?php
 
 use Illuminate\Support\Facades\Route;
@@ -54,11 +55,15 @@ Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/aboutus', [AboutUsController::class, 'index'])->name('aboutus');
 
 //packages
-Route::get('/asset', [AssetPackageController::class, 'index'])->name('asset.index');
-Route::get('/asset/create', [AssetPackageController::class, 'create'])->name('asset.create');
-Route::get('/asset/{id}', [AssetPackageController::class, 'show'])->name('asset.show');
-Route::post('/asset/store', [AssetPackageController::class, 'store'])->name('asset.store');
-Route::get('/asset/{id}/download', [AssetPackageController::class, 'download'])->name('asset.download');
+Route::get('/package/{id}/edit', [AssetPackageController::class, 'edit'])->name('asset.edit');
+Route::patch('/package/{id}', [AssetPackageController::class, 'update'])->name('asset.update');
+Route::get('/package', [AssetPackageController::class, 'index'])->name('asset.index');
+Route::get('/package/create', [AssetPackageController::class, 'create'])->name('asset.create');
+Route::get('/package/{id}', [AssetPackageController::class, 'show'])->name('asset.show');
+Route::post('/package/store', [AssetPackageController::class, 'store'])->name('asset.store');
+Route::get('/package/{id}/download', [AssetPackageController::class, 'download'])->name('asset.download');
+Route::delete('/package/{package}', [AssetPackageController::class, 'destroy'])->name('asset.destroy');
+
 
 ////Image Asset routes
 Route::get('/image', [ImageAssetController::class, 'index'])->name('image.index');
@@ -72,9 +77,11 @@ Route::get('paypal/success', [PaypalController::class, 'success'])->name('paypal
 Route::get('paypal/cancel', [PaypalController::class, 'cancel'])->name('paypal_cancel');
 
 //asset layout 2d
+
 Route::get('/2d-models', [TwoDimContoller::class, 'index'])->name('twoDim.index');
 Route::get('/2d-models', [TwoDimContoller::class, 'filterPackages'])->name('filter.2d');
 Route::get('/2d-models/{id}', [TwoDimContoller::class, 'show'])->name('twoDim.show');
+
 
 //asset layout 3d
 Route::get('/3d-models', [ThreeDimContoller::class, 'index'])->name('threeDim.index');
@@ -91,6 +98,9 @@ Route::get('/search', [SearchController::class, 'search'])->name('search');
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/profile/{user}', [ProfilesController::class, 'index'])->name('profile.show');
+
+    Route::get('/asset/create', [AssetPackageController::class, 'create'])->name('asset.create');
+    Route::get('/image/create', [ImageAssetController::class, 'create'])->name('image.create');
     //profile router contoller
     Route::get('/profile/{user}/edit', [ProfilesController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile/{user}', [ProfilesController::class, 'update'])->name('profile.update');

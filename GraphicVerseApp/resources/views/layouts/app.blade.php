@@ -167,8 +167,6 @@
         </div>
     </div>
 </nav>
-
-
 <main class="" id="main-content">
     @yield('content')
 </main>

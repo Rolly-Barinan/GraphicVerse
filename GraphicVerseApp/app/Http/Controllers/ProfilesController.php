@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\ImageAsset;
 use App\Models\Package;
 use App\Models\ThreeD;
 use App\Models\User;
@@ -58,7 +59,7 @@ class ProfilesController extends Controller
                 return view('profiles.twoDimDisplay', compact('packages'));
         }
 
-        public function threeDimDisplay(User $user)
+        public function threeDimDisplay()
         {
                 $user = auth()->user();
                 $packages = Package::where('UserID', $user->id)->get();
@@ -66,15 +67,18 @@ class ProfilesController extends Controller
                 return view('profiles.threeDimDisplay', compact('packages'));
         }
 
-        public function audioDisplay(User $user)
+        public function audioDisplay()
         {
                 $user = auth()->user();
                 $packages = Package::where('UserID', $user->id)->get();
                 return view('profiles.audioDisplay', compact('packages'));
         }
 
-        public function imageDisplay(User $user)
+        public function imageDisplay()
         {
-                return view('profiles.imageDisplay');
+                $user = auth()->user();
+                $images = ImageAsset::where('UserID', $user->id)->get();
+                
+                return view('profiles.imageDisplay', compact('images'));
         }
 }
