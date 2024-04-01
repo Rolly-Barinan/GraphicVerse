@@ -142,7 +142,7 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('admin.categories') }}">
+                        <a class="nav-link" href="{{ route('admin.packages') }}">
                             <i class="fas fa-solid fa-box-open"></i> Manage Packages
                         </a>
                     </li>

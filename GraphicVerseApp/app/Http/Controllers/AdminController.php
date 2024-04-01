@@ -147,6 +147,14 @@ class AdminController extends Controller
         return redirect()->route('admin.categories')->with('success', 'Category deleted successfully.');
     }
 
+    public function packages()
+    {
+        $admin = Admin::findOrFail(auth()->user()->id); // Fetch the authenticated admin from the database
+        $packages = Package::paginate(5);
+
+        return view('admin.packages', ['admin' => $admin, 'packages' => $packages]);
+    }
+
     public function logout()
     {
         Session::flush();
