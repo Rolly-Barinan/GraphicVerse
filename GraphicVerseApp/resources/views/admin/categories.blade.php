@@ -97,7 +97,7 @@
         </div>
 
         <!-- Pagination Links -->
-        <div class="d-flex justify-content-center mt-4">
+        <div class="d-flex justify-content-center mt-5">
             {{ $categories->links('pagination::bootstrap-4') }}
         </div>
 

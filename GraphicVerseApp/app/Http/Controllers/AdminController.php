@@ -12,6 +12,7 @@ use App\Models\Categories;
 use App\Models\User;
 use App\Models\Package;
 use App\Models\ImageAsset;
+use App\Models\Asset;
 
 class AdminController extends Controller
 {
@@ -40,15 +41,17 @@ class AdminController extends Controller
         $categories = Categories::all();
         $users = User::all();
         $packages = Package::all();
+        $assets = Asset::all();
+        $images = ImageAsset::all();
         // $models2D = Model2D::all();
         // $models3D = Model3D::all();
-        return view('admin.dashboard', ['admin' => $admin, 'categories' => $categories, 'users' => $users, 'packages' => $packages]);
+        return view('admin.dashboard', ['admin' => $admin, 'categories' => $categories, 'users' => $users, 'packages' => $packages, 'assets' => $assets, 'images' => $images]);
     }
 
     public function users()
     {
         $admin = Admin::findOrFail(auth()->user()->id); // Fetch the authenticated admin from the database
-        $users = User::paginate(5);
+        $users = User::paginate(10);
 
         return view('admin.users', ['admin' => $admin, 'users' => $users]);
     }
@@ -150,7 +153,7 @@ class AdminController extends Controller
     public function packages()
     {
         $admin = Admin::findOrFail(auth()->user()->id); // Fetch the authenticated admin from the database
-        $packages = Package::paginate(5);
+        $packages = Package::paginate(10);
 
         return view('admin.packages', ['admin' => $admin, 'packages' => $packages]);
     }
@@ -192,7 +195,7 @@ class AdminController extends Controller
     public function images()
     {
         $admin = Admin::findOrFail(auth()->user()->id); // Fetch the authenticated admin from the database
-        $images = ImageAsset::paginate(5);
+        $images = ImageAsset::paginate(10);
 
         return view('admin.imageAssets', ['admin' => $admin, 'images' => $images]);
     }

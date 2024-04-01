@@ -65,7 +65,7 @@
         </div>
 
         <!-- Pagination Links -->
-        <div class="d-flex justify-content-center">
+        <div class="d-flex justify-content-center mt-5">
             {{ $images->links('pagination::bootstrap-4') }}
         </div>
 
