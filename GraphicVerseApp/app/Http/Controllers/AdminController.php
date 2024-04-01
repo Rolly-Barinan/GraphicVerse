@@ -11,6 +11,7 @@ use App\Models\Admin;
 use App\Models\Categories;
 use App\Models\User;
 use App\Models\Package;
+use App\Models\ImageAsset;
 
 class AdminController extends Controller
 {
@@ -186,6 +187,44 @@ class AdminController extends Controller
         $package->delete();
 
         return redirect()->route('admin.packages')->with('success', 'Package deleted successfully.');
+    }
+
+    public function images()
+    {
+        $admin = Admin::findOrFail(auth()->user()->id); // Fetch the authenticated admin from the database
+        $images = ImageAsset::paginate(5);
+
+        return view('admin.imageAssets', ['admin' => $admin, 'images' => $images]);
+    }
+
+    public function imageDetails($id)
+    {
+        $admin = Admin::findOrFail(auth()->user()->id);
+        $user = User::find($id);
+        $image = ImageAsset::find($id);
+
+        if (!$image) {
+            return redirect()->route('admin.imageAssets')->with('error', 'Image not found.');
+        }
+        
+        return view('admin.imageDetails', [
+            'admin' => $admin, 'user' => $user, 'image' => $image
+        ]);
+    }
+
+    public function deleteImage($id)
+    {
+        $image = ImageAsset::find($id);
+
+        if (!$image) {
+            return redirect()->route('admin.imageAssets')->with('error', 'Image not found.');
+        }
+
+        // Perform any additional checks or logic before deleting if needed
+
+        $image->delete();
+
+        return redirect()->route('admin.imageAssets')->with('success', 'Image deleted successfully.');
     }
 
     public function logout()
