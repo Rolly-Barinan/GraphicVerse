@@ -52,6 +52,13 @@
                 </div>
                 <div class="col-md-4">
                     <div class="dashboard-card" style="border-left: 10px solid #333;">
+                        <h3>Total Packages</h3>
+                        <p>{{ $packages->count() }}</p>
+                        {{-- <p>{{ $models2D->count() }}</p> --}}
+                    </div>
+                </div>
+                {{-- <div class="col-md-4">
+                    <div class="dashboard-card" style="border-left: 10px solid #333;">
                         <h3>Total 2D Assets</h3>
                         <p>{{ $models2D->count() }}</p>
                     </div>
@@ -60,7 +67,7 @@
                     <div class="dashboard-card" style="border-left: 10px solid #333;">
                         <h3>Total 3D Assets</h3>
                         <p>{{ $models3D->count() }}</p>
-                    </div>
+                    </div> --}}
                 </div>
                 <!-- Add more cards for other statistics if needed -->
             </div>

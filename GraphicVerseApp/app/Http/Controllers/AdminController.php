@@ -10,6 +10,7 @@ use Illuminate\Validation\Rule;
 use App\Models\Admin;
 use App\Models\Categories;
 use App\Models\User;
+use App\Models\Package;
 use App\Models\Model2D;
 use App\Models\Model3D;
 class AdminController extends Controller
@@ -38,9 +39,10 @@ class AdminController extends Controller
         $admin = Admin::findOrFail(auth()->user()->id); // Fetch the authenticated admin from the database
         $categories = Categories::all();
         $users = User::all();
-        $models2D = Model2D::all();
-        $models3D = Model3D::all();
-        return view('admin.dashboard', ['admin' => $admin, 'categories' => $categories, 'users' => $users, 'models2D' => $models2D, 'models3D' => $models3D]);
+        $packages = Package::all();
+        // $models2D = Model2D::all();
+        // $models3D = Model3D::all();
+        return view('admin.dashboard', ['admin' => $admin, 'categories' => $categories, 'users' => $users, 'packages' => $packages]);
     }
 
     public function users()
