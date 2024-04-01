@@ -11,9 +11,6 @@ use App\Models\Admin;
 use App\Models\Categories;
 use App\Models\User;
 use App\Models\Package;
-use App\Models\Model2D;
-use App\Models\Model3D;
-use App\Models\Package;
 
 class AdminController extends Controller
 {
