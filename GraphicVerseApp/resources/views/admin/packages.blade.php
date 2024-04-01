@@ -4,9 +4,14 @@
 <body>
     <div class="container mt-4">
         <div class="row">
-            <div class="col-lg-12 margin-tb">
-                <div class="pull-right mb-4">
+            <div class="col-lg-6 margin-tb">
+                <div class="pull-left mb-4">
                     <h2>PACKAGES</h2>
+                </div>
+            </div>
+            <div class="col-lg-6 margin-tb">
+                <div class="pull-right mb-4">
+                    <input type="text" id="searchInput" class="form-control" placeholder="Search by package name">
                 </div>
             </div>
         </div>
@@ -31,7 +36,7 @@
                                 <th>Actions</th>
                             </tr>
                         </thead>
-                        <tbody>
+                        <tbody id="packageTableBody">
                             @if ($packages->isEmpty())
                                 <tr>
                                     <td colspan="7" class="text-center">No packages found</td>
@@ -65,5 +70,28 @@
         </div>
 
     </div>
+
+    <script>
+        // Add event listener for keyup event on search input
+        document.getElementById('searchInput').addEventListener('keyup', function(event) {
+            // Get the search query
+            var searchQuery = event.target.value.toLowerCase();
+
+            // Get all table rows
+            var rows = document.getElementById('packageTableBody').getElementsByTagName('tr');
+
+            // Loop through each row and hide/show based on search query
+            for (var i = 0; i < rows.length; i++) {
+                var packageName = rows[i].getElementsByTagName('td')[2];
+                if (packageName) {
+                    if (packageName.innerText.toLowerCase().indexOf(searchQuery) > -1) {
+                        rows[i].style.display = '';
+                    } else {
+                        rows[i].style.display = 'none';
+                    }
+                }
+            }
+        });
+    </script>
 </body>
 @endsection

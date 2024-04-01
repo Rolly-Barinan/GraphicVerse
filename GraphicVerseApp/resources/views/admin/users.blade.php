@@ -4,9 +4,14 @@
 <body>
     <div class="container mt-4">
         <div class="row">
-            <div class="col-lg-12 margin-tb">
-                <div class="pull-right mb-4">
+            <div class="col-lg-6 margin-tb">
+                <div class="pull-left mb-4">
                     <h2>USERS</h2>
+                </div>
+            </div>
+            <div class="col-lg-6 margin-tb">
+                <div class="pull-right mb-4">
+                    <input type="text" id="searchInput" class="form-control" placeholder="Search by username">
                 </div>
             </div>
         </div>
@@ -28,7 +33,7 @@
                                 <th>Actions</th>
                             </tr>
                         </thead>
-                        <tbody>
+                        <tbody id="userTableBody">
                             @if ($users->isEmpty())
                                 <tr>
                                     <td colspan="4" class="text-center">No users found</td>
@@ -59,5 +64,28 @@
         </div>
 
     </div>
+
+    <script>
+        // Add event listener for keyup event on search input
+        document.getElementById('searchInput').addEventListener('keyup', function(event) {
+            // Get the search query
+            var searchQuery = event.target.value.toLowerCase();
+
+            // Get all table rows
+            var rows = document.getElementById('userTableBody').getElementsByTagName('tr');
+
+            // Loop through each row and hide/show based on search query
+            for (var i = 0; i < rows.length; i++) {
+                var username = rows[i].getElementsByTagName('td')[1];
+                if (username) {
+                    if (username.innerText.toLowerCase().indexOf(searchQuery) > -1) {
+                        rows[i].style.display = '';
+                    } else {
+                        rows[i].style.display = 'none';
+                    }
+                }
+            }
+        });
+    </script>
 </body>
 @endsection
