@@ -42,7 +42,7 @@
                                         <td>{{ $package->id }}</td>
                                         <td>{{ $package->UserID }}</td>
                                         <td>{{ $package->PackageName }}</td>
-                                        <td>{{ $package->asset_type_id }}</td>
+                                        <td>{{ $package->assetType->asset_type }}</td>
                                         <td>{{ $package->created_at->format('Y-m-d') }}</td>
                                         <td>{{ $package->updated_at->format('Y-m-d') }}</td>
                                         <td class="text-center">

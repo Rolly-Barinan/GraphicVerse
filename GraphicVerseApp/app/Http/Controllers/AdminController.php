@@ -62,16 +62,16 @@ class AdminController extends Controller
             return redirect()->route('admin.users')->with('error', 'User not found.');
         }
 
-        // Count the number of 2D uploads for the user
-        $userUploadsCount2D = $user->model2D()->count();
+        // Count the number of Packages uploads for the user
+        $userUploadsCountPackages = $user->packages()->count();
 
-        // Count the number of 3D uploads for the user
-        $userUploadsCount3D = $user->model3D()->count();
+        // Count the number of Assets uploads for the user
+        $userUploadsCountAssets = $user->assets()->count();
         
         return view('admin.userDetails', [
             'admin' => $admin, 'user' => $user, 
-            'userUploadsCount2D' => $userUploadsCount2D,
-            'userUploadsCount3D' => $userUploadsCount3D,
+            'userUploadsCountPackages' => $userUploadsCountPackages,
+            'userUploadsCountAssets' => $userUploadsCountAssets,
         ]);
     }
 

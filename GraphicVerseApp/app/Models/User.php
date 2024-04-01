@@ -52,7 +52,7 @@ class User extends Authenticatable
 
     public function assets()
     {
-        return $this->hasMany(Asset::class);
+        return $this->hasMany(Asset::class, 'UserID');
     }
     /**
      * The attributes that should be cast.
