@@ -6,12 +6,12 @@
         <div class="row">
             <div class="col-lg-6 margin-tb">
                 <div class="pull-left mb-4">
-                    <h2>USERS</h2>
+                    <h2>PACKAGES</h2>
                 </div>
             </div>
             <div class="col-lg-6 margin-tb">
                 <div class="pull-right mb-4">
-                    <input type="text" id="searchInput" class="form-control" placeholder="Search by username">
+                    <input type="text" id="searchInput" class="form-control" placeholder="Search by package name">
                 </div>
             </div>
         </div>
@@ -27,25 +27,31 @@
                     <table class="table table-striped table-borderless">
                         <thead>
                             <tr>
-                                <th>ID</th>
-                                <th>Username</th>
-                                <th>Date Created</th>
+                                <th>Package ID</th>
+                                <th>User ID</th>
+                                <th>Package Name</th>
+                                <th>Asset Type</th>
+                                <th>Created At</th>
+                                <th>Updated At</th>
                                 <th>Actions</th>
                             </tr>
                         </thead>
-                        <tbody id="userTableBody">
-                            @if ($users->isEmpty())
+                        <tbody id="packageTableBody">
+                            @if ($packages->isEmpty())
                                 <tr>
-                                    <td colspan="4" class="text-center">No users found</td>
+                                    <td colspan="7" class="text-center">No packages found</td>
                                 </tr>
                             @else
-                                @foreach ($users as $user)
+                                @foreach ($packages as $package)
                                     <tr>
-                                        <td>{{ $user->id }}</td>
-                                        <td>{{ $user->username }}</td>
-                                        <td>{{ $user->created_at->format('Y-m-d') }}</td>
+                                        <td>{{ $package->id }}</td>
+                                        <td>{{ $package->UserID }}</td>
+                                        <td>{{ $package->PackageName }}</td>
+                                        <td>{{ $package->assetType->asset_type }}</td>
+                                        <td>{{ $package->created_at->format('Y-m-d') }}</td>
+                                        <td>{{ $package->updated_at->format('Y-m-d') }}</td>
                                         <td class="text-center">
-                                            <a href="{{ route('admin.userDetails', $user->id) }}" class="btn btn-success">
+                                            <a href="{{ route('admin.packageDetails', $package->id) }}" class="btn btn-success">
                                                 View Details
                                             </a>                                        
                                         </td>  
@@ -60,7 +66,7 @@
 
         <!-- Pagination Links -->
         <div class="d-flex justify-content-center">
-            {{ $users->links('pagination::bootstrap-4') }}
+            {{ $packages->links('pagination::bootstrap-4') }}
         </div>
 
     </div>
@@ -72,13 +78,13 @@
             var searchQuery = event.target.value.toLowerCase();
 
             // Get all table rows
-            var rows = document.getElementById('userTableBody').getElementsByTagName('tr');
+            var rows = document.getElementById('packageTableBody').getElementsByTagName('tr');
 
             // Loop through each row and hide/show based on search query
             for (var i = 0; i < rows.length; i++) {
-                var username = rows[i].getElementsByTagName('td')[1];
-                if (username) {
-                    if (username.innerText.toLowerCase().indexOf(searchQuery) > -1) {
+                var packageName = rows[i].getElementsByTagName('td')[2];
+                if (packageName) {
+                    if (packageName.innerText.toLowerCase().indexOf(searchQuery) > -1) {
                         rows[i].style.display = '';
                     } else {
                         rows[i].style.display = 'none';

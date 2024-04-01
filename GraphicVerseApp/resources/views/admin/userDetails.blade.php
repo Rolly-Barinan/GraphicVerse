@@ -44,12 +44,12 @@
                                 <td>{{ $user->created_at->format('Y-m-d') }}</td>
                             </tr>
                             <tr>
-                                <th>2D assets uploaded:</th>
-                                <td>{{ $userUploadsCount2D }}</td>
+                                <th>Number of packages uploaded:</th>
+                                <td>{{ $userUploadsCountPackages }}</td>
                             </tr>
                             <tr>
-                                <th>3D assets uploaded:</th>
-                                <td>{{ $userUploadsCount3D }}</td>
+                                <th>Number of assets uploaded:</th>
+                                <td>{{ $userUploadsCountAssets }}</td>
                             </tr>
                             <!-- Add more user details as needed -->
                         </tbody>

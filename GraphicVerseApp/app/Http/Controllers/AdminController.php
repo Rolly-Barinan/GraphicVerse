@@ -10,6 +10,7 @@ use Illuminate\Validation\Rule;
 use App\Models\Admin;
 use App\Models\Categories;
 use App\Models\User;
+use App\Models\Package;
 use App\Models\Model2D;
 use App\Models\Model3D;
 use App\Models\Package;
@@ -40,9 +41,10 @@ class AdminController extends Controller
         $admin = Admin::findOrFail(auth()->user()->id); // Fetch the authenticated admin from the database
         $categories = Categories::all();
         $users = User::all();
-        $models2D = Package::all();
-        $models3D = Package::all();
-        return view('admin.dashboard', ['admin' => $admin, 'categories' => $categories, 'users' => $users, 'models2D' => $models2D, 'models3D' => $models3D]);
+        $packages = Package::all();
+        // $models2D = Model2D::all();
+        // $models3D = Model3D::all();
+        return view('admin.dashboard', ['admin' => $admin, 'categories' => $categories, 'users' => $users, 'packages' => $packages]);
     }
 
     public function users()
@@ -62,16 +64,16 @@ class AdminController extends Controller
             return redirect()->route('admin.users')->with('error', 'User not found.');
         }
 
-        // Count the number of 2D uploads for the user
-        $userUploadsCount2D = $user->model2D()->count();
+        // Count the number of Packages uploads for the user
+        $userUploadsCountPackages = $user->packages()->count();
 
-        // Count the number of 3D uploads for the user
-        $userUploadsCount3D = $user->model3D()->count();
+        // Count the number of Assets uploads for the user
+        $userUploadsCountAssets = $user->assets()->count();
         
         return view('admin.userDetails', [
             'admin' => $admin, 'user' => $user, 
-            'userUploadsCount2D' => $userUploadsCount2D,
-            'userUploadsCount3D' => $userUploadsCount3D,
+            'userUploadsCountPackages' => $userUploadsCountPackages,
+            'userUploadsCountAssets' => $userUploadsCountAssets,
         ]);
     }
 
@@ -145,6 +147,48 @@ class AdminController extends Controller
         $category->delete();
 
         return redirect()->route('admin.categories')->with('success', 'Category deleted successfully.');
+    }
+
+    public function packages()
+    {
+        $admin = Admin::findOrFail(auth()->user()->id); // Fetch the authenticated admin from the database
+        $packages = Package::paginate(5);
+
+        return view('admin.packages', ['admin' => $admin, 'packages' => $packages]);
+    }
+
+    public function packageDetails($id)
+    {
+        $admin = Admin::findOrFail(auth()->user()->id);
+        $user = User::find($id);
+        $package = Package::find($id);
+
+        if (!$package) {
+            return redirect()->route('admin.packages')->with('error', 'Package not found.');
+        }
+
+        // Count the number of Assets uploads for the user
+        $userUploadsCountAssets = $package->assets()->count();
+        
+        return view('admin.packageDetails', [
+            'admin' => $admin, 'user' => $user, 'package' => $package, 
+            'userUploadsCountAssets' => $userUploadsCountAssets,
+        ]);
+    }
+
+    public function deletePackage($id)
+    {
+        $package = Package::find($id);
+
+        if (!$package) {
+            return redirect()->route('admin.packages')->with('error', 'Package not found.');
+        }
+
+        // Perform any additional checks or logic before deleting if needed
+
+        $package->delete();
+
+        return redirect()->route('admin.packages')->with('success', 'Package deleted successfully.');
     }
 
     public function logout()

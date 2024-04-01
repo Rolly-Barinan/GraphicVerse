@@ -36,6 +36,7 @@ Route::middleware('auth:admin')->group(function () {
     Route::get('/admin/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
     Route::get('/admin/categories', [AdminController::class, 'categories'])->name('admin.categories');
     Route::get('/admin/users', [AdminController::class, 'users'])->name('admin.users');
+    Route::get('/admin/packages', [AdminController::class, 'packages'])->name('admin.packages');
     Route::get('/admin/logout', [AdminController::class, 'logout'])->name('admin.logout');
 
     Route::get('/admin/add-category', [AdminController::class, 'addCategory'])->name('admin.addCategory');
@@ -46,6 +47,9 @@ Route::middleware('auth:admin')->group(function () {
 
     Route::get('/admin/users/details/{id}', [AdminController::class, 'userDetails'])->name('admin.userDetails');
     Route::get('/admin/delete-user/{id}', [AdminController::class, 'deleteUser'])->name('admin.deleteUser');
+
+    Route::get('/admin/packages/details/{id}', [AdminController::class, 'packageDetails'])->name('admin.packageDetails');
+    Route::get('/admin/delete-package/{id}', [AdminController::class, 'deletePackage'])->name('admin.deletePackage');
     // Other admin routes go here
 });
 

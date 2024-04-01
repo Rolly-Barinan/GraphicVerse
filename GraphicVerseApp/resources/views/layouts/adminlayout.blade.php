@@ -133,12 +133,17 @@
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('admin.categories') }}">
-                            <i class="fas fa-folder"></i> Manage Categories
+                            <i class="fas fa-solid fa-list"></i> Manage Categories
                         </a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('admin.users') }}">
                             <i class="fas fa-users"></i> Manage Users
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('admin.packages') }}">
+                            <i class="fas fa-solid fa-box-open"></i> Manage Packages
                         </a>
                     </li>
                 </ul>
