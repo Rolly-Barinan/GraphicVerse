@@ -33,4 +33,19 @@ class AudioController extends Controller
 
         return view('audio.show', compact('package', 'assets', 'totalSizeMB', 'fileTypes', 'user'));
     }
+
+    public function filterPackages(Request $request)
+    {
+        $categoryIds = $request->input('categories');
+
+        if (!is_array($categoryIds) || empty($categoryIds)) {
+            $packages = Package::all();
+        } else {
+            $packages = Package::whereHas('categories', function ($query) use ($categoryIds) {
+                $query->whereIn('categories.id', $categoryIds);
+            })->get();
+        }
+        $categories = Categories::all();
+        return view('audio.index', compact('packages', 'categories'));
+    }
 }

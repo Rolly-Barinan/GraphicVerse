@@ -16,7 +16,6 @@
         @endforeach
         <button type="submit" class="btn btn-primary">Apply Filter</button>
     </form>
-
     <div class="row">
         @php
             $has3DAssets = false;
@@ -49,7 +48,5 @@
             </div>
         @endif
     </div>
-    
-
 </div>
 @endsection

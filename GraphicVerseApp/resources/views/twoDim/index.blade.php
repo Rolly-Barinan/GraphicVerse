@@ -19,29 +19,34 @@
 
     <div class="scrollable-column packages_column">
         <div class="row package_row">
-            @if ($packages->isEmpty())
+            @php
+                $has2DAssets = false;
+            @endphp
+            @foreach ($packages as $index => $package)
+                @if ($package->assetType && $package->assetType->asset_type === '2D')
+                    @php
+                        $has2DAssets = true;
+                    @endphp
+                    <div class="col-md-3 mb-3 preview_card">
+                        <div class="card ">
+                            <a href="{{ route('twoDim.show', ['id' => $package->id]) }}">
+                                <img src="{{ Storage::url($package->Location) }}" class="card-img-top"
+                                    alt="{{ $package->PackageName }}">
+                                <div class="card-body">
+                                    <h5 class="card-title">{{ $package->PackageName }}</h5>
+                                    <p class="card-text">{{ $package->Description }}</p>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                @endif
+            @endforeach
+            @if (!$has2DAssets)
                 <div class="col-md-12">
                     <div class="alert alert-info" role="alert">
-                        No assets to display yet.
+                        No 2D assets to display yet.
                     </div>
                 </div>
-            @else
-                @foreach ($packages as $index => $package)
-                    @if ($package->assetType && $package->assetType->asset_type === '2D')
-                        <div class="col-md-3 mb-3 preview_card">
-                            <div class="card ">
-                                <a href="{{ route('twoDim.show', ['id' => $package->id]) }}">
-                                    <img src="{{ Storage::url($package->Location) }}" class="card-img-top"
-                                        alt="{{ $package->PackageName }}">
-                                    <div class="card-body">
-                                        <h5 class="card-title">{{ $package->PackageName }}</h5>
-                                        <p class="card-text">{{ $package->Description }}</p>
-                                    </div>
-                                </a>
-                            </div>
-                        </div>
-                    @endif
-                @endforeach
             @endif
         </div>
     </div>

@@ -2,6 +2,17 @@
 
 @section('content')
     <div class="container-fluid">
+        @if (Auth::id() == $package->UserID)
+        <a href="/package/{{ $package->id }}/edit">
+            <img src="/svg/edit.svg" class="logo" alt="Edit Logo">
+        </a>
+        <form action="{{ route('asset.destroy', $package->id) }}" method="POST"
+            onsubmit="return confirm('Are you sure you want to delete this package?')">
+            @csrf
+            @method('DELETE')
+            <button type="submit" class="btn btn-danger">Delete Package</button>
+        </form>
+    @endif
         <h1>Package Details</h1>
         <div class="card">
             <img src="{{ Storage::url($package->Location) }}" class="card-img-top" alt="{{ $package->PackageName }}">
@@ -40,7 +51,7 @@
         @else
             <p>No assets found for this package.</p>
         @endif
-        @if ($package->Price == null || $package->Price == 0)
+        @if ($package->Price == null || $package->Price == 0 || $package->UserID == auth()->id())
             <a href="{{ route('asset.download', $package->id) }}" class="btn btn-success">Download</a>
         @else
             <form action="{{ route('paypal') }}" method="POST">

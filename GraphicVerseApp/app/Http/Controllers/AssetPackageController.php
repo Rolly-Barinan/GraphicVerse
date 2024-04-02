@@ -1,18 +1,13 @@
 <?php
-
 namespace App\Http\Controllers;
-
 use Illuminate\Support\Str;
 use App\Models\Asset;
 use App\Models\AssetType;
 use App\Models\Categories;
 use App\Models\Package;
-use App\Models\User;
-use Dotenv\Exception\ValidationException;
-use Dotenv\Validator;
-use Illuminate\Auth\Events\Validated;
-use Illuminate\Contracts\Validation\Validator as ValidationValidator;
+use App\Models\PackageCategory;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use ZipArchive;
 use Illuminate\Validation\Rule;
 
@@ -61,8 +56,6 @@ class AssetPackageController extends Controller
             $package->preview = $previewPath;
         }
         $package->categories()->sync($request->input('category_ids', []));
-
-
         $package->save();
 
         return redirect()->route('asset.edit', $package->id)->with('success', 'Package updated successfully.');
@@ -71,7 +64,6 @@ class AssetPackageController extends Controller
     public function store(Request $request)
     {
         $user = auth()->user();
-
         $rules = [
             'PackageName' => 'required',
             'Description' => 'required',
@@ -177,9 +169,21 @@ class AssetPackageController extends Controller
 
     public function destroy(Package $package)
     {
-        $package->assets()->delete(); // This deletes all associated assets
-        $package->delete(); // This deletes the package itself
+        foreach ($package->assets as $asset) {     
+            $filePath = $asset->Location;
+            $previewPath = $asset->preview;
 
-        return redirect()->back()->with('success', 'Package deleted successfully.');
+            if (Storage::exists($filePath)) {
+                Storage::delete($filePath);
+            }
+            if (Storage::exists($previewPath)) {
+                Storage::delete($previewPath);
+            }
+            PackageCategory::where('packageid', $package->id)->delete();     
+            $asset->delete();
+        }
+        $package->delete();
+        return redirect()->back()->with('success', 'Package and associated files deleted successfully.');
     }
 }
+    
