@@ -11,6 +11,8 @@ use App\Models\Admin;
 use App\Models\Categories;
 use App\Models\User;
 use App\Models\Package;
+use App\Models\ImageAsset;
+use App\Models\Asset;
 
 class AdminController extends Controller
 {
@@ -39,17 +41,28 @@ class AdminController extends Controller
         $categories = Categories::all();
         $users = User::all();
         $packages = Package::all();
+        $assets = Asset::all();
+        $images = ImageAsset::all();
         // $models2D = Model2D::all();
         // $models3D = Model3D::all();
-        return view('admin.dashboard', ['admin' => $admin, 'categories' => $categories, 'users' => $users, 'packages' => $packages]);
+        return view('admin.dashboard', ['admin' => $admin, 'categories' => $categories, 'users' => $users, 'packages' => $packages, 'assets' => $assets, 'images' => $images]);
     }
 
     public function users()
     {
         $admin = Admin::findOrFail(auth()->user()->id); // Fetch the authenticated admin from the database
-        $users = User::paginate(5);
+        $users = User::paginate(10);
 
         return view('admin.users', ['admin' => $admin, 'users' => $users]);
+    }
+
+    public function userSearch(Request $request)
+    {
+        $searchQuery = $request->input('q');
+
+        $users = User::where('username', 'like', '%'.$searchQuery.'%')->paginate(10);
+
+        return view('admin.userSearchResults', ['users' => $users])->render();
     }
 
     public function userDetails($id)
@@ -149,9 +162,18 @@ class AdminController extends Controller
     public function packages()
     {
         $admin = Admin::findOrFail(auth()->user()->id); // Fetch the authenticated admin from the database
-        $packages = Package::paginate(5);
+        $packages = Package::paginate(10);
 
         return view('admin.packages', ['admin' => $admin, 'packages' => $packages]);
+    }
+
+    public function packageSearch(Request $request)
+    {
+        $searchQuery = $request->input('q');
+
+        $packages = Package::where('PackageName', 'like', '%'.$searchQuery.'%')->paginate(10);
+
+        return view('admin.packageSearchResults', ['packages' => $packages])->render();
     }
 
     public function packageDetails($id)
@@ -186,6 +208,53 @@ class AdminController extends Controller
         $package->delete();
 
         return redirect()->route('admin.packages')->with('success', 'Package deleted successfully.');
+    }
+
+    public function images()
+    {
+        $admin = Admin::findOrFail(auth()->user()->id); // Fetch the authenticated admin from the database
+        $images = ImageAsset::paginate(10);
+
+        return view('admin.imageAssets', ['admin' => $admin, 'images' => $images]);
+    }
+
+    public function imageSearch(Request $request)
+    {
+        $searchQuery = $request->input('q');
+
+        $images = ImageAsset::where('ImageName', 'like', '%'.$searchQuery.'%')->paginate(10);
+
+        return view('admin.imageSearchResults', ['images' => $images])->render();
+    }
+
+    public function imageDetails($id)
+    {
+        $admin = Admin::findOrFail(auth()->user()->id);
+        $user = User::find($id);
+        $image = ImageAsset::find($id);
+
+        if (!$image) {
+            return redirect()->route('admin.imageAssets')->with('error', 'Image not found.');
+        }
+        
+        return view('admin.imageDetails', [
+            'admin' => $admin, 'user' => $user, 'image' => $image
+        ]);
+    }
+
+    public function deleteImage($id)
+    {
+        $image = ImageAsset::find($id);
+
+        if (!$image) {
+            return redirect()->route('admin.imageAssets')->with('error', 'Image not found.');
+        }
+
+        // Perform any additional checks or logic before deleting if needed
+
+        $image->delete();
+
+        return redirect()->route('admin.imageAssets')->with('success', 'Image deleted successfully.');
     }
 
     public function logout()

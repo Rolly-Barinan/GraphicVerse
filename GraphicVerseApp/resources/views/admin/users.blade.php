@@ -59,7 +59,7 @@
         </div>
 
         <!-- Pagination Links -->
-        <div class="d-flex justify-content-center">
+        <div class="d-flex justify-content-center mt-5">
             {{ $users->links('pagination::bootstrap-4') }}
         </div>
 
@@ -71,20 +71,15 @@
             // Get the search query
             var searchQuery = event.target.value.toLowerCase();
 
-            // Get all table rows
-            var rows = document.getElementById('userTableBody').getElementsByTagName('tr');
-
-            // Loop through each row and hide/show based on search query
-            for (var i = 0; i < rows.length; i++) {
-                var username = rows[i].getElementsByTagName('td')[1];
-                if (username) {
-                    if (username.innerText.toLowerCase().indexOf(searchQuery) > -1) {
-                        rows[i].style.display = '';
-                    } else {
-                        rows[i].style.display = 'none';
-                    }
+            // Send AJAX request to search for users
+            $.ajax({
+                url: '{{ route("admin.userSearch") }}',
+                type: 'GET',
+                data: { q: searchQuery },
+                success: function(response) {
+                    $('#userTableBody').html(response);
                 }
-            }
+            });
         });
     </script>
 </body>

@@ -100,7 +100,7 @@
 
     /* Style the logout link */
     .nav-link i {
-        margin-right: 5px;
+        margin-right: 15px;
     }
 </style>
 
@@ -144,6 +144,11 @@
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('admin.packages') }}">
                             <i class="fas fa-solid fa-box-open"></i> Manage Packages
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('admin.imageAssets') }}">
+                            <i class="fas fa-solid fa-file-image"></i> Manage Images
                         </a>
                     </li>
                 </ul>
