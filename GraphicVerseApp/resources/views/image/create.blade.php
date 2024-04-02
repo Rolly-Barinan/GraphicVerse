@@ -34,18 +34,19 @@
 
                                 <div class="form-group">
                                     <label for="Price">Price:</label>
-                                    <input type="number" name="Price" class="form-control" required>
+                                    <input type="number" name="Price" class="form-control" min="0">
                                 </div>
                         
                                 <div class="form-group">
                                     <label for="imageFile">Upload Image:</label>
                                     <input type="file" name="imageFile" class="form-control-file" required>
                                 </div>
-
+                        
                                 <div class="form-group">
                                     <label for="watermarkFile">Upload Watermark Image:</label>
                                     <input type="file" name="watermarkFile" class="form-control-file">
                                 </div>
+
 
                                 <div class="form-group">
                                     <label for="category_ids">Categories:</label>
