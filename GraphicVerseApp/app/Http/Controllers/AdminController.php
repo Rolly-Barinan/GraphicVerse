@@ -56,6 +56,15 @@ class AdminController extends Controller
         return view('admin.users', ['admin' => $admin, 'users' => $users]);
     }
 
+    public function userSearch(Request $request)
+    {
+        $searchQuery = $request->input('q');
+
+        $users = User::where('username', 'like', '%'.$searchQuery.'%')->paginate(10);
+
+        return view('admin.userSearchResults', ['users' => $users])->render();
+    }
+
     public function userDetails($id)
     {
         $admin = Admin::findOrFail(auth()->user()->id);
