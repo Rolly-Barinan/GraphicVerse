@@ -77,20 +77,15 @@
             // Get the search query
             var searchQuery = event.target.value.toLowerCase();
 
-            // Get all table rows
-            var rows = document.getElementById('packageTableBody').getElementsByTagName('tr');
-
-            // Loop through each row and hide/show based on search query
-            for (var i = 0; i < rows.length; i++) {
-                var packageName = rows[i].getElementsByTagName('td')[2];
-                if (packageName) {
-                    if (packageName.innerText.toLowerCase().indexOf(searchQuery) > -1) {
-                        rows[i].style.display = '';
-                    } else {
-                        rows[i].style.display = 'none';
-                    }
+            // Send AJAX request to search for users
+            $.ajax({
+                url: '{{ route("admin.packageSearch") }}',
+                type: 'GET',
+                data: { q: searchQuery },
+                success: function(response) {
+                    $('#packageTableBody').html(response);
                 }
-            }
+            });
         });
     </script>
 </body>

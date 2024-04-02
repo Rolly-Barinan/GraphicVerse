@@ -50,6 +50,7 @@ Route::middleware('auth:admin')->group(function () {
     Route::get('/admin/users/details/{id}', [AdminController::class, 'userDetails'])->name('admin.userDetails');
     Route::get('/admin/delete-user/{id}', [AdminController::class, 'deleteUser'])->name('admin.deleteUser');
 
+    Route::get('/admin/packages/search', [AdminController::class, 'packageSearch'])->name('admin.packageSearch');
     Route::get('/admin/packages/details/{id}', [AdminController::class, 'packageDetails'])->name('admin.packageDetails');
     Route::get('/admin/delete-package/{id}', [AdminController::class, 'deletePackage'])->name('admin.deletePackage');
 

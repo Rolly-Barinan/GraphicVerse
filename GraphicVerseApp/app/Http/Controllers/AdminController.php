@@ -167,6 +167,15 @@ class AdminController extends Controller
         return view('admin.packages', ['admin' => $admin, 'packages' => $packages]);
     }
 
+    public function packageSearch(Request $request)
+    {
+        $searchQuery = $request->input('q');
+
+        $packages = Package::where('PackageName', 'like', '%'.$searchQuery.'%')->paginate(10);
+
+        return view('admin.packageSearchResults', ['packages' => $packages])->render();
+    }
+
     public function packageDetails($id)
     {
         $admin = Admin::findOrFail(auth()->user()->id);
