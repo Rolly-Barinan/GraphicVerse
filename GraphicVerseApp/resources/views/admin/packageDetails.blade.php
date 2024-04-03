@@ -1,7 +1,7 @@
 @extends('layouts.adminlayout')
 
 @section('admin-content')
-<div class="container mt-4">
+<div class="container mt-5">
     <div class="row">
         <div class="col-md-12">
             <div class="row">
@@ -33,7 +33,7 @@
                             </tr>
                             <tr>
                                 <th>Price:</th>
-                                <td>{{ $package->Price}}</td>
+                                <td>{{ $package->Price }}</td>
                             </tr>
                             <tr>
                                 <th>Asset type:</th>
@@ -56,10 +56,43 @@
                     </table>
                 </div>
             </div>
-            <a href="{{ route('admin.packages') }}" class="btn btn-primary mt-4">Back to Packages</a>
-            <span style="margin: 0 50px;">
-                <a href="{{ route('admin.deletePackage' , $package->id) }}" class="btn btn-danger mt-4" onclick="return confirm('Are you sure you want to delete this package?')">Delete Package?</a>
-            </span>
+            
+            <!-- Assets Information -->
+            @if($userUploadsCountAssets > 0)
+            <div class="mt-4">
+                <h3>Assets in this Package</h3>
+                <div class="card rounded" style="border-left: 10px solid #333;">
+                    <div class="card-body">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Asset Name</th>
+                                    <th>File Type</th>
+                                    <th>File Size</th>
+                                    <!-- Add more asset fields if needed -->
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach($package->assets as $asset)
+                                <tr>
+                                    <td>{{ $asset->AssetName }}</td>
+                                    <td>{{ $asset->FileType }}</td>
+                                    <td>{{ $asset->FileSize }}</td>
+                                    <!-- Add more asset fields if needed -->
+                                </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            @endif
+            
+            <!-- Back and Delete Buttons -->
+            <div class="mt-4 d-flex justify-content-between">
+                <a href="{{ route('admin.packages') }}" class="btn btn-primary">Back to Packages</a>
+                <a href="{{ route('admin.deletePackage' , $package->id) }}" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this package?')">Delete Package?</a>
+            </div>
         </div>
     </div>
 </div>

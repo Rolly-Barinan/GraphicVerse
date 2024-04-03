@@ -31,7 +31,7 @@
     </style>
 
     <div class="container mt-5">
-        <div class="dashboard-container" style="border-left: 10px solid #333;">
+        <div class="dashboard-container" style="border-left: 25px solid #333;">
             <h2>ADMIN DASHBOARD</h2>
             <hr>
             <h4>Welcome!</h4>
@@ -68,6 +68,12 @@
                         <p>{{ $images->count() }}</p>
                     </div>
                 </div>
+                {{-- <div class="col-md-4">
+                    <div class="dashboard-card" style="border-left: 10px solid #333;">
+                        <h3>Total Audios</h3>
+                        <p>{{ $packages->where('asset_type_id', 1)->count() }}</p>
+                    </div>
+                </div>                 --}}
                 <!-- Add more cards for other statistics if needed -->
             </div>
         </div>
