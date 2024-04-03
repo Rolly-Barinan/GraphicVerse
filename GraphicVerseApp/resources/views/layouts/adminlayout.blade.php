@@ -61,9 +61,28 @@
         background-color: #333;
         color: white;
         padding: 15px;
-        height: 100vh;
+        height: 100vh; /* Height of the viewport */
         display: flex;
         flex-direction: column;
+        position: fixed; /* Make the sidebar fixed */
+        top: 0; /* Align to the top of the viewport */
+        left: 0; /* Align to the left of the viewport */
+        z-index: 1000; /* Ensure the sidebar stays on top of other content */
+        overflow-y: auto; /* Add vertical scroll if content exceeds viewport height */
+    }
+
+    .col {
+        padding-left: 300px; /* Adjust padding to account for the fixed sidebar width */
+    }
+
+    .content {
+        padding: 15px;
+    }
+
+    @media (max-width: 767px) {
+        .col {
+            padding-left: 0; /* Remove padding for small screens */
+        }
     }
 
     .profile {
@@ -117,7 +136,7 @@
             </nav>
 
             <!-- Left Sidebar -->
-            <div class="col-md-2 sidebar bg-dark">
+            <div class="col-lg-2 sidebar bg-dark">
                 <div class="profile text-center">
                     <img src="{{ asset('css\admin\admin-avatar.png') }}" alt="Admin Avatar">
                     <div class="mt-2">

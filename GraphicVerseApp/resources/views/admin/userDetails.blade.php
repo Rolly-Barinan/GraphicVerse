@@ -56,10 +56,10 @@
                     </table>
                 </div>
             </div>
-            <a href="{{ route('admin.users') }}" class="btn btn-primary mt-4">Back to Users</a>
-            <span style="margin: 0 50px;">
-                <a href="{{ route('admin.deleteUser' , $user->id) }}" class="btn btn-danger mt-4" onclick="return confirm('Are you sure you want to delete this user?')">Delete User</a>
-            </span>
+            <div class="mt-4 d-flex justify-content-between">
+                <a href="{{ route('admin.users') }}" class="btn btn-primary">Back to Users</a>
+                <a href="{{ route('admin.deleteUser' , $user->id) }}" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this user?')">Delete User</a>
+            </div>
         </div>
     </div>
 </div>

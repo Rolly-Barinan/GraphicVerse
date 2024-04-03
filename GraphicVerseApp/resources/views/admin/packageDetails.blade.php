@@ -20,8 +20,8 @@
                                 <td>{{ $package->id }}</td>
                             </tr>
                             <tr>
-                                <th>Belongs to User ID:</th>
-                                <td>{{ $package->UserID }}</td>
+                                <th>Belongs to User:</th>
+                                <td>{{ $package->user->username }}</td>
                             </tr>
                             <tr>
                                 <th>Package Name:</th>
@@ -33,7 +33,7 @@
                             </tr>
                             <tr>
                                 <th>Price:</th>
-                                <td>{{ $package->Price }}</td>
+                                <td>${{ $package->Price }}</td>
                             </tr>
                             <tr>
                                 <th>Asset type:</th>
@@ -66,6 +66,7 @@
                         <table class="table">
                             <thead>
                                 <tr>
+                                    <th>Asset</th>
                                     <th>Asset Name</th>
                                     <th>File Type</th>
                                     <th>File Size</th>
@@ -75,9 +76,13 @@
                             <tbody>
                                 @foreach($package->assets as $asset)
                                 <tr>
+                                    <td><a href="{{ Storage::url($asset->Location) }}" target="_blank">
+                                        <img src="{{ Storage::url($asset->Location) }}" class="card-img-top"
+                                             alt="{{ $asset->AssetName }}" style="width: 100px; height: 100px;">
+                                    </a></td>
                                     <td>{{ $asset->AssetName }}</td>
                                     <td>{{ $asset->FileType }}</td>
-                                    <td>{{ $asset->FileSize }}</td>
+                                    <td>{{ $asset->FileSize }}KB</td>
                                     <!-- Add more asset fields if needed -->
                                 </tr>
                                 @endforeach
@@ -91,7 +96,7 @@
             <!-- Back and Delete Buttons -->
             <div class="mt-4 d-flex justify-content-between">
                 <a href="{{ route('admin.packages') }}" class="btn btn-primary">Back to Packages</a>
-                <a href="{{ route('admin.deletePackage' , $package->id) }}" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this package?')">Delete Package?</a>
+                <a href="{{ route('admin.deletePackage' , $package->id) }}" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this package?')">Delete Package</a>
             </div>
         </div>
     </div>
