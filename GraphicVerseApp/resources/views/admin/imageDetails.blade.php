@@ -14,14 +14,20 @@
             <div class="card rounded" style="border-left: 10px solid #333;">
                 <div class="card-body">
                     <table class="table">
-                        <tbody>
+                        <tbody>   
+                            <div class="d-flex justify-content-center mb-4"> <!-- Centering the image -->
+                                <a href="{{ Storage::url($image->Location) }}" target="_blank">
+                                    <img src="{{ Storage::url($image->Location) }}" class="card-img-top"
+                                        alt="{{ $image->ImageName }}">
+                                </a>
+                            </div>
                             <tr>
                                 <th>Image ID:</th>
                                 <td>{{ $image->id }}</td>
                             </tr>
                             <tr>
-                                <th>Belongs to User ID:</th>
-                                <td>{{ $image->userID }}</td>
+                                <th>Belongs to User:</th>
+                                <td>{{ $image->user->username }}</td>
                             </tr>
                             <tr>
                                 <th>Package Name:</th>
@@ -33,7 +39,7 @@
                             </tr>
                             <tr>
                                 <th>Price:</th>
-                                <td>{{ $image->Price}}</td>
+                                <td>${{ $image->Price}}</td>
                             </tr>
                             <tr>
                                 <th>Asset type:</th>
@@ -56,10 +62,10 @@
                     </table>
                 </div>
             </div>
-            <a href="{{ route('admin.imageAssets') }}" class="btn btn-primary mt-4">Back to Image Assets</a>
-            <span style="margin: 0 50px;">
-                <a href="{{ route('admin.deleteImage' , $image->id) }}" class="btn btn-danger mt-4" onclick="return confirm('Are you sure you want to delete this image?')">Delete Image?</a>
-            </span>
+            <div class="mt-4 d-flex justify-content-between">
+                <a href="{{ route('admin.imageAssets') }}" class="btn btn-primary">Back to Image Assets</a>
+                <a href="{{ route('admin.deleteImage' , $image->id) }}" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this image?')">Delete Image</a>
+            </div>
         </div>
     </div>
 </div>
