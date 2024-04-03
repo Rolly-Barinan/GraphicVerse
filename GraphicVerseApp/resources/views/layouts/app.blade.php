@@ -76,10 +76,6 @@
                     </ul>
                 </div>
             </div>
-            <a href="{{ route('asset.create') }}"><button type="button" class="btn btn-warning me-2">Upload
-                        Package</button></a>
-                <a href="{{ route('image.create') }}"><button type="button" class="btn btn-warning">Upload
-                        Image</button></a>
             <ul class="navbar-nav ms-auto me-4 pt-5">
             @guest
                         @if (Route::has('login'))
