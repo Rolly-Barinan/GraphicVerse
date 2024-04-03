@@ -117,6 +117,10 @@
                     <div class="d-flex justify-content-between align-items-baseline">
                         <div class="d-flex">
                             <div class="h4">{{ $user->name }}</div>
+                            <a href="{{ route('asset.create') }}"><button type="button" class="btn btn-warning me-2">Upload
+                        Package</button></a>
+                <a href="{{ route('image.create') }}"><button type="button" class="btn btn-warning">Upload
+                        Image</button></a>
                         </div>
                     </div>
                     <div class="">@ {{ $user->profile->title }}</div>
