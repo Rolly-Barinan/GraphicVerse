@@ -30,6 +30,6 @@
                 <button type="submit" class="btn btn-primary">Pay with PayPal</button>
             </form>
         @endif
-        <a href="/images" class="btn btn-secondary">Back</a>
+        <a href="/image" class="btn btn-secondary">Back</a>
     </div>
 @endsection

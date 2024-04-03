@@ -11,6 +11,17 @@
 
     <div class="container">
         <h1>Package Details</h1>
+        @if (Auth::id() == $package->UserID)
+        <a href="/package/{{ $package->id }}/edit">
+            <img src="/svg/edit.svg" class="logo" alt="Edit Logo">
+        </a>
+        <form action="{{ route('asset.destroy', $package->id) }}" method="POST"
+            onsubmit="return confirm('Are you sure you want to delete this package?')">
+            @csrf
+            @method('DELETE')
+            <button type="submit" class="btn btn-danger">Delete Package</button>
+        </form>
+    @endif
         <div class="card">
             <img src="{{ Storage::url($package->Location) }}" class="card-img-top" alt="{{ $package->PackageName }}">
             <div class="card-body">

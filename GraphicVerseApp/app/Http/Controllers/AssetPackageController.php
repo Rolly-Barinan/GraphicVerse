@@ -1,14 +1,13 @@
 <?php
-
 namespace App\Http\Controllers;
-
 use Illuminate\Support\Str;
 use App\Models\Asset;
 use App\Models\AssetType;
 use App\Models\Categories;
 use App\Models\Package;
-use App\Models\User;
+use App\Models\PackageCategory;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use ZipArchive;
 use Illuminate\Validation\Rule;
 
@@ -33,7 +32,7 @@ class AssetPackageController extends Controller
         $package = Package::findOrFail($id);
         $assetTypes = AssetType::all();
         $categories = Categories::all();
-        
+
         return view('asset.edit', compact('package', 'assetTypes', 'categories'));
     }
 
@@ -57,12 +56,11 @@ class AssetPackageController extends Controller
             $package->preview = $previewPath;
         }
         $package->categories()->sync($request->input('category_ids', []));
-
-
         $package->save();
 
         return redirect()->route('asset.edit', $package->id)->with('success', 'Package updated successfully.');
     }
+
     public function store(Request $request)
     {
         $user = auth()->user();
@@ -71,7 +69,7 @@ class AssetPackageController extends Controller
             'Description' => 'required',
             'preview' => 'required|image',
             'asset' => 'required|array',
-            'asset.*' => 'required|file|mimes:jpeg,png,bin,wav,jpg,fbx',
+            'asset.*' => 'required|file',
             'asset_type_id' => 'required',
             'category_ids' => 'required|array|min:1',
             'category_ids.*' => Rule::exists('categories', 'id'),
@@ -79,23 +77,22 @@ class AssetPackageController extends Controller
 
         $messages = [
             'category_ids.min' => 'Please select at least one category.',
+            'asset.*.required' => 'Each asset file is required.',
+            'asset.*.mimes' => 'The following files do not have valid extensions:'
         ];
+
+        if ($request->input('asset_type_id') == 1) {
+            $rules['asset.*'] .= '|mimes:jpeg,png,jpg, gif,bmp,tiff,svg,psd,ai,eps ,webp';
+            $messages['asset.*.mimes'] = 'Only JPEG and PNG files are allowed for this asset type.';
+        } elseif ($request->input('asset_type_id') == 2) {
+            $rules['asset.*'] .= '|mimes:fbx,obj,bin, blend,dae ,3ds,ply,x3d,gltf ,glb ,igs  ,iges ';
+            $messages['asset.*.mimes'] = 'Only FBX, OBJ, and BIN files are allowed for this asset type.';
+        } elseif ($request->input('asset_type_id') == 3) {
+            $rules['asset.*'] .= '|mimes:wav,mp3,opus,m4a,alac,aiff,wma,flac,ogg,aac';
+            $messages['asset.*.mimes'] = 'Only FBX, OBJ, and BIN files are allowed for this asset type.';
+        }
         $request->validate($rules, $messages);
-        $selectedAssetType = AssetType::find($request->input('asset_type_id'));
-        foreach ($request->file('asset') as $asset) {
-            $extension = $asset->getClientOriginalExtension();
-            if (($selectedAssetType->asset_type === '3D' && strtolower($extension) !== 'fbx') ||
-                ($selectedAssetType->asset_type === '2D' && !in_array(strtolower($extension), ['jpeg', 'png', 'txt', 'bin', 'jpg']))
-            ) {
-                return redirect()->back()->with('error', 'Invalid file type for selected asset type.');
-            }
-        }
         $previewFile = $request->file('preview');
-
-        if (!$previewFile->isValid() || !in_array($previewFile->getClientOriginalExtension(), ['jpg', 'jpeg', 'png', 'gif'])) {
-            return redirect()->back()->with('error', 'Preview file must be an image (JPEG, PNG, GIF).');
-        }
-
         $originalFileName = $previewFile->getClientOriginalName();
         $imagePath = $previewFile->storeAs('public/preview', $originalFileName);
 
@@ -110,18 +107,14 @@ class AssetPackageController extends Controller
         ]);
 
         $package->save();
-
         $selectedCategories = $request->input('category_ids', []);
         $package->categories()->attach($selectedCategories);
-
         $uploadedAssetIds = [];
 
         foreach ($request->file('asset') as $asset) {
             $extension = $asset->getClientOriginalExtension();
-
             $uniqueFilename = time() . '-' . Str::random(10) . '.' . $extension;
             $path = $asset->storeAs('public/assets', $uniqueFilename);
-
             $asset = new Asset([
                 'AssetName' => $asset->getClientOriginalName(),
                 'FileType' => $extension,
@@ -176,13 +169,21 @@ class AssetPackageController extends Controller
 
     public function destroy(Package $package)
     {
-        $package->assets()->delete(); // This deletes all associated assets
-        $package->delete(); // This deletes the package itself
-        
-        return redirect()->back()->with('success', 'Package deleted successfully.');
+        foreach ($package->assets as $asset) {     
+            $filePath = $asset->Location;
+            $previewPath = $asset->preview;
 
+            if (Storage::exists($filePath)) {
+                Storage::delete($filePath);
+            }
+            if (Storage::exists($previewPath)) {
+                Storage::delete($previewPath);
+            }
+            PackageCategory::where('packageid', $package->id)->delete();     
+            $asset->delete();
+        }
+        $package->delete();
+        return redirect()->back()->with('success', 'Package and associated files deleted successfully.');
     }
-    
-
-
 }
+    

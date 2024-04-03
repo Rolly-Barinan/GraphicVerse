@@ -101,6 +101,7 @@ Route::get('/3d-models/{id}', [ThreeDimContoller::class, 'show'])->name('threeDi
 
 ////audios 
 Route::get('/audio-models', [AudioController::class, 'index'])->name('audio.index');
+Route::get('/audio-models', [AudioController::class, 'filterPackages'])->name('filter.audio');
 Route::get('/audio-models/{id}', [AudioController::class, 'show'])->name('audio.show');
 //User profile
 
