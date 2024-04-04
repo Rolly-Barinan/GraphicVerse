@@ -5,19 +5,20 @@
 <body>
     <div class="container mt-5">
         <div class="row">
-            <div class="col-lg-12 margin-tb">
-                <div class="pull-right mb-4">
-                    <h2>
-                        CATEGORIES
-                        <span style="margin: 0 25px;"> <!-- Add space between icons -->
-                            <a href="#" data-bs-toggle="modal" data-bs-target="#addCategoryModal" style="cursor: pointer; text-decoration: none;">
-                                <i class="fas fa-plus-square"></i> <!-- Font Awesome plus icon -->
-                            </a>
-                        </span>
-                    </h2> 
+            <div class="col-lg-6 margin-tb">
+                <div class="pull-left mb-4">
+                    <h2>CATEGORIES</h2>
+                </div>
+            </div>
+            <div class="col-lg-6 margin-tb">
+                <div class="pull-right mb-4 float-end">
+                    <a href="#" data-bs-toggle="modal" data-bs-target="#addCategoryModal" class="btn btn-success">
+                        <i class="fas fa-plus"></i> Create New Category
+                    </a>
                 </div>
             </div>
         </div>
+        
         @if ($message = Session::get('success'))
             <div class="alert alert-success">
                 <p>{{ $message }}</p>
