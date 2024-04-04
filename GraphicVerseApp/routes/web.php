@@ -53,6 +53,7 @@ Route::middleware('auth:admin')->group(function () {
 });
 
 Auth::routes();
+
 Route::get('/home', [HomeController::class, 'index'])->name('home');
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/aboutus', [AboutUsController::class, 'index'])->name('aboutus');
