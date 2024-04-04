@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Storage;
 use ZipArchive;
 use Illuminate\Validation\Rule;
 
+
 class AssetPackageController extends Controller
 {
     public function index()
@@ -137,36 +138,29 @@ class AssetPackageController extends Controller
     public function download($id)
     {
         $package = Package::findOrFail($id);
-        $tempDir = storage_path('app/temp_zip');
-        if (!file_exists($tempDir)) {
-            mkdir($tempDir, 0755, true);
-        }
-        $previewFilePath = storage_path('app/' . $package->Location);
-        $previewFileName = $package->PackageName . '.jpg';
-        copy($previewFilePath, $tempDir . '/' . $previewFileName);
-
-        $assets = $package->assets;
-        foreach ($assets as $asset) {
-            $assetFilePath = storage_path('app/' . $asset->Location);
-            $assetFileName = $asset->AssetName;
-            copy($assetFilePath, $tempDir . '/' . $assetFileName);
-        }
-
         $zipFileName = 'package_' . $package->id . '.zip';
+
         $zip = new ZipArchive;
-        if ($zip->open($tempDir . '/' . $zipFileName, ZipArchive::CREATE) === TRUE) {
 
-            $zip->addFile($tempDir . '/' . $previewFileName, $previewFileName);
+        if ($zip->open(storage_path('app/' . $zipFileName), ZipArchive::CREATE) === TRUE) {
+            $previewFilePath = storage_path('app/' . $package->Location);
+            $previewFileName = $package->PackageName . '.jpg';
+            $zip->addFile($previewFilePath, $previewFileName);
 
+            $assets = $package->assets;
             foreach ($assets as $asset) {
-                $zip->addFile($tempDir . '/' . $asset->AssetName, 'assets/' . $asset->AssetName);
+                $assetFilePath = storage_path('app/' . $asset->Location);
+                $assetFileName = 'assets/' . $asset->AssetName;
+                $zip->addFile($assetFilePath, $assetFileName);
             }
             $zip->close();
         }
+
         $headers = [
             'Content-Type' => 'application/zip',
         ];
-        return response()->download($tempDir . '/' . $zipFileName, $zipFileName, $headers);
+
+        return response()->download(storage_path('app/' . $zipFileName), $zipFileName, $headers);
     }
 
     public function destroy(Package $package)
@@ -174,7 +168,7 @@ class AssetPackageController extends Controller
         $previewPath = $package->Location;
         foreach ($package->assets as $asset) {
             $filePath = $asset->Location;
- 
+
             if (Storage::exists($filePath)) {
                 Storage::delete($filePath);
             }
@@ -186,6 +180,6 @@ class AssetPackageController extends Controller
             Storage::delete($previewPath);
         }
         $package->delete();
-        return redirect()->back()->with('success', 'Package and associated files deleted successfully.');
+        return redirect('/')->with('success', 'Package and associated files deleted successfully.');
     }
 }
