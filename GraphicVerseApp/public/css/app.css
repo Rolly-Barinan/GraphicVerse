@@ -7,9 +7,9 @@ body {
     background-color: #DDDDE4;
 }
 
-.navbar, .navbar2{
+.navbar-not-home {
     background-color: #222344;
-    box-shadow: 0 20px 35px 0 rgba(0,0,0,.2)
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
 .navbar2{
@@ -24,17 +24,31 @@ main {
     align-items: center;
 
 }
- /*--------------------------------------navbar-----------------------*/
 
-/* .outer {
-    display: grid;
-    grid-template-columns: 1fr;
+.container-fluid {
+    display: flex;
+    justify-content: center;
 }
 
-.inner {
-    grid-row-start: 1;
-    grid-column-start: 1;
-} */
+.navbar-brand {
+    margin: auto;
+}
+
+@media (max-width: 992px) {
+    #navbar {
+        flex-direction: column;
+    }
+    .navbar-brand {
+        order: 2;
+    }
+    .navbar-toggler {
+        order: 1;
+    }
+    #navbarNav {
+        order: 3;
+        width: 100%;
+    }
+}
 
 .GraphicVerse {
     font-family: "Kollektif", sans-serif;
@@ -75,8 +89,12 @@ main {
   }
 
   .search{
-    background-color: #424382;
-    border-color: #424382;
+    background: rgba(255, 255, 255, 0.37);
+    border-radius: 25px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(3px);
+    -webkit-backdrop-filter: blur(3px);
+    border:none;
   }
   .search::placeholder {
     color: #E6E7FD;
@@ -90,9 +108,7 @@ main {
   }
 
 .logo {
-    height: 130px;
-    padding-left: 10px;
-    padding-right: 10px;
+    height: 100px;
 }
 
 .nav-item2 {
@@ -229,3 +245,7 @@ div{
     border: 1px solid #000000; 
   
 } */
+
+.navbar-collapse {
+    flex-grow: 0 !important;
+}

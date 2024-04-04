@@ -1,10 +1,54 @@
-.card-body {
-    border: none !important;
-    border-color: white !important;
+/* 
+h1 {
+    color: white;
+    font-family: Roboto;
+    font-size: 2.5vw;
+    font-weight: bold;
+    text-align: center;
 }
 
-.dropdown-form {
-    max-width: 300px; /* Adjust the maximum width as needed */
-    margin: 0 auto; /* Center the form horizontally within the dropdown */
-    padding: 20px; /* Add padding for spacing */
+.input-group {
+    margin-bottom: 20px;
 }
+
+.input-group-text {
+    background-color: #f8f9fa;
+    border: none;
+}
+
+.form-control {
+    border-radius: 5px;
+}
+
+.form-check {
+    margin-bottom: 20px;
+}
+
+.btn-primary {
+    background-color: #007bff;
+    border: none;
+}
+
+.btn-primary:hover {
+    background-color: #0056b3;
+}
+
+.btn-link {
+    color: #007bff;
+    text-decoration: none;
+}
+
+.btn-link:hover {
+    text-decoration: underline;
+}
+
+.btn2 {
+    color: #007bff;
+    text-decoration: none;
+    display: inline-block;
+    margin-top: 10px;
+}
+
+.btn2:hover {
+    text-decoration: underline;
+} */
