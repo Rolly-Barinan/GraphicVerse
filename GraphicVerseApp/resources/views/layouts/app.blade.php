@@ -83,12 +83,7 @@
                     <li class="nav-item">
                         <a href="{{ route('login') }}" class="nav-link">{{ __('Login') }}</a>
                     </li>
-                @endif
-                @if (Route::has('register'))
-                    <li class="nav-item">
-                        <a href="{{ route('register') }}" class="nav-link">{{ __('Register') }}</a>
-                    </li>
-                @endif
+                @endif<nav class="navbar navbar-expand-lg @if(!Request::is('/') && !Request::is('home')) navbar-not-home @endif" id="navbar"><nav class="navbar navbar-expand-lg @if(!Request::is('/') && !Request::is('home')) navbar-not-home @endif" id="navbar">
             @else
                 <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle text-white" href="#" id="navbarDropdown" role="button"
@@ -109,6 +104,9 @@
                             </li>
                         </ul>
                     </li>
+                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                        @csrf
+                    </form>
             @endguest
         </ul>
             </div>

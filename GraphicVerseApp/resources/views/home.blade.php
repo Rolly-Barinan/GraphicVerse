@@ -34,7 +34,7 @@
     <div class="row-3 justify-content-center align-items-center ">
         <div class="col justify-content-center">
             <h1 class="discord-title">Join our Discord Server!</h1>
-            <p class="discord-experience"> Join our community to collaborate, communicate and exchange creative ideas with other artists.
+            <p class="discord-experience"> Join our community to collaborate, communicate and exchange creative ideas with other artists.<nav class="navbar navbar-expand-lg @if(!Request::is('/') && !Request::is('home')) navbar-not-home @endif" id="navbar">
                 </p>
             <div class="discord-container">
                 <a href="https://discord.gg/aKZK4Tdfnu" class="discord button-link" id="learnMoreButton">Join Discord</a>
