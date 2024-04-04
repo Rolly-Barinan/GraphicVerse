@@ -4,16 +4,16 @@
     <style>
         /* Custom CSS for Dashboard */
         .dashboard-container {
-            background-color: #f7f7f7;
+            background-color: #f9f9f9;
             padding: 20px;
             border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
 
         .dashboard-card {
             background-color: #fff;
             border: 1px solid #e0e0e0;
-            border-radius: 5px;
+            border-radius: 8px;
             padding: 20px;
             margin-bottom: 20px;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
@@ -22,17 +22,24 @@
         .dashboard-card h3 {
             font-size: 18px;
             margin-bottom: 10px;
+            color: #333;
         }
 
         .dashboard-card p {
             font-size: 24px;
             font-weight: bold;
         }
+
+        .dashboard-card:hover {
+            transform: translateY(-5px);
+            transition: transform 0.3s ease;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
     </style>
 
     <div class="container mt-5">
         <div class="dashboard-container" style="border-left: 25px solid #333;">
-            <h2>ADMIN DASHBOARD</h2>
+            <h2 class="text-center mb-4">ADMIN DASHBOARD</h2>
             <hr>
             <h4>Welcome!</h4>
             <p class="mb-5" style="font-style: italic">Monitor users, categories, and different types of assets. Effortlessly add, edit, or delete with ease.</p>
