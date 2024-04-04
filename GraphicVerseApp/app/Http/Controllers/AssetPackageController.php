@@ -138,29 +138,37 @@ class AssetPackageController extends Controller
     public function download($id)
     {
         $package = Package::findOrFail($id);
-        $zipFileName = 'package_' . $package->id . '.zip';
-
-        $zip = new ZipArchive;
-
-        if ($zip->open(storage_path('app/' . $zipFileName), ZipArchive::CREATE) === TRUE) {
+        $zipFileName = 'package_' . $package->id . '.zip';       
+        // Create a temporary file in memory
+        $zipFile = tempnam(sys_get_temp_dir(), $zipFileName);
+        $zip = new ZipArchive();
+        if ($zip->open($zipFile, ZipArchive::CREATE | ZipArchive::OVERWRITE) === TRUE) {
+            // Add the preview file to the zip archive
             $previewFilePath = storage_path('app/' . $package->Location);
             $previewFileName = $package->PackageName . '.jpg';
-            $zip->addFile($previewFilePath, $previewFileName);
-
+            $zip->addFile($previewFilePath, $previewFileName);    
+            // Add the assets to the zip archive
             $assets = $package->assets;
             foreach ($assets as $asset) {
                 $assetFilePath = storage_path('app/' . $asset->Location);
                 $assetFileName = 'assets/' . $asset->AssetName;
                 $zip->addFile($assetFilePath, $assetFileName);
-            }
-            $zip->close();
+            }        
+            $zip->close();        
+            // Set headers for the response
+            $headers = [
+                'Content-Type' => 'application/zip',
+                'Content-Disposition' => 'attachment; filename="' . $zipFileName . '"',
+            ];        
+            // Stream the zip file for download and delete the temporary file afterwards
+            return response()->streamDownload(function () use ($zipFile) {
+                readfile($zipFile);
+                unlink($zipFile); // Delete the temporary file after streaming
+            }, $zipFileName, $headers);
+        } else {
+            // Handle case where zip archive could not be created
+            return response()->json(['error' => 'Unable to create the zip archive'], 500);
         }
-
-        $headers = [
-            'Content-Type' => 'application/zip',
-        ];
-
-        return response()->download(storage_path('app/' . $zipFileName), $zipFileName, $headers);
     }
 
     public function destroy(Package $package)
