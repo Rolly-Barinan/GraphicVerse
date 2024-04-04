@@ -66,11 +66,20 @@ Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/aboutus', [AboutUsController::class, 'index'])->name('aboutus');
 
 //packages
-Route::get('/asset', [AssetPackageController::class, 'index'])->name('asset.index');
-Route::get('/asset/create', [AssetPackageController::class, 'create'])->name('asset.create');
-Route::get('/asset/{id}', [AssetPackageController::class, 'show'])->name('asset.show');
-Route::post('/asset/store', [AssetPackageController::class, 'store'])->name('asset.store');
-Route::get('/asset/{id}/download', [AssetPackageController::class, 'download'])->name('asset.download');
+// Route::get('/asset', [AssetPackageController::class, 'index'])->name('asset.index');
+// Route::get('/asset/create', [AssetPackageController::class, 'create'])->name('asset.create');
+// Route::get('/asset/{id}', [AssetPackageController::class, 'show'])->name('asset.show');
+// Route::post('/asset/store', [AssetPackageController::class, 'store'])->name('asset.store');
+// Route::get('/asset/{id}/download', [AssetPackageController::class, 'download'])->name('asset.download');
+
+Route::post('/package/store', [AssetPackageController::class, 'store'])->name('asset.store');
+Route::get('/package/{id}/edit', [AssetPackageController::class, 'edit'])->name('asset.edit');
+Route::patch('/package/{id}', [AssetPackageController::class, 'update'])->name('asset.update');
+Route::get('/package', [AssetPackageController::class, 'index'])->name('asset.index');
+Route::get('/package/create', [AssetPackageController::class, 'create'])->name('asset.create');
+Route::get('/package/{id}', [AssetPackageController::class, 'show'])->name('asset.show');
+Route::delete('/package/{package}', [AssetPackageController::class, 'destroy'])->name('asset.destroy');
+Route::get('/package/{id}/download', [AssetPackageController::class, 'download'])->name('asset.download');
 
 ////Image Asset routes
 Route::get('/image', [ImageAssetController::class, 'index'])->name('image.index');
