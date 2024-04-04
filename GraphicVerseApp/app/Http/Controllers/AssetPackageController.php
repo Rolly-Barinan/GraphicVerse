@@ -1,5 +1,7 @@
 <?php
+
 namespace App\Http\Controllers;
+
 use Illuminate\Support\Str;
 use App\Models\Asset;
 use App\Models\AssetType;
@@ -169,21 +171,21 @@ class AssetPackageController extends Controller
 
     public function destroy(Package $package)
     {
-        foreach ($package->assets as $asset) {     
+        $previewPath = $package->Location;
+        foreach ($package->assets as $asset) {
             $filePath = $asset->Location;
-            $previewPath = $asset->preview;
-
+ 
             if (Storage::exists($filePath)) {
                 Storage::delete($filePath);
             }
-            if (Storage::exists($previewPath)) {
-                Storage::delete($previewPath);
-            }
-            PackageCategory::where('packageid', $package->id)->delete();     
+
+            PackageCategory::where('package_id', $package->id)->delete();
             $asset->delete();
+        }
+        if (Storage::exists($previewPath)) {
+            Storage::delete($previewPath);
         }
         $package->delete();
         return redirect()->back()->with('success', 'Package and associated files deleted successfully.');
     }
 }
-    

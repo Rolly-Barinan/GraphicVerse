@@ -32,6 +32,7 @@
                             <a href="{{ route('twoDim.show', ['id' => $package->id]) }}">
                                 <img src="{{ Storage::url($package->Location) }}" class="card-img-top"
                                     alt="{{ $package->PackageName }}">
+                                 
                                 <div class="card-body">
                                     <h5 class="card-title">{{ $package->PackageName }}</h5>
                                     <p class="card-text">{{ $package->Description }}</p>
