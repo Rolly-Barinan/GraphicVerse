@@ -5,12 +5,13 @@ namespace App\Http\Controllers;
 use App\Models\AssetType;
 use App\Models\Categories;
 use App\Models\ImageAsset;
+use App\Models\ImageCategory;
 use App\Models\User;
+use Illuminate\Contracts\Cache\Store;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 use Intervention\Image\Facades\Image;
-
 
 class ImageAssetController extends Controller
 {
@@ -50,7 +51,7 @@ class ImageAssetController extends Controller
 
         // Create an instance of Intervention Image
         $image = Image::make($imageFile);
-
+        $origImage = Image::make($imageFile);
         // Check if a watermark file is provided
         if ($request->hasFile('watermarkFile')) {
             $watermarkFile = $request->file('watermarkFile');
@@ -64,8 +65,8 @@ class ImageAssetController extends Controller
         }
 
         // Define directory for storing images
-        $directory = 'images/';
-        $watermarkDir = 'watermark/';
+        $directory = 'public/images/';
+        $watermarkDir = 'public/watermark/';
 
         // Ensure directories exist, create them if not
         File::ensureDirectoryExists(storage_path('app/public/' . $directory));
@@ -75,8 +76,8 @@ class ImageAssetController extends Controller
         $filename = $imageFile->hashName();
 
         // Save the image to the desired location
-        $image->save(storage_path('app/public/' . $watermarkDir . $filename));
-        $image->save(storage_path('app/public/' . $directory . $filename));
+        $image->save(storage_path('app/' . $watermarkDir . $filename));
+        $origImage->save(storage_path('app/' . $directory . $filename));
 
         // Create a new ImageAsset instance with the provided data
         $imageAsset = new ImageAsset([
@@ -114,11 +115,26 @@ class ImageAssetController extends Controller
     {
         $image = ImageAsset::findOrFail($id);
         $filePath = storage_path('app/public/' . $image->Location);
-     
+
         if (!file_exists($filePath)) {
             abort(404);
         }
         $fileName = basename($image->Location);
         return response()->download($filePath, $fileName);
+    }
+
+    public function destroy(ImageAsset $image)
+    {
+ 
+        $origImage = $image->Location;
+        $watermark = $image->watermarkedImage;
+        if (Storage::exists($origImage)) {
+            Storage::delete($origImage);
+        }   
+        if (Storage::exists($watermark)) {
+            Storage::delete($watermark);
+        }
+        $image->delete();
+        return redirect('/image')->with('success', 'Image asset deleted successfully.');
     }
 }

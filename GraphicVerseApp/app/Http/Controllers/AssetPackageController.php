@@ -96,13 +96,13 @@ class AssetPackageController extends Controller
         }
         $request->validate($rules, $messages);
         $previewFile = $request->file('preview');
-        $originalFileName = $previewFile->getClientOriginalName();
-        $imagePath = $previewFile->storeAs('public/preview', $originalFileName);
+        $filename = $previewFile->hashName();
+        $imagePath = $previewFile->storeAs('public/preview', $filename);
 
         $package = new Package([
             'PackageName' => $request['PackageName'],
             'Description' => $request['Description'],
-            'preview' => $originalFileName,
+            'preview' => $filename,
             'Location' => $imagePath,
             'UserID' => $user->id,
             'asset_type_id' => $request['asset_type_id'],
@@ -138,7 +138,7 @@ class AssetPackageController extends Controller
     public function download($id)
     {
         $package = Package::findOrFail($id);
-        $zipFileName = 'package_' . $package->id . '.zip';       
+        $zipFileName = 'package_' . $package->id . '.zip';
         // Create a temporary file in memory
         $zipFile = tempnam(sys_get_temp_dir(), $zipFileName);
         $zip = new ZipArchive();
@@ -146,20 +146,20 @@ class AssetPackageController extends Controller
             // Add the preview file to the zip archive
             $previewFilePath = storage_path('app/' . $package->Location);
             $previewFileName = $package->PackageName . '.jpg';
-            $zip->addFile($previewFilePath, $previewFileName);    
+            $zip->addFile($previewFilePath, $previewFileName);
             // Add the assets to the zip archive
             $assets = $package->assets;
             foreach ($assets as $asset) {
                 $assetFilePath = storage_path('app/' . $asset->Location);
                 $assetFileName = 'assets/' . $asset->AssetName;
                 $zip->addFile($assetFilePath, $assetFileName);
-            }        
-            $zip->close();        
+            }
+            $zip->close();
             // Set headers for the response
             $headers = [
                 'Content-Type' => 'application/zip',
                 'Content-Disposition' => 'attachment; filename="' . $zipFileName . '"',
-            ];        
+            ];
             // Stream the zip file for download and delete the temporary file afterwards
             return response()->streamDownload(function () use ($zipFile) {
                 readfile($zipFile);
@@ -173,18 +173,18 @@ class AssetPackageController extends Controller
 
     public function destroy(Package $package)
     {
-        $previewPath = $package->Location;
         foreach ($package->assets as $asset) {
-            $filePath = $asset->Location;
 
+            $filePath = $asset->Location;
             if (Storage::exists($filePath)) {
                 Storage::delete($filePath);
             }
-
-            PackageCategory::where('package_id', $package->id)->delete();
-            $asset->delete();
         }
+        PackageCategory::where('package_id', $package->id)->delete();
+        $asset->delete();
+        $previewPath = $package->Location;
         if (Storage::exists($previewPath)) {
+
             Storage::delete($previewPath);
         }
         $package->delete();

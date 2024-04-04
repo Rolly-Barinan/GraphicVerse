@@ -3,7 +3,18 @@
 @section('content')
     <div class="container-fluid">
         <h1>Image Details</h1>
-
+        @if (Auth::id() == $image->userID)
+          {{-- //  {{ dd($image) }} --}}
+            <a href="/image/{{ $image->id }}/edit">
+                <img src="/svg/edit.svg" class="logo" alt="Edit Logo">
+            </a>
+            <form action="{{ route('image.destroy', $image->id) }}" method="POST"
+                onsubmit="return confirm('Are you sure you want to delete this package?')">
+                @csrf
+                @method('DELETE')
+                <button type="submit" class="btn btn-danger">Delete Package</button>
+            </form>
+        @endif
         <div class="row">
             <div class="col-md-6">
                 <div class="card">

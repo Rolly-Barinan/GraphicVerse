@@ -78,6 +78,7 @@ Route::get('/image', [ImageAssetController::class, 'index'])->name('image.index'
 Route::get('/image/create', [ImageAssetController::class, 'create'])->name('image.create');
 Route::get('/image/{id}', [ImageAssetController::class, 'show'])->name('image.show');
 Route::post('/image/store', [ImageAssetController::class, 'store'])->name('image.store');
+Route::delete('/image/{image}', [ImageAssetController::class, 'destroy'])->name('image.destroy');
 Route::get('/image/{id}/download', [ImageAssetController::class, 'download'])->name('image.download');
 ////////paypal 
 Route::post('paypal/payment', [PaypalController::class, 'payment'])->name('paypal');
