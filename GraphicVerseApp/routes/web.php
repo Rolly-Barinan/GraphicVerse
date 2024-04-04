@@ -1,4 +1,3 @@
-
 <?php
 
 use Illuminate\Support\Facades\Route;
@@ -37,7 +36,6 @@ Route::middleware('auth:admin')->group(function () {
     Route::get('/admin/categories', [AdminController::class, 'categories'])->name('admin.categories');
     Route::get('/admin/users', [AdminController::class, 'users'])->name('admin.users');
     Route::get('/admin/packages', [AdminController::class, 'packages'])->name('admin.packages');
-    Route::get('/admin/images', [AdminController::class, 'images'])->name('admin.imageAssets');
     Route::get('/admin/logout', [AdminController::class, 'logout'])->name('admin.logout');
 
     Route::get('/admin/add-category', [AdminController::class, 'addCategory'])->name('admin.addCategory');
@@ -46,17 +44,11 @@ Route::middleware('auth:admin')->group(function () {
     Route::post('/admin/categories/update/{id}', [AdminController::class, 'updateCategory'])->name('admin.updateCategory');
     Route::get('/admin/delete-category/{id}', [AdminController::class, 'deleteCategory'])->name('admin.deleteCategory');
 
-    Route::get('/admin/user/search', [AdminController::class, 'userSearch'])->name('admin.userSearch');
     Route::get('/admin/users/details/{id}', [AdminController::class, 'userDetails'])->name('admin.userDetails');
     Route::get('/admin/delete-user/{id}', [AdminController::class, 'deleteUser'])->name('admin.deleteUser');
 
-    Route::get('/admin/packages/search', [AdminController::class, 'packageSearch'])->name('admin.packageSearch');
     Route::get('/admin/packages/details/{id}', [AdminController::class, 'packageDetails'])->name('admin.packageDetails');
     Route::get('/admin/delete-package/{id}', [AdminController::class, 'deletePackage'])->name('admin.deletePackage');
-
-    Route::get('/admin/image/search', [AdminController::class, 'imageSearch'])->name('admin.imageSearch');
-    Route::get('/admin/images/details/{id}', [AdminController::class, 'imageDetails'])->name('admin.imageDetails');
-    Route::get('/admin/delete-image/{id}', [AdminController::class, 'deleteImage'])->name('admin.deleteImage');
     // Other admin routes go here
 });
 
@@ -66,15 +58,11 @@ Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/aboutus', [AboutUsController::class, 'index'])->name('aboutus');
 
 //packages
-Route::get('/package/{id}/edit', [AssetPackageController::class, 'edit'])->name('asset.edit');
-Route::patch('/package/{id}', [AssetPackageController::class, 'update'])->name('asset.update');
-Route::get('/package', [AssetPackageController::class, 'index'])->name('asset.index');
-Route::get('/package/create', [AssetPackageController::class, 'create'])->name('asset.create');
-Route::get('/package/{id}', [AssetPackageController::class, 'show'])->name('asset.show');
-Route::post('/package/store', [AssetPackageController::class, 'store'])->name('asset.store');
-Route::get('/package/{id}/download', [AssetPackageController::class, 'download'])->name('asset.download');
-Route::delete('/package/{package}', [AssetPackageController::class, 'destroy'])->name('asset.destroy');
-
+Route::get('/asset', [AssetPackageController::class, 'index'])->name('asset.index');
+Route::get('/asset/create', [AssetPackageController::class, 'create'])->name('asset.create');
+Route::get('/asset/{id}', [AssetPackageController::class, 'show'])->name('asset.show');
+Route::post('/asset/store', [AssetPackageController::class, 'store'])->name('asset.store');
+Route::get('/asset/{id}/download', [AssetPackageController::class, 'download'])->name('asset.download');
 
 ////Image Asset routes
 Route::get('/image', [ImageAssetController::class, 'index'])->name('image.index');
@@ -88,11 +76,9 @@ Route::get('paypal/success', [PaypalController::class, 'success'])->name('paypal
 Route::get('paypal/cancel', [PaypalController::class, 'cancel'])->name('paypal_cancel');
 
 //asset layout 2d
-
 Route::get('/2d-models', [TwoDimContoller::class, 'index'])->name('twoDim.index');
 Route::get('/2d-models', [TwoDimContoller::class, 'filterPackages'])->name('filter.2d');
 Route::get('/2d-models/{id}', [TwoDimContoller::class, 'show'])->name('twoDim.show');
-
 
 //asset layout 3d
 Route::get('/3d-models', [ThreeDimContoller::class, 'index'])->name('threeDim.index');
@@ -101,25 +87,16 @@ Route::get('/3d-models/{id}', [ThreeDimContoller::class, 'show'])->name('threeDi
 
 ////audios 
 Route::get('/audio-models', [AudioController::class, 'index'])->name('audio.index');
-Route::get('/audio-models', [AudioController::class, 'filterPackages'])->name('filter.audio');
 Route::get('/audio-models/{id}', [AudioController::class, 'show'])->name('audio.show');
 //User profile
-
+Route::get('/profile/{user}', [ProfilesController::class, 'index'])->name('profile.show');
 //Search Controller
 Route::get('/search', [SearchController::class, 'search'])->name('search');
 
 Route::middleware(['auth'])->group(function () {
-    Route::get('/profile/{user}', [ProfilesController::class, 'index'])->name('profile.show');
-
-    Route::get('/asset/create', [AssetPackageController::class, 'create'])->name('asset.create');
-    Route::get('/image/create', [ImageAssetController::class, 'create'])->name('image.create');
     //profile router contoller
     Route::get('/profile/{user}/edit', [ProfilesController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile/{user}', [ProfilesController::class, 'update'])->name('profile.update');
-    Route::get('/profile/display/2d-models', [ProfilesController::class, 'twoDimDisplay'])->name('profile.twoDimDisplay');
-    Route::get('/profile/display/3d-models', [ProfilesController::class, 'threeDimDisplay'])->name('profile.threeDimDisplay');
-    Route::get('/profile/display/audio-models', [ProfilesController::class, 'audioDisplay'])->name('profile.audioDisplayaudioDisplay');
-    Route::get('/profile/display/image-models', [ProfilesController::class, 'imageDisplay'])->name('profile.imageDisplay');
     //Teams router
     Route::get('/teams', [TeamController::class, 'index'])->name('teams.index');
     Route::get('/teams/create', [TeamController::class, 'create'])->name('teams.create');
