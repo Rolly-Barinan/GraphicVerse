@@ -36,6 +36,7 @@ Route::middleware('auth:admin')->group(function () {
     Route::get('/admin/categories', [AdminController::class, 'categories'])->name('admin.categories');
     Route::get('/admin/users', [AdminController::class, 'users'])->name('admin.users');
     Route::get('/admin/packages', [AdminController::class, 'packages'])->name('admin.packages');
+    Route::get('/admin/images', [AdminController::class, 'images'])->name('admin.imageAssets');
     Route::get('/admin/logout', [AdminController::class, 'logout'])->name('admin.logout');
 
     Route::get('/admin/add-category', [AdminController::class, 'addCategory'])->name('admin.addCategory');
@@ -44,11 +45,17 @@ Route::middleware('auth:admin')->group(function () {
     Route::post('/admin/categories/update/{id}', [AdminController::class, 'updateCategory'])->name('admin.updateCategory');
     Route::get('/admin/delete-category/{id}', [AdminController::class, 'deleteCategory'])->name('admin.deleteCategory');
 
+    Route::get('/admin/user/search', [AdminController::class, 'userSearch'])->name('admin.userSearch');
     Route::get('/admin/users/details/{id}', [AdminController::class, 'userDetails'])->name('admin.userDetails');
     Route::get('/admin/delete-user/{id}', [AdminController::class, 'deleteUser'])->name('admin.deleteUser');
 
+    Route::get('/admin/packages/search', [AdminController::class, 'packageSearch'])->name('admin.packageSearch');
     Route::get('/admin/packages/details/{id}', [AdminController::class, 'packageDetails'])->name('admin.packageDetails');
     Route::get('/admin/delete-package/{id}', [AdminController::class, 'deletePackage'])->name('admin.deletePackage');
+
+    Route::get('/admin/image/search', [AdminController::class, 'imageSearch'])->name('admin.imageSearch');
+    Route::get('/admin/images/details/{id}', [AdminController::class, 'imageDetails'])->name('admin.imageDetails');
+    Route::get('/admin/delete-image/{id}', [AdminController::class, 'deleteImage'])->name('admin.deleteImage');
     // Other admin routes go here
 });
 
