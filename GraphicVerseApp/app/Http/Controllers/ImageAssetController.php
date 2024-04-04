@@ -137,4 +137,19 @@ class ImageAssetController extends Controller
         $image->delete();
         return redirect('/image')->with('success', 'Image asset deleted successfully.');
     }
+    
+    public function filterImage(Request $request)
+    {
+        $categoryIds = $request->input('categories');
+
+        if (!is_array($categoryIds) || empty($categoryIds)) {
+            $images = ImageAsset::all();
+        } else {
+            $images = ImageAsset::whereHas('categories', function ($query) use ($categoryIds) {
+                $query->whereIn('categories.id', $categoryIds);
+            })->get();
+        }
+        $categories = Categories::all();
+        return view('image.index', compact('images', 'categories'));
+    }
 }

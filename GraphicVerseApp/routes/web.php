@@ -80,6 +80,8 @@ Route::get('/image/{id}', [ImageAssetController::class, 'show'])->name('image.sh
 Route::post('/image/store', [ImageAssetController::class, 'store'])->name('image.store');
 Route::delete('/image/{image}', [ImageAssetController::class, 'destroy'])->name('image.destroy');
 Route::get('/image/{id}/download', [ImageAssetController::class, 'download'])->name('image.download');
+Route::get('/image', [ImageAssetController::class, 'filterImage'])->name('filter.image');
+
 ////////paypal 
 Route::post('paypal/payment', [PaypalController::class, 'payment'])->name('paypal');
 Route::get('paypal/success', [PaypalController::class, 'success'])->name('paypal_success');
