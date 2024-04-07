@@ -2,8 +2,8 @@
 body {
   color: white;
   display: flex;
-  justify-content: center !important; 
-  align-items: center !important;
+  align-items: center;
+  height: 100vh;
   text-align: left !important;
   overflow: hidden !important;
   background: linear-gradient(315deg, #7525e2 0%, #001136 25%, #1b1d55  51%,  #f7137e 150%); 
