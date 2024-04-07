@@ -11,176 +11,152 @@
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=Nunito" rel="stylesheet">
-    <!-- Scripts -->
+    <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
-    <link href="{{ asset('css/login.css') }}" rel="stylesheets">
+    <!-- Custom CSS -->
+    <link href="{{ asset('css/login.css') }}" rel="stylesheet">
+    <!-- Google Fonts -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Oswald&display=swap">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto&display=swap">
-
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js">
-    <link rel="stylesheet" href="	https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css ">
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
-        integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous">
-    </script>
-
-    <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/build/three.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/examples/js/loaders/FBXLoader.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/examples/js/loaders/MTLLoader.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/examples/js/loaders/OBJLoader.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/examples/js/controls/OrbitControls.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/examples/js/libs/fflate.min.js"></script>
-
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js">
-    <link rel="stylesheet" href="	https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css ">
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"
-        integrity="sha384-fbbOQedDUMZZ5KreZpsbe1LCZPVmfTnH7ois6mU1QK+m14rQ1l2bGBq41eYeM/fS" crossorigin="anonymous">
-    </script>
-
+    <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
-    <!-- Scripts -->
-    {{-- @vite(['resources/sass/app.scss', 'resources/js/app.js']) --}}
+    <style>
+        .navbar-brand,
+        .nav-link {
+            padding-top: 0.5rem;
+            padding-bottom: 0.5rem;
+        }
+
+        .avatar-container {
+            width: 30px;
+            height: 30px;
+            background-color: #ccc;
+            border-radius: 5px;
+            overflow: hidden;
+            margin-right: 10px;
+        }
+
+        .avatar-container img.avatar {
+            width: 100%;
+            height: auto;
+        }
+
+        .navbar-nav .dropdown-menu {
+            top: 40px;
+        }
+
+        .navbar-nav {
+            width: 100%;
+            text-align: center;
+        }
+
+        .navbar-nav .nav-item {
+            display: inline-block;
+        }
+
+        .navbar-nav .nav-link {
+            margin-right: 15px;
+        }
+
+        @media (min-width: 576px) {
+            .navbar-nav .nav-item {
+                display: inline-block;
+            }
+        }
+
+        @media (max-width: 575px) {
+            .navbar-nav .nav-item {
+                display: none;
+            }
+
+            .navbar-nav.collapsed .nav-item {
+                display: inline-block;
+            }
+        }
+
+        .navbar-nav .nav-item .nav-link.active {
+            background-color: #6c757d; /* Choose your desired color */
+            border-radius: 0.25rem; /* Optional: Add border radius for rounded corners */
+        }
+
+        body {
+            background-color: gray;
+        }
+    </style>
 </head>
 
-<style>
-    body {
-        background-color: #dcdcdc;
-        /* or any other shade of grey you prefer */
-    }
-
-    .content {
-        color: black;
-        /* Set the font color to black */
-    }
-
-    .navbar-nav .nav-item {
-        display: flex;
-    }
-
-    .sidebar {
-        background-color: #333;
-        color: white;
-        padding: 15px;
-        height: 100vh; /* Height of the viewport */
-        display: flex;
-        flex-direction: column;
-        position: fixed; /* Make the sidebar fixed */
-        top: 0; /* Align to the top of the viewport */
-        left: 0; /* Align to the left of the viewport */
-        z-index: 1000; /* Ensure the sidebar stays on top of other content */
-        overflow-y: auto; /* Add vertical scroll if content exceeds viewport height */
-    }
-
-    .col {
-        padding-left: 300px; /* Adjust padding to account for the fixed sidebar width */
-    }
-
-    .content {
-        padding: 15px;
-    }
-
-    @media (max-width: 767px) {
-        .col {
-            padding-left: 0; /* Remove padding for small screens */
-        }
-    }
-
-    .profile {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        align-self: center;
-    }
-
-    /* Style the profile section */
-    .profile img {
-        width: 100px;
-        height: 100px;
-        border-radius: 50%;
-        margin-bottom: 10px;
-    }
-
-    .profile h5 {
-        margin: 0;
-        font-size: 18px;
-        font-weight: bold;
-    }
-
-    /* Style the navigation links */
-    .nav-link {
-        color: #ccc;
-        transition: color 0.3s;
-    }
-
-    /* Add spacing between navigation items */
-    .nav-item {
-        margin-bottom: 10px;
-    }
-
-    /* Style the logout link */
-    .nav-link i {
-        margin-right: 15px;
-    }
-</style>
-
 <body>
-    <div class="container-fluid">
-        <div class="row">
-            <!-- Navbar with Collapse Button (updated structure) -->
-            <nav class="navbar navbar-expand-md navbar-dark bg-dark d-md-none">
-                <!-- Collapsible Sidebar Button -->
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse"
-                    aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-            </nav>
-
-            <!-- Left Sidebar -->
-            <div class="col-lg-2 sidebar bg-dark">
-                <div class="profile text-center">
-                    <img src="{{ asset('css\admin\admin-avatar.png') }}" alt="Admin Avatar">
-                    <div class="mt-2">
-                        <h5>{{ $admin->name }}</h5>
-                    </div>
-                </div>
-                <hr>
-                <ul class="nav flex-column">
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ route('admin.dashboard') }}">
-                            <i class="fas fa-tachometer-alt"></i> Dashboard
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ route('admin.categories') }}">
-                            <i class="fas fa-solid fa-list"></i> Manage Categories
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ route('admin.users') }}">
-                            <i class="fas fa-users"></i> Manage Users
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ route('admin.packages') }}">
-                            <i class="fas fa-solid fa-box-open"></i> Manage Packages
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ route('admin.imageAssets') }}">
-                            <i class="fas fa-solid fa-file-image"></i> Manage Images
-                        </a>
-                    </li>
-                </ul>
-                <div class="nav flex-column mt-auto">
-                    <a class="nav-link mb-4" style="color: red" href="{{ route('admin.logout') }}">
-                        <i class="fas fa-sign-out-alt"></i> LOGOUT
+    <nav class="navbar navbar-expand-md navbar-dark bg-dark">
+        <div class="container-xl d-flex justify-content-between align-items-center">
+            <!-- Navbar brand -->
+            <a class="navbar-brand" href="{{ route('admin.dashboard') }}">
+                <img src="/svg/logo.svg" class="logo" alt="Logo" height="50px">
+            </a>            
+            <!-- Admin avatar and name -->
+            <div class="nav-item dropdown">
+                <div class="d-flex align-items-center">
+                    <a href="#" class="nav-link dropdown-toggle d-flex align-items-center" data-bs-toggle="dropdown" aria-expanded="false" style="color: white;">
+                        <div class="avatar-container me-2">
+                            <img src="{{ asset('css\admin\admin-avatar.png') }}" alt="Admin Avatar" class="avatar">
+                        </div>
+                        {{ $admin->name }}
                     </a>
-                    <div style="display: flex; align-items: center; justify-content: center;">
-                        <img src="{{ asset('svg\GraphicVerse_Logo.png') }}" alt="Logo" style="max-width: 50%;">
+                    
+                    <!-- Dropdown menu -->
+                    <div class="dropdown-menu dropdown-menu-end">
+                        {{-- <a href="#" class="dropdown-item">Profile</a> --}}
+                        <a href="#" class="dropdown-item"><i class="fas fa-cog"></i> Settings</a>
+                        <div class="dropdown-divider"></div>
+                        <a href="{{ route('admin.logout') }}" class="dropdown-item">
+                            <i class="fa fa-fw fa-power-off text-red"></i> Log Out
+                        </a>
+                        <!-- Logout form -->
+                        <form id="logout-form" action="{{ route('admin.logout') }}" method="POST" style="display: none;">
+                            @csrf
+                        </form>
                     </div>
                 </div>
             </div>
+            <!-- Navbar toggle button -->
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar-menu"
+                aria-controls="navbar-menu" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+        </div>
+    </nav>
+    
+    <nav class="navbar navbar-expand-md navbar-dark bg-dark" style="border-top: 0.1px solid gray;">
+        <div class="container-xl">
+            <!-- Navbar content -->
+            <div class="collapse navbar-collapse" id="navbar-menu">
+                <ul class="navbar-nav mx-auto">
+                    <!-- Dashboard link -->
+                    <li class="nav-item">
+                        <a class="nav-link{{ Request::is('admin/dashboard') ? ' active' : '' }}" href="{{ route('admin.dashboard') }}"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
+                    </li>
+                    <!-- Manage Categories link -->
+                    <li class="nav-item">
+                        <a class="nav-link{{ Request::is('admin/categories') ? ' active' : '' }}" href="{{ route('admin.categories') }}"><i class="fas fa-solid fa-list"></i> Categories</a>
+                    </li>
+                    <!-- Manage Users link -->
+                    <li class="nav-item">
+                        <a class="nav-link{{ Request::is('admin/users*', 'admin/users/details/*') ? ' active' : '' }}" href="{{ route('admin.users') }}"><i class="fas fa-users"></i> Users</a>
+                    </li>
+                    <!-- Manage Packages link -->
+                    <li class="nav-item">
+                        <a class="nav-link{{ Request::is('admin/packages*', 'admin/packages/details/*') ? ' active' : '' }}" href="{{ route('admin.packages') }}"><i class="fas fa-solid fa-box-open"></i> Packages</a>
+                    </li>
+                    <!-- Manage Assets link -->
+                    <li class="nav-item">
+                        <a class="nav-link{{ Request::is('admin/images*', 'admin/images/details/*') ? ' active' : '' }}" href="{{ route('admin.imageAssets') }}"><i class="fas fa-solid fa-file-image"></i> Image Assets</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
 
+    <div class="container-fluid mb-5">
+        <div class="row">
             <!-- Right Content -->
             <div class="col">
                 <div class="content">
@@ -195,29 +171,29 @@
     <!-- Include jQuery -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-    <!-- JavaScript to handle sidebar toggling -->
+    <!-- JavaScript to handle navbar toggling -->
     <script>
         $(document).ready(function () {
-            // Function to check the screen size and toggle the sidebar accordingly
-            function toggleSidebar() {
-                if ($(window).width() < 768) {
-                    $(".sidebar").addClass("d-none");
+            // Function to check the screen size and toggle the navbar accordingly
+            function toggleNavbar() {
+                if ($(window).width() < 576) {
+                    $(".navbar-nav").addClass("collapsed");
                 } else {
-                    $(".sidebar").removeClass("d-none");
+                    $(".navbar-nav").removeClass("collapsed");
                 }
             }
 
             // Initial check when the page loads
-            toggleSidebar();
+            toggleNavbar();
 
             // Check the screen size when the window is resized
             $(window).resize(function () {
-                toggleSidebar();
+                toggleNavbar();
             });
 
-            // Toggle sidebar when the button is clicked
+            // Toggle navbar when the button is clicked
             $(".navbar-toggler").click(function () {
-                $(".sidebar").toggleClass("d-none");
+                $(".navbar-nav").toggleClass("collapsed");
             });
         });
     </script>
