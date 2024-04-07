@@ -42,11 +42,18 @@ body {
   top: 50%;
 }
 
+.links {
+  display: flex;
+  justify-content: space-between;
+  margin: auto;
+  width: 20vw; /* Adjust as needed */
+}
+
 .learnmore {
   color: #2D3352;
   background-color: #fac108; /* Gradient from left to right */
   height: 5vh; /* Adjust as needed */
-  width: 13vh; /* Adjust as needed */
+  width: 18vh; /* Adjust as needed */
   font-weight: bold;
   border: none;
   border-radius: 25px;
@@ -56,12 +63,37 @@ body {
   display: flex; /* Use flexbox for centering */
   align-items: center; /* Center vertically */
   justify-content: center; /* Center horizontally */
-  margin: auto;
+  margin: 0 0px;
+  text-decoration: none;
+}
+
+.learnmore2{
+  color: #2D3352;
+  background-color: #b0a5bb; /* Gradient from left to right */
+  height: 5vh; /* Adjust as needed */
+  width: 18vh; /* Adjust as needed */
+  font-weight: bold;
+  border: none;
+  border-radius: 25px;
+  transition: background-color 0.2s, color 0.2s;
+  font-size: 1.5vb; /* Adjust as needed */
+  text-align: center; /* Center the text */
+  display: flex; /* Use flexbox for centering */
+  align-items: center; /* Center vertically */
+  justify-content: center; /* Center horizontally */
+  text-decoration: none;
+}
+
+.learnmore2:hover {
+  background-color: #B129A2; /* Gradient from left to right */
+  color: #ffffff;
+  text-decoration: none;
 }
 
 .learnmore:hover {
   background-color: #B129A2; /* Gradient from left to right */
   color: #ffffff;
+  text-decoration: none;
 }
 
 .learnmore-container {

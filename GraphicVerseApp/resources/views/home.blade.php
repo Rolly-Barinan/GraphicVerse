@@ -12,7 +12,10 @@
             <div class="col">
                 <h1 class="elevate-title">The one-stop shop for your multimedia asset needs.</h1>
                 <p class="experience">Experience the power of efficient asset management, collaborative workspaces, and a stunning portfolio showcase. Join GraphicVerse and elevate your creative journey to new heights.</p>
-                <button href="{{ route('login') }}" class="learnmore mt-5">Get started <i class="bi-chevron-right"></i></button>
+                <div class="links">
+                    <a href="{{ route('register') }}" class="learnmore mt-5">Get started <i class="bi-chevron-right"></i></a>
+                    <a href="{{ route('login') }}" class="learnmore2 mt-5">Login <i class="bi-chevron-right"></i></a>
+                </div>
             </div>
             <div class="col">
                 <img src="/svg/astronautcaptain.png" alt="Image" class="astro">
