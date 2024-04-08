@@ -14,7 +14,7 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
     <!-- Custom CSS -->
-    <link href="{{ asset('css/login.css') }}" rel="stylesheet">
+    {{-- <link href="{{ asset('css/login.css') }}" rel="stylesheet"> --}}
     <!-- Google Fonts -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Oswald&display=swap">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto&display=swap">

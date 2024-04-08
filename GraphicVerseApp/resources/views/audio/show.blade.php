@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="container-fluid">
+    <div class="">
         @if (Auth::id() == $package->UserID)
         <a href="/package/{{ $package->id }}/edit">
             <img src="/svg/edit.svg" class="logo" alt="Edit Logo">

@@ -16,7 +16,7 @@
                 <button type="submit" class="btn btn-primary">Apply Filter</button>
             </form>
         </div>
-        <h3>Audio Assets</h3>
+        {{-- <h3>Audio Assets</h3> --}}
 
         <div class="scrollable-column packages_column">
             <div class="row">
@@ -26,7 +26,7 @@
 
                 <div class="col-md-4 mb-4">
                     @foreach ($packages as $index => $package)
-                        @if ($package->assetType && $package->assetType->asset_type === 'Audio')
+                        @if ($package->assetType && $package->assetType->asset_type === 'audio')
                             @php
                                 $hasAudioAssets = true;
                             @endphp
