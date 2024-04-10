@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-
+<link href="{{ asset('css/index.css') }}" rel="stylesheet">
 <div class="container">
 
     <h3>Filter Packages by Categories</h3>

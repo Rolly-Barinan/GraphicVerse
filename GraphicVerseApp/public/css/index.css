@@ -1,177 +1,145 @@
-    .checkbox-label {
-        display: block;
-    }
-    
-    .model-link {
-        text-decoration: none;
-    }
+.container-fluid {
+    display: flex;
+    justify-content: space-between;
+    padding-right: 0 !important;
+}
 
-    .model-card {
-        height: 250px;
-        border: none !important;
-    }
+.sticky-column {
+    flex: 1;
+    max-width: 300px;
+    margin-right: 20px;
+    position: sticky;
+    top: 0;
+    background-color: #DDDDE4;
+    padding: 20px;
+}
 
-    .model-image {
-        max-width: 100%;
-        max-height: 250px; /* Adjust the height as needed */
-        object-fit: cover;
-        border-radius: 5px;
-    }
-    
-    /* Add custom styles for pagination links if needed */
-    .pagination {
-        margin-top: 20px;
-    }
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #989898; /* Adjust color as needed */
 
-    .card-header {
-        font-family: 'Oswald';
-        color: #5F5F79 !important;
-        font-weight: bold;
-        text-align: center;
-        font-size: 50px;
-    }
-    
-    .card-1 {
-        background-color: #DDDDE4 !important;
-        border:none !important;
-    }
+}
 
-    .card-body {
-        padding: 5px !important;
-    }
+#toggleCategories {
+    color: #989898 !important;
+    background: none;
+    border: none;
+    padding: 0;
+    font: inherit;
+    cursor: pointer;
+    outline: inherit;
+    font-size: 30px;
+    text-decoration: none;
+}
 
-    
-    .card-title {
-        font-family: 'Roboto';
-        color: #5F5F79 !important;
-        font-weight: bold;
-        font-size: 25px;
-        margin: 0px !important;
-        text-decoration: none;
-    }
+hr{
+margin: 0 !important;
+}
+#categories {
+    transition: max-height 0.2s ease-out;
+    overflow: hidden;
+    max-height: 1000px; /* Adjust as needed */
+}
 
-    .card-text {
-            font-family: 'Roboto';
-            color: #9494AD !important;
-            font-size: 18px;
-            font-weight: normal;
-            margin: 0px !important;
-            margin-top: 5px !important;
-            text-decoration: none;
-    }
-    .heart-text .dl-text {
-        font-family: 'Roboto';
-        font-size: 10px;
-        
-    }
-    .heart{
-        margin-top: 5px;
-        color: #FF7272;
-        font-size: 15px;
-        font-weight: normal;
-    }
+#categories.hide {
+    max-height: 0;
+}
 
-    .heart-icon {
-        color: #F2F2F2; /* Default color when not active */
-    }
+.filter_column h3 {
+    font-family: 'Roboto', sans-serif;
+    font-weight: bold;
+    color: #424382;
+    font-size: 20px;
+}
 
-    .favorite-icon.active .heart-icon {
-        color: #FF7272; /* Color when active (clicked) */
-    }
-    .dl{
-        margin-top: 5px;
-        color: #D4D4D4;
-        font-size: 15px;
-    }
+.form-check {
+    margin-bottom: 10px;
+}
 
-    .col-md-3 {
-        padding-left: 0 !important;
-        padding-right: 0 !important;
-        background-color: #DDDDE4;
-        min-height: 1080px;
-    }
+.scrollable-column {
+    flex: 3;
+    padding: 20px;
+    overflow-y: auto;
+    background-color: white;
+    top: 0;
+    width: 100%;
+    overflow-x: hidden;
+}
 
-    .col-md-9 {
-        padding-left: 0  !important;
-        padding-right: 0 !important;
-        background-color: white !important;
-        border-top-left-radius: 15px;
-        
-    }
+.package_row {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+.package_row h1 {
+    font-family: 'Oswald', sans-serif;
+    font-weight: bold;
+    color: #5F5F79;
+    font-size: 60px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
 
-    .accordion-button {
-        background: #DDDDE4 !important;
-        border-color: #DDDDE4 !important;
-        color: #595959 !important;
-        padding: 0;
-        font-family: 'Roboto';
-        font-weight: bold;
-        text-align: left;
-        text-decoration: none;
-    }
+.results-container {
+    display: flex;
+    /* justify-content: space-between; */
+    max-width: 800px;
+    margin-left: 20px;
+    margin-bottom: 10px;
+    align-items: center;
+}
 
-    hr {
-        size: 2px;
-    }
+.results-text {
+    margin-bottom: 0;
+}
 
-    .custom-checkbox {
-        appearance: none; /* Remove the default browser styling */
-        -webkit-appearance: none;
-        -moz-appearance: none;
-        width: 15px; /* Set the width and height of the checkbox */
-        height: 15px;
-        border: none; /* Add a border */
-        border-radius: 3px; /* Rounded corners */
-        outline: none; /* Remove the default focus outline */
-        cursor: pointer; /* Show a pointer cursor on hover */
-        vertical-align: middle;
-        margin-right: 5px; /* Add some spacing between the checkbox and label */
-        background-color: white;
-    }
+.results-container button {
+    margin-left: 10px;
+    padding: 5px 10px;
+    background-color: #5F5F79;
+}
 
-    /* Custom checkbox when checked */
-    .custom-checkbox:checked {
-        background-color: #4CB9FF; /* Change the background color when checked */
-        border: 1px solid #4CB9FF; /* Change the border color when checked */
-    }
+.preview_card {
+    width: calc(50% - 10px);
+    margin-bottom: 20px;
+    padding: 10px;
+}
 
-    /* Custom checkbox label styling */
-    .checkbox-label {
-        font-family: 'Roboto';
-        font-size: 14.5px;
-        color: #595959; /* Set the label text color */
-        margin-top: 2px;
-    }
+.card {
+    width: 100%;
+    border-radius: 0 !important;
+    border: none !important;
+}
 
-    /* Custom checkbox label when checked */
-    .custom-checkbox:checked + .checkbox-label {
-        color: #4CB9FF; /* Change the label text color when checked */
-        font-weight: bold; /* Make the label bold when checked */
-    }
+.card img {
+    border-radius: 5px;
+    width: 100%;
+    height: 230px; /* Adjust as needed */
+    object-fit: cover; /* This will ensure the image scales to fit the card */
+}
 
-    .custom-checkbox-label {
-        margin-bottom: -5px; /* Adjust the margin-bottom value as needed */
-    }
+.card h5 {
+    font-family: 'Roboto', sans-serif;
+    font-weight: bold;
+    color: #5F5F79;
+    font-size: 20px;
+    margin-bottom: 0;
+}
 
-    .n-results {
-        font-family: 'Roboto';
-        color: #5F5F79;
-        font-size: 16.5;
-    }
+.card p {
+    font-family: 'Roboto', sans-serif;
+    color: #5F5F79;
+    font-size: 16px;
+    margin-bottom: 0;
+}
 
-    .custom-dropdown {
-        color: #F1F1F1;
-        background-color: #5F5F79;
-        font-family: 'Roboto', sans-serif;
-        font-size: 16.5px;
-        border: none;
-        outline: none; /* Remove focus border */
-        border-radius: 6px;
-        padding: 2px;
-        margin-bottom: 20px;
-    }
-    
+.card a, .card a:hover {
+    text-decoration: none !important; 
+}
 
-
-    
-    
+.card-body {
+    padding: 0px !important;
+    padding-top: 5px !important;
+}

@@ -17,6 +17,7 @@ use App\Http\Controllers\ThreeDimContoller;
 use App\Http\Controllers\TwoDimContoller;
 
 
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -89,7 +90,7 @@ Route::get('paypal/cancel', [PaypalController::class, 'cancel'])->name('paypal_c
 
 //asset layout 2d
 Route::get('/2d-models', [TwoDimContoller::class, 'index'])->name('twoDim.index');
-Route::get('/2d-models', [TwoDimContoller::class, 'filterPackages'])->name('filter.2d');
+Route::get('/2d-models/filter', [TwoDimContoller::class, 'filterPackages'])->name('filter.2d');
 Route::get('/2d-models/{id}', [TwoDimContoller::class, 'show'])->name('twoDim.show');
 
 //asset layout 3d

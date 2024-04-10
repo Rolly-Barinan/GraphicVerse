@@ -9,7 +9,6 @@ body {
 
 .navbar-not-home {
     background-color: #222344;
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
 .navbar2{
@@ -208,33 +207,7 @@ a {
     position: sticky;
 }
  /* ---------------------------------index.blade---------------------------*/
-.filter_column {
-    position: sticky;
-    top: 0;
-    height: 100vh; /* Fill the height of the viewport */
-    background-color: rgb(175, 182, 184); /* Optional: Just to visualize the sticky column */
-    padding-right: 120px;
-    padding-left: 40px;
-    display: flex; /* Add this line */
-    flex-direction: column; /* Add this line */
-    align-items: flex-start;
-   
-}
 
-.packages_column {
-    flex-grow: 1;
-    padding: 20px;
-    overflow-y: auto;
-}
-
-.package_row {
-    margin-right: 0;
-    margin-left: 0;
-}
-
-.preview_card {
-    padding-top: 10px;
-}
 
 /*--------------------------show.blade-----------------*/
 
