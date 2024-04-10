@@ -5,13 +5,11 @@ namespace App\Http\Controllers;
 use App\Models\AssetType;
 use App\Models\Categories;
 use App\Models\ImageAsset;
-use App\Models\ImageCategory;
 use App\Models\User;
-use Illuminate\Contracts\Cache\Store;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
-use Intervention\Image\Facades\Image;
+
 
 class ImageAssetController extends Controller
 {
@@ -31,74 +29,57 @@ class ImageAssetController extends Controller
 
     public function store(Request $request)
     {
-        // Validate the request data
+        // Validate the incoming request data
         $request->validate([
-            'ImageName' => 'required',
-            'Price' => 'required',
-            'imageFile' => 'required|image|mimes:jpeg,png,jpg,gif',
-            'watermarkFile' => 'image|mimes:jpeg,png,jpg,gif',
-            'category_ids' => 'array',
+            'ImageName' => 'required|string|max:255',
+            'ImageDescription' => 'nullable|string',
+            'Price' => 'nullable|numeric|min:0',
+            'imageFile' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048', // Adjust max size as needed
+            'watermarkFile' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Adjust max size as needed
+            'category_ids' => 'nullable|array', // Ensure it's an array
+            'category_ids.*' => 'exists:categories,id', // Ensure each category id exists in the database
         ]);
-
-        // Get the authenticated user
-        $user = auth()->user();
-
-        // Store the original image file
-        $imageFile = $request->file('imageFile');
-
-        // Get the original file name
-        $originalFileName = $imageFile->getClientOriginalName();
-
-        // Create an instance of Intervention Image
-        $image = Image::make($imageFile);
-        $origImage = Image::make($imageFile);
-        // Check if a watermark file is provided
+    
+        // Retrieve the authenticated user
+        $userID = Auth::id();
+    
+        // Upload the image file to the public/images directory
+        $imagePath = $request->file('imageFile')->store('public/images');
+    
+        // Get the relative path
+        $imagePath = str_replace('public/', '', $imagePath);
+    
+        // Upload the watermark file if provided to the public/watermarks directory
+        $watermarkPath = null;
         if ($request->hasFile('watermarkFile')) {
-            $watermarkFile = $request->file('watermarkFile');
-            $watermark = Image::make($watermarkFile);
-
-            // Fit the watermark to the dimensions of the original image
-            $watermark->fit($image->width(), $image->height());
-
-            // Insert the watermark onto the original image
-            $image->insert($watermark, 'center');
+            $watermarkPath = $request->file('watermarkFile')->store('public/watermarks');
+    
+            // Get the relative path
+            $watermarkPath = str_replace('public/', '', $watermarkPath);
         }
-
-        // Define directory for storing images
-        $directory = 'public/images/';
-        $watermarkDir = 'public/watermark/';
-
-        // Ensure directories exist, create them if not
-        File::ensureDirectoryExists(storage_path('app/public/' . $directory));
-        File::ensureDirectoryExists(storage_path('app/public/' . $watermarkDir));
-
-        // Generate a unique filename for the image
-        $filename = $imageFile->hashName();
-
-        // Save the image to the desired location
-        $image->save(storage_path('app/' . $watermarkDir . $filename));
-        $origImage->save(storage_path('app/' . $directory . $filename));
-
-        // Create a new ImageAsset instance with the provided data
-        $imageAsset = new ImageAsset([
-            'userID' => $user->id,
-            'assetTypeID' => 1,
+    
+        // Get image size
+        $imageSize = $request->file('imageFile')->getSize();
+    
+        // Create the image asset
+        $image = ImageAsset::create([
+            'userID' => $userID, // Assign the authenticated user's ID
+            'assetTypeID' => $request->input('asset_type_id'),
             'ImageName' => $request->input('ImageName'),
             'ImageDescription' => $request->input('ImageDescription'),
-            'Location' =>  $directory . $filename,
             'Price' => $request->input('Price'),
-            'ImageSize' => $imageFile->getSize(),
-            'watermarkedImage' =>   $watermarkDir . $filename,
+            'Location' => $imagePath,
+            'watermarkedImage' => $watermarkPath,
+            'ImageSize' => $imageSize,
         ]);
-
-        // Save the ImageAsset instance to the database
-        $imageAsset->save();
-
-        // Attach categories to the ImageAsset
-        $imageAsset->categories()->attach($request->input('category_ids', []));
-
-        // Redirect to the image create page with a success message
-        return redirect()->route('image.create')->with('success', 'ImageAsset created successfully!');
+    
+        // Attach categories to the image asset
+        if ($request->has('category_ids')) {
+            $image->categories()->attach($request->input('category_ids'));
+        }
+    
+        // Redirect to a success page or return a response as needed
+        return redirect()->route('image.create')->with('success', 'ImageAsset created successfully.');
     }
 
 
@@ -125,19 +106,19 @@ class ImageAssetController extends Controller
 
     public function destroy(ImageAsset $image)
     {
- 
+
         $origImage = $image->Location;
         $watermark = $image->watermarkedImage;
         if (Storage::exists($origImage)) {
             Storage::delete($origImage);
-        }   
+        }
         if (Storage::exists($watermark)) {
             Storage::delete($watermark);
         }
         $image->delete();
         return redirect('/image')->with('success', 'Image asset deleted successfully.');
     }
-    
+
     public function filterImage(Request $request)
     {
         $categoryIds = $request->input('categories');
