@@ -206,18 +206,6 @@ a {
     display: block;
     position: sticky;
 }
- /* ---------------------------------index.blade---------------------------*/
-
-
-/*--------------------------show.blade-----------------*/
-
-
-
-/* 
-div{
-    border: 1px solid #000000; 
-  
-} */
 
 .navbar-collapse {
     flex-grow: 0 !important;

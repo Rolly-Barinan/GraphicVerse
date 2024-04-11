@@ -6,17 +6,68 @@ use App\Models\Categories;
 use App\Models\Package;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Pagination\Paginator;
 
 class ThreeDimContoller extends Controller
 {
 
-    public function index()
+    public function index(Request $request)
     {
         $categories = Categories::all();
-        $packages = Package::all();
+        $query = Package::whereHas('assetType', function ($q) {
+            $q->where('asset_type', '3D');
+        });
+    
+        // Filter packages by category if category IDs are provided
+        if ($request->has('categories')) {
+            $categoryIds = $request->input('categories');
+    
+            $query->whereHas('categories', function ($q) use ($categoryIds) {
+                $q->whereIn('categories.id', $categoryIds);
+            });
+        }
+    
+        // Apply sorting if a sort option is provided
+        if ($request->has('sort')) {
+            switch ($request->input('sort')) {
+                case 'name_asc':
+                    $query->orderBy('PackageName');
+                    break;
+                case 'name_desc':
+                    $query->orderByDesc('PackageName');
+                    break;
+                case 'price_asc':
+                    $query->orderBy('Price');
+                    break;
+                case 'price_desc':
+                    $query->orderByDesc('Price');
+                    break;
+                case 'username_asc':
+                    $query->leftJoin('users', 'packages.UserID', '=', 'users.id')
+                        ->orderBy('users.username');
+                    break;
+                case 'username_desc':
+                    $query->leftJoin('users', 'packages.UserID', '=', 'users.id')
+                        ->orderByDesc('users.username');
+                    break;
+                default:
+                    // Default sorting
+                    $query->orderBy('created_at', 'desc');
+                    break;
+            }
+        } else {
+            // Default sorting
+            $query->orderBy('created_at', 'desc');
+        }
+    
+        // Paginate the query with 12 items per page
+        $packages = $query->paginate(12)->appends(request()->except('page'));
+    
+        // Ensure that paginator uses bootstrap styling
+        Paginator::useBootstrap();
+    
         return view('threeDim.index', compact('packages', 'categories'));
     }
-
     public function show($id)
     {
         $package = Package::with('assets')->findOrFail($id);
@@ -34,18 +85,74 @@ class ThreeDimContoller extends Controller
         return view('threeDim.show', compact('package', 'assets', 'totalSizeMB', 'fileTypes', 'user'));
     }
 
-    public function filterPackages(Request $request)
-    {
-        $categoryIds = $request->input('categories');
+//     public function filterPackages(Request $request)
+//     {
+//         $categoryIds = $request->input('categories');
 
-        if (!is_array($categoryIds) || empty($categoryIds)) {
-            $packages = Package::all();
-        } else {
-            $packages = Package::whereHas('categories', function ($query) use ($categoryIds) {
-                $query->whereIn('categories.id', $categoryIds);
-            })->get();
-        }
-        $categories = Categories::all();
-        return view('threeDim.index', compact('packages', 'categories'));
+//         if (!is_array($categoryIds) || empty($categoryIds)) {
+//             $packages = Package::all();
+//         } else {
+//             $packages = Package::whereHas('categories', function ($query) use ($categoryIds) {
+//                 $query->whereIn('categories.id', $categoryIds);
+//             })->get();
+//         }
+//         $categories = Categories::all();
+//         return view('threeDim.index', compact('packages', 'categories'));
+//     }
+// }
+
+public function filterPackages(Request $request)
+{
+    $categoryIds = $request->input('categories');
+
+    $query = Package::whereHas('assetType', function ($q) {
+        $q->where('asset_type', '3D');
+    });
+
+    if (!is_array($categoryIds) || empty($categoryIds)) {
+        $query->whereHas('categories');
+    } else {
+        $query->whereHas('categories', function ($q) use ($categoryIds) {
+            $q->whereIn('categories.id', $categoryIds);
+        });
     }
+
+    // Apply sorting if a sort option is provided
+    if ($request->has('sort')) {
+        switch ($request->input('sort')) {
+            case 'name_asc':
+                $query->orderBy('PackageName');
+                break;
+            case 'name_desc':
+                $query->orderByDesc('PackageName');
+                break;
+            case 'price_asc':
+                $query->orderBy('Price');
+                break;
+            case 'price_desc':
+                $query->orderByDesc('Price');
+                break;
+            case 'username_asc':
+                $query->leftJoin('users', 'packages.UserID', '=', 'users.id')
+                    ->orderBy('users.username');
+                break;
+            case 'username_desc':
+                $query->leftJoin('users', 'packages.UserID', '=', 'users.id')
+                    ->orderByDesc('users.username');
+                break;
+            default:
+                // Default sorting
+                $query->orderBy('created_at', 'desc');
+                break;
+        }
+    } else {
+        // Default sorting
+        $query->orderBy('created_at', 'desc');
+    }
+
+    $packages = $query->paginate(12)->appends(request()->except('page'));
+
+    $categories = Categories::all();
+    return view('threeDim.index', compact('packages', 'categories'));
+}
 }

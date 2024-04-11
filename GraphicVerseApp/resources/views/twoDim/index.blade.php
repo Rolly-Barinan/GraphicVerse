@@ -1,6 +1,4 @@
 <link href="{{ asset('css/index.css') }}" rel="stylesheet">
-<link href="https://cdn.jsdelivr.net/npm/nouislider@14.6.3/distribute/nouislider.min.css" rel="stylesheet">
-<script src="https://cdn.jsdelivr.net/npm/nouislider@14.6.3/distribute/nouislider.min.js"></script>
 
 @extends('layouts.app')
 @section('content')
@@ -76,7 +74,18 @@
         </div>
     </div>
     <hr>
+    
 </form>
+<form action="{{ route('filter.2d') }}" method="GET">
+            <div class="d-flex justify-content-between align-items-center">
+                <h3 style="color: #989898 !important;">Authors</h3>
+                <button type="button" id="toggleCategories" class="btn btn-link">-</button>
+            </div>
+            <div id="categories">
+                <input type="text" name="search" placeholder="Search categories" class="mb-2">
+            </div>
+            <hr>
+        </form>
     </div>
 
     <div class="scrollable-column packages_column">

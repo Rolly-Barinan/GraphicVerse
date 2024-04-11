@@ -13,52 +13,53 @@ use Illuminate\Pagination\Paginator;
 class TwoDimContoller extends Controller
 {
     public function index(Request $request)
-{
-    $categories = Categories::all();
-    $query = Package::query();
-
-    // Apply sorting if a sort option is provided
-    if ($request->has('sort')) {
-        switch ($request->input('sort')) {
-            case 'name_asc':
-                $query->orderBy('PackageName');
-                break;
-            case 'name_desc':
-                $query->orderByDesc('PackageName');
-                break;
-            case 'price_asc':
-                $query->orderBy('Price');
-                break;
-            case 'price_desc':
-                $query->orderByDesc('Price');
-                break;
-            case 'username_asc':
-                $query->leftJoin('users', 'packages.UserID', '=', 'users.id')
-                      ->orderBy('users.username');
-                break;
-            case 'username_desc':
-                $query->leftJoin('users', 'packages.UserID', '=', 'users.id')
-                      ->orderByDesc('users.username');
-                break;
-            // Add more cases for additional sorting options
-            default:
-                // Default sorting
-                $query->orderBy('created_at', 'desc');
-                break;
+    {
+        $categories = Categories::all();
+        $query = Package::whereHas('assetType', function ($q) {
+            $q->where('asset_type', '2D');
+        });
+    
+        // Apply sorting if a sort option is provided
+        if ($request->has('sort')) {
+            switch ($request->input('sort')) {
+                case 'name_asc':
+                    $query->orderBy('PackageName');
+                    break;
+                case 'name_desc':
+                    $query->orderByDesc('PackageName');
+                    break;
+                case 'price_asc':
+                    $query->orderBy('Price');
+                    break;
+                case 'price_desc':
+                    $query->orderByDesc('Price');
+                    break;
+                case 'username_asc':
+                    $query->leftJoin('users', 'packages.UserID', '=', 'users.id')
+                        ->orderBy('users.username');
+                    break;
+                case 'username_desc':
+                    $query->leftJoin('users', 'packages.UserID', '=', 'users.id')
+                        ->orderByDesc('users.username');
+                    break;
+                default:
+                    // Default sorting
+                    $query->orderBy('created_at', 'desc');
+                    break;
+            }
+        } else {
+            // Default sorting
+            $query->orderBy('created_at', 'desc');
         }
-    } else {
-        // Default sorting
-        $query->orderBy('created_at', 'desc');
+    
+        $packages = $query->paginate(12)->appends(request()->except('page'));
+    
+        // Ensure that paginator uses bootstrap styling
+        Paginator::useBootstrap();
+    
+        return view('twoDim.index', compact('packages', 'categories'));
     }
-
-    $packages = $query->paginate(12);
-
-    // Ensure that paginator uses bootstrap styling
-    Paginator::useBootstrap();
-
-    return view('twoDim.index', compact('packages', 'categories'));
-}
-
+    
 
     public function show($id)
     {
@@ -76,12 +77,14 @@ class TwoDimContoller extends Controller
         return view('twoDim.show', compact('package', 'assets', 'totalSizeMB', 'fileTypes', 'user'));
     }
     
-public function filterPackages(Request $request)
+    public function filterPackages(Request $request)
 {
     $categoryIds = $request->input('categories');
     $priceRanges = $request->input('price_range');
 
-    $query = Package::query();
+    $query = Package::query()->whereHas('assetType', function ($q) {
+        $q->where('asset_type', '2D');
+    });
 
     if (!is_array($categoryIds) || empty($categoryIds)) {
         $query->whereHas('categories');
@@ -148,7 +151,7 @@ public function filterPackages(Request $request)
         $query->orderBy('created_at', 'desc');
     }
 
-    $packages = $query->paginate(12);
+    $packages = $query->paginate(12)->appends(request()->except('page'));
 
     $categories = Categories::all();
     return view('twoDim.index', compact('packages', 'categories'));

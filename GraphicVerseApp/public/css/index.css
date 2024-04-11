@@ -34,7 +34,7 @@
     text-decoration: none;
 }
 
-hr{
+hr form{
 margin: 0 !important;
 }
 #categories {
@@ -57,6 +57,23 @@ margin: 0 !important;
 .form-check {
     margin-bottom: 10px;
 }
+
+.form-check-label {
+    font-family: 'Roboto', sans-serif;
+    color: #989898;
+    font-size: 16px;
+}
+
+.searchbox {
+    background-color: #ebebf1;
+    border: 1px solid #989898;
+    border-radius: 3px;
+    padding-left: 4px;
+    width: 100%;
+    font-family: 'Roboto', sans-serif;
+}
+
+
 
 .scrollable-column {
     flex: 3;
