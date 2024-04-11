@@ -106,6 +106,7 @@ Route::get('/audio-models', [AudioController::class, 'filterPackages'])->name('f
 Route::get('/profile/{user}', [ProfilesController::class, 'index'])->name('profile.show');
 //Search Controller
 Route::get('/search', [SearchController::class, 'search'])->name('search');
+Route::get('/filtered-search-results', [SearchController::class, 'filteredSearchResults'])->name('filtered-search-results');
 
 Route::middleware(['auth'])->group(function () {
     //profile router contoller

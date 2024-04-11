@@ -74,7 +74,7 @@
         <div class="d-flex justify-content-end align-items-center">
             <div class="collapse navbar-collapse ps-5" id="navbarNav2">
                 <div class="test container-fluid pt-3 @if(!Request::is('/')) test container-fluid pt-0 @endif">
-                    <form class="d-flex">
+                    <form class="d-flex" action="{{ route('search') }}" method="GET">
                         <input class="search form-control" type="search" placeholder="Search assets" name="q"
                             aria-label="Search" style="width: 15vw; color: #E6E7FD;">
                     </form>
