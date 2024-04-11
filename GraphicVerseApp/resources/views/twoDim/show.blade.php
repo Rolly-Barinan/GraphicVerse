@@ -2,7 +2,7 @@
 @section('content')
     <div class="container-fluid">
         <div class="container">
-            <h1>Package Details </h1>
+            <h1>Packas </h1>
             @if (Auth::id() == $package->UserID)
                 <a href="/package/{{ $package->id }}/edit">
                     <img src="/svg/edit.svg" class="logo" alt="Edit Logo">

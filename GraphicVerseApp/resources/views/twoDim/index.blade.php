@@ -34,7 +34,7 @@
     <!-- ... -->
     <div class="d-flex justify-content-between align-items-center">
                 <h3 style="color: #989898 !important;">Price Range</h3>
-                <button class="minimize-button" onclick="togglePriceRange()">-</button>
+                <button type="button" id="toggleCategories" class="btn btn-link">-</button>
             </div>
     <div id="priceRange">
         <div class="form-check">
@@ -82,7 +82,7 @@
                 <button type="button" id="toggleCategories" class="btn btn-link">-</button>
             </div>
             <div id="categories">
-                <input type="text" name="search" placeholder="Search categories" class="mb-2">
+                <input type="text" class="searchbox"name="search" placeholder="Search categories" class="mb-2">
             </div>
             <hr>
         </form>
