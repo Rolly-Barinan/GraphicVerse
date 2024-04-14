@@ -1,60 +1,62 @@
 @extends('layouts.app')
+<link href="{{ asset('css/show.css') }}" rel="stylesheet">
+
 @section('content')
-    <div class="container-fluid">
-        <div class="container">
-            <h1>Packas </h1>
-            @if (Auth::id() == $package->UserID)
-                <a href="/package/{{ $package->id }}/edit">
-                    <img src="/svg/edit.svg" class="logo" alt="Edit Logo">
-                </a>
-                <form action="{{ route('asset.destroy', $package->id) }}" method="POST"
-                    onsubmit="return confirm('Are you sure you want to delete this package?')">
-                    @csrf
-                    @method('DELETE')
-                    <button type="submit" class="btn btn-danger">Delete Package</button>
-                </form>
-            @endif
+<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
 
-            <div class="card">
-                <img src="{{ Storage::url($package->Location) }}" class="card-img-top" alt="{{ $package->PackageName }}">
-                <div class="card-body">
-                    <h5 class="card-title">{{ $package->PackageName }}</h5>
-                    <p class="card-text">{{ $package->Description }}</p>
-                    @if ($package->Price != null && $package->Price != 0)
-                        <p>Price: ${{ $package->Price }}</p>
+<div class="show container-fluid ">
+    <div class="row">
+        <div class="col-md-7">
+            <img src="{{ Storage::url($package->Location) }}" class="card-img-top main-image" alt="{{ $package->PackageName }}">
+            <div class="image-scroll-container">
+                <ul class="image-list">
+                    @if ($assets->count() > 0)
+                        @foreach ($assets->take(5) as $asset)
+                            <li>
+                                <div class="card text-bg-secondary mb-3" style="width: 18rem;">
+                                    <img src="{{ Storage::url($asset->Location) }}" class="card-img-top asset-image" alt="{{ $asset->AssetName }}">
+                                </div>
+                            </li>
+                        @endforeach
+                    @else
+                        <li>No assets found for this package.</li>
                     @endif
-                    <p>File Types: {{ implode(', ', $fileTypes->toArray()) }}</p>
-                    <p>File Size: {{ number_format($totalSizeMB, 2) }}kb</p>
-                    <p>Created By: {{ $user->name }}</p>
-                </div>
+                </ul>
             </div>
-            <h2>Assets in this Package</h2>
-            <ul>
-                @if ($assets->count() > 0)
-                    @foreach ($assets->take(5) as $asset)
-                        <li>{{ $asset->AssetName }}</li>
-
-                        <div class="card text-bg-secondary mb-3" style="width: 18rem;">
-                            <img src="{{ Storage::url($asset->Location) }}" class="card-img-top"
-                                alt="{{ $asset->AssetName }}">
-                        </div>
-                    @endforeach
-                @else
-                    <li>No assets found for this package.</li>
+        </div>
+        <div class="col-md-5">
+            <div class="r-body">
+                <h5 class="r-title">{{ $package->PackageName }}</h5>
+                <p class="r-text">{{ $package->Description }}</p>
+                @if ($package->Price != null && $package->Price != 0)
+                    <p>Price: ${{ $package->Price }}</p>
                 @endif
-            </ul>
-            @if ($package->Price == null || $package->Price == 0 || $package->UserID == auth()->id())
-                <!-- Assuming 'user_id' is the column that stores the owner's ID -->
-                <a href="{{ route('asset.download', $package->id) }}" class="btn btn-success">Download</a>
-            @else
+                <p>File Types: {{ implode(', ', $fileTypes->toArray()) }}</p>
+                <p>File Size: {{ number_format($totalSizeMB, 2) }}mb</p>
+                <p>Created By: {{ $user->name }}</p>
                 <form action="{{ route('paypal') }}" method="POST">
                     @csrf
                     <input type="hidden" name="price" value="{{ $package->Price }}">
                     <button type="submit" class="btn btn-primary">Pay with PayPal</button>
                 </form>
-            @endif
-
-            <a href="/2d-models" class="btn btn-secondary">Back</a>
+            </div>
+            <a href="/3d-models" class="btn btn-secondary">Back</a>
         </div>
     </div>
+</div>
+
 @endsection
+
+<script>
+    $(document).ready(function() {
+        $('.scroll-btn.left').click(function() {
+            $('.image-scroll-container').animate({ scrollLeft: '-=100' }, 'slow');
+        });
+
+        $('.scroll-btn.right').click(function() {
+            $('.image-scroll-container').animate({ scrollLeft: '+=100' }, 'slow');
+        });
+    });
+</script>
