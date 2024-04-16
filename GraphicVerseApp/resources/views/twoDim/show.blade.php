@@ -20,7 +20,7 @@
                             <div class="row">
                                 @foreach ($chunk as $asset)
                                     <div class="col-md-3">
-                                        <div class="card bg-secondary">
+                                        <div class="card">
                                             <img src="{{ Storage::url($asset->Location) }}" class="card-img-top asset-image mx-auto d-block" alt="{{ $asset->AssetName }}" onmouseover="changeMainImage(this)" onmouseout="resetMainImage()">
                                         </div>
                                     </div>
@@ -46,6 +46,7 @@
                 @endif
                 <h1 class="r-title">{{ $package->PackageName }}</h1>
                 <p>{{ $user->name }}</p>
+                <hr>
                 <div class="buy">
                     <h3>Buy Asset</h3>
                     <p>For more information about the royalties for the asset, <a href="#">click here</a>.</p>
@@ -68,9 +69,21 @@
                     </form>
                 </div>
                 <hr>
-                <p class="r-text">{{ $package->Description }}</p>
+                <p class="r-text">Package Description:</p>
+                <div class="file-list">
+                    <ul>
+                    @foreach ($package->assets as $asset)
+                    <div class="row">
+                    <div class="col-md-6 size-info-left"> <li>{{ $asset->AssetName }}</div> <div class="col-md-6 size-info-right">{{ implode(', ', $fileTypes->toArray()) }} / {{ number_format($totalSizeMB / 1000, 2) }}mb</div></li>
+                    </div>
+                    @endforeach
+                    </ul>
+                </div>
+                <hr>
+                <p class="r-text">Tags:</p>
+                <!-- <p class="r-text">{{ $package->Description }}</p>
                 <p>File Types: {{ implode(', ', $fileTypes->toArray()) }}</p>
-                <p>File Size: {{ number_format($totalSizeMB / 1000, 2) }}mb</p>
+                <p>File Size: {{ number_format($totalSizeMB / 1000, 2) }}mb</p> -->
             </div>
         </div>
     </div>
@@ -99,6 +112,6 @@
 var mainImageOriginalSrc = document.getElementById('mainImage').src;
 
 function resetMainImage() {
-    document.getElementById('mainImage').src = mainImageOriginalSrc;
+    document.getElementById('mainImage').src = "{{ Storage::url($package->Location) }}";
 }
 </script>
