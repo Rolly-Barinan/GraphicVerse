@@ -73,10 +73,10 @@ img {
 }
 
 
-.asset-image {
-    width: 205px; /* A quarter of the main image's width */
-    height: 185px; /* Same as width to maintain a 1:1 aspect ratio */
-    object-fit: contain; /* This will ensure the image covers the full area of the div, potentially cropping the image */
+.model-viewer .asset-image{
+    width: 205px;
+    height: 185px; 
+    object-fit: contain;
     background-color: #9494AD;
     border: none;
 }
