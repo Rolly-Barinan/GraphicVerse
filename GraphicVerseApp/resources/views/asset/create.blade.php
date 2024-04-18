@@ -1,3 +1,7 @@
+<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
+
+<!-- JavaScript -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
 @extends('layouts.app')
 
 @section('content')
@@ -63,6 +67,41 @@
             return true;
         }
     </script>
+
+    <script>
+        function addTagToInput(tagName) {
+            var customTagsInput = document.getElementById('customTags');
+            var currentValue = customTagsInput.value.trim();
+            if (currentValue === '') {
+                customTagsInput.value = tagName;
+            } else {
+                customTagsInput.value = currentValue + ', ' + tagName;
+            }
+        }
+
+        window.onload = function() {
+            var recommendedTags = document.querySelectorAll('.recommended-tag');
+            recommendedTags.forEach(function(tag) {
+                tag.addEventListener('click', function() {
+                    var tagName = this.textContent;
+                    addTagToInput(tagName);
+                });
+            });
+
+            var customTagsInput = document.getElementById('customTags');
+            customTagsInput.addEventListener('keyup', function(event) {
+                if (event.keyCode === 13 || event.keyCode === 188 || event.keyCode ===
+                    32) { // Enter, Comma, Space
+                    var tagName = this.value.trim();
+                    if (tagName !== '') {
+                        addTag(tagName, false);
+                        this.value = '';
+                    }
+                }
+            });
+        };
+    </script>
+
     <div class="container">
         @if ($errors->any())
             <div id="errorAlert" class="alert alert-danger alert-dismissible fade show" role="alert">
@@ -120,8 +159,22 @@
                                 <label for="Price">Price (Leave empty for free download):</label>
                                 <input type="number" name="Price" class="form-control" min="0">
                             </div>
-                            
 
+                            <div class="form-group">
+                                <label for="recommendedTags">Recommended Tags:</label>
+                                <div id="recommendedTags">
+                                    @foreach ($recommendedTags as $tag)
+                                        <span class="tag recommended-tag"
+                                            onclick="addTag('{{ $tag->name }}')">{{ $tag->name }}, </span>
+                                    @endforeach
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="customTags">Custom Tags:</label>
+                                <input type="text" name="customTags" id="customTags" class="form-control"
+                                    placeholder="Enter custom tags separated by commas">
+                            </div>
 
                             <div class="form-group">
                                 <label for="category_ids">Categories:</label>

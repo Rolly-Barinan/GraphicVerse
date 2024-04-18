@@ -8,6 +8,7 @@ use App\Models\AssetType;
 use App\Models\Categories;
 use App\Models\Package;
 use App\Models\PackageCategory;
+use App\Models\Tag;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use ZipArchive;
@@ -28,7 +29,8 @@ class AssetPackageController extends Controller
         $packages = $user->packages;
         $assetTypes = AssetType::all();
         $categories = Categories::all();
-        return view('asset.create', compact('packages', 'assetTypes', 'categories'));
+        $recommendedTags = Tag::all();
+        return view('asset.create', compact('packages', 'assetTypes', 'categories', 'recommendedTags'));
     }
     public function edit($id)
     {
@@ -99,6 +101,9 @@ class AssetPackageController extends Controller
         $filename = $previewFile->hashName();
         $imagePath = $previewFile->storeAs('public/preview', $filename);
 
+        $customTags = $request->input('customTags');
+        $tagNames = explode(',', $customTags);
+
         $package = new Package([
             'PackageName' => $request['PackageName'],
             'Description' => $request['Description'],
@@ -110,6 +115,17 @@ class AssetPackageController extends Controller
         ]);
 
         $package->save();
+
+        foreach ($tagNames as $tagName) {
+            $tagName = trim($tagName);
+            if (!empty($tagName)) {
+                // Check if tag already exists in the database
+                $tag = Tag::firstOrCreate(['name' => $tagName]);
+                // Associate tag with the package
+                $package->tags()->attach($tag);
+            }
+        }
+
         $selectedCategories = $request->input('category_ids', []);
         $package->categories()->attach($selectedCategories);
         $uploadedAssetIds = [];

@@ -37,4 +37,9 @@ class Package extends Model
     {
         return $this->belongsTo(AssetType::class);
     }
+    
+    public function tags()
+    {
+        return $this->belongsToMany(Tag::class);
+    }
 }

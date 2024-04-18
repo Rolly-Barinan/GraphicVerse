@@ -75,9 +75,14 @@ class ImageAssetController extends Controller
         // Generate a unique filename for the image
         $filename = $imageFile->hashName();
 
-        // Save the image to the desired location
-        $image->save(storage_path('app/' . $watermarkDir . $filename));
-        $origImage->save(storage_path('app/' . $directory . $filename));
+        try {
+            // Save the image to the desired location
+            $image->save(storage_path('app/' . $watermarkDir . $filename));
+            $origImage->save(storage_path('app/' . $directory . $filename));
+        } catch (\Exception $e) {
+            // Log or handle the exception
+            return back()->withInput()->withErrors(['error' => 'Failed to save image: ' . $e->getMessage()]);
+        }
 
         // Create a new ImageAsset instance with the provided data
         $imageAsset = new ImageAsset([
