@@ -9,97 +9,7 @@
     <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/examples/js/controls/OrbitControls.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/examples/js/libs/fflate.min.js"></script>
 
-    <style>
-        .white-bg {
-            background-color: #fff;
-            /* White background color */
-            margin-bottom: 20px;
-            /* Margin to separate the sections */
-            padding: 20px;
-            /* Add padding for spacing inside the white divs */
-        }
-
-        .carousel-control-prev-icon,
-        .carousel-control-next-icon {
-            background-color: black;
-            /* Set the background color to black */
-            color: white;
-            /* Set the arrow color to white */
-            border-radius: 50%;
-            /* Optional: Add some border-radius for rounded arrows */
-            padding: 10px;
-            /* Optional: Add padding to the arrows for better visibility */
-        }
-
-        /* CSS for your card elements */
-        .card2d {
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            border-radius: 8px;
-            overflow: hidden;
-            margin: 5px;
-        }
-
-        .card2d a {
-            text-decoration: none;
-            /* Remove underline from links */
-            color: #333;
-            /* Set the link color */
-        }
-
-        .card2d a:hover {
-            color: #555;
-            /* Change link color on hover if desired */
-        }
-
-        .card2d .card-title {
-            font-size: 12px;
-            /* Adjust the font size as desired */
-            padding: 10px;
-            /* Add padding to the card title */
-        }
-
-        /* CSS for your 3D asset cards */
-        .card3d {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            border-radius: 8px;
-            overflow: hidden;
-            margin: 5px;
-            width: 100%;
-            max-width: 300px;
-        }
-
-        .card3d a {
-            text-decoration: none;
-            color: #333;
-        }
-
-        .card3d a:hover {
-            color: #555;
-        }
-
-        .card3d .model-viewer {
-            width: 100%;
-        }
-
-        .title-container {
-            background-color: #333;
-            /* Background color for the title container */
-            color: #fff;
-            /* Text color for the title */
-            padding: 10px;
-            text-align: center;
-            font-weight: bold;
-            width: 100%;
-            box-sizing: border-box;
-            border-bottom-left-radius: 8px;
-            border-bottom-right-radius: 8px;
-        }
-    </style>
-
-    <div class="container-fluid py-50" style="background-color: #DDDDE4;">
+    <div class="container-fluid py-50">
         <div class="row-fluid image-container border-2">
             <img src="/svg/graphicVerse _background.png" class="img-fluid" alt="...">
         </div>
@@ -134,13 +44,13 @@
             <div class="col-12 col-md-2 d-flex justify-content-end ps-md-5 pt-2 align-items-start">
                 @can('update', $user->profile)
                     <button type="button" class="btn btn-success btn-lg" data-bs-toggle="modal" data-bs-target="#exampleModal"
-                        style="--bs-btn-padding-y: .7rem; --bs-btn-padding-x: 1.5rem; --bs-btn-font-size: .9rem;">Upload
+                        >Upload
                     </button>
                 @endcan
             </div>
             <div class="col-12 col-md-2 pt-2 align-items-start">
                 <button type="button" class="btn btn-primary btn-lg"
-                    style="--bs-btn-padding-y: .7rem; --bs-btn-padding-x: 1.5rem; --bs-btn-font-size: .9rem;">Connect</button>
+                    >Connect</button>
             </div>
         </div>
 
@@ -150,7 +60,7 @@
 
                 <div class="white-bg">
 
-                    <div class="container-fluid py-50" style="background-color: #DDDDE4;">
+                    <div class="container-fluid py-50">
                         <div class="row">
                             <!-- Vertical Navbar -->
                             <div class="col-md-3">
@@ -395,7 +305,7 @@
                     @if (count($userTeams) > 0)
                         @foreach ($userTeams as $team)
                             <div class="d-flex align-items-center mb-3">
-                                <div class="avatar text-white rounded-circle d-flex align-items-center justify-content-center" style="width: 50px; height: 50px; font-size: auto; background-color: {{ $team->color }};">
+                                <div class="avatar text-white rounded-circle d-flex align-items-center justify-content-center">
                                     @php
                                         $words = explode(" ", $team->name); // Split the team name into an array of words
                                 
@@ -412,7 +322,7 @@
                             </div>
                         @endforeach
                     @else
-                        <p style="text-align: center; font-style: italic; color: black;">No associated teams.</p>
+                        <p>No associated teams.</p>
                     @endif    
                 </div>
             </div>

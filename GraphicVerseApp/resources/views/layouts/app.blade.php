@@ -83,29 +83,34 @@
             @guest
                 @if (Route::has('login'))
                     <li class="nav-item">
-                        <a href="{{ route('login') }}" class="nav-link">{{ __('Login') }}</a>
+                        <a href="{{ route('login') }}" class="nav-link2">{{ __('Login') }}</a>
                     </li>
                 @endif<nav class="navbar navbar-expand-lg @if(!Request::is('/') && !Request::is('home')) navbar-not-home @endif" id="navbar"><nav class="navbar navbar-expand-lg @if(!Request::is('/') && !Request::is('home')) navbar-not-home @endif" id="navbar">
             @else
+            <!-- <div class="profile container"> -->
                 <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle text-white" href="#" id="navbarDropdown" role="button"
-                            data-bs-toggle="dropdown" aria-expanded="false">
-                            <img src="{{ Auth::user()->profile->profileImage() }}" class="img-fluid rounded-circle"
-                                style="height: 30px; width: 30px; margin-right: 5px;">
-                            {{ Auth::user()->profile->title }}
+                    <a class="nav-link2 dropdown-toggle text-white" href="#" id="navbarDropdown" role="button"
+                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        {{ Auth::user()->profile->title }}
+                        <img src="{{ Auth::user()->profile->profileImage() }}" class="rounded-circle"
+                            style="height: 50px; width: 50px; margin-right: 5px;">
+                    </a>
+            <!-- </div> -->
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="/profile/{{ Auth::user()->id }}">{{  Auth::user()->name }}
+                        <p class="view">View Profile</p>
                         </a>
-                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <li><a class="dropdown-item" href="/profile/{{ Auth::user()->id }}">My Profile</a></li>
-                            <li><a class="dropdown-item" href="#">Wishlist</a></li>
-                            <li><a class="dropdown-item" href="/teams">Teams</a></li>
-                            <li>
-                                <a class="dropdown-item" href="{{ route('logout') }}"
-                                    onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                                    {{ __('Logout') }}
-                                </a>
-                            </li>
-                        </ul>
-                    </li>
+                        <a class="dropdown-item" href="#">Wishlist</a>
+                        <a class="dropdown-item" href="/teams">Teams</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="{{ route('logout') }}"
+                            onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                            {{ __('Logout') }}
+                        </a>
+                        <hr>
+                        <hr>
+                    </div>
+                </li>
                     <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
                         @csrf
                     </form>
@@ -123,3 +128,11 @@
 
 </body>
 </html>
+
+<script>
+    $(document).ready(function(){
+    $('.dropdown').click(function(){
+        $(this).find('.dropdown-menu').slideToggle();
+    });
+});
+</script>
