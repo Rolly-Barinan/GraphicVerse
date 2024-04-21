@@ -122,7 +122,8 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/teams/{team}/add-members', [TeamController::class, 'addMembers'])->name('teams.addMembers');
     Route::post('/teams/{team}/add-members', [TeamController::class, 'storeMembers'])->name('teams.storeMembers');
-
+    Route::post('teams/{team}/send-message', [TeamController::class, 'sendMessage'])->name('teams.sendMessage');
+    Route::get('teams/{team}/fetch-messages', [TeamController::class, 'fetchMessages'])->name('teams.fetchMessages');
 });
 
 Route::middleware([RestrictDirectAccess::class])->group(function () {

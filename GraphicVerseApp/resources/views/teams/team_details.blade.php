@@ -22,15 +22,15 @@
                         <div class="d-flex align-items-center justify-content-center mt-2">
                             <div class="avatar text-white rounded-circle d-flex align-items-center justify-content-center" style="width: 100px; height: 100px; font-size: 32px; background-color: {{ $team->color }};">
                                 @php
-                                    $words = explode(" ", $team->name); // Split the team name into an array of words
-                            
-                                    if (count($words) === 1) {
-                                        echo strtoupper(substr($team->name, 0, 3)); // Use the first three letters for single-word team names
-                                    } else {
-                                        foreach ($words as $word) {
-                                            echo strtoupper(substr($word, 0, 1)); // Output the first letter of each word for multi-word team names
-                                        }
-                                    }
+$words = explode(" ", $team->name); // Split the team name into an array of words
+
+if (count($words) === 1) {
+    echo strtoupper(substr($team->name, 0, 3)); // Use the first three letters for single-word team names
+} else {
+    foreach ($words as $word) {
+        echo strtoupper(substr($word, 0, 1)); // Output the first letter of each word for multi-word team names
+    }
+}
                                 @endphp
                             </div>
                         </div>
@@ -73,19 +73,41 @@
                     <div class="card-header bg-info">
                         <h5 class="card-title">Chat</h5>
                     </div>
-                    <div class="card-body chatbox">
-                        <!-- Chat messages content here -->
-                        <div class="notification" style="text-align: center; font-style: italic; color: #ccc;">
-                            Chat feature is currently under development and not yet available.
-                        </div>
-                    </div>
-                    <div class="card-footer">
-                        <div class="input-group">
-                            <input type="text" class="form-control" placeholder="Type a message...">
-                            <div class="input-group-append">
-                                <button class="btn btn-primary" type="button">Send</button>
+                    <!-- Chat messages content here -->
+                    <div class="card-body chatbox" style="color: white;">
+                        @if($team->messages && $team->messages->count() > 0)
+                            @foreach($team->messages as $message)
+                                <div class="message-container @if($message->user && $message->user->id === Auth::id()) text-right @else text-left @endif">
+                                    <strong>
+                                        @if($message->user)
+                                            @if($message->user->id === Auth::id())
+                                                Me
+                                            @else
+                                                {{ $message->user->name }}
+                                            @endif
+                                        @else
+                                            Unknown User
+                                        @endif
+                                    </strong>: {{ $message->message }}
+                                </div>
+                            @endforeach
+                        @else
+                            <div>
+                                No messages yet.
                             </div>
-                        </div>
+                        @endif
+                    </div>
+
+                    <div class="card-footer">
+                        <form method="POST" action="{{ route('teams.sendMessage', $team->id) }}">
+                            @csrf
+                            <div class="input-group">
+                                <input type="text" class="form-control" placeholder="Type a message..." name="message">
+                                <div class="input-group-append">
+                                    <button class="btn btn-primary" type="submit">Send</button>
+                                </div>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>
@@ -211,6 +233,25 @@
 
         .member-link:hover {
             background-color: #555;
+        }
+
+        .message-container {
+        padding: 5px;
+        margin-bottom: 10px;
+        border-radius: 5px;
+        }
+
+        .text-right {
+            background-color: #007bff; /* Blue background for current user's messages */
+        }
+
+        .text-left {
+            background-color: #28a745; /* Green background for other users' messages */
+        }
+
+        .message-container strong {
+            display: block;
+            margin-bottom: 5px;
         }
     </style>
 @endsection
