@@ -1,18 +1,7 @@
 @extends('layouts.app')
-<style>
-    body {
-        font-family: 'Nunito', sans-serif;
-        background-image: url('https://cdn.discordapp.com/attachments/1121006331323760680/1123571308496691210/Copy_of_GraphicVerse_Capstone_Hearing.png');
-        background-size: cover;
-        background-repeat: no-repeat;
-    }
 
-    .navbar-nav .nav-item {
-        display: flex;
-    }
-</style>
 @section('content')
-    <div class="container-fluid mt-4">
+    <div class="container mt-4">
         <div class="row">
             <div class="col-md-3">
                 {{-- Team Avatar and Name --}}
@@ -22,15 +11,15 @@
                         <div class="d-flex align-items-center justify-content-center mt-2">
                             <div class="avatar text-white rounded-circle d-flex align-items-center justify-content-center" style="width: 100px; height: 100px; font-size: 32px; background-color: {{ $team->color }};">
                                 @php
-$words = explode(" ", $team->name); // Split the team name into an array of words
+                                    $words = explode(" ", $team->name); // Split the team name into an array of words
 
-if (count($words) === 1) {
-    echo strtoupper(substr($team->name, 0, 3)); // Use the first three letters for single-word team names
-} else {
-    foreach ($words as $word) {
-        echo strtoupper(substr($word, 0, 1)); // Output the first letter of each word for multi-word team names
-    }
-}
+                                    if (count($words) === 1) {
+                                        echo strtoupper(substr($team->name, 0, 3)); // Use the first three letters for single-word team names
+                                    } else {
+                                        foreach ($words as $word) {
+                                            echo strtoupper(substr($word, 0, 1)); // Output the first letter of each word for multi-word team names
+                                        }
+                                    }
                                 @endphp
                             </div>
                         </div>
@@ -38,87 +27,12 @@ if (count($words) === 1) {
                     </div>
                 </div>
 
-                {{-- Team Management --}}
-                <div class="card mt-3" style="background-color: #222344;">
-                    <div class="card-header bg-info">
-                        <h5 class="card-title">Team Management</h5>
-                    </div>
-                    <div class="card-body">
-                        <p class="mb-3" style="color:white"><strong>Options:</strong></p>
-                        {{-- Inside your Blade template --}}
-                        <div class="list-group">
-                            <a href="#" class="list-group-item list-group-item-action" data-bs-toggle="modal" data-bs-target="#addMemberModal">Add Member/s</a>
-                            <a href="#" class="list-group-item list-group-item-action">Add File/s</a>
-                            @if ($userRole === 'Creator')
-                                <form method="POST" action="{{ route('teams.destroy', $team->id) }}" onsubmit="return confirm('Are you sure you want to delete this team?')">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" class="btn btn-danger mt-3">Delete Team</button>
-                                </form>
-                            @else
-                                <form method="POST" action="{{ route('teams.leave', $team->id) }}" onsubmit="return confirm('Are you sure you want to leave this team?')">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" class="btn btn-warning mt-3">Leave Team</button>
-                                </form>
-                            @endif
-                        </div>
-                    </div>
-                </div>                
-            </div>
-            
-            <div class="col-md-6">
-                {{-- Chat Box --}}
-                <div class="card chatbox-card" style="height: 80vh; background-color: #222344;">
-                    <div class="card-header bg-info">
-                        <h5 class="card-title">Chat</h5>
-                    </div>
-                    <!-- Chat messages content here -->
-                    <div class="card-body chatbox" style="color: white;">
-                        @if($team->messages && $team->messages->count() > 0)
-                            @foreach($team->messages as $message)
-                                <div class="message-container @if($message->user && $message->user->id === Auth::id()) text-right @else text-left @endif">
-                                    <strong>
-                                        @if($message->user)
-                                            @if($message->user->id === Auth::id())
-                                                Me
-                                            @else
-                                                {{ $message->user->name }}
-                                            @endif
-                                        @else
-                                            Unknown User
-                                        @endif
-                                    </strong>: {{ $message->message }}
-                                </div>
-                            @endforeach
-                        @else
-                            <div>
-                                No messages yet.
-                            </div>
-                        @endif
-                    </div>
-
-                    <div class="card-footer">
-                        <form method="POST" action="{{ route('teams.sendMessage', $team->id) }}">
-                            @csrf
-                            <div class="input-group">
-                                <input type="text" class="form-control" placeholder="Type a message..." name="message">
-                                <div class="input-group-append">
-                                    <button class="btn btn-primary" type="submit">Send</button>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="col-md-3" style="display: flex; flex-direction: column; height: 80vh;">
                 {{-- Members --}}
-                <div class="card mb-3" style="flex: 1; background-color: #222344; overflow-y: auto;">
+                <div class="card mt-3" style="background-color: #222344; overflow-y: auto;">
                     <div class="card-header bg-info">
                         <h5 class="card-title">Members</h5>
                     </div>
-                    <div class="card-body" style="overflow-y: auto;">
+                    <div class="card-body" style="height: 46vh; overflow-y: auto;">
                         {{-- Members content here --}}
                         <!-- Example content -->
                         <ul class="member-list">
@@ -134,9 +48,12 @@ if (count($words) === 1) {
                     </div>
                 </div>
 
-                                            
+                               
+            </div>
+            
+            <div class="col-md-6">
                 {{-- Files --}}
-                <div class="card" style="flex: 1; background-color: #222344; overflow-y: auto;">
+                <div class="card" style="height: 80vh; background-color: #222344;">
                     <div class="card-header bg-info">
                         <h5 class="card-title">Files</h5>
                     </div>
@@ -162,6 +79,78 @@ if (count($words) === 1) {
                         </ul>
                     </div>
                 </div>
+            </div>
+            
+            <div class="col-md-3" style="display: flex; flex-direction: column; height: 80vh;">
+                {{-- Chat Box --}}
+                <div class="card chatbox-card" style="background-color: #222344;">
+                    <div class="card-header bg-info">
+                        <h5 class="card-title">Chat</h5>
+                    </div>
+                    <!-- Chat messages content here -->
+                    <div class="card-body chatbox" style="color: white; height: 40vh; overflow-y: auto;">
+                        @if($team->messages && $team->messages->count() > 0)
+                            @foreach($team->messages as $message)
+                                <div class="message-container @if($message->user && $message->user->id === Auth::id()) text-right @else text-left @endif">
+                                    <strong>
+                                        @if($message->user)
+                                            @if($message->user->id === Auth::id())
+                                                Me
+                                            @else
+                                                {{ $message->user->name }}
+                                            @endif
+                                        @else
+                                            Unknown User
+                                        @endif
+                                    </strong>{{ $message->message }}
+                                </div>
+                            @endforeach
+                        @else
+                            <div>
+                                No messages yet.
+                            </div>
+                        @endif
+                    </div>
+
+                    <div class="card-footer">
+                        <form method="POST" action="{{ route('teams.sendMessage', $team->id) }}">
+                            @csrf
+                            <div class="input-group">
+                                <input type="text" class="form-control" placeholder="Type a message..." name="message">
+                                <div class="input-group-append">
+                                    <button class="btn btn-primary" type="submit">Send</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                {{-- Team Management --}}
+                <div class="card mt-3" style="background-color: #222344;">
+                    <div class="card-header bg-info">
+                        <h5 class="card-title">Options</h5>
+                    </div>
+                    <div class="card-body">
+                        {{-- Inside your Blade template --}}
+                        <div class="list-group">
+                            <a href="#" class="list-group-item list-group-item-action" data-bs-toggle="modal" data-bs-target="#addMemberModal">Add Member/s</a>
+                            <a href="#" class="list-group-item list-group-item-action">Add File/s</a>
+                            @if ($userRole === 'Creator')
+                                <form method="POST" action="{{ route('teams.destroy', $team->id) }}" onsubmit="return confirm('Are you sure you want to delete this team?')">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn btn-danger mt-3">Delete Team</button>
+                                </form>
+                            @else
+                                <form method="POST" action="{{ route('teams.leave', $team->id) }}" onsubmit="return confirm('Are you sure you want to leave this team?')">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn btn-warning mt-3">Leave Team</button>
+                                </form>
+                            @endif
+                        </div>
+                    </div>
+                </div> 
             </div>
             
             <!-- Add Member Modal -->
@@ -236,17 +225,38 @@ if (count($words) === 1) {
         }
 
         .message-container {
-        padding: 5px;
-        margin-bottom: 10px;
-        border-radius: 5px;
+            padding: 5px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+        }
+
+        .input-group {
+            height: 100%; /* Set the height of the input group */
+        }
+
+        .input-group .form-control {
+            height: 100%; /* Set the height of the input field */
+            border-top-right-radius: 0; /* Remove border radius from the top right corner */
+            border-bottom-right-radius: 0; /* Remove border radius from the bottom right corner */
+        }
+
+        .input-group-append .btn {
+            height: 95%; /* Set the height of the button */
+            border-top-left-radius: 0; /* Remove border radius from the top left corner */
+            border-bottom-left-radius: 0; /* Remove border radius from the bottom left corner */
         }
 
         .text-right {
             background-color: #007bff; /* Blue background for current user's messages */
+            text-align: right;
+            max-width: 60%; /* Adjust the max-width as needed */
+            margin-left: auto; /* Push the message container to the right */
         }
 
         .text-left {
             background-color: #28a745; /* Green background for other users' messages */
+            max-width: 60%; /* Adjust the max-width as needed */
+            margin-right: auto; /* Push the message container to the left */
         }
 
         .message-container strong {
