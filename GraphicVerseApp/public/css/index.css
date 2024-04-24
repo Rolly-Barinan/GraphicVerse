@@ -88,7 +88,6 @@ margin: 0 !important;
 .package_row {
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-between;
 }
 .package_row h1 {
     font-family: 'Oswald', sans-serif;
