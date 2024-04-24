@@ -19,39 +19,6 @@ class TwoDimContoller extends Controller
             $q->where('asset_type', '2D');
         });
 
-        // Apply sorting if a sort option is provided
-        if ($request->has('sort')) {
-            switch ($request->input('sort')) {
-                case 'name_asc':
-                    $query->orderBy('PackageName');
-                    break;
-                case 'name_desc':
-                    $query->orderByDesc('PackageName');
-                    break;
-                case 'price_asc':
-                    $query->orderBy('Price');
-                    break;
-                case 'price_desc':
-                    $query->orderByDesc('Price');
-                    break;
-                case 'username_asc':
-                    $query->leftJoin('users', 'packages.UserID', '=', 'users.id')
-                        ->orderBy('users.username');
-                    break;
-                case 'username_desc':
-                    $query->leftJoin('users', 'packages.UserID', '=', 'users.id')
-                        ->orderByDesc('users.username');
-                    break;
-                default:
-                    // Default sorting
-                    $query->orderBy('created_at', 'desc');
-                    break;
-            }
-        } else {
-            // Default sorting
-            $query->orderBy('created_at', 'desc');
-        }
-
         $packages = $query->paginate(12)->appends(request()->except('page'));
 
         $categories = Categories::all();
