@@ -100,8 +100,8 @@
                         <a class="dropdown-item" href="/profile/{{ Auth::user()->id }}">{{  Auth::user()->name }}
                         <p class="view">View Profile</p>
                         </a>
-                        <a class="dropdown-item" href="#">Wishlist</a>
                         <a class="dropdown-item" href="/teams">Teams</a>
+                        <a class="dropdown-item"href="/profile/{{ Auth::user()->id }}/edit">Edit Profile</a>
                         <div class="dropdown-divider"></div>
                         <a class="dropdown-item" href="{{ route('logout') }}"
                             onclick="event.preventDefault(); document.getElementById('logout-form').submit();">

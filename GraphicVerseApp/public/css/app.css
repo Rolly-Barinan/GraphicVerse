@@ -70,7 +70,8 @@ main {
 }
 .nav-link2 {
     background-color: #499096;
-    width: 150px;
+    min-width: 150px;
+    width: calc(auto + 30px);
     padding-top: 50px;
     padding-bottom: 20px;
     padding-right: 10px;
@@ -79,7 +80,8 @@ main {
     border-bottom-left-radius: 15px;
     border-bottom-right-radius: 15px;
     margin-top: -15px;
-    margin-right: 10px;
+    justify-content: center;
+    text-align: center;
     align-items: center;
     margin-bottom: 30px;
     font-weight: bold;
@@ -224,8 +226,9 @@ a {
     position: relative; /* Change from absolute to relative */
     z-index: 1; 
     padding-top: 100px;
-    margin-left: -25px;
-    width: 200px !important;
+    width: calc(100% + 50px);
+    /* margin-left: -25px; */
+    min-width: 200px !important;
     background-color: #F1F1F1;
     border-radius: 0 !important;
 }
@@ -254,7 +257,6 @@ a {
 .dropdown-content {
     display: none;
     position: absolute; /* Keep this as absolute */
-    
     min-width: 160px;
     width: 100px;
     max-width: 100%;

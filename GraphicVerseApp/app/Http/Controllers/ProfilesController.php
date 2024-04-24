@@ -30,25 +30,36 @@ class ProfilesController extends Controller
 
         public function update(User $user)
         {
-                $this->authorize('update', $user->profile);
-                $data = request()->validate([
-                        'title' => 'required',
-                        'description' => 'required',
-                        'url' => 'url',
-                        'image' => '',
-                ]);
-                if (request('image')) {
-                        $imagePath = (request('image')->store('profile', 'public'));
+        $this->authorize('update', $user->profile);
+        $data = request()->validate([
+                'title' => 'required',
+                'description' => 'required',
+                'url' => 'url',
+                'image' => '',
+                'cover_image' => '', // Add this line
+        ]);
 
-                        $image = Image::make(public_path("storage/{$imagePath}"))->fit(1000, 1000);
-                        $image->save();
-                        $imageArray = ['image' => $imagePath];
-                }
-                auth()->user()->profile->update(array_merge(
-                        $data,
-                        $imageArray ?? []
-                ));
-                return redirect("/profile/{$user->id}");
+        if (request('image')) {
+                $imagePath = (request('image')->store('profile', 'public'));
+                $image = Image::make(public_path("storage/{$imagePath}"))->fit(1000, 1000);
+                $image->save();
+                $imageArray = ['image' => $imagePath];
+        }
+
+        if (request('cover_image')) { // Add this block
+                $coverImagePath = (request('cover_image')->store('cover', 'public'));
+                $coverImage = Image::make(public_path("storage/{$coverImagePath}"))->fit(1200, 400);
+                $coverImage->save();
+                $coverImageArray = ['cover_image' => $coverImagePath];
+        }
+
+        auth()->user()->profile->update(array_merge(
+                $data,
+                $imageArray ?? [],
+                $coverImageArray ?? [] // Add this line
+        ));
+
+        return redirect("/profile/{$user->id}");
         }
 
         public function twoDimDisplay()
@@ -81,4 +92,5 @@ class ProfilesController extends Controller
                 
                 return view('profiles.imageDisplay', compact('images'));
         }
+        
 }
