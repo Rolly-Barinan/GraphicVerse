@@ -95,7 +95,7 @@ Route::get('/2d-models/{id}', [TwoDimContoller::class, 'show'])->name('twoDim.sh
 
 //asset layout 3d
 Route::get('/3d-models', [ThreeDimContoller::class, 'index'])->name('threeDim.index');
-Route::get('/3d-models', [ThreeDimContoller::class, 'filterPackages'])->name('filter.3d');
+Route::get('/3d-models/filter', [ThreeDimContoller::class, 'filterPackages'])->name('filter.3d');
 Route::get('/3d-models/{id}', [ThreeDimContoller::class, 'show'])->name('threeDim.show');
 
 ////audios 

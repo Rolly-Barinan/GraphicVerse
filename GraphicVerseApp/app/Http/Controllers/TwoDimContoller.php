@@ -15,8 +15,7 @@ class TwoDimContoller extends Controller
 {
     public function index(Request $request)
     {
-        $categories = Categories::all();
-        $query = Package::whereHas('assetType', function ($q) {
+        $query = Package::query()->whereHas('assetType', function ($q) {
             $q->where('asset_type', '2D');
         });
 
@@ -55,9 +54,7 @@ class TwoDimContoller extends Controller
 
         $packages = $query->paginate(12)->appends(request()->except('page'));
 
-        // Ensure that paginator uses bootstrap styling
-        Paginator::useBootstrap();
-
+        $categories = Categories::all();
         return view('twoDim.index', compact('packages', 'categories'));
     }
 
@@ -83,11 +80,13 @@ class TwoDimContoller extends Controller
     {
         $categoryIds = $request->input('categories');
         $priceRanges = $request->input('price_range');
+        $searchQuery = $request->input('search'); // Retrieve the search query parameter
 
         $query = Package::query()->whereHas('assetType', function ($q) {
             $q->where('asset_type', '2D');
         });
 
+        // Filter by category
         if (!is_array($categoryIds) || empty($categoryIds)) {
             $query->whereHas('categories');
         } else {
@@ -96,6 +95,7 @@ class TwoDimContoller extends Controller
             });
         }
 
+        // Filter by price range
         if (is_array($priceRanges) && !empty($priceRanges)) {
             $query->where(function ($q) use ($priceRanges) {
                 foreach ($priceRanges as $range) {
@@ -117,6 +117,13 @@ class TwoDimContoller extends Controller
                             break;
                     }
                 }
+            });
+        }
+
+        // Filter by author username (search query)
+        if ($searchQuery) {
+            $query->whereHas('user', function ($q) use ($searchQuery) {
+                $q->where('username', 'like', '%' . $searchQuery . '%');
             });
         }
 
@@ -153,6 +160,7 @@ class TwoDimContoller extends Controller
             $query->orderBy('created_at', 'desc');
         }
 
+        // Paginate the results
         $packages = $query->paginate(12)->appends(request()->except('page'));
 
         $categories = Categories::all();

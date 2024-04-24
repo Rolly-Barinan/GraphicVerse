@@ -104,16 +104,51 @@ class ThreeDimContoller extends Controller
 public function filterPackages(Request $request)
 {
     $categoryIds = $request->input('categories');
+    $priceRanges = $request->input('price_range');
+    $searchQuery = $request->input('search'); // Retrieve the search query parameter
 
     $query = Package::whereHas('assetType', function ($q) {
         $q->where('asset_type', '3D');
     });
 
+    // Filter by category
     if (!is_array($categoryIds) || empty($categoryIds)) {
         $query->whereHas('categories');
     } else {
         $query->whereHas('categories', function ($q) use ($categoryIds) {
             $q->whereIn('categories.id', $categoryIds);
+        });
+    }
+
+    // Filter by price range
+    if (is_array($priceRanges) && !empty($priceRanges)) {
+        $query->where(function ($q) use ($priceRanges) {
+            foreach ($priceRanges as $range) {
+                switch ($range) {
+                    case 'free':
+                        $q->orWhere('Price', '=', 0);
+                        break;
+                    case '1-100':
+                        $q->orWhereBetween('Price', [1, 100]);
+                        break;
+                    case '101-500':
+                        $q->orWhereBetween('Price', [101, 500]);
+                        break;
+                    case '501-1000':
+                        $q->orWhereBetween('Price', [501, 1000]);
+                        break;
+                    case '1000+':
+                        $q->orWhere('Price', '>', 1000);
+                        break;
+                }
+            }
+        });
+    }
+
+    // Filter by author username (search query)
+    if ($searchQuery) {
+        $query->whereHas('user', function ($q) use ($searchQuery) {
+            $q->where('username', 'like', '%' . $searchQuery . '%');
         });
     }
 

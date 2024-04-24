@@ -15,7 +15,7 @@
         <form action="{{ route('filter.2d') }}" method="GET">
             <div class="d-flex justify-content-between align-items-center">
                 <h3 style="color: #989898 !important;">Categories</h3>
-                <button type="button" id="toggleCategories" class="btn btn-link">-</button>
+                <button type="button" class="btn btn-link" onclick="toggleCategories()">-</button>
             </div>
             <div id="categories">
                 @foreach($categories as $category)
@@ -29,66 +29,68 @@
                 @endforeach
             </div>
             <hr>
-        </form>
-        <form action="{{ route('filter.2d') }}" method="GET">
-    <!-- ... -->
-    <div class="d-flex justify-content-between align-items-center">
-                <h3 style="color: #989898 !important;">Price Range</h3>
-                <button type="button" id="toggleCategories" class="btn btn-link">-</button>
-            </div>
-    <div id="priceRange">
-        <div class="form-check">
-            <input class="form-check-input" type="checkbox" name="price_range[]" value="free"
-            @if(is_array(request()->price_range) && in_array('free', request()->price_range)) checked @endif>
-            <label class="form-check-label">
-                Free
-            </label>
-        </div>
-        <div class="form-check">
-            <input class="form-check-input" type="checkbox" name="price_range[]" value="1-100"
-            @if(is_array(request()->price_range) && in_array('1-100', request()->price_range)) checked @endif>
-            <label class="form-check-label">
-                $1 - $100
-            </label>
-        </div>
-        <div class="form-check">
-            <input class="form-check-input" type="checkbox" name="price_range[]" value="101-500"
-            @if(is_array(request()->price_range) && in_array('101-500', request()->price_range)) checked @endif>
-            <label class="form-check-label">
-                $101 - $500
-            </label>
-        </div>
-        <div class="form-check">
-            <input class="form-check-input" type="checkbox" name="price_range[]" value="501-1000"
-            @if(is_array(request()->price_range) && in_array('501-1000', request()->price_range)) checked @endif>
-            <label class="form-check-label">
-                $501 - $1000
-            </label>
-        </div>
-        <div class="form-check">
-            <input class="form-check-input" type="checkbox" name="price_range[]" value="1000+"
-            @if(is_array(request()->price_range) && in_array('1000+', request()->price_range)) checked @endif>
-            <label class="form-check-label">
-                More than $1000
-            </label>
-        </div>
-    </div>
-    <hr>
-    
-</form>
-<form action="{{ route('filter.2d') }}" method="GET">
+        
+            <!-- Price Range filter -->
             <div class="d-flex justify-content-between align-items-center">
-                <h3 style="color: #989898 !important;">Authors</h3>
-                <button type="button" id="toggleCategories" class="btn btn-link">-</button>
+                <h3 style="color: #989898 !important;">Price Range</h3>
+                <button type="button" class="btn btn-link" onclick="togglePriceRange()">-</button>
             </div>
-            <div id="categories">
-                <input type="text" class="searchbox"name="search" placeholder="Search categories" class="mb-2">
+            <div id="priceRange">
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" name="price_range[]" value="free"
+                    @if(is_array(request()->price_range) && in_array('free', request()->price_range)) checked @endif>
+                    <label class="form-check-label">
+                        Free
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" name="price_range[]" value="1-100"
+                        @if (is_array(request()->price_range) && in_array('1-100', request()->price_range)) checked @endif>
+                    <label class="form-check-label">
+                        $1 - $100
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" name="price_range[]" value="101-500"
+                        @if (is_array(request()->price_range) && in_array('101-500', request()->price_range)) checked @endif>
+                    <label class="form-check-label">
+                        $101 - $500
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" name="price_range[]" value="501-1000"
+                        @if (is_array(request()->price_range) && in_array('501-1000', request()->price_range)) checked @endif>
+                    <label class="form-check-label">
+                        $501 - $1000
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" name="price_range[]" value="1000+"
+                        @if (is_array(request()->price_range) && in_array('1000+', request()->price_range)) checked @endif>
+                    <label class="form-check-label">
+                        More than $1000
+                    </label>
+                </div>
             </div>
             <hr>
+        
+            <!-- Authors filter -->
+            <div class="d-flex justify-content-between align-items-center">
+                <h3 style="color: #989898 !important;">Authors</h3>
+                <button type="button" class="btn btn-link" onclick="toggleAuthors()">-</button>
+            </div>
+            <div id="authors">
+                <input type="text" class="searchbox" name="search" placeholder="Search Author's username" class="mb-2">
+            </div>
+            <hr>
+        
+            <!-- Submit button -->
+            <button type="submit" class="btn btn-primary">Apply Filters</button>
         </form>
     </div>
 
     <div class="scrollable-column packages_column">
+        <!-- Your existing code for displaying packages goes here -->
         <div class="row package_row">
             <h1 class="text-center w-100">2D ASSETS</h1>
             <div class="results-container">
@@ -148,77 +150,80 @@
 </div>
 
 <script>
-document.getElementById('toggleCategories').addEventListener('click', function() {
-    var categories = document.getElementById('categories');
-    if (categories.style.display === 'none') {
-        categories.style.display = 'block';
-        this.textContent = '-';
-    } else {
-        categories.style.display = 'none';
-        this.textContent = '+';
+    function toggleCategories() {
+        var categories = document.getElementById('categories');
+        var toggleButton = document.getElementById('toggleCategories');
+
+        if (categories.style.display === 'none') {
+            categories.style.display = 'block';
+            toggleButton.textContent = '-';
+        } else {
+            categories.style.display = 'none';
+            toggleButton.textContent = '+';
+        }
     }
-});
 
-document.getElementById('toggleCategories').addEventListener('click', function() {
-    var categories = document.getElementById('categories');
-    if (categories.classList.contains('hide')) {
-        categories.classList.remove('hide');
-        this.textContent = '-';
-    } else {
-        categories.classList.add('hide');
-        this.textContent = '+';
+    function togglePriceRange() {
+        var priceRangeSection = document.getElementById('priceRange');
+        var toggleButton = document.getElementById('togglePriceRange');
+
+        if (priceRangeSection.style.display === 'none') {
+            priceRangeSection.style.display = 'block';
+            toggleButton.textContent = '-';
+        } else {
+            priceRangeSection.style.display = 'none';
+            toggleButton.textContent = '+';
+        }
     }
-});
 
-// Get all checkboxes
-var checkboxes = document.querySelectorAll('input[type=checkbox]');
+    function toggleAuthors() {
+        var authorsSection = document.getElementById('authors');
+        var toggleButton = document.getElementById('toggleAuthors');
 
-// Add event listener to each checkbox
-for (var i = 0; i < checkboxes.length; i++) {
-    checkboxes[i].addEventListener('change', function() {
-        // Submit the form whenever a checkbox is clicked
-        this.form.submit();
+        if (authorsSection.style.display === 'none') {
+            authorsSection.style.display = 'block';
+            toggleButton.textContent = '-';
+        } else {
+            authorsSection.style.display = 'none';
+            toggleButton.textContent = '+';
+        }
+    }
+
+    // Get all checkboxes
+    var checkboxes = document.querySelectorAll('input[type=checkbox]');
+
+    // Add event listener to each checkbox
+    for (var i = 0; i < checkboxes.length; i++) {
+        checkboxes[i].addEventListener('change', function() {
+            // Submit the form whenever a checkbox is clicked
+            this.form.submit();
+        });
+    }
+
+    // Get the price slider element
+    var slider = document.getElementById('price-slider');
+
+    // Initialize the price slider using noUiSlider
+    noUiSlider.create(slider, {
+        start: [{{ request()->min_price ?? '0' }}, {{ request()->max_price ?? '1000' }}], // Initial values
+        connect: true,
+        range: {
+            'min': 0,
+            'max': 1000 // Set your maximum price range here
+        }
     });
-}
 
-// Get the price slider element
-var slider = document.getElementById('price-slider');
+    // Update the hidden input fields with the selected price range values whenever the slider values change
+    slider.noUiSlider.on('update', function(values, handle) {
+        document.getElementById('min_price').value = values[0];
+        document.getElementById('max_price').value = values[1];
+    });
 
-// Initialize the price slider using noUiSlider
-noUiSlider.create(slider, {
-    start: [{{ request()->min_price ?? '0' }}, {{ request()->max_price ?? '1000' }}], // Initial values
-    connect: true,
-    range: {
-        'min': 0,
-        'max': 1000 // Set your maximum price range here
-    }
-});
-
-// Update the hidden input fields with the selected price range values whenever the slider values change
-slider.noUiSlider.on('update', function(values, handle) {
-    document.getElementById('min_price').value = values[0];
-    document.getElementById('max_price').value = values[1];
-});
-
-// Optionally, you can add an event listener to submit the form whenever the slider values change
-slider.noUiSlider.on('change', function(values, handle) {
-    // Submit the form to apply the filter based on the selected price range
-    document.querySelector('form').submit();
-});
-
-</script>
-
-<script>
-function togglePriceRange() {
-    var priceRangeSection = document.getElementById('price-range-section');
-    var displayStyle = priceRangeSection.style.display;
-
-    if (displayStyle === 'none') {
-        priceRangeSection.style.display = 'block';
-    } else {
-        priceRangeSection.style.display = 'none';
-    }
-}
+    // Optionally, you can add an event listener to submit the form whenever the slider values change
+    slider.noUiSlider.on('change', function(values, handle) {
+        // Submit the form to apply the filter based on the selected price range
+        document.querySelector('form').submit();
+    });
 </script>
 
 @endsection
