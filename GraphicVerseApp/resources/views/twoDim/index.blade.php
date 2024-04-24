@@ -104,12 +104,12 @@
                         Sort By
                     </button>
                     <ul class="dropdown-menu" aria-labelledby="sortDropdown">
-                        <li><a class="dropdown-item" href="{{ route('twoDim.index', array_merge(request()->except('sort'), ['sort' => 'name_asc'])) }}">Name (Ascending)</a></li>
-                        <li><a class="dropdown-item" href="{{ route('twoDim.index', array_merge(request()->except('sort'), ['sort' => 'name_desc'])) }}">Name (Descending)</a></li>
-                        <li><a class="dropdown-item" href="{{ route('twoDim.index', array_merge(request()->except('sort'), ['sort' => 'price_asc'])) }}">Price (Ascending)</a></li>
-                        <li><a class="dropdown-item" href="{{ route('twoDim.index', array_merge(request()->except('sort'), ['sort' => 'price_desc'])) }}">Price (Descending)</a></li>
-                        <li><a class="dropdown-item" href="{{ route('twoDim.index', array_merge(request()->except('sort'), ['sort' => 'username_asc'])) }}">UserName (Ascending)</a></li>
-                        <li><a class="dropdown-item" href="{{ route('twoDim.index', array_merge(request()->except('sort'), ['sort' => 'username_desc'])) }}">UserName (Descending)</a></li>
+                        <li><a class="dropdown-item" href="{{ route('filter.2d', array_merge(request()->except('sort'), ['sort' => 'name_asc'])) }}">Name (Ascending)</a></li>
+                        <li><a class="dropdown-item" href="{{ route('filter.2d', array_merge(request()->except('sort'), ['sort' => 'name_desc'])) }}">Name (Descending)</a></li>
+                        <li><a class="dropdown-item" href="{{ route('filter.2d', array_merge(request()->except('sort'), ['sort' => 'price_asc'])) }}">Price (Ascending)</a></li>
+                        <li><a class="dropdown-item" href="{{ route('filter.2d', array_merge(request()->except('sort'), ['sort' => 'price_desc'])) }}">Price (Descending)</a></li>
+                        <li><a class="dropdown-item" href="{{ route('filter.2d', array_merge(request()->except('sort'), ['sort' => 'username_asc'])) }}">UserName (Ascending)</a></li>
+                        <li><a class="dropdown-item" href="{{ route('filter.2d', array_merge(request()->except('sort'), ['sort' => 'username_desc'])) }}">UserName (Descending)</a></li>
                         <!-- Add more sorting options as needed -->
                     </ul>
                 </div>
