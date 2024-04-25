@@ -49,26 +49,39 @@
                     <p>{{ $user->name }}</p>
                     <hr>
                     <div class="buy">
-                        <h3>Buy Asset</h3>
-                        <p>For more information about the royalties for the asset, <a href="#">click here</a>.</p>
-                        <form action="{{ route('paypal') }}" method="POST">
-                            @csrf
-                            <input type="hidden" name="price" value="{{ $package->Price }}">
-                            <button type="submit">
-                                @if (!empty($package->Price) && $package->Price != '0')
-                                    <form action="{{ route('paypal') }}" method="POST">
-                                        @csrf
-                                        <input type="hidden" name="price" value="{{ $package->Price }}">
-                                        <button type="submit">
-                                            Pay ${{ $package->Price }} with PayPal
-                                        </button>
-                                    </form>
-                                @else
-                                    <a href="{{ route('asset.download', $package->id) }}" class = "no-underline">Download
-                                        for Free</a>
-                                @endif
-                            </button>
-                        </form>
+                        @if (Auth::id() == $package->UserID)
+                            <form action="/package/{{ $package->id }}/edit" method="GET">
+                                <button type="submit" class="btn btn-primary">
+                                    Edit Package
+                                </button>
+                            </form>
+                            <form action="{{ route('asset.destroy', $package->id) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this package?')">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="btn btn-danger">Delete Package</button>
+                            </form>
+                        @else
+                            <h3>Download Asset</h3>
+                            <p>For more information about the royalties for the asset, <a href="#">click here</a>.</p>
+                            <form action="{{ route('paypal') }}" method="POST">
+                                @csrf
+                                <input type="hidden" name="price" value="{{ $package->Price }}">
+                                <button type="submit">
+                                    @if (!empty($package->Price) && $package->Price != '0')
+                                        <form action="{{ route('paypal') }}" method="POST">
+                                            @csrf
+                                            <input type="hidden" name="price" value="{{ $package->Price }}">
+                                            <button type="submit">
+                                                Pay ${{ $package->Price }} with PayPal
+                                            </button>
+                                        </form>
+                                    @else
+                                        <a href="{{ route('asset.download', $package->id) }}" class = "no-underline">Download
+                                            for Free</a>
+                                    @endif
+                                </button>
+                            </form>
+                        @endif
                     </div>
                     <hr>
                     <p class="r-text">Package Description:</p>
