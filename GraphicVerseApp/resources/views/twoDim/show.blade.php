@@ -45,10 +45,10 @@
             <div class="col-md-5">
                 <div class="r-body">
                     @if ($user->teams->isNotEmpty())
-                        <h4>{{ $user->teams->first()->name }}</h4>
+                        <a href="{{ route('teams.details', ['team' => $user->teams->first()->name]) }}" style="text-decoration: none;"><h4>{{ $user->teams->first()->name }}</h4></a>
                     @endif
                     <h1 class="r-title">{{ $package->PackageName }}</h1>
-                    <p>{{ $user->name }}</p>
+                    <a href="{{ route('profile.show', ['user' => $user->id]) }}" style="text-decoration: none;"><p>{{ $user->username }}</p></a>
                     <div class="buy">
                         @if (Auth::id() == $package->UserID)
                             <form action="/package/{{ $package->id }}/edit" method="GET">

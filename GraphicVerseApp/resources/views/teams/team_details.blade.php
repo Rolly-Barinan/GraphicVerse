@@ -29,7 +29,7 @@
 
                 {{-- Members --}}
                 <div class="card mt-3" style="background-color: #222344; overflow-y: auto;">
-                    <div class="card-header bg-info">
+                    <div class="card-header" style="background-color: #8B008B;">
                         <h5 class="card-title">Members</h5>
                     </div>
                     <div class="card-body" style="height: 46vh; overflow-y: auto;">
@@ -39,7 +39,7 @@
                             @foreach ($team->users as $member)
                                 <li class="member-item">
                                     <a class="member-link" href="{{ route('profile.show', ['user' => $member->id]) }}">
-                                        <span class="name">{{ $member->name }}</span>
+                                        <span class="name">{{ $member->username }}</span>
                                         <span class="role">{{ $member->pivot->role }}</span>
                                     </a>                                                                      
                                 </li>
@@ -47,112 +47,126 @@
                         </ul>
                     </div>
                 </div>
-
-                               
             </div>
             
-            <div class="col-md-6">
+            <div class="col-md-{{ $userIsTeamMember ? '6' : '9' }}">
                 {{-- Files --}}
                 <div class="card" style="height: 80vh; background-color: #222344;">
-                    <div class="card-header bg-info">
+                    <div class="card-header" style="background-color: #8B008B;">
                         <h5 class="card-title">Files</h5>
                     </div>
                     <div class="card-body" style="overflow-y: auto;">
                         {{-- Files content here --}}
-                        <!-- Example content -->
-                        <ul style="list-style-type: none; padding: 0; color:white">
-                            <li>File 1</li>
-                            <li>File 2</li>
-                            <li>File 3</li>
-                            <li>File 4</li>
-                            <li>File 5</li>
-                            <li>File 6</li>
-                            <li>File 7</li>
-                            <li>File 8</li>
-                            <li>File 9</li>
-                            <li>File 10</li>
-                            <li>File 11</li>
-                            <li>File 12</li>
-                            <li>File 13</li>
-                            <li>File 14</li>
-                            <!-- Add more files as needed -->
-                        </ul>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="col-md-3" style="display: flex; flex-direction: column; height: 80vh;">
-                {{-- Chat Box --}}
-                <div class="card chatbox-card" style="background-color: #222344;">
-                    <div class="card-header bg-info">
-                        <h5 class="card-title">Chat</h5>
-                    </div>
-                    <!-- Chat messages content here -->
-                    <div class="card-body chatbox" style="color: white; height: 40vh; overflow-y: auto;">
-                        @if($team->messages && $team->messages->count() > 0)
-                            @foreach($team->messages as $message)
-                                <div class="message-container @if($message->user && $message->user->id === Auth::id()) text-right @else text-left @endif">
-                                    <strong>
-                                        @if($message->user)
-                                            @if($message->user->id === Auth::id())
-                                                Me
-                                            @else
-                                                {{ $message->user->name }}
-                                            @endif
+                        <div class="row">
+                            @php
+                                $hasSearchResults = false;
+                            @endphp
+                            @foreach ($packages as $result)
+                                @php
+                                    $hasSearchResults = true;
+                                @endphp
+                                <div class="col-md-3 mb-3 preview_card">
+                                    <div class="card">
+                                        @if ($result->asset_type_id === 2) <!-- Assuming you have a field named 'asset_type' in your Package model -->
+                                            <a href="{{ route('threeDim.show', ['id' => $result->id]) }}"> <!-- Use threeDim.show route -->
                                         @else
-                                            Unknown User
+                                            <a href="{{ route('twoDim.show', ['id' => $result->id]) }}"> <!-- Use twoDim.show route -->
                                         @endif
-                                    </strong>{{ $message->message }}
+                                            <img src="{{ Storage::url($result->Location) }}" class="card-img-top" alt="{{ $result->PackageName }}">
+                                            <div class="card-body">
+                                                <h4 class="card-title">{{ $result->PackageName }}</h4>
+                                                <p class="card-text">{{ $result->user->username }}</p>
+                                            </div>
+                                        </a>
+                                    </div>
                                 </div>
                             @endforeach
-                        @else
-                            <div>
-                                No messages yet.
-                            </div>
-                        @endif
-                    </div>
-
-                    <div class="card-footer">
-                        <form method="POST" action="{{ route('teams.sendMessage', $team->id) }}">
-                            @csrf
-                            <div class="input-group">
-                                <input type="text" class="form-control" placeholder="Type a message..." name="message">
-                                <div class="input-group-append">
-                                    <button class="btn btn-primary" type="submit">Send</button>
+                            @if (!$hasSearchResults)
+                                <div class="col-md-12">
+                                    <div class="alert alert-info" role="alert">
+                                        No assets uploaded.
+                                    </div>
                                 </div>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-
-                {{-- Team Management --}}
-                <div class="card mt-3" style="background-color: #222344;">
-                    <div class="card-header bg-info">
-                        <h5 class="card-title">Options</h5>
-                    </div>
-                    <div class="card-body">
-                        {{-- Inside your Blade template --}}
-                        <div class="list-group">
-                            <a href="#" class="list-group-item list-group-item-action" data-bs-toggle="modal" data-bs-target="#addMemberModal">Add Member/s</a>
-                            <a href="#" class="list-group-item list-group-item-action">Add File/s</a>
-                            @if ($userRole === 'Creator')
-                                <form method="POST" action="{{ route('teams.destroy', $team->id) }}" onsubmit="return confirm('Are you sure you want to delete this team?')">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" class="btn btn-danger mt-3">Delete Team</button>
-                                </form>
-                            @else
-                                <form method="POST" action="{{ route('teams.leave', $team->id) }}" onsubmit="return confirm('Are you sure you want to leave this team?')">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" class="btn btn-warning mt-3">Leave Team</button>
-                                </form>
                             @endif
                         </div>
                     </div>
-                </div> 
+                </div>
             </div>
             
+            {{-- Chat Box --}}
+            @if ($userIsTeamMember)
+                <div class="col-md-3">
+                    <div class="card chatbox-card" style="background-color: #222344;">
+                        <div class="card-header" style="background-color: #8B008B;">
+                            <h5 class="card-title">Chat</h5>
+                        </div>
+                        <!-- Chat messages content here -->
+                        <div class="card-body chatbox" style="color: white; height: 40vh; overflow-y: auto;">
+                            @if($team->messages && $team->messages->count() > 0)
+                                @foreach($team->messages as $message)
+                                    <div class="message-container @if($message->user && $message->user->id === Auth::id()) text-right @else text-left @endif">
+                                        <strong>
+                                            @if($message->user)
+                                                @if($message->user->id === Auth::id())
+                                                    Me
+                                                @else
+                                                    {{ $message->user->name }}
+                                                @endif
+                                            @else
+                                                Unknown User
+                                            @endif
+                                        </strong>{{ $message->message }}
+                                    </div>
+                                @endforeach
+                            @else
+                                <div>
+                                    No messages yet.
+                                </div>
+                            @endif
+                        </div>
+
+                        <div class="card-footer">
+                            <form method="POST" action="{{ route('teams.sendMessage', $team->id) }}">
+                                @csrf
+                                <div class="input-group">
+                                    <input type="text" class="form-control" placeholder="Type a message..." name="message">
+                                    <div class="input-group-append">
+                                        <button class="btn btn-primary" type="submit">Send</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                    {{-- Team Management --}}
+                    <div class="card mt-3" style="background-color: #222344;">
+                        <div class="card-header" style="background-color: #8B008B;">
+                            <h5 class="card-title">Options</h5>
+                        </div>
+                        <div class="card-body">
+                            {{-- Inside your Blade template --}}
+                            <div class="list-group">
+                                <a href="#" class="list-group-item list-group-item-action" data-bs-toggle="modal" data-bs-target="#addMemberModal">Add Member/s</a>
+                                <a href="#" class="list-group-item list-group-item-action">Add File/s</a>
+                                @if ($userRole === 'Creator')
+                                    <form method="POST" action="{{ route('teams.destroy', $team->id) }}" onsubmit="return confirm('Are you sure you want to delete this team?')">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="btn btn-danger mt-3">Delete Team</button>
+                                    </form>
+                                @else
+                                    <form method="POST" action="{{ route('teams.leave', $team->id) }}" onsubmit="return confirm('Are you sure you want to leave this team?')">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="btn btn-warning mt-3">Leave Team</button>
+                                    </form>
+                                @endif
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            @endif
+
             <!-- Add Member Modal -->
             <div class="modal fade" id="addMemberModal" tabindex="-1" role="dialog" aria-labelledby="addMemberModalLabel" aria-hidden="true">
                 <div class="modal-dialog" role="document">
@@ -262,6 +276,53 @@
         .message-container strong {
             display: block;
             margin-bottom: 5px;
+        }
+
+        /* Adjusted CSS for package cards */
+        /* .preview_card {
+            width: calc(50% - 10px);
+            margin-bottom: 20px;
+            padding: 10px;
+        } */
+
+        .col-md-6 .preview_card {
+            width: calc(50% - 10px); /* 50% width with 10px margin between cards */
+            margin-bottom: 20px;
+            padding: 10px;
+        }
+
+        .col-md-9 .preview_card {
+            width: calc(33.3333% - 5px); /* 33.3333% width with 5px margin between cards */
+            margin-bottom: 20px;
+            padding: 10px;
+        }
+
+        .preview_card a {
+            text-decoration: none; /* Remove underline */
+            color: inherit; /* Inherit color from parent */
+        }
+
+        .card img {
+            border-radius: 5px;
+            width: 100%;
+            height: 230px; /* Adjust as needed */
+            object-fit: cover; /* This will ensure the image scales to fit the card */
+        }
+
+        .card h4 {
+            font-family: 'Roboto', sans-serif;
+            font-weight: bold;
+            color: #5F5F79;
+            font-size: 20px;
+            margin-bottom: 0;
+        }
+
+        .card h5 {
+            font-family: 'Roboto', sans-serif;
+            font-weight: bold;
+            color: white;
+            font-size: 20px;
+            margin-bottom: 0;
         }
     </style>
 @endsection

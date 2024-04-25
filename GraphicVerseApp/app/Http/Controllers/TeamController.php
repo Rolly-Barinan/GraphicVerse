@@ -54,9 +54,26 @@ class TeamController extends Controller
     public function details($teamName)
     {
         $team = Team::where('name', $teamName)->firstOrFail();
+        $user = Auth::user();
         $userRole = $this->getUserRoleForTeam($team); // Get the user's role
-        return view('Teams.team_details', compact('team', 'userRole'));
+        
+        // Check if the logged-in user is a member of the team
+        $userIsTeamMember = $team->users->contains($user);
+
+        // Fetch the packages and assets associated with the team's users
+        $packages = [];
+        $assets = [];
+        foreach ($team->users as $user) {
+            $userPackages = $user->packages;
+            foreach ($userPackages as $package) {
+                $packages[] = $package;
+                $assets = array_merge($assets, $package->assets->toArray());
+            }
+        }
+        
+        return view('Teams.team_details', compact('team', 'userRole', 'packages', 'assets', 'userIsTeamMember'));
     }
+
 
     public function storeMembers(Request $request, Team $team)
     {
