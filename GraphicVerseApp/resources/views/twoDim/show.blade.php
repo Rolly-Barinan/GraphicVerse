@@ -72,9 +72,9 @@
                                         <form action="{{ route('paypal') }}" method="POST">
                                             @csrf
                                             <input type="hidden" name="price" value="{{ $package->Price }}">
-                                            <button type="submit">
+                                            <a class = "no-underline">
                                                 Pay ${{ $package->Price }} with PayPal
-                                            </button>
+                                            </a>
                                         </form>
                                     @else
                                         <a href="{{ route('asset.download', $package->id) }}" class = "no-underline">Download

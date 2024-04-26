@@ -71,9 +71,9 @@
                                         <form action="{{ route('paypal') }}" method="POST">
                                             @csrf
                                             <input type="hidden" name="price" value="{{ $package->Price }}">
-                                            <button type="submit">
+                                            <a class = "no-underline">
                                                 Pay ${{ $package->Price }} with PayPal
-                                            </button>
+                                            </a>
                                         </form>
                                     @else
                                         <a href="{{ route('asset.download', $package->id) }}" class = "no-underline">Download
@@ -108,6 +108,178 @@
             </div>
         </div>
     </div>
+
+    <!-- Add this HTML markup -->
+    <div id="modelModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <div id="modalViewerContainer"></div>
+        </div>
+    </div>
+
+    <!-- Add this CSS code -->
+    <style>
+        /* Add or adjust modal styles as needed */
+        /* Style the modal */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            top: 0;
+            left: 0;
+            width: 100%; /* Set width to 100% to cover the entire viewport */
+            height: 100%; /* Set height to 100% to cover the entire viewport */
+            background-color: rgba(0, 0, 0, 0.9);
+            overflow: auto;
+        }
+
+        /* Style the modal content */
+        .modal-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            margin: auto;
+            display: table;
+            width: 80%; /* Set the desired width */
+            max-width: 800px; /* Set a max-width if needed */
+            height: 80%; /* Set the desired height */
+            max-height: 80vh; /* Set a max-height if needed, e.g., 80% of viewport height */
+        }
+
+        /* Style the close button */
+        .close {
+            color: darkred;
+            position: absolute;
+            top: 15px;
+            right: 35px;
+            font-size: 40px;
+            font-weight: bold;
+            transition: 0.3s;
+            z-index: 1001;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: orangered;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        /* Hide vertical scrollbar */
+        body.modal-open {
+            overflow: hidden;
+        }
+    </style>
+
+    <!-- Modify the JavaScript code -->
+    <script>
+        // Get the modal
+        var modal = document.getElementById("modelModal");
+
+        // Get the modal content div
+        var modalContent = modal.querySelector('.modal-content');
+
+        // Get the model viewer container
+        var modalViewerContainer = modalContent.querySelector("#modalViewerContainer");
+
+        // Get all elements with class="model-viewer"
+        var triggers = document.getElementsByClassName("model-viewer");
+
+        // Get the <span> element that closes the modal
+        var span = document.querySelector(".close");
+
+        // Variable to store scroll position
+        var scrollPosition = 0;
+
+        // Loop through all triggers and attach click event listeners
+        Array.from(triggers).forEach(function(trigger) {
+            trigger.onclick = function(e) {
+                e.preventDefault(); // Prevent default link behavior
+                modal.style.display = "block";
+                loadFBXModal(this.dataset.modelPath);
+                scrollPosition = window.scrollY; // Store scroll position
+                document.body.classList.add('modal-open'); // Hide vertical scrollbar
+            }
+        });
+
+        // When the user clicks on <span> (x), close the modal
+        span.onclick = function() {
+            modal.style.display = "none";
+            document.body.classList.remove('modal-open'); // Show vertical scrollbar
+            window.scrollTo(0, scrollPosition); // Restore scroll position
+        }
+
+        // When the user clicks anywhere outside of the modal, close it
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+                document.body.classList.remove('modal-open'); // Show vertical scrollbar
+                window.scrollTo(0, scrollPosition); // Restore scroll position
+            }
+        }
+
+        // Function to load 3D model into the modal
+        function loadFBXModal(modelPath) {
+            // Clear the modalViewerContainer before appending a new model viewer
+            modalViewerContainer.innerHTML = '';
+        
+            const scene = new THREE.Scene();
+            scene.background = new THREE.Color(0xdddddd);
+            // Adjust width and height based on modal content size
+            const modalWidth = modalContent.offsetWidth;
+            const modalHeight = modalContent.offsetHeight;
+
+            const aspectRatio = modalWidth / modalHeight;
+            const width = modalWidth
+            const height = width / aspectRatio;
+            const camera = new THREE.PerspectiveCamera(50, aspectRatio, 1, 5000);
+            camera.position.set(0, 0, 1000);
+            const renderer = new THREE.WebGLRenderer({
+                antialias: true
+            });
+            renderer.setSize(width, height);
+            modalViewerContainer.appendChild(renderer.domElement);
+            const controls = new THREE.OrbitControls(camera, renderer.domElement);
+            controls.enableDamping = true;
+            controls.dampingFactor = 0.05;
+            controls.rotateSpeed = 0.2; // Adjust the rotate speed (sensitivity)
+            const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
+            scene.add(ambientLight);
+            const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
+            directionalLight.position.set(0, 1, 0);
+            scene.add(directionalLight);
+            const fbxLoader = new THREE.FBXLoader();
+            fbxLoader.load(modelPath, (object) => {
+                object.traverse((child) => {
+                    if (child.isMesh) {
+                        child.material.side = THREE.DoubleSide; // Ensure both sides of the mesh are visible
+                    }
+                });
+                scene.add(object);
+
+                const box = new THREE.Box3().setFromObject(object);
+                const center = box.getCenter(new THREE.Vector3());
+                const size = box.getSize(new THREE.Vector3());
+                const maxDim = Math.max(size.x, size.y, size.z);
+
+                const fov = camera.fov * (Math.PI / 180);
+                const cameraDistance = Math.abs(maxDim / Math.sin(fov / 2));
+
+                camera.position.copy(center);
+                camera.position.z += cameraDistance;
+                camera.lookAt(center);
+
+                animate();
+            });
+
+            function animate() {
+                requestAnimationFrame(animate);
+                controls.update();
+                renderer.render(scene, camera);
+            }
+        }
+    </script>
 
     <script>
         function loadFBX(modelViewer) {
