@@ -20,7 +20,7 @@
                                 <div class="row">
                                     @foreach ($chunk as $asset)
                                         <div class="col-md-3">
-                                            <div class="card bg-secondary">
+                                            <div class="card bg-secondary" style="margin: 20;">
                                                 <img src="{{ Storage::url($asset->Location) }}"
                                                     class="card-img-top asset-image mx-auto d-block"
                                                     alt="{{ $asset->AssetName }}" onmouseover="changeMainImage(this)"
@@ -92,6 +92,9 @@
                     <p>
                         @foreach ($package->tags as $tag)
                             <p># {{ $tag->name }}</p>
+                        @endforeach
+                        @foreach ($package->categories as $category)
+                            <p># {{ $category->cat_name }}</p>
                         @endforeach
                     </p>
                 </div>

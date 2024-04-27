@@ -89,61 +89,63 @@
 
         <div class="scrollable-column packages_column">
             <div class="row package_row">
-                <div class="row">
-                    <h1 class="text-center w-100">AUDIO ASSETS</h1>
-                    <div class="results-container">
-                        <p class="results-text">
-                            {{ ($packages->currentPage()-1)*$packages->perPage()+1 }} - 
-                            {{ (($packages->currentPage()-1)*$packages->perPage())+$packages->count() }} 
-                            of {{ $packages->total() }} results
-                        </p>
-                        <div class="sort-container">
-                            <button class="btn btn-secondary dropdown-toggle" type="button" id="sortDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                                Sort By
-                            </button>
-                            <ul class="dropdown-menu" aria-labelledby="sortDropdown">
-                                <li><a class="dropdown-item" href="{{ route('filter.audio', array_merge(request()->except('sort'), ['sort' => 'name_asc'])) }}">Name (Ascending)</a></li>
-                                <li><a class="dropdown-item" href="{{ route('filter.audio', array_merge(request()->except('sort'), ['sort' => 'name_desc'])) }}">Name (Descending)</a></li>
-                                <li><a class="dropdown-item" href="{{ route('filter.audio', array_merge(request()->except('sort'), ['sort' => 'price_asc'])) }}">Price (Ascending)</a></li>
-                                <li><a class="dropdown-item" href="{{ route('filter.audio', array_merge(request()->except('sort'), ['sort' => 'price_desc'])) }}">Price (Descending)</a></li>
-                                <li><a class="dropdown-item" href="{{ route('filter.audio', array_merge(request()->except('sort'), ['sort' => 'username_asc'])) }}">UserName (Ascending)</a></li>
-                                <li><a class="dropdown-item" href="{{ route('filter.audio', array_merge(request()->except('sort'), ['sort' => 'username_desc'])) }}">UserName (Descending)</a></li>
-                                <!-- Add more sorting options as needed -->
-                            </ul>
-                        </div>
+                <h1 class="text-center w-100">AUDIO ASSETS</h1>
+                <div class="results-container">
+                    <p class="results-text">
+                        {{ ($packages->currentPage()-1)*$packages->perPage()+1 }} - 
+                        {{ (($packages->currentPage()-1)*$packages->perPage())+$packages->count() }} 
+                        of {{ $packages->total() }} results
+                    </p>
+                    <div class="sort-container">
+                        <button class="btn btn-secondary dropdown-toggle" type="button" id="sortDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                            Sort By
+                        </button>
+                        <ul class="dropdown-menu" aria-labelledby="sortDropdown">
+                            <li><a class="dropdown-item" href="{{ route('filter.audio', array_merge(request()->except('sort'), ['sort' => 'name_asc'])) }}">Name (Ascending)</a></li>
+                            <li><a class="dropdown-item" href="{{ route('filter.audio', array_merge(request()->except('sort'), ['sort' => 'name_desc'])) }}">Name (Descending)</a></li>
+                            <li><a class="dropdown-item" href="{{ route('filter.audio', array_merge(request()->except('sort'), ['sort' => 'price_asc'])) }}">Price (Ascending)</a></li>
+                            <li><a class="dropdown-item" href="{{ route('filter.audio', array_merge(request()->except('sort'), ['sort' => 'price_desc'])) }}">Price (Descending)</a></li>
+                            <li><a class="dropdown-item" href="{{ route('filter.audio', array_merge(request()->except('sort'), ['sort' => 'username_asc'])) }}">UserName (Ascending)</a></li>
+                            <li><a class="dropdown-item" href="{{ route('filter.audio', array_merge(request()->except('sort'), ['sort' => 'username_desc'])) }}">UserName (Descending)</a></li>
+                            <!-- Add more sorting options as needed -->
+                        </ul>
                     </div>
-                    @php
-                        $hasAudioAssets = false;
-                    @endphp
+                </div>
+                @php
+                    $hasAudioAssets = false;
+                @endphp
 
-                    @foreach ($packages as $index => $package)
-                        @if ($package->assetType && $package->assetType->asset_type === 'audio')
-                            @php
-                                $hasAudioAssets = true;
-                            @endphp
-                            <div class="col-md-4 mb-4">
-                                <div class="card">
-                                    <a href="{{ route('audio.show', ['id' => $package->id]) }}">
-                                        <img src="{{ Storage::url($package->Location) }}" class="card-img-top"
-                                            alt="{{ $package->PackageName }}">
-                                        <div class="card-body">
-                                            <h5 class="card-title">{{ $package->PackageName }}</h5>
-                                            <p class="card-text">{{ $package->user->username }}</p>
-                                        </div>
-                                    </a>
-                                </div>
-                            </div>
-                        @endif
-                    @endforeach
-
-                    @if (!$hasAudioAssets)
-                        <div class="col-md-12">
-                            <div class="alert alert-info" role="alert">
-                                No audio assets to display yet.
+                @foreach ($packages as $index => $package)
+                    @if ($package->assetType && $package->assetType->asset_type === 'audio')
+                        @php
+                            $hasAudioAssets = true;
+                        @endphp
+                        <div class="col-md-4 mb-4">
+                            <div class="card">
+                                <a href="{{ route('audio.show', ['id' => $package->id]) }}">
+                                    <img src="{{ Storage::url($package->Location) }}" class="card-img-top"
+                                        alt="{{ $package->PackageName }}">
+                                    <div class="card-body">
+                                        <h5 class="card-title">{{ $package->PackageName }}</h5>
+                                        <p class="card-text">{{ $package->user->username }}</p>
+                                    </div>
+                                </a>
                             </div>
                         </div>
                     @endif
-                </div>
+                @endforeach
+
+                @if (!$hasAudioAssets)
+                    <div class="col-md-12">
+                        <div class="alert alert-info" role="alert">
+                            No audio assets to display yet.
+                        </div>
+                    </div>
+                @endif    
+            </div>
+            <!-- Pagination Links -->
+            <div class="d-flex justify-content-center mt-5">
+                {{ $packages->links('pagination::bootstrap-4') }}
             </div>
         </div>
     </div>
