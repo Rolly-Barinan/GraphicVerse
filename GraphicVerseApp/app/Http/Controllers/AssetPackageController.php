@@ -13,7 +13,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use ZipArchive;
 use Illuminate\Validation\Rule;
-
+use Illuminate\Http\File;
+use Illuminate\Support\Facades\Http;
 
 class AssetPackageController extends Controller
 {
@@ -145,10 +146,99 @@ class AssetPackageController extends Controller
             $asset->save();
             $uploadedAssetIds[] = $asset->id;
         }
-        return redirect()->back()->with([
-            'success' => 'Images uploaded successfully',
-            'uploadedAssetIds' => $uploadedAssetIds,
-        ]);
+
+        // Initialize a flag to track if NSFW content is detected
+        $nsfwDetected = false;
+        $aiDetected = false;
+
+        // Iterate through each uploaded asset file
+        foreach ($request->file('asset') as $asset) {
+            // Initialize parameters for Sightengine API request
+            $params = [
+                'models' => 'nudity-2.0, genai', // Specify the models you want to use for detection
+                'api_user' => env('SIGHTENGINE_API_KEY'),
+                'api_secret' => env('SIGHTENGINE_API_SECRET'),
+            ];
+            
+            // Make a POST request to Sightengine API with multipart form data
+            $response = Http::attach(
+                'media',
+                file_get_contents($asset->getRealPath()),
+                $asset->getClientOriginalName()
+            )->post('https://api.sightengine.com/1.0/check.json', $params);            
+
+            // Check if the request was successful and NSFW content is detected
+            if ($response->successful() && $response['nudity']['sexual_activity'] + 
+                $response['nudity']['erotica'] + 
+                $response['nudity']['suggestive'] + 
+                $response['nudity']['sexual_display'] + 
+                $response['nudity']['sextoy'] + 
+                $response['nudity']['suggestive_classes']['cleavage'] + 
+                $response['nudity']['suggestive_classes']['lingerie'] + 
+                $response['nudity']['suggestive_classes']['other'] + 
+                $response['nudity']['suggestive_classes']['miniskirt'] + 
+                $response['nudity']['suggestive_classes']['bikini'] + 
+                $response['nudity']['suggestive_classes']['male_chest_categories']['very_revealing'] + 
+                $response['nudity']['suggestive_classes']['male_chest_categories']['slightly_revealing'] + 
+                $response['nudity']['suggestive_classes']['male_chest_categories']['revealing'] + 
+                $response['nudity']['suggestive_classes']['cleavage_categories']['very_revealing'] + 
+                $response['nudity']['suggestive_classes']['cleavage_categories']['revealing'] + 
+                $response['nudity']['suggestive_classes']['male_underwear'] + 
+                $response['nudity']['suggestive_classes']['male_chest'] > 0.5) {
+                // Handle NSFW content (you can customize this part based on your application's requirements)
+                $nsfwDetected = true;
+
+                foreach ($package->assets as $asset) {
+
+                    $filePath = $asset->Location;
+                    if (Storage::exists($filePath)) {
+                        Storage::delete($filePath);
+                    }
+                }
+                PackageCategory::where('package_id', $package->id)->delete();
+                $asset->delete();
+                $previewPath = $package->Location;
+                if (Storage::exists($previewPath)) {
+        
+                    Storage::delete($previewPath);
+                }
+                $package->delete();
+                return redirect()->back()->with('error', 'NSFW content detected in one of the asset files! Please upload safe content.');
+            } elseif ($response->successful() && $response['type']['ai_generated'] > 0.90) { 
+                $aiDetected = true;
+
+                foreach ($package->assets as $asset) {
+
+                    $filePath = $asset->Location;
+                    if (Storage::exists($filePath)) {
+                        Storage::delete($filePath);
+                    }
+                }
+                PackageCategory::where('package_id', $package->id)->delete();
+                $asset->delete();
+                $previewPath = $package->Location;
+                if (Storage::exists($previewPath)) {
+        
+                    Storage::delete($previewPath);
+                }
+                $package->delete();
+                return redirect()->back()->with('error', 'AI Generated content detected in one of the asset files! Please upload proper content.');
+            }
+
+            // Check if NSFW content is detected in any of the assets
+            if ($nsfwDetected) {
+                // Handle NSFW content (you can customize this part based on your application's requirements)
+                return redirect()->back()->with('error', 'NSFW content detected in one of the asset files! Please upload safe content.');
+            } elseif ($aiDetected){
+                return redirect()->back()->with('error', 'AI Generated content detected in one of the asset files! Please upload proper content.');
+            } else {
+                // If no NSFW content is detected, proceed with the success message
+                return redirect()->back()->with([
+                    'success' => 'Images uploaded successfully',
+                    'uploadedAssetIds' => $uploadedAssetIds,
+                ]);
+            }
+        }   
     }
 
     public function download($id)

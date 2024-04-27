@@ -145,7 +145,10 @@
                 </div>
             @endif
         </div>
-        {{ $packages->links() }}
+        <!-- Pagination Links -->
+        <div class="d-flex justify-content-center mt-5">
+            {{ $packages->links('pagination::bootstrap-4') }}
+        </div>
     </div>
 </div>
 

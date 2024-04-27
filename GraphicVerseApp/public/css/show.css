@@ -73,14 +73,20 @@ img {
 }
 
 
-.model-viewer .asset-image{
+.model-viewer{
     width: 205px;
-    height: 185px; 
+    height: 150px; 
     object-fit: contain;
     background-color: #9494AD;
     border: none;
 }
 
+.asset-image {
+    width: 100px; /* Adjust the width as needed */
+    height: 200px; /* Adjust the height as needed */
+    object-fit: cover; /* Maintain aspect ratio and cover container */
+    object-position: center; /* Center the image within its container */
+}
 
 .col-md-7 {
     width: 100%;
