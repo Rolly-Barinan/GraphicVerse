@@ -64,7 +64,7 @@
                     <a class="nav-link ms-5 me-5" href="/audio-models">Audio</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link ms-5 me-5" href="/image">Image</a>
+                    <a class="nav-link ms-5 me-5" href="/image">Artworks</a>
                 </li>
             </ul>
         </div>
