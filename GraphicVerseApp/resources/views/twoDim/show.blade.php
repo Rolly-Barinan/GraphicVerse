@@ -113,16 +113,26 @@
                 scrollLeft: '+=100'
             }, 'slow');
         });
+
+        // Function to change main image
+        function changeMainImage(assetImage) {
+            $('#mainImage').attr('src', assetImage.src);
+        }
+
+        // Variable to store original main image source
+        var mainImageOriginalSrc = $('#mainImage').attr('src');
+
+        // Function to reset main image
+        function resetMainImage() {
+            $('#mainImage').attr('src', mainImageOriginalSrc);
+        }
+
+        // Event listeners for mouse hover and mouse leave
+        $('.asset-image').hover(function() {
+            changeMainImage(this);
+        }, function() {
+            resetMainImage();
+        });
     });
 </script>
-<script>
-    function changeMainImage(assetImage) {
-        document.getElementById('mainImage').src = assetImage.src;
-    }
 
-    var mainImageOriginalSrc = document.getElementById('mainImage').src;
-
-    function resetMainImage() {
-        document.getElementById('mainImage').src = mainImageOriginalSrc;
-    }
-</script>
