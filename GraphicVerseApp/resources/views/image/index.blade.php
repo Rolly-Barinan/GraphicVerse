@@ -129,10 +129,9 @@
                     $hasArtworks = false;
                 @endphp
                 @foreach ($images as $image)
-                    {{ dd($image) }}
                     @if ($image->assetType && $image->assetType->asset_type === '2D')
                         @php
-                            $$hasArtworks = true;
+                            $hasArtworks = true;
                         @endphp
                         <div class="col-md-3 mb-3 preview_card">
                             <div class="card ">

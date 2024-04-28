@@ -20,7 +20,6 @@ class ImageAssetController extends Controller
         });
         $images = $query->paginate(12)->appends(request()->except('page'));
         $categories = Categories::all();
-        dd($categories);
         return view('image.index', compact('images', 'categories'));
     }
 
@@ -93,8 +92,11 @@ class ImageAssetController extends Controller
         $imageAsset->watermarkedImage = $watermarkedImage;
         $imageAsset->save();
 
-        // Redirect back or wherever you want after successful creation
-        return redirect()->back()->with('success', 'ImageAsset created successfully');
+        // Attach categories to the ImageAsset
+        $imageAsset->categories()->attach($request->input('category_ids', []));
+
+        // Redirect to the image create page with a success message
+        return redirect()->back()->with('success', 'ImageAsset created successfully!');
     }
 
 

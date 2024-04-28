@@ -3,6 +3,19 @@
     @extends('layouts.app')
 
     @section('content')
+
+    @if (session('success'))
+        <div class="alert alert-success" id="successAlert">
+            {{ session('success') }}
+        </div>
+    @endif
+
+    @if (session('error'))
+        <div class="alert alert-danger" id="errorAlert">
+            {{ session('error') }}
+        </div>
+    @endif
+    
         <div class="container">
             <div class="row justify-content-center">
                 <div class="col-md-8">
