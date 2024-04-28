@@ -81,9 +81,10 @@ Route::post('/image/store', [ImageAssetController::class, 'store'])->name('image
 Route::get('/image/create', [ImageAssetController::class, 'create'])->name('image.create');
 Route::get('/image/{id}', [ImageAssetController::class, 'show'])->name('image.show');
 Route::get('/image', [ImageAssetController::class, 'index'])->name('image.index');
+Route::get('/image', [ImageAssetController::class, 'filterImage'])->name('filter.image');
 Route::delete('/image/{image}', [ImageAssetController::class, 'destroy'])->name('image.destroy');
 Route::get('/image/{id}/download', [ImageAssetController::class, 'download'])->name('image.download');
-Route::get('/image', [ImageAssetController::class, 'filterImage'])->name('filter.image');
+
 
 ////////paypal 
 Route::post('paypal/payment', [PaypalController::class, 'payment'])->name('paypal');
@@ -118,7 +119,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/teams', [TeamController::class, 'index'])->name('teams.index');
     Route::get('/teams/create', [TeamController::class, 'create'])->name('teams.create');
     Route::post('/teams', [TeamController::class, 'store'])->name('teams.store');
-    
+
     Route::delete('/teams/{team}/leave', [TeamController::class, 'leaveTeam'])->name('teams.leave');
     Route::delete('/teams/{team}', [TeamController::class, 'destroy'])->name('teams.destroy');
 

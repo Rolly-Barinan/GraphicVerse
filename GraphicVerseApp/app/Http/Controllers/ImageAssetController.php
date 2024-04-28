@@ -1,5 +1,7 @@
 <?php
+
 namespace App\Http\Controllers;
+
 use App\Models\AssetType;
 use App\Models\Categories;
 use App\Models\ImageAsset;
@@ -141,7 +143,6 @@ class ImageAssetController extends Controller
         $query = ImageAsset::query()->whereHas('assetType', function ($q) {
             $q->where('asset_type', '2D');
         });
-
         // Filter by category
         if (!is_array($categoryIds) || empty($categoryIds)) {
             $query->whereHas('categories');
