@@ -1,46 +1,53 @@
 @extends('layouts.app')
-
+<link href="{{ asset('css/show.css') }}" rel="stylesheet">
 @section('content')
-    <div class="container-fluid">
-        <h1>Image Details</h1>
-        @if (Auth::id() == $image->userID)
-          {{-- //  {{ dd($image) }} --}}
-            <a href="/image/{{ $image->id }}/edit">
-                <img src="/svg/edit.svg" class="logo" alt="Edit Logo">
-            </a>
-            <form action="{{ route('image.destroy', $image->id) }}" method="POST"
-                onsubmit="return confirm('Are you sure you want to delete this package?')">
-                @csrf
-                @method('DELETE')
-                <button type="submit" class="btn btn-danger">Delete Package</button>
-            </form>
-        @endif
+    <div class="show container-fluid ">
         <div class="row">
-            <div class="col-md-6">
-                <div class="card">
-                    <img src="{{ Storage::url($image->watermarkedImage) }}" class="card-img-top"
-                        alt="{{ $image->watermarkedImage }}">
-                    <div class="card-body">
-                        <h5 class="card-title">{{ $image->ImageName }}</h5>
-                        <p class="card-text">{{ $image->ImageDescription }}</p>
-                        @if ($image->Price != null && $image->Price != 0)
-                            <p>Price: ${{ $image->Price }}</p>
+            <div class="col-md-7">
+                <div class="image-container mx-auto d-block">
+                    <img id="mainImage" src="{{ Storage::url($image->watermarkedImage) }}" class="card-img-top main-image " alt="{{ $image->ImageName }}">
+                </div>
+            </div>
+            <div class="col-md-5">
+                <div class="r-body">
+                    @if ($user->teams->isNotEmpty())
+                        <a href="{{ route('teams.details', ['team' => $user->teams->first()->name]) }}" style="text-decoration: none;"><h4>{{ $user->teams->first()->name }}</h4></a>
+                    @endif
+                    <h1 class="r-title">{{ $image->ImageName }}</h1>
+                    <a href="{{ route('profile.show', ['user' => $user->id]) }}" style="text-decoration: none;"><p>{{ $user->username }}</p></a>
+                    <div class="buy">
+                        @if (Auth::id() == $image->userID)
+                            <form action="/image/{{ $image->id }}/edit" method="GET">
+                                    <button type="submit" class="btn btn-primary">
+                                        Edit Package
+                                    </button>
+                                </form>
+                            <form action="{{ route('image.destroy', $image->id) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this image?')">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="btn btn-danger">Delete Image</button>
+                            </form>
+                        @else
+                            <h3>Download Image</h3>
+                            @if ($image->Price == null || $image->Price == 0)
+                                <a href="{{ route('image.download', $image->id) }}" class="btn btn-success">Download for Free</a>
+                            @else
+                                <form action="{{ route('paypal') }}" method="POST">
+                                    @csrf
+                                    <input type="hidden" name="price" value="{{ $image->Price }}">
+                                    <button type="submit" class="btn btn-primary">Pay ${{ $image->Price }} with PayPal</button>
+                                </form>
+                            @endif
                         @endif
-                        <p> image size: {{ number_format($imageSize, 2) }}mb </p>
-                        <p>Created By: {{ $user->name }} </p>
                     </div>
+                    <hr>
+                    <p class="r-text">{{ $image->ImageDescription }}</p>
+                    @if ($image->Price != null && $image->Price != 0)
+                        <p>Price: ${{ $image->Price }}</p>
+                    @endif
+                    <p>Image size: {{ number_format($imageSize, 2) }} MB</p>
                 </div>
             </div>
         </div>
-        @if ($image->Price == null || $image->Price == 0)
-            <a href="{{ route('image.download', $image->id) }}" class="btn btn-success">Download</a>
-        @else
-            <form action="{{ route('paypal') }}" method="POST">
-                @csrf
-                <input type="hidden" name="price" value="{{ $image->Price }}">
-                <button type="submit" class="btn btn-primary">Pay with PayPal</button>
-            </form>
-        @endif
-        <a href="/image" class="btn btn-secondary">Back</a>
     </div>
 @endsection

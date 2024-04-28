@@ -136,7 +136,7 @@
                         <div class="col-md-3 mb-3 preview_card">
                             <div class="card ">
                                 <a href="{{ route('image.show', ['id' => $image->id]) }}">
-                                    <img src="{{ Storage::url($image->Location) }}" class="card-img-top"
+                                    <img src="{{ Storage::url($image->watermarkedImage) }}" class="card-img-top"
                                         alt="{{ $image->ImageName }}">
 
                                     <div class="card-body">
