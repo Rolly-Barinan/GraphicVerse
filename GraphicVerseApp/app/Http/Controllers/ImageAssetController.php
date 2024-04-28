@@ -1,15 +1,10 @@
 <?php
-
 namespace App\Http\Controllers;
-
 use App\Models\AssetType;
 use App\Models\Categories;
 use App\Models\ImageAsset;
-use App\Models\ImageCategory;
 use App\Models\User;
-use Illuminate\Contracts\Cache\Store;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 use Intervention\Image\Facades\Image;
 
@@ -21,10 +16,9 @@ class ImageAssetController extends Controller
         $query = ImageAsset::query()->whereHas('assetType', function ($q) {
             $q->where('asset_type', '2D');
         });
-
         $images = $query->paginate(12)->appends(request()->except('page'));
-
         $categories = Categories::all();
+        dd($categories);
         return view('image.index', compact('images', 'categories'));
     }
 
@@ -37,79 +31,68 @@ class ImageAssetController extends Controller
 
     public function store(Request $request)
     {
-        // Validate the request data
+        // Validate the incoming request
         $request->validate([
             'ImageName' => 'required',
-            'Price' => 'required',
-            'imageFile' => 'required|image|mimes:jpeg,png,jpg,gif',
-            'watermarkFile' => 'image|mimes:jpeg,png,jpg,gif',
-            'category_ids' => 'array',
+            'imageFile' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048', // Adjust validation rules as needed
         ]);
 
-        // Get the authenticated user
-        $user = auth()->user();
+        // Create folders if they don't exist
+        $publicPath = 'public/';
+        $artPath = $publicPath . 'arts/';
+        $watermarkPath = $publicPath . 'watermarked/';
+        Storage::makeDirectory($artPath, 0777, true, true);
+        Storage::makeDirectory($watermarkPath, 0777, true, true);
 
-        // Store the original image file
+        // Store the image file
+        $imageName = $request->ImageName;
         $imageFile = $request->file('imageFile');
+        $imagePath = $artPath . $imageName . '.' . $imageFile->getClientOriginalExtension();
+        Storage::putFileAs($publicPath . 'arts', $imageFile, $imageName . '.' . $imageFile->getClientOriginalExtension());
 
-        // Get the original file name
-        $originalFileName = $imageFile->getClientOriginalName();
-
-        // Create an instance of Intervention Image
-        $image = Image::make($imageFile);
-        $origImage = Image::make($imageFile);
-        // Check if a watermark file is provided
+        // Check if watermark file is uploaded
+        $watermarkedImage = null;
         if ($request->hasFile('watermarkFile')) {
             $watermarkFile = $request->file('watermarkFile');
+            $watermarkPath = $watermarkPath . 'watermarked_' . $imageName . '.' . $watermarkFile->getClientOriginalExtension();
+
+            // Load main image and watermark image
+            $mainImage = Image::make(storage_path('app/' . $imagePath));
             $watermark = Image::make($watermarkFile);
 
-            // Fit the watermark to the dimensions of the original image
-            $watermark->fit($image->width(), $image->height());
+            // Calculate scaling factor for watermark to fit image
+            $scaleFactor = min($mainImage->width() / $watermark->width(), $mainImage->height() / $watermark->height());
 
-            // Insert the watermark onto the original image
-            $image->insert($watermark, 'center');
+            // Resize watermark to fit image
+            $watermark->resize($watermark->width() * $scaleFactor, $watermark->height() * $scaleFactor);
+
+            // Calculate watermark position
+            $watermarkPositionX = ($mainImage->width() - $watermark->width()) / 2;
+            $watermarkPositionY = ($mainImage->height() - $watermark->height()) / 2;
+
+            // Merge watermark with main image
+            $mainImage->insert($watermark, 'top-left', $watermarkPositionX, $watermarkPositionY);
+
+            // Save watermarked image
+            $mainImage->save(storage_path('app/' . $watermarkPath));
+
+            $watermarkedImage = $watermarkPath;
         }
 
-        // Define directory for storing images
-        $directory = 'public/images/';
-        $watermarkDir = 'public/watermark/';
-
-        // Ensure directories exist, create them if not
-        File::ensureDirectoryExists(storage_path('app/public/' . $directory));
-        File::ensureDirectoryExists(storage_path('app/public/' . $watermarkDir));
-
-        // Generate a unique filename for the image
-        $filename = $imageFile->hashName();
-
-        try {
-            // Save the image to the desired location
-            $image->save(storage_path('app/' . $watermarkDir . $filename));
-            $origImage->save(storage_path('app/' . $directory . $filename));
-        } catch (\Exception $e) {
-            // Log or handle the exception
-            return back()->withInput()->withErrors(['error' => 'Failed to save image: ' . $e->getMessage()]);
-        }
-
-        // Create a new ImageAsset instance with the provided data
-        $imageAsset = new ImageAsset([
-            'userID' => $user->id,
-            'assetTypeID' => 1,
-            'ImageName' => $request->input('ImageName'),
-            'ImageDescription' => $request->input('ImageDescription'),
-            'Location' =>  $directory . $filename,
-            'Price' => $request->input('Price'),
-            'ImageSize' => $imageFile->getSize(),
-            'watermarkedImage' =>   $watermarkDir . $filename,
-        ]);
-
-        // Save the ImageAsset instance to the database
+        // Save data to database
+        $imageAsset = new ImageAsset();
+        $imageAsset->userID = auth()->id(); // Assuming you're using authentication
+        $imageAsset->assetTypeID = 1; // Assuming asset type ID for 2D images is 1, adjust accordingly
+        $imageAsset->ImageName = $request->ImageName;
+        $imageAsset->ImageDescription = $request->ImageDescription;
+        $imageAsset->Location = $imagePath;
+        $imageAsset->Price = $request->Price;
+        $imageAsset->ImageSize = $imageFile->getSize();
+        $imageAsset->watermarkedImage = $watermarkedImage;
         $imageAsset->save();
 
-        // Attach categories to the ImageAsset
-        $imageAsset->categories()->attach($request->input('category_ids', []));
-
-        // Redirect to the image create page with a success message
-        return redirect()->route('image.create')->with('success', 'ImageAsset created successfully!');
+        // Redirect back or wherever you want after successful creation
+        return redirect()->back()->with('success', 'ImageAsset created successfully');
     }
 
 
@@ -136,19 +119,19 @@ class ImageAssetController extends Controller
 
     public function destroy(ImageAsset $image)
     {
- 
+
         $origImage = $image->Location;
         $watermark = $image->watermarkedImage;
         if (Storage::exists($origImage)) {
             Storage::delete($origImage);
-        }   
+        }
         if (Storage::exists($watermark)) {
             Storage::delete($watermark);
         }
         $image->delete();
         return redirect('/image')->with('success', 'Image asset deleted successfully.');
     }
-    
+
     public function filterImage(Request $request)
     {
         $categoryIds = $request->input('categories');

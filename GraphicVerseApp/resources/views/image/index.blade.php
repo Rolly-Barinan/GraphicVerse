@@ -15,18 +15,18 @@
                     <button type="button" class="btn btn-link" onclick="toggleCategories()">-</button>
                 </div>
                 <div id="categories">
-                    @foreach($categories as $category)
-                    <div class="form-check " required>
-                        <input class="form-check-input" type="checkbox" name="categories[]" value="{{ $category->id }}"
-                        @if(is_array(request()->categories) && in_array($category->id, request()->categories)) checked @endif>
-                        <label class="form-check-label">
-                            {{ $category->cat_name }}
-                        </label>
-                    </div>
+                    @foreach ($categories as $category)
+                        <div class="form-check " required>
+                            <input class="form-check-input" type="checkbox" name="categories[]" value="{{ $category->id }}"
+                                @if (is_array(request()->categories) && in_array($category->id, request()->categories)) checked @endif>
+                            <label class="form-check-label">
+                                {{ $category->cat_name }}
+                            </label>
+                        </div>
                     @endforeach
                 </div>
                 <hr>
-            
+
                 <!-- Price Range filter -->
                 <div class="d-flex justify-content-between align-items-center">
                     <h3 style="color: #989898 !important;">Price Range</h3>
@@ -35,7 +35,7 @@
                 <div id="priceRange">
                     <div class="form-check">
                         <input class="form-check-input" type="checkbox" name="price_range[]" value="free"
-                        @if(is_array(request()->price_range) && in_array('free', request()->price_range)) checked @endif>
+                            @if (is_array(request()->price_range) && in_array('free', request()->price_range)) checked @endif>
                         <label class="form-check-label">
                             Free
                         </label>
@@ -70,17 +70,18 @@
                     </div>
                 </div>
                 <hr>
-            
+
                 <!-- Authors filter -->
                 <div class="d-flex justify-content-between align-items-center">
                     <h3 style="color: #989898 !important;">Authors</h3>
                     <button type="button" class="btn btn-link" onclick="toggleAuthors()">-</button>
                 </div>
                 <div id="authors">
-                    <input type="text" class="searchbox" name="search" placeholder="Search Author's username" class="mb-2">
+                    <input type="text" class="searchbox" name="search" placeholder="Search Author's username"
+                        class="mb-2">
                 </div>
                 <hr>
-            
+
                 <!-- Submit button -->
                 <button type="submit" class="btn btn-primary">Apply Filters</button>
             </form>
@@ -92,21 +93,34 @@
                 <h1 class="text-center w-100">ARTWORKS</h1>
                 <div class="results-container">
                     <p class="results-text">
-                        {{ ($images->currentPage()-1)*$images->perPage()+1 }} - 
-                        {{ (($images->currentPage()-1)*$images->perPage())+$images->count() }} 
+                        {{ ($images->currentPage() - 1) * $images->perPage() + 1 }} -
+                        {{ ($images->currentPage() - 1) * $images->perPage() + $images->count() }}
                         of {{ $images->total() }} results
                     </p>
                     <div class="sort-container">
-                        <button class="btn btn-secondary dropdown-toggle" type="button" id="sortDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                        <button class="btn btn-secondary dropdown-toggle" type="button" id="sortDropdown"
+                            data-bs-toggle="dropdown" aria-expanded="false">
                             Sort By
                         </button>
                         <ul class="dropdown-menu" aria-labelledby="sortDropdown">
-                            <li><a class="dropdown-item" href="{{ route('filter.image', array_merge(request()->except('sort'), ['sort' => 'name_asc'])) }}">Name (Ascending)</a></li>
-                            <li><a class="dropdown-item" href="{{ route('filter.image', array_merge(request()->except('sort'), ['sort' => 'name_desc'])) }}">Name (Descending)</a></li>
-                            <li><a class="dropdown-item" href="{{ route('filter.image', array_merge(request()->except('sort'), ['sort' => 'price_asc'])) }}">Price (Ascending)</a></li>
-                            <li><a class="dropdown-item" href="{{ route('filter.image', array_merge(request()->except('sort'), ['sort' => 'price_desc'])) }}">Price (Descending)</a></li>
-                            <li><a class="dropdown-item" href="{{ route('filter.image', array_merge(request()->except('sort'), ['sort' => 'username_asc'])) }}">UserName (Ascending)</a></li>
-                            <li><a class="dropdown-item" href="{{ route('filter.image', array_merge(request()->except('sort'), ['sort' => 'username_desc'])) }}">UserName (Descending)</a></li>
+                            <li><a class="dropdown-item"
+                                    href="{{ route('filter.image', array_merge(request()->except('sort'), ['sort' => 'name_asc'])) }}">Name
+                                    (Ascending)</a></li>
+                            <li><a class="dropdown-item"
+                                    href="{{ route('filter.image', array_merge(request()->except('sort'), ['sort' => 'name_desc'])) }}">Name
+                                    (Descending)</a></li>
+                            <li><a class="dropdown-item"
+                                    href="{{ route('filter.image', array_merge(request()->except('sort'), ['sort' => 'price_asc'])) }}">Price
+                                    (Ascending)</a></li>
+                            <li><a class="dropdown-item"
+                                    href="{{ route('filter.image', array_merge(request()->except('sort'), ['sort' => 'price_desc'])) }}">Price
+                                    (Descending)</a></li>
+                            <li><a class="dropdown-item"
+                                    href="{{ route('filter.image', array_merge(request()->except('sort'), ['sort' => 'username_asc'])) }}">UserName
+                                    (Ascending)</a></li>
+                            <li><a class="dropdown-item"
+                                    href="{{ route('filter.image', array_merge(request()->except('sort'), ['sort' => 'username_desc'])) }}">UserName
+                                    (Descending)</a></li>
                             <!-- Add more sorting options as needed -->
                         </ul>
                     </div>
@@ -114,17 +128,18 @@
                 @php
                     $hasArtworks = false;
                 @endphp
-                @foreach ($images as $index => $image)
+                @foreach ($images as $image)
+                    {{ dd($image) }}
                     @if ($image->assetType && $image->assetType->asset_type === '2D')
                         @php
                             $$hasArtworks = true;
                         @endphp
                         <div class="col-md-3 mb-3 preview_card">
                             <div class="card ">
-                                <a href="{{ route('twoDim.show', ['id' => $image->id]) }}">
+                                <a href="{{ route('image.show', ['id' => $image->id]) }}">
                                     <img src="{{ Storage::url($image->Location) }}" class="card-img-top"
                                         alt="{{ $image->ImageName }}">
-                                    
+
                                     <div class="card-body">
                                         <h5 class="card-title">{{ $image->ImageName }}</h5>
                                         <p class="card-text">{{ $image->user->username }}</p>
