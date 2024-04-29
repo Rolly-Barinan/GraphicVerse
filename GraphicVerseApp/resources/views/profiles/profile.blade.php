@@ -34,16 +34,40 @@
                 </div>
             </div>
             <div class="col-6 d-flex justify-content-end">        
-                <a href="{{ route('asset.create') }}">
-                    <button type="button" class="uploadBtn">
-                        Upload Package
-                    </button>
-                </a>
+                <button type="button" class="uploadBtn" data-toggle="modal" data-target="#uploadPackageModal">
+                    Upload Package
+                </button>
                 <a href="{{ $user->profile->url ?? '/profile/' . $user->id . '/edit' }}">
                     <button type="button" class="connectBtn">
                         {{ $user->profile->url ? 'Connect' : 'Edit' }}
                     </button>
                 </a>
+            </div>
+        </div>
+        <!-- Upload Package Modal -->
+        <div class="modal fade" id="uploadPackageModal" tabindex="-1" role="dialog" aria-labelledby="uploadPackageModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="uploadPackageModalLabel">Upload Package</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body m-auto">
+                        <!-- Add your upload package form here -->
+                        <a href="{{ route('asset.create') }}">
+                            <button type="button" class="uploadBtn">
+                                Upload Assets
+                            </button>
+                        </a>
+                        <a href="{{ route('image.create') }}">
+                            <button type="button" class="uploadBtn">
+                                Upload Artwork
+                            </button>
+                        </a>
+                    </div>
+                </div>
             </div>
         </div>
         <div class="row" style="margin-top: -100px !important;">
