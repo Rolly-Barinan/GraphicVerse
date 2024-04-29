@@ -1,8 +1,10 @@
 <?php
 
 namespace App\Http\Controllers;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 use App\Models\Package;
+use App\Models\ImageAsset;
 use Illuminate\Http\Request;
 use App\Models\Categories;
 
@@ -12,11 +14,25 @@ class SearchController extends Controller
     {
         $query = $request->input('q');
         $packages = Package::where('PackageName', 'like', "%$query%")->paginate(12);
-
+        $images = ImageAsset::where('ImageName', 'like', "%$query%")->paginate(12);
         // Retrieve categories
         $categories = Categories::all(); // Assuming Category is the model for your categories
 
-        return view('search', compact('packages', 'query', 'categories'));
+        // Combine packages and images
+        $searchResults = $packages->merge($images);
+
+        // Paginate the sorted results
+        $perPage = 12;
+        $currentPage = $request->input('page') ?? 1;
+        $pagedSearchResults = new LengthAwarePaginator(
+            $searchResults->forPage($currentPage, $perPage),
+            $searchResults->count(),
+            $perPage,
+            $currentPage,
+            ['path' => $request->url(), 'query' => $request->query()]
+        );
+
+        return view('search', compact('packages', 'images', 'pagedSearchResults', 'query', 'categories'));
     }
 
 
@@ -98,10 +114,80 @@ class SearchController extends Controller
             // Add more sorting options as needed
         }
 
+        // Fetch images based on the same filters and sorting
+        $imagesQuery = ImageAsset::where('ImageName', 'like', "%$query%");
+
+        // Apply category filter
+        if (!empty($categoryIds)) {
+            $imagesQuery->whereHas('categories', function ($q) use ($categoryIds) {
+                $q->whereIn('categories.id', $categoryIds);
+            });
+        }
+
+        // Apply price range filter
+        if (!empty($priceRanges)) {
+            $imagesQuery->where(function ($q) use ($priceRanges) {
+                // Same logic as with packages
+            });
+        }
+
+        // Apply author search filter
+        if (!empty($authorSearch)) {
+            $imagesQuery->whereHas('user', function ($q) use ($authorSearch) {
+                $q->where('username', 'like', "%$authorSearch%");
+            });
+        }
+        
         $packages = $queryBuilder->paginate(12);
+        $images = $imagesQuery->paginate(12);
+
+        // Combine packages and images
+        $searchResults = $queryBuilder->get()->merge($imagesQuery->get());
+
+        // Apply sorting
+        switch ($request->input('sort')) {
+            case 'name_asc':
+                $searchResults = $searchResults->sortBy(function ($item) {
+                    return $item instanceof Package ? $item->PackageName : $item->ImageName;
+                });
+                break;
+            case 'name_desc':
+                $searchResults = $searchResults->sortByDesc(function ($item) {
+                    return $item instanceof Package ? $item->PackageName : $item->ImageName;
+                });
+                break;
+            case 'price_asc':
+                $searchResults = $searchResults->sortBy('Price');
+                break;
+            case 'price_desc':
+                $searchResults = $searchResults->sortByDesc('Price');
+                break;
+            case 'username_asc':
+                $searchResults = $searchResults->sortBy(function ($item) {
+                    return $item instanceof Package ? $item->user->username : $item->user->username;
+                });
+                break;
+            case 'username_desc':
+                $searchResults = $searchResults->sortByDesc(function ($item) {
+                    return $item instanceof Package ? $item->user->username : $item->user->username;
+                });
+                break;
+            // Add more sorting options as needed
+        }
+
+        // Paginate the sorted results
+        $perPage = 12;
+        $currentPage = $request->input('page') ?? 1;
+        $pagedSearchResults = new LengthAwarePaginator(
+            $searchResults->forPage($currentPage, $perPage),
+            $searchResults->count(),
+            $perPage,
+            $currentPage,
+            ['path' => $request->url(), 'query' => $request->query()]
+        );
 
         // Pass categories to the view
-        return view('search', compact('packages', 'query', 'categories', 'categoryIds', 'priceRanges'));
+        return view('search', compact('packages', 'images', 'pagedSearchResults', 'searchResults', 'query', 'categories', 'categoryIds', 'priceRanges'));
     }
 
 }

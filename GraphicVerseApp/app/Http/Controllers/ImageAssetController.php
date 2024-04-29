@@ -190,10 +190,10 @@ class ImageAssetController extends Controller
         if ($request->has('sort')) {
             switch ($request->input('sort')) {
                 case 'name_asc':
-                    $query->orderBy('PackageName');
+                    $query->orderBy('ImageName');
                     break;
                 case 'name_desc':
-                    $query->orderByDesc('PackageName');
+                    $query->orderByDesc('ImageName');
                     break;
                 case 'price_asc':
                     $query->orderBy('Price');
@@ -202,11 +202,11 @@ class ImageAssetController extends Controller
                     $query->orderByDesc('Price');
                     break;
                 case 'username_asc':
-                    $query->leftJoin('users', 'packages.UserID', '=', 'users.id')
+                    $query->leftJoin('users', 'image_assets.UserID', '=', 'users.id')
                         ->orderBy('users.username');
                     break;
                 case 'username_desc':
-                    $query->leftJoin('users', 'packages.UserID', '=', 'users.id')
+                    $query->leftJoin('users', 'image_assets.UserID', '=', 'users.id')
                         ->orderByDesc('users.username');
                     break;
                 default:
