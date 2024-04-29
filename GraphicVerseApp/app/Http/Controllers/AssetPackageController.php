@@ -9,6 +9,7 @@ use App\Models\Categories;
 use App\Models\Package;
 use App\Models\PackageCategory;
 use App\Models\Tag;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use ZipArchive;
@@ -159,32 +160,34 @@ class AssetPackageController extends Controller
                 'api_user' => env('SIGHTENGINE_API_KEY'),
                 'api_secret' => env('SIGHTENGINE_API_SECRET'),
             ];
-            
+
             // Make a POST request to Sightengine API with multipart form data
             $response = Http::attach(
                 'media',
                 file_get_contents($asset->getRealPath()),
                 $asset->getClientOriginalName()
-            )->post('https://api.sightengine.com/1.0/check.json', $params);            
+            )->post('https://api.sightengine.com/1.0/check.json', $params);
 
             // Check if the request was successful and NSFW content is detected
-            if ($response->successful() && $response['nudity']['sexual_activity'] + 
-                $response['nudity']['erotica'] + 
-                $response['nudity']['suggestive'] + 
-                $response['nudity']['sexual_display'] + 
-                $response['nudity']['sextoy'] + 
-                $response['nudity']['suggestive_classes']['cleavage'] + 
-                $response['nudity']['suggestive_classes']['lingerie'] + 
-                $response['nudity']['suggestive_classes']['other'] + 
-                $response['nudity']['suggestive_classes']['miniskirt'] + 
-                $response['nudity']['suggestive_classes']['bikini'] + 
-                $response['nudity']['suggestive_classes']['male_chest_categories']['very_revealing'] + 
-                $response['nudity']['suggestive_classes']['male_chest_categories']['slightly_revealing'] + 
-                $response['nudity']['suggestive_classes']['male_chest_categories']['revealing'] + 
-                $response['nudity']['suggestive_classes']['cleavage_categories']['very_revealing'] + 
-                $response['nudity']['suggestive_classes']['cleavage_categories']['revealing'] + 
-                $response['nudity']['suggestive_classes']['male_underwear'] + 
-                $response['nudity']['suggestive_classes']['male_chest'] > 0.5) {
+            if (
+                $response->successful() && $response['nudity']['sexual_activity'] +
+                $response['nudity']['erotica'] +
+                $response['nudity']['suggestive'] +
+                $response['nudity']['sexual_display'] +
+                $response['nudity']['sextoy'] +
+                $response['nudity']['suggestive_classes']['cleavage'] +
+                $response['nudity']['suggestive_classes']['lingerie'] +
+                $response['nudity']['suggestive_classes']['other'] +
+                $response['nudity']['suggestive_classes']['miniskirt'] +
+                $response['nudity']['suggestive_classes']['bikini'] +
+                $response['nudity']['suggestive_classes']['male_chest_categories']['very_revealing'] +
+                $response['nudity']['suggestive_classes']['male_chest_categories']['slightly_revealing'] +
+                $response['nudity']['suggestive_classes']['male_chest_categories']['revealing'] +
+                $response['nudity']['suggestive_classes']['cleavage_categories']['very_revealing'] +
+                $response['nudity']['suggestive_classes']['cleavage_categories']['revealing'] +
+                $response['nudity']['suggestive_classes']['male_underwear'] +
+                $response['nudity']['suggestive_classes']['male_chest'] > 0.5
+            ) {
                 // Handle NSFW content (you can customize this part based on your application's requirements)
                 $nsfwDetected = true;
 
@@ -199,12 +202,12 @@ class AssetPackageController extends Controller
                 $asset->delete();
                 $previewPath = $package->Location;
                 if (Storage::exists($previewPath)) {
-        
-                    Storage::delete($previewPath);  
+
+                    Storage::delete($previewPath);
                 }
                 $package->delete();
                 return redirect()->back()->with('error', 'NSFW content detected in one of the asset files! Please upload safe content.');
-            } elseif ($response->successful() && $response['type']['ai_generated'] > 0.90) { 
+            } elseif ($response->successful() && $response['type']['ai_generated'] > 0.90) {
                 $aiDetected = true;
 
                 foreach ($package->assets as $asset) {
@@ -218,7 +221,7 @@ class AssetPackageController extends Controller
                 $asset->delete();
                 $previewPath = $package->Location;
                 if (Storage::exists($previewPath)) {
-        
+
                     Storage::delete($previewPath);
                 }
                 $package->delete();
@@ -229,7 +232,7 @@ class AssetPackageController extends Controller
             if ($nsfwDetected) {
                 // Handle NSFW content (you can customize this part based on your application's requirements)
                 return redirect()->back()->with('error', 'NSFW content detected in one of the asset files! Please upload safe content.');
-            } elseif ($aiDetected){
+            } elseif ($aiDetected) {
                 return redirect()->back()->with('error', 'AI Generated content detected in one of the asset files! Please upload proper content.');
             } else {
                 // If no NSFW content is detected, proceed with the success message
@@ -238,7 +241,7 @@ class AssetPackageController extends Controller
                     'uploadedAssetIds' => $uploadedAssetIds,
                 ]);
             }
-        }   
+        }
     }
 
     public function download($id)
@@ -296,4 +299,6 @@ class AssetPackageController extends Controller
         $package->delete();
         return redirect('/')->with('success', 'Package and associated files deleted successfully.');
     }
+
+   
 }

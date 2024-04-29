@@ -42,4 +42,8 @@ class Package extends Model
     {
         return $this->belongsToMany(Tag::class);
     }
+    public function purchases()
+    {
+       return $this->hasMany(Purchase::class); 
+    }
 }

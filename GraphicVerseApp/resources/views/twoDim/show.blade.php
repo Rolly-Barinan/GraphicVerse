@@ -45,10 +45,15 @@
             <div class="col-md-5">
                 <div class="r-body">
                     @if ($user->teams->isNotEmpty())
-                        <a href="{{ route('teams.details', ['team' => $user->teams->first()->name]) }}" style="text-decoration: none;"><h4>{{ $user->teams->first()->name }}</h4></a>
+                        <a href="{{ route('teams.details', ['team' => $user->teams->first()->name]) }}"
+                            style="text-decoration: none;">
+                            <h4>{{ $user->teams->first()->name }}</h4>
+                        </a>
                     @endif
                     <h1 class="r-title">{{ $package->PackageName }}</h1>
-                    <a href="{{ route('profile.show', ['user' => $user->id]) }}" style="text-decoration: none;"><p>{{ $user->username }}</p></a>
+                    <a href="{{ route('profile.show', ['user' => $user->id]) }}" style="text-decoration: none;">
+                        <p>{{ $user->username }}</p>
+                    </a>
                     <div class="buy">
                         @if (Auth::id() == $package->UserID)
                             <form action="/package/{{ $package->id }}/edit" method="GET">
@@ -56,7 +61,8 @@
                                     Edit Package
                                 </button>
                             </form>
-                            <form action="{{ route('asset.destroy', $package->id) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this package?')">
+                            <form action="{{ route('asset.destroy', $package->id) }}" method="POST"
+                                onsubmit="return confirm('Are you sure you want to delete this package?')">
                                 @csrf
                                 @method('DELETE')
                                 <button type="submit" class="btn btn-danger">Delete Package</button>
@@ -64,30 +70,30 @@
                         @else
                             <h3>Download Asset</h3>
                             <p>For more information about the royalties for the asset, <a href="#">click here</a>.</p>
-                            <form action="{{ route('paypal') }}" method="POST">
-                                @csrf
-                                <input type="hidden" name="price" value="{{ $package->Price }}">
+                            @if (!empty($package->Price) && $package->Price != '0' && !$checkPurchase)
+                           
+                                <form action="{{ route('paypal') }}" method="POST">
+                                    @csrf
+                                    <input type="hidden" name="package_id" value="{{ $package->id }}">>
+                                    <input type="hidden" name="price" value="{{ $package->Price }}">
+                                    <button type="submit">
+                                        <a class = "no-underline">
+                                            Pay ${{ $package->Price }} with PayPal
+                                        </a>
+                                    </button>
+                                </form>
+                            @else
                                 <button type="submit">
-                                    @if (!empty($package->Price) && $package->Price != '0')
-                                        <form action="{{ route('paypal') }}" method="POST">
-                                            @csrf
-                                            <input type="hidden" name="price" value="{{ $package->Price }}">
-                                            <a class = "no-underline">
-                                                Pay ${{ $package->Price }} with PayPal
-                                            </a>
-                                        </form>
-                                    @else
-                                        <a href="{{ route('asset.download', $package->id) }}" class = "no-underline">Download
-                                            for Free</a>
-                                    @endif
+                                    <a href="{{ route('asset.download', $package->id) }}" class = "no-underline">Download
+                                        for Free</a>
                                 </button>
-                            </form>
+                            @endif
                         @endif
                     </div>
                     <hr>
                     <p class="r-text">{{ $package->Description }}</p>
                     <p>File Types: {{ implode(', ', $fileTypes->toArray()) }}</p>
-                    <p>File Size: {{ number_format($totalSizeMB, 2) }}kb</p>   
+                    <p>File Size: {{ number_format($totalSizeMB, 2) }}kb</p>
                     <h3>Tags</h3>
                     <p>
                         @foreach ($package->tags as $tag)
@@ -138,4 +144,3 @@
         });
     });
 </script>
-

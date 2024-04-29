@@ -90,7 +90,6 @@ Route::get('/image/{id}/download', [ImageAssetController::class, 'download'])->n
 Route::post('paypal/payment', [PaypalController::class, 'payment'])->name('paypal');
 Route::get('paypal/success', [PaypalController::class, 'success'])->name('paypal_success');
 Route::get('paypal/cancel', [PaypalController::class, 'cancel'])->name('paypal_cancel');
-
 //asset layout 2d
 Route::get('/2d-models', [TwoDimContoller::class, 'index'])->name('twoDim.index');
 Route::get('/2d-models/filter', [TwoDimContoller::class, 'filterPackages'])->name('filter.2d');

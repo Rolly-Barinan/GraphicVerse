@@ -30,6 +30,7 @@ class TwoDimContoller extends Controller
     {
         $package = Package::with('assets', 'tags')->findOrFail($id);
         $user = User::with('packages')->findOrFail($package->UserID);
+        $userID = auth()->id();
         $assets = $package->assets;
         $totalSizeKB = 0;
         foreach ($assets as $asset) {
@@ -39,8 +40,17 @@ class TwoDimContoller extends Controller
         $fileTypes = $assets->pluck('FileType')->map(function ($type) {
             return '.' . strtolower($type);
         })->unique();
+        $checkPurchase = $this->checkPurchase($userID, $id);
+        return view('twoDim.show', compact('package', 'assets', 'totalSizeMB', 'fileTypes', 'user', 'checkPurchase'));
+    }
 
-        return view('twoDim.show', compact('package', 'assets', 'totalSizeMB', 'fileTypes', 'user'));
+    public function checkPurchase($userID, $packageID)
+    {
+        // Check if the user has purchased the package
+        $user = User::find($userID);
+        $purchase = $user->purchases()->where('package_id', $packageID)->first();
+
+        return $purchase ? true : false;
     }
 
     public function filterPackages(Request $request)
