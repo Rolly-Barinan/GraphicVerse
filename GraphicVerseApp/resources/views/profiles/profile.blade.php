@@ -28,22 +28,22 @@
                     <img src="{{ $user->profile->profileImage() }}" class="rounded-circle img-fluid" alt="User Profile Image">
                 </div>
                 <div class="text1">
-                <h1 class="name">{{ $user->name }}</h1>
-                <p class="username">{{ $user->profile->title }}</p>
-                <!-- <p class="description">{{ $user->profile->description }}</p> -->
+                    <h1 class="name">{{ $user->name }}</h1>
+                    <p class="username">{{ $user->profile->title }}</p>
+                    <!-- <p class="description">{{ $user->profile->description }}</p> -->
                 </div>
             </div>
             <div class="col-6 d-flex justify-content-end">        
-                            <a href="{{ route('asset.create') }}">
-                                <button type="button" class="uploadBtn">
-                                    Upload Package
-                                </button>
-                            </a>
-                            <a href="{{ $user->profile->url ?? '/profile/' . $user->id . '/edit' }}">
-                                <button type="button" class="connectBtn">
-                                    {{ $user->profile->url ? 'Connect' : 'Edit' }}
-                                </button>
-                            </a>
+                <a href="{{ route('asset.create') }}">
+                    <button type="button" class="uploadBtn">
+                        Upload Package
+                    </button>
+                </a>
+                <a href="{{ $user->profile->url ?? '/profile/' . $user->id . '/edit' }}">
+                    <button type="button" class="connectBtn">
+                        {{ $user->profile->url ? 'Connect' : 'Edit' }}
+                    </button>
+                </a>
             </div>
         </div>
         <div class="row" style="margin-top: -100px !important;">
@@ -54,25 +54,39 @@
                     </div>
                     <div class="image-scroll-container carousel overflow-auto" id="assetCarousel2D" data-interval="false">
                         <div class="carousel-inner">
-                            @foreach ($user->packages->where('assetType.asset_type', '2D')->chunk(4) as $chunk)
-                                <div class="carousel-item {{ $loop->first ? 'active' : '' }}">
+                            @if ($user->packages->where('assetType.asset_type', '2D')->isEmpty())
+                                <div class="carousel-item active">
                                     <div class="row">
-                                        @foreach ($chunk as $asset)
-                                            <div class="col-md-3">
-                                                <div class="card">
-                                                    <a href="{{ route('twoDim.show', ['id' => $asset->id]) }}">
-                                                        <img src="{{ Storage::url($asset->Location) }}" class="card-img-top" alt="{{ $asset->PackageName }}">
-                                                        <div class="card-body p-1">
-                                                            <h5 class="card-title">{{ $asset->PackageName }}</h5>
-                                                            <p class="card-text">{{ $asset->user->username }}</p>
-                                                        </div>
-                                                    </a>
+                                        <div class="col-md-3">
+                                            <div class="card">
+                                                <div class="card-body p-1 justify-center">
+                                                    <h5 class="card-title">No assets found</h5>
                                                 </div>
                                             </div>
-                                        @endforeach
+                                        </div>
                                     </div>
                                 </div>
-                            @endforeach
+                            @else
+                                @foreach ($user->packages->where('assetType.asset_type', '2D')->chunk(4) as $chunk)
+                                    <div class="carousel-item {{ $loop->first ? 'active' : '' }}">
+                                        <div class="row">
+                                            @foreach ($chunk as $asset)
+                                                <div class="col-md-3">
+                                                    <div class="card">
+                                                        <a href="{{ route('twoDim.show', ['id' => $asset->id]) }}">
+                                                            <img src="{{ Storage::url($asset->Location) }}" class="card-img-top" alt="{{ $asset->PackageName }}">
+                                                            <div class="card-body p-1">
+                                                                <h5 class="card-title">{{ $asset->PackageName }}</h5>
+                                                                <p class="card-text">{{ $asset->user->username }}</p>
+                                                            </div>
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                            @endforeach
+                                        </div>
+                                    </div>
+                                @endforeach
+                            @endif
                         </div>
                         <a class="carousel-control-prev" href="#assetCarousel2D" role="button" data-slide="prev">
                             <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -85,6 +99,23 @@
                     </div>
                 </div>
             </div>
+            <div class="col-3">
+                <div class="card h-100 d-flex align-self-start">
+                    <div class="card-body">
+                        <h1 class="card-title p-1">TEAMS</h1>
+                        <div class="card-text">
+                            @foreach ($user->teams as $team)
+                                <!-- <a href="{{ route('teams.create', ['id' => $team->id]) }}">
+                                    <p class="team-name">{{ $team->name }}</p>
+                                </a> -->
+                            @endforeach
+                            @if ($user->teams->isEmpty())
+                                <a href="{{ route('teams.create') }}">Create a team</a>
+                            @endif
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
         <div class="row d-flex">
             <div class="col-9">
@@ -94,14 +125,27 @@
                     </div>
                     <div class="image-scroll-container carousel overflow-auto" id="assetCarousel" data-interval="false">
                         <div class="carousel-inner">
+                        @if ($user->packages->where('assetType.asset_type', '3D')->isEmpty())
+                            <div class="carousel-item active">
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <div class="card">
+                                            <div class="card-body p-1 justify-center">
+                                                <h5 class="card-title">No assets found</h5>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        @else
                             @foreach ($user->packages->where('assetType.asset_type', '3D')->chunk(4) as $chunk)
                                 <div class="carousel-item {{ $loop->first ? 'active' : '' }}">
                                     <div class="row">
                                         @foreach ($chunk as $asset)
                                             <div class="col-md-3">
                                                 <div class="card">
-                                                <a href="{{ route('threeDim.show', ['id' => $asset->id]) }}">
-                                                    <div class="card-image"><img src="{{ Storage::url($asset->Location) }}" class="card-img-top" alt="{{ $asset->PackageName }}"></div>
+                                                    <a href="{{ route('threeDim.show', ['id' => $asset->id]) }}">
+                                                        <div class="card-image"><img src="{{ Storage::url($asset->Location) }}" class="card-img-top" alt="{{ $asset->PackageName }}"></div>
                                                         <div class="card-body p-1">
                                                             <h5 class="card-title">{{ $asset->PackageName }}</h5>
                                                             <p class="card-text">{{ $asset->user->username }}</p>
@@ -113,6 +157,7 @@
                                     </div>
                                 </div>
                             @endforeach
+                        @endif
                         </div>
                         <a class="carousel-control-prev" href="#assetCarousel" role="button" data-slide="prev">
                             <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -125,26 +170,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-3">
-            <div class="card h-100 d-flex align-self-start" style="margin-top: -382px !important; border-style: none !important"> <!-- Add .d-flex and .align-items-start to the .card div -->
-                    <div class="card-body">
-                        <h1 class="card-title p-1">TEAMS</h1>
-                        <div class="card-text">
-                                @foreach ($user->teams as $team)
-                                    <!-- <a href="{{ route('teams.create', ['id' => $team->id]) }}">
-                                        <p class="team-name">{{ $team->name }}</p>
-                                    </a> -->
-                                @endforeach
-                            @if ($user->teams->isEmpty())
-                                <a href="{{ route('teams.create') }}">Create a team</a>
-                            @endif
-                        </div>
-                    </div>
-                </div>
-            </div>
         </div>
     </div>
 </div>
 @endsection
-
-

@@ -71,7 +71,7 @@ main {
 .nav-link2 {
     background-color: #499096;
     min-width: 150px;
-    width: calc(auto + 30px);
+    width: calc(150px + 30px);
     padding-top: 50px;
     padding-bottom: 20px;
     padding-right: 10px;

@@ -200,7 +200,7 @@ class AssetPackageController extends Controller
                 $previewPath = $package->Location;
                 if (Storage::exists($previewPath)) {
         
-                    Storage::delete($previewPath);
+                    Storage::delete($previewPath);  
                 }
                 $package->delete();
                 return redirect()->back()->with('error', 'NSFW content detected in one of the asset files! Please upload safe content.');
