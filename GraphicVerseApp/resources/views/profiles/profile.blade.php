@@ -194,6 +194,110 @@
                     </div>
                 </div>
             </div>
+            <div class="col-9">
+                <div class="scrollable-column packages_column">
+                    <div class="row package_row">
+                        <h1 class="text-start w-100">AUDIO ASSETS</h1>
+                    </div>
+                    <div class="image-scroll-container carousel overflow-auto" id="assetCarouselAudio" data-interval="false">
+                        <div class="carousel-inner">
+                            @if ($user->packages->where('assetType.asset_type', 'Audio')->isEmpty())
+                                <div class="carousel-item active">
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <div class="card">
+                                                <div class="card-body p-1 justify-center">
+                                                    <h5 class="card-title">No assets found</h5>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            @else
+                                @foreach ($user->packages->where('assetType.asset_type', 'Audio')->chunk(4) as $chunk)
+                                    <div class="carousel-item {{ $loop->first ? 'active' : '' }}">
+                                        <div class="row">
+                                            @foreach ($chunk as $asset)
+                                                <div class="col-md-3">
+                                                    <div class="card">
+                                                        <a href="{{ route('audio.show', ['id' => $asset->id]) }}">
+                                                            <img src="{{ Storage::url($asset->Location) }}" class="card-img-top" alt="{{ $asset->PackageName }}">
+                                                            <div class="card-body p-1">
+                                                                <h5 class="card-title">{{ $asset->PackageName }}</h5>
+                                                                <p class="card-text">{{ $asset->user->username }}</p>
+                                                            </div>
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                            @endforeach
+                                        </div>
+                                    </div>
+                                @endforeach
+                            @endif
+                        </div>
+                        <a class="carousel-control-prev" href="#assetCarouselAudio" role="button" data-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="sr-only">Previous</span>
+                        </a>
+                        <a class="carousel-control-next" href="#assetCarouselAudio" role="button" data-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="sr-only">Next</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-9">
+                <div class="scrollable-column packages_column">
+                    <div class="row package_row">
+                        <h1 class="text-start w-100">ARTWORKS</h1>
+                    </div>
+                    <div class="image-scroll-container carousel overflow-auto" id="assetCarouselArtwork" data-interval="false">
+                        <div class="carousel-inner">
+                            @if ($user->images->where('assetType.asset_type', '2D')->isEmpty())
+                                <div class="carousel-item active">
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <div class="card">
+                                                <div class="card-body p-1 justify-center">
+                                                    <h5 class="card-title">No artworks found</h5>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            @else
+                                @foreach ($user->images->where('assetType.asset_type', '2D')->chunk(4) as $chunk)
+                                    <div class="carousel-item {{ $loop->first ? 'active' : '' }}">
+                                        <div class="row">
+                                            @foreach ($chunk as $asset)
+                                                <div class="col-md-3">
+                                                    <div class="card">
+                                                        <a href="{{ route('image.show', ['id' => $asset->id]) }}">
+                                                            <img src="{{ Storage::url($asset->Location) }}" class="card-img-top" alt="{{ $asset->ImageName }}">
+                                                            <div class="card-body p-1">
+                                                                <h5 class="card-title">{{ $asset->ImageName }}</h5>
+                                                                <p class="card-text">{{ $asset->user->username }}</p>
+                                                            </div>
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                            @endforeach
+                                        </div>
+                                    </div>
+                                @endforeach
+                            @endif
+                        </div>
+                        <a class="carousel-control-prev" href="#assetCarouselAudio" role="button" data-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="sr-only">Previous</span>
+                        </a>
+                        <a class="carousel-control-next" href="#assetCarouselAudio" role="button" data-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="sr-only">Next</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
