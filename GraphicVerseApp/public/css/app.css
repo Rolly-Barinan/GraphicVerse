@@ -12,11 +12,17 @@ body {
 }
 
 .navbar2{
-    padding-top: -5px;
+    margin-top: -10px !important;
+}
+.navbar{
+    padding-top: 0 !important ;
+    padding-bottom: -50px;
+    height: 90px;
+    
 }
 .navbar-nav .nav-item {
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
 }
 
 main {
@@ -30,7 +36,7 @@ main {
 }
 
 .navbar-brand {
-    margin: auto;
+    margin-right: 100px;
 }
 
 @media (max-width: 992px) {
@@ -62,6 +68,39 @@ main {
     position: relative; /* Position relative for pseudo-element */
     display: inline-block; /* Make the link inline-block to fit the underline to the text */
 }
+.nav-link2 {
+    background-color: #499096;
+    min-width: 150px;
+    width: calc(auto + 30px);
+    padding-top: 50px;
+    padding-bottom: 20px;
+    padding-right: 10px;
+    padding-left: 10px;
+    padding-bottom: 5px;
+    border-bottom-left-radius: 15px;
+    border-bottom-right-radius: 15px;
+    margin-top: -15px;
+    justify-content: center;
+    text-align: center;
+    align-items: center;
+    margin-bottom: 30px;
+    font-weight: bold;
+    font-size: large;
+    font-family: 'Roboto';
+    color:#fff;
+    text-decoration: none; /* Remove the default underline */
+    z-index: 2; /* Make nav-link2 appear in front */
+    position: relative; /* z-index only works on positioned elements */
+    align-items: center;
+    box-shadow: 0px 4px 8px 0px rgba(0, 0, 0, 0.2); /* Adjusted box-shadow */
+    
+}
+
+.nav-link2.dropdown-toggle::after {
+    display: none;
+}
+
+
   
   .nav-link::after {
     content: ''; /* Create an empty pseudo-element */
@@ -83,7 +122,7 @@ main {
 
   .test{
     padding-left: 50px;
-    padding-right: 100px;
+    padding-right: 100px !important;
     
   }
 
@@ -94,6 +133,7 @@ main {
     backdrop-filter: blur(3px);
     -webkit-backdrop-filter: blur(3px);
     border:none;
+    padding-right: 25px;
   }
   .search::placeholder {
     color: #E6E7FD;
@@ -123,6 +163,7 @@ main {
 
 }
 
+
 .custom-search-form {
     padding-top: 60px;
 }
@@ -151,7 +192,7 @@ a {
     align-items: center;
     justify-content: center;
     text-align: center;
-    padding-left:55px;
+    padding-right: 100px;
     
 }
 .col{
@@ -181,32 +222,65 @@ a {
     font-size: 12px;
     margin-top: -10px;
 }
-.dropdown-menu{
-    position:absolute;
-    width: 170px;
-    border-radius: 5px;
-    margin-top: -10px;
-    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+.dropdown-menu {
+    position: relative; /* Change from absolute to relative */
+    z-index: 1; 
+    padding-top: 100px;
+    width: calc(100% + 50px);
+    /* margin-left: -25px; */
+    min-width: 200px !important;
+    background-color: #F1F1F1;
+    border-radius: 0 !important;
 }
 
+.dropdown-menu hr {
+    width: 10%;
+    justify-content: center;
+    margin: auto;
+    margin-bottom: 3px;
+}
+
+.dropdown-menu a {
+    font-family: 'Roboto';
+    font-weight: bold;
+    color: #5F5F79;
+}
+
+.dropdown-menu p{
+    font-family: 'Roboto';
+    color: #5F5F79;
+    font-weight: normal;
+    font-size: 12px;
+    margin-top: 0;
+    margin-bottom: 0;
+}
 .dropdown-content {
     display: none;
-    position: absolute;
-    background-color: #fff;
-    min-width: 500px;
-    max-width: 100%; /* Limit the width to the viewport width */
-    height: 0px;
+    position: absolute; /* Keep this as absolute */
+    min-width: 160px;
+    width: 100px;
+    max-width: 100%;
     box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
     z-index: 1;
-    top: 100%;
-    left: -300px;
+    bottom: 0; /* This should make the dropdown appear below the nav-item */
+    left: 0;
+}
+.dropdown-item, .view{
+    text-align: center;
+    justify-content: center;
 }
 
-.navbar-nav .nav-item:hover .dropdown-content {
-    display: block;
-    position: sticky;
-}
+.view
 
 .navbar-collapse {
     flex-grow: 0 !important;
+}
+
+/* .nav-item.dropdown:hover .dropdown-menu {
+    display: block;
+    top: 100%;
+} */
+
+.nav-link2{
+    padding-bottom: 10px;
 }

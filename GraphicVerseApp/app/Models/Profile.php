@@ -13,8 +13,13 @@ class Profile extends Model
 
     public function profileImage()
     {
-        $imagePath = ($this->image) ? $this->image : 'profile/octupop.png';
+        $imagePath = ($this->image) ? $this->image : 'profile/profileImage.png';
         return '/storage/' . $imagePath;
+    }
+    public function coverImage()
+    {
+        $coverImagePath = ($this->cover_image) ? $this->cover_image : 'profile/coverPhoto.png';
+        return '/storage/' . $coverImagePath;
     }
 
     public function user()
