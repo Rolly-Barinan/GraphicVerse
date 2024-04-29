@@ -124,21 +124,36 @@
                 </div>
             </div>
             <div class="col-3">
-                <div class="card h-100 d-flex align-self-start">
-                    <div class="card-body">
-                        <h1 class="card-title p-1">TEAMS</h1>
-                        <div class="card-text">
-                            @foreach ($user->teams as $team)
-                                <!-- <a href="{{ route('teams.create', ['id' => $team->id]) }}">
-                                    <p class="team-name">{{ $team->name }}</p>
-                                </a> -->
-                            @endforeach
-                            @if ($user->teams->isEmpty())
-                                <a href="{{ route('teams.create') }}">Create a team</a>
-                            @endif
+                <h1 class="text-start w-100">TEAMS</h1>
+                <hr>
+                @foreach ($user->teams as $team)
+                    <a href="{{ route('teams.create', ['id' => $team->id]) }}" class="team-link">
+                        <div class="avatar text-white rounded-circle d-flex align-items-center justify-content-center" style="width: 100px; height: 100px; font-size: 32px; background-color: {{ $team->color }};">
+                            @php
+                                $words = explode(" ", $team->name); // Split the team name into an array of words
+
+                                if (count($words) === 1) {
+                                    echo strtoupper(substr($team->name, 0, 3)); // Use the first three letters for single-word team names
+                                } else {
+                                    foreach ($words as $word) {
+                                        echo strtoupper(substr($word, 0, 1)); // Output the first letter of each word for multi-word team names
+                                    }
+                                }
+                            @endphp
                         </div>
+                        <p class="team-name">{{ $team->name }}</p>
+                    </a>
+                    <hr>
+                @endforeach
+                <a href="{{ route('teams.create') }}" class="team-link">
+                @if ($user->teams->isEmpty())
+                    <div class="avatar text-white rounded-circle d-flex align-items-center justify-content-center" style="width: 100px; height: 100px; font-size: 32px; background-color: #5F5F79;">
+                        +
                     </div>
-                </div>
+                    <p class="team-name">Create a team</p>
+                @endif
+                </a>
+                <hr>
             </div>
         </div>
         <div class="row d-flex">
