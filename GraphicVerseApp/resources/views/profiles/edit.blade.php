@@ -34,7 +34,7 @@
                             @enderror
                         </div>
 
-                        <div class="mb-3">
+                        <!-- <div class="mb-3">
                             <label for="description" class="form-label">Description</label>
                             <textarea id="description" class="form-control @error('description') is-invalid @enderror"
                                 name="description" rows="4"
@@ -42,7 +42,7 @@
                             @error('description')
                             <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
-                        </div>
+                        </div> -->
 
                         <div class="mb-3">
                             <label for="url" class="form-label">URL</label>
@@ -58,6 +58,14 @@
                             <label for="image" class="form-label">Profile Image</label>
                             <input type="file" class="form-control-file" id="image" name="image">
                             @error('image')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+
+                        <div class="mb-3"> <!-- Add this block -->
+                            <label for="cover_image" class="form-label">Cover Image</label>
+                            <input type="file" class="form-control-file" id="cover_image" name="cover_image">
+                            @error('cover_image')
                             <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>

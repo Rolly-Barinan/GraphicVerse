@@ -1,0 +1,174 @@
+.cover-photo {
+    /* position: absolute; */
+    /* top: 0; */
+    left: 0;
+    width: 100%;
+    border: 10px solid #DDDDE4;
+    height: 300px; /* Adjust this to get the desired height */
+    background-size: cover;
+    background-position: center;
+    z-index: -1; /* This will put the cover photo behind the profile picture */
+}
+.rounded-circle-container {
+    position: relative;
+    top: -125px; /* Half of the image height */
+}
+
+.rounded-circle-container img {
+    width: 300px;
+    height: 300px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 5px solid #DDDDE4;
+}
+
+.text1{
+    padding-left: 10px;
+}
+
+.name {
+    font-family: 'Roboto', sans-serif;
+    font-weight: bold;
+    font-size: 40px;
+    color: #5F5F79;
+    margin-bottom: 0 !important;
+}
+.username {
+    font-family: 'Roboto', sans-serif;
+    font-size: 25px;
+    color: #5F5F79;
+    
+}
+
+.uploadBtn, .connectBtn {
+    width: 200px;
+    height: 50px;
+    color: white;
+    border-radius: 6px;
+    border: none;
+    box-shadow: none;
+}
+.uploadBtn {
+    background-color: #5F5F79;
+    margin-right: 10px;
+}
+
+.uploadBtn:hover {
+    background-color: #4F4F69;
+}
+
+.connectBtn {
+    background-color: #9494AD;
+}
+
+.connectBtn:hover {
+    background-color: #84849D;
+}
+
+.scrollable-column {
+    flex: 3;
+    padding: 20px;
+    overflow-y: auto;
+    background-color: white;
+    top: 0;
+    width: 100%;
+    overflow-x: hidden;
+    border-radius: 8px;
+}
+
+.package_row {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+.package_row h1{
+    font-family: 'Oswald', sans-serif;
+    font-weight: bold;
+    color: #5F5F79;
+    font-size: 60px;
+    /* margin-top: 20px; */
+    margin-bottom: 20px;
+}
+
+.card, .card3D {
+    width: calc((100%) - 5px); /* Set a fixed width */
+    height: 250px !important; /* Set a fixed height */
+    border-radius: 0;
+    border: none;
+    overflow: hidden; /* This will hide any overflow */
+}
+.card-image {
+    width: 100%;
+    height: 190px !important;
+}
+.card img{
+    /* border-radius: 5px; */
+    width: 100% !important;
+    height: 190px !important; /* Set a fixed height for the image */
+    object-fit: cover; /* This will ensure the image scales to fit the card */
+}
+
+.card-body{
+    height: 60px !important; /* Adjust this value to fit the text within the card */
+    overflow: hidden; /* This will add a scrollbar if the text is too long */
+}
+
+.card h5 {
+    font-family: 'Roboto', sans-serif;
+    font-weight: bold;
+    color: #5F5F79;
+    font-size: 20px;
+    margin-bottom: 0;
+}
+
+.card p {
+    font-family: 'Roboto', sans-serif;
+    color: #5F5F79;
+    font-size: 16px;
+    margin-bottom: 0;
+}
+
+.card a, .card a:hover {
+    text-decoration: none !important; 
+}
+
+.card-body {
+    padding: 0px !important;
+    padding-top: 5px !important;
+}
+
+.horizontal-scroll {
+    display:flex;
+    flex-direction: row !important; 
+    overflow-x: scroll;
+    width: fit-content;
+}
+
+.carousel-item .row {
+    margin-right: 0;
+    margin-left: 0;
+}
+
+.carousel-inner {
+    border: #DDDDE4 !important;
+}
+
+.carousel-item .col-md-3 {
+    padding-right: 0;
+    padding-left: 0;
+}
+
+.carousel-item {
+    display: flex; /* This will align the items horizontally */
+    justify-content: space-around; /* This will add space between the items */
+}
+
+.card-body h1{
+    font-family: 'Oswald', sans-serif;
+    font-weight: bold;
+    color: #5F5F79;
+    font-size: 60px;
+    margin-left: 10px;
+    margin-bottom: 20px;
+    margin-top: 7px;
+}
