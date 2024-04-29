@@ -14,7 +14,7 @@ class AssetTypeSeeder extends Seeder
         $assetTypes = [
             ['asset_type' => '2D'],
             ['asset_type' => '3D'],
-            ['asset_type' => 'Animations'],
+            ['asset_type' => 'Audio'],
           
         ];
         DB::table('asset_types')->insert($assetTypes);

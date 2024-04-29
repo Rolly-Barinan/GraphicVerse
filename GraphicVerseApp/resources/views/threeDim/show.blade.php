@@ -100,10 +100,15 @@
                         </ul>
                     </div>
                     <hr>
-                    <p class="r-text">Tags:</p>
-                    <!-- <p class="r-text">{{ $package->Description }}</p>
-                    <p>File Types: {{ implode(', ', $fileTypes->toArray()) }}</p>
-                    <p>File Size: {{ number_format($totalSizeMB / 1000, 2) }}mb</p> -->
+                    <h3>Tags</h3>
+                    <p>
+                        @foreach ($package->tags as $tag)
+                            <p># {{ $tag->name }}</p>
+                        @endforeach
+                        @foreach ($package->categories as $category)
+                            <p># {{ $category->cat_name }}</p>
+                        @endforeach
+                    </p>
                 </div>
             </div>
         </div>
