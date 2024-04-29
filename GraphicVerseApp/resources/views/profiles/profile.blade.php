@@ -273,7 +273,7 @@
                                                 <div class="col-md-3">
                                                     <div class="card">
                                                         <a href="{{ route('image.show', ['id' => $asset->id]) }}">
-                                                            <img src="{{ Storage::url($asset->Location) }}" class="card-img-top" alt="{{ $asset->ImageName }}">
+                                                            <img src="{{ Storage::url($asset->watermarkedImage) }}" class="card-img-top" alt="{{ $asset->ImageName }}">
                                                             <div class="card-body p-1">
                                                                 <h5 class="card-title">{{ $asset->ImageName }}</h5>
                                                                 <p class="card-text">{{ $asset->user->username }}</p>

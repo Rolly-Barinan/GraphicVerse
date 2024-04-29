@@ -126,7 +126,13 @@
                 <div class="col-md-3 mb-3 preview_card">
                     <div class="card">
                         @if ($result instanceof \App\Models\Package)
-                            <a href="{{ route('twoDim.show', ['id' => $result->id]) }}"> <!-- Assuming twoDim.show is the route for Package model -->
+                            @if ($result->asset_type_id === 1)
+                                <a href="{{ route('twoDim.show', ['id' => $result->id]) }}"> <!-- Assuming twoDim.show is the route for Package model -->
+                            @elseif ($result->asset_type_id === 2)
+                                <a href="{{ route('threeDim.show', ['id' => $result->id]) }}">
+                            @elseif ($result->asset_type_id === 3)
+                                <a href="{{ route('audio.show', ['id' => $result->id]) }}">
+                            @endif
                                 <img src="{{ Storage::url($result->Location) }}" class="card-img-top" alt="{{ $result->PackageName }}">
                                 <div class="card-body">
                                     <h5 class="card-title">{{ $result->PackageName }}</h5>
