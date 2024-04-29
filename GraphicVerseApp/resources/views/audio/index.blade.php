@@ -116,7 +116,7 @@
                 @endphp
 
                 @foreach ($packages as $index => $package)
-                    @if ($package->assetType && $package->assetType->asset_type === 'audio')
+                    @if ($package->assetType && $package->assetType->asset_type === 'Audio')
                         @php
                             $hasAudioAssets = true;
                         @endphp
@@ -138,7 +138,7 @@
                 @if (!$hasAudioAssets)
                     <div class="col-md-12">
                         <div class="alert alert-info" role="alert">
-                            No audio assets to display yet.
+                            No Audio assets to display yet.
                         </div>
                     </div>
                 @endif    
