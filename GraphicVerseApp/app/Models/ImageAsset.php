@@ -17,7 +17,7 @@ class ImageAsset extends Model
     {
         return $this->belongsTo(User::class, 'userID');
     }
-    
+
     public function assetType()
     {
         return $this->belongsTo(AssetType::class, 'assetTypeID');
@@ -26,6 +26,10 @@ class ImageAsset extends Model
     public function categories()
     {
         return $this->belongsToMany(Categories::class, 'image_category', 'imageAsset_id', 'category_id');
-
+    }
+    
+    public function purchases()
+    {
+        return $this->hasMany(Purchase::class);
     }
 }
