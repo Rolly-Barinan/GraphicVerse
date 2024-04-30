@@ -1,5 +1,6 @@
 <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
-
+<link href="{{ asset('css/create.css') }}" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.1/font/bootstrap-icons.css" rel="stylesheet">
 <!-- JavaScript -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
 @extends('layouts.app')
@@ -102,7 +103,7 @@
         };
     </script>
 
-    <div class="container">
+<div class="container-fluid d-block">
         @if ($errors->any())
             <div id="errorAlert" class="alert alert-danger alert-dismissible fade show" role="alert">
                 <ul>
@@ -116,82 +117,153 @@
                 }, 6000);
             </script>
         @endif
-        <div class="row">
-            <div class="col-md-8">
-                <div class="card">
-                    <div class="card-header">Create New Asset Package</div>
-                    <div class="card-body">
-                        <form action="{{ route('asset.store') }}" method="POST" enctype="multipart/form-data"
-                            onsubmit="return validateForm()">
-                            @csrf
-
-                            <div class="form-group">
-                                <label for="asset">Upload Asset:</label>
-                                <input type="file" name="asset[]" multiple class="form-control">
-                            </div>
-                            <div class="form-group">
-                                <label for="asset_type_id">Asset Type:</label>
-                                <select name="asset_type_id" class="form-control">
-                                    <option value="">Select an Asset Type</option>
-                                    @foreach ($assetTypes as $assetType)
-                                        <option value="{{ $assetType->id }}">{{ $assetType->asset_type }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-
-                            <div class="form-group">
-                                <label for="PackageName">Package Name:</label>
-                                <input type="text" name="PackageName" class="form-control">
-                            </div>
-
-                            <div class="form-group">
-                                <label for="preview">Package Preview:</label>
-                                <input type="file" name="preview" class="form-control">
-                            </div>
-
-                            <div class="form-group">
-                                <label for="Description">Package Description:</label>
-                                <textarea name="Description" class="form-control">Description of the new package</textarea>
-                            </div>
-
-
-                            <div class="form-group">
-                                <label for="Price">Price (Leave empty for free download):</label>
-                                <input type="number" name="Price" class="form-control" min="0">
-                            </div>
-
-                            <div class="form-group">
-                                <label for="recommendedTags">Recommended Tags:</label>
-                                <div id="recommendedTags">
-                                    @foreach ($recommendedTags as $tag)
-                                        <span class="tag recommended-tag"
-                                            onclick="addTag('{{ $tag->name }}')">{{ $tag->name }}, </span>
-                                    @endforeach
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <label for="customTags">Custom Tags:</label>
-                                <input type="text" name="customTags" id="customTags" class="form-control"
-                                    placeholder="Enter custom tags separated by commas">
-                            </div>
-
-                            <div class="form-group">
-                                <label for="category_ids">Categories:</label>
-                                @foreach ($categories as $category)
-                                    <div class="form-check">
-                                        <input type="checkbox" name="category_ids[]" value="{{ $category->id }}"
-                                            class="form-check-input">
-                                        <label class="form-check-label">{{ $category->cat_name }}</label>
-                                    </div>
-                                @endforeach
-                            </div>
-
-                            <button type="submit" class="btn btn-primary">Upload</button>
-                        </form>
+        <div class="row justify-content-center">
+            <div class="col-md-7">
+                <form action="{{ route('asset.store') }}" method="POST" enctype="multipart/form-data"
+                    onsubmit="return validateForm()">
+                    @csrf
+                    <h1 class="mb-4">UPLOAD PACKAGE</h1>
+                    <div class="form-group">
+                        <div class="dropzone d-flex flex-column justify-content-center align-items-center text-center" id="asset-dropzone">
+                            <i class="bi bi-cloud-upload"></i>
+                            <div class="upload">Upload Asset Files</div>
+                            <p class="my-3">Maximum file size: 5 GB</p>
+                        </div>
+                        <input type="file" name="asset[]" multiple class="form-control d-none" id="asset">
                     </div>
-                </div>
+                    <div class="form-group">
+                        <h3 class="desc">Description</h3>
+                        <p class="desc">Provide a short description of your asset pack.</p>
+                        <textarea name="Description" class="description form-control" oninput="limitInput(this)">Description of the new package</textarea>
+                        <p class="tiny-text">10-200 characters</p>
+                    </div>
+                    <div class="form-group">
+                        <h3 class="desc">Custom Tags</h3>
+                        <input type="text" name="customTags" id="customTags" class="form-control"
+                            placeholder="Enter custom tags separated by commas">
+                    </div>
+            </div>
+            <div class="col-md-5">
+                    <div class="form-group">
+                        <div class="input-icon">
+                            <input type="text" name="PackageName" class="title" value="Package Title">
+                            <i class="bi bi-pencil"></i>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <h3 class="desc">Price</h3>
+                        <p class="text-muted">Leave empty for free download.</p>
+                        
+                        <input type="number" name="Price" class="price form-control" min="0">
+                    </div>
+                    <div class="form-group">
+                        <h3 class="desc">Category</h3>
+                        <select name="asset_type_id" class="form-control">
+                            <option value="">Select an Asset Type</option>
+                            @foreach ($assetTypes as $assetType)
+                                <option value="{{ $assetType->id }}">{{ $assetType->asset_type }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <h3 class="desc">Recommended Tags</h3>
+                        <div id="recommendedTags">
+                            @foreach ($recommendedTags as $tag)
+                            <div class="button-like">
+                                <span class="tag recommended-tag"
+                                    onclick="addTag('{{ $tag->name }}')">{{ $tag->name }} </span>
+                                    <i class="bi bi-plus"></i>
+                                </div>
+                                    @endforeach
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <h3 class="desc">Categories:</h3>
+                        @foreach ($categories as $category)
+                            <div class="form-check">
+                                <input type="checkbox" name="category_ids[]" value="{{ $category->id }}"
+                                    class="form-check-input">
+                                <label class="form-check-label">{{ $category->cat_name }}</label>
+                            </div>
+                        @endforeach
+                    </div>
+                    <div class="form-group">
+                        <h3 class="desc">Package Preview</h3>
+                        <div class="dropzone p-3 text-center" id="preview-dropzone">
+                            <p class="my-3">Drag and drop preview files here or click to select files</p>
+                        </div>
+                        <input type="file" name="preview" class="form-control d-none" id="preview">
+                    </div>  
+                    <button type="submit" class="btn btn-primary">Upload</button>
+                </form>
             </div>
         </div>
     </div>
+
+    <script>
+        var assetDropzone = document.getElementById('asset-dropzone');
+        var previewDropzone = document.getElementById('preview-dropzone');
+        var assetInput = document.getElementById('asset');
+        var previewInput = document.getElementById('preview');
+
+        assetDropzone.addEventListener('click', function() {
+            assetInput.click();
+        });
+
+        previewDropzone.addEventListener('click', function() {
+            previewInput.click();
+        });
+
+        assetInput.addEventListener('change', function() {
+            if (assetInput.files.length > 0) {
+                assetDropzone.innerText = assetInput.files.length + ' asset file(s) selected';
+            }
+        });
+
+        previewInput.addEventListener('change', function() {
+            if (previewInput.files.length > 0) {
+                previewDropzone.innerText = previewInput.files.length + ' preview file(s) selected';
+            }
+        });
+
+        assetDropzone.addEventListener('dragover', function(e) {
+            e.preventDefault();
+            assetDropzone.classList.add('bg-light');
+        });
+
+        previewDropzone.addEventListener('dragover', function(e) {
+            e.preventDefault();
+            previewDropzone.classList.add('bg-light');
+        });
+
+        assetDropzone.addEventListener('dragleave', function() {
+            assetDropzone.classList.remove('bg-light');
+        });
+
+        previewDropzone.addEventListener('dragleave', function() {
+            previewDropzone.classList.remove('bg-light');
+        });
+
+        assetDropzone.addEventListener('drop', function(e) {
+            e.preventDefault();
+            assetInput.files = e.dataTransfer.files;
+            assetDropzone.innerText = e.dataTransfer.files.length + ' asset file(s) selected';
+            assetDropzone.classList.remove('bg-light');
+        });
+
+        previewDropzone.addEventListener('drop', function(e) {
+            e.preventDefault();
+            previewInput.files = e.dataTransfer.files;
+            previewDropzone.innerText = e.dataTransfer.files.length + ' preview file(s) selected';
+            previewDropzone.classList.remove('bg-light');
+        });
+    </script>
+    <script>
+        function limitInput(textarea) {
+            var maxLength = 200;
+            if (textarea.value.length > maxLength) {
+                textarea.value = textarea.value.slice(0, maxLength);
+            }
+        }
+    </script>
 @endsection

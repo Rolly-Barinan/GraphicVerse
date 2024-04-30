@@ -33,15 +33,23 @@
                     <!-- <p class="description">{{ $user->profile->description }}</p> -->
                 </div>
             </div>
-            <div class="col-6 d-flex justify-content-end">        
-                <button type="button" class="uploadBtn" data-toggle="modal" data-target="#uploadPackageModal">
-                    Upload Package
-                </button>
-                <a href="{{ $user->profile->url ?? '/profile/' . $user->id . '/edit' }}">
-                    <button type="button" class="connectBtn">
-                        {{ $user->profile->url ? 'Connect' : 'Edit' }}
+            <div class="col-6 d-flex justify-content-end">
+                @if(auth()->user() && auth()->user()->id === $user->id)        
+                    <button type="button" class="uploadBtn" data-toggle="modal" data-target="#uploadPackageModal">
+                        Upload Package
                     </button>
-                </a>
+                @endif
+                @if(!auth()->user() || (auth()->user()->id !== $user->id && !$user->profile->url))
+                    <button type="button" class="connectBtn" data-toggle="modal" data-target="#noSocialMediaModal">
+                        {{ $user->profile->url ? 'Connect' : 'No social media connected' }}
+                    </button>
+                @else
+                    <a href="{{ $user->profile->url ?? '/profile/' . $user->id . '/edit' }}">
+                        <button type="button" class="connectBtn">
+                            {{ $user->profile->url ? 'Connect' : 'Edit' }}
+                        </button>
+                    </a>
+                @endif
             </div>
         </div>
         <!-- Upload Package Modal -->
@@ -124,21 +132,41 @@
                 </div>
             </div>
             <div class="col-3">
-                <div class="card h-100 d-flex align-self-start">
-                    <div class="card-body">
-                        <h1 class="card-title p-1">TEAMS</h1>
-                        <div class="card-text">
-                            @foreach ($user->teams as $team)
-                                <!-- <a href="{{ route('teams.create', ['id' => $team->id]) }}">
-                                    <p class="team-name">{{ $team->name }}</p>
-                                </a> -->
-                            @endforeach
-                            @if ($user->teams->isEmpty())
-                                <a href="{{ route('teams.create') }}">Create a team</a>
-                            @endif
-                        </div>
-                    </div>
-                </div>
+                <h1 class="text-start w-100">TEAMS</h1>
+                <hr>
+                @if ($user->id === auth()->id())
+                    @if ($user->teams->isNotEmpty())
+                        @foreach ($user->teams as $team)
+                            <a href="{{ route('teams.details', ['team' => $team->name]) }}" class="team-link">
+                                <div class="avatar text-white rounded-circle d-flex align-items-center justify-content-center" style="width: 100px; height: 100px; font-size: 32px; background-color: {{ $team->color }};">
+                                    @php
+                                        $words = explode(" ", $team->name); // Split the team name into an array of words
+
+                                        if (count($words) === 1) {
+                                            echo strtoupper(substr($team->name, 0, 3)); // Use the first three letters for single-word team names
+                                        } else {
+                                            foreach ($words as $word) {
+                                                echo strtoupper(substr($word, 0, 1)); // Output the first letter of each word for multi-word team names
+                                            }
+                                        }
+                                    @endphp
+                                </div>
+                                <p class="team-name">{{ $team->name }}</p>
+                            </a>
+                            <hr>
+                        @endforeach
+                    @else
+                        <a href="{{ route('teams.create') }}" class="team-link">
+                            <div class="avatar text-white rounded-circle d-flex align-items-center justify-content-center" style="width: 100px; height: 100px; font-size: 32px; background-color: #5F5F79;">
+                                +
+                            </div>
+                            <p class="team-name">Create a team</p>
+                        </a>
+                        <hr>
+                    @endif
+                @else
+                    <p>No Teams Associated</p>
+                @endif
             </div>
         </div>
         <div class="row d-flex">
