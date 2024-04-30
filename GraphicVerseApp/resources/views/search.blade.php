@@ -7,7 +7,7 @@
     <div class="sticky-column filter_column">
         <div class="header">
             <h3>Refine by</h3>
-            <a href="{{ route('search') }}" class="btn btn-link">Clear Filters</a>
+            <a href="{{ route('search', ['q' => request()->input('q')]) }}" class="btn btn-link">Clear Filters</a>
 
         </div>
 
@@ -173,7 +173,9 @@
                 </div>
             @endif
         </div>
-        {{ $sortedResults->appends(request()->input())->links() }}
+        <div class="d-flex justify-content-center mt-5">
+                {{ $sortedResults->links('pagination::bootstrap-4') }}
+        </div>
     </div>    
 </div>
 
