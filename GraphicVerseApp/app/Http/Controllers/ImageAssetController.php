@@ -9,6 +9,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Intervention\Image\Facades\Image;
+use Illuminate\Support\Facades\Http;
 
 class ImageAssetController extends Controller
 {
@@ -51,7 +52,10 @@ class ImageAssetController extends Controller
         $imagePath = $artPath . $imageName . '.' . $imageFile->getClientOriginalExtension();
         Storage::putFileAs($publicPath . 'arts', $imageFile, $imageName . '.' . $imageFile->getClientOriginalExtension());
 
-        // Check if watermark file is uploaded
+        // Check for inappropriate content in the image file
+        $contentDetection = $this->detectInappropriateContent($imageFile);
+
+        // Check if watermark file is uploaded and check for inappropriate content
         $watermarkedImage = null;
         if ($request->hasFile('watermarkFile')) {
             $watermarkFile = $request->file('watermarkFile');
@@ -77,7 +81,29 @@ class ImageAssetController extends Controller
             // Save watermarked image
             $mainImage->save(storage_path('app/' . $watermarkPath));
 
+            // Check for inappropriate content in the watermark file
+            $watermarkDetection = $this->detectInappropriateContent($watermarkFile);
+
+            // Merge detection results from both files
+            $contentDetection['nsfwDetected'] = $contentDetection['nsfwDetected'] || $watermarkDetection['nsfwDetected'];
+            $contentDetection['aiDetected'] = $contentDetection['aiDetected'] || $watermarkDetection['aiDetected'];
+
             $watermarkedImage = $watermarkPath;
+        }
+
+        // If inappropriate content is detected, handle it accordingly
+        if ($contentDetection['nsfwDetected'] || $contentDetection['aiDetected']) {
+            // Delete uploaded files and return with an error message
+            Storage::delete([$imagePath, $watermarkPath]);
+            
+            $errorMessage = '';
+            if ($contentDetection['nsfwDetected']) {
+                $errorMessage = 'Inappropriate content detected in the uploaded files. Please upload appropriate content.';
+            } elseif ($contentDetection['aiDetected']) {
+                $errorMessage = 'AI-generated content detected in the uploaded files. Please upload original content.';
+            }
+            
+            return redirect()->back()->with('error', $errorMessage);
         }
 
         // Save data to database
@@ -98,6 +124,51 @@ class ImageAssetController extends Controller
         // Redirect to the image create page with a success message
         return redirect()->back()->with('success', 'Artwork uploaded successfully!');
     }
+
+    // Function to detect inappropriate content using Sightengine API
+    private function detectInappropriateContent($file)
+    {
+        $params = [
+            'models' => 'nudity-2.0, genai', // Specify the models you want to use for detection
+            'api_user' => env('SIGHTENGINE_API_KEY'),
+            'api_secret' => env('SIGHTENGINE_API_SECRET'),
+        ];
+
+        $response = Http::attach(
+            'media',
+            file_get_contents($file->getRealPath()),
+            $file->getClientOriginalName()
+        )->post('https://api.sightengine.com/1.0/check.json', $params);
+        
+        $nsfwDetected = $response->successful() && (
+            // Check for NSFW content
+            $response['nudity']['sexual_activity'] > 0.5 || 
+            $response['nudity']['erotica'] > 0.5 || 
+            $response['nudity']['suggestive'] > 0.5 || 
+            $response['nudity']['sexual_display'] > 0.5 || 
+            $response['nudity']['sextoy'] > 0.5 || 
+            $response['nudity']['suggestive_classes']['cleavage'] > 0.5 || 
+            $response['nudity']['suggestive_classes']['lingerie'] > 0.5 || 
+            $response['nudity']['suggestive_classes']['other'] > 0.5 || 
+            $response['nudity']['suggestive_classes']['miniskirt'] > 0.5 || 
+            $response['nudity']['suggestive_classes']['bikini'] > 0.5 || 
+            $response['nudity']['suggestive_classes']['male_chest_categories']['very_revealing'] > 0.5 || 
+            $response['nudity']['suggestive_classes']['male_chest_categories']['slightly_revealing'] > 0.5 || 
+            $response['nudity']['suggestive_classes']['male_chest_categories']['revealing'] > 0.5 || 
+            $response['nudity']['suggestive_classes']['cleavage_categories']['very_revealing'] > 0.5 || 
+            $response['nudity']['suggestive_classes']['cleavage_categories']['revealing'] > 0.5 || 
+            $response['nudity']['suggestive_classes']['male_underwear'] > 0.5 || 
+            $response['nudity']['suggestive_classes']['male_chest'] > 0.5
+        );
+
+        $aiDetected = $response->successful() && (
+            // Check for AI-generated content
+            $response['type']['ai_generated'] > 0.90
+        );
+        
+        return ['nsfwDetected' => $nsfwDetected, 'aiDetected' => $aiDetected];
+    }
+
 
 
     public function show($id)
