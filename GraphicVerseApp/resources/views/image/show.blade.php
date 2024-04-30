@@ -49,7 +49,14 @@
                     @if ($image->Price != null && $image->Price != 0)
                         <p>Price: ${{ $image->Price }}</p>
                     @endif
-                    <p>Image size: {{ number_format($imageSize, 2) }} MB</p>
+                    <p>Image size: {{ number_format($imageSize, 2) }} KB</p>
+                    <hr>
+                    <h3>Tags</h3>
+                    <p>
+                        @foreach ($image->categories as $category)
+                            <p># {{ $category->cat_name }}</p>
+                        @endforeach
+                    </p>
                 </div>
             </div>
         </div>

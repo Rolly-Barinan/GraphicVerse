@@ -7,6 +7,7 @@ use App\Models\Package;
 use App\Models\ImageAsset;
 use Illuminate\Http\Request;
 use App\Models\Categories;
+use Illuminate\Pagination\Paginator;
 
 class SearchController extends Controller
 {
@@ -18,21 +19,17 @@ class SearchController extends Controller
         // Retrieve categories
         $categories = Categories::all(); // Assuming Category is the model for your categories
 
-        // Combine packages and images
-        $searchResults = $packages->merge($images);
+        // Combine packages and images into a single collection
+        $results = $packages->concat($images);
 
         // Paginate the sorted results
-        $perPage = 12;
-        $currentPage = $request->input('page') ?? 1;
-        $pagedSearchResults = new LengthAwarePaginator(
-            $searchResults->forPage($currentPage, $perPage),
-            $searchResults->count(),
-            $perPage,
-            $currentPage,
-            ['path' => $request->url(), 'query' => $request->query()]
-        );
+        $sortedResults = $this->paginateResults($results, 12);
 
-        return view('search', compact('packages', 'images', 'pagedSearchResults', 'query', 'categories'));
+        // Ensure that paginator uses bootstrap styling
+        Paginator::useBootstrap();
+
+        // Pass the combined results to the view
+        return view('search', compact('sortedResults', 'query', 'categories'));
     }
 
 
@@ -89,30 +86,30 @@ class SearchController extends Controller
             });
         }
 
-        // Apply sorting
-        switch ($sortBy) {
-            case 'name_asc':
-                $queryBuilder->orderBy('PackageName', 'asc');
-                break;
-            case 'name_desc':
-                $queryBuilder->orderBy('PackageName', 'desc');
-                break;
-            case 'price_asc':
-                $queryBuilder->orderBy('Price', 'asc');
-                break;
-            case 'price_desc':
-                $queryBuilder->orderBy('Price', 'desc');
-                break;
-            case 'username_asc':
-                $queryBuilder->leftJoin('users', 'packages.UserID', '=', 'users.id')
-                ->orderBy('users.username');
-                break;
-            case 'username_desc':
-                $queryBuilder->leftJoin('users', 'packages.UserID', '=', 'users.id')
-                ->orderByDesc('users.username');
-                break;
-            // Add more sorting options as needed
-        }
+        // // Apply sorting
+        // switch ($sortBy) {
+        //     case 'name_asc':
+        //         $queryBuilder->orderBy('PackageName', 'asc');
+        //         break;
+        //     case 'name_desc':
+        //         $queryBuilder->orderBy('PackageName', 'desc');
+        //         break;
+        //     case 'price_asc':
+        //         $queryBuilder->orderBy('Price', 'asc');
+        //         break;
+        //     case 'price_desc':
+        //         $queryBuilder->orderBy('Price', 'desc');
+        //         break;
+        //     case 'username_asc':
+        //         $queryBuilder->leftJoin('users', 'packages.UserID', '=', 'users.id')
+        //         ->orderBy('users.username');
+        //         break;
+        //     case 'username_desc':
+        //         $queryBuilder->leftJoin('users', 'packages.UserID', '=', 'users.id')
+        //         ->orderByDesc('users.username');
+        //         break;
+        //     // Add more sorting options as needed
+        // }
 
         // Fetch images based on the same filters and sorting
         $imagesQuery = ImageAsset::where('ImageName', 'like', "%$query%");
@@ -127,7 +124,25 @@ class SearchController extends Controller
         // Apply price range filter
         if (!empty($priceRanges)) {
             $imagesQuery->where(function ($q) use ($priceRanges) {
-                // Same logic as with packages
+                foreach ($priceRanges as $range) {
+                    switch ($range) {
+                        case 'free':
+                            $q->orWhere('Price', '=', 0);
+                            break;
+                        case '1-100':
+                            $q->orWhereBetween('Price', [1, 100]);
+                            break;
+                        case '101-500':
+                            $q->orWhereBetween('Price', [101, 500]);
+                            break;
+                        case '501-1000':
+                            $q->orWhereBetween('Price', [501, 1000]);
+                            break;
+                        case '1000+':
+                            $q->orWhere('Price', '>', 1000);
+                            break;
+                    }
+                }
             });
         }
 
@@ -139,55 +154,58 @@ class SearchController extends Controller
         }
         
         $packages = $queryBuilder->paginate(12);
-        $images = $imagesQuery->paginate(12);
+        $images = $imagesQuery->get();
 
-        // Combine packages and images
-        $searchResults = $queryBuilder->get()->merge($imagesQuery->get());
+        // Combine packages and images into a single collection
+        $results = $packages->concat($images);
 
         // Apply sorting
-        switch ($request->input('sort')) {
+        switch ($sortBy) {
             case 'name_asc':
-                $searchResults = $searchResults->sortBy(function ($item) {
-                    return $item instanceof Package ? $item->PackageName : $item->ImageName;
+                $results = $results->sortBy(function ($result) {
+                    return $result instanceof Package ? $result->PackageName : $result->ImageName;
                 });
                 break;
             case 'name_desc':
-                $searchResults = $searchResults->sortByDesc(function ($item) {
-                    return $item instanceof Package ? $item->PackageName : $item->ImageName;
+                $results = $results->sortByDesc(function ($result) {
+                    return $result instanceof Package ? $result->PackageName : $result->ImageName;
                 });
                 break;
             case 'price_asc':
-                $searchResults = $searchResults->sortBy('Price');
+                $results = $results->sortBy('Price');
                 break;
             case 'price_desc':
-                $searchResults = $searchResults->sortByDesc('Price');
+                $results = $results->sortByDesc('Price');
                 break;
             case 'username_asc':
-                $searchResults = $searchResults->sortBy(function ($item) {
-                    return $item instanceof Package ? $item->user->username : $item->user->username;
+                $results = $results->sortBy(function ($result) {
+                    return $result->user->username;
                 });
                 break;
             case 'username_desc':
-                $searchResults = $searchResults->sortByDesc(function ($item) {
-                    return $item instanceof Package ? $item->user->username : $item->user->username;
+                $results = $results->sortByDesc(function ($result) {
+                    return $result->user->username;
                 });
                 break;
             // Add more sorting options as needed
         }
 
         // Paginate the sorted results
-        $perPage = 12;
-        $currentPage = $request->input('page') ?? 1;
-        $pagedSearchResults = new LengthAwarePaginator(
-            $searchResults->forPage($currentPage, $perPage),
-            $searchResults->count(),
-            $perPage,
-            $currentPage,
-            ['path' => $request->url(), 'query' => $request->query()]
-        );
+        $sortedResults = $this->paginateResults($results, 12);
+
+        // Ensure that paginator uses bootstrap styling
+        Paginator::useBootstrap();
 
         // Pass categories to the view
-        return view('search', compact('packages', 'images', 'pagedSearchResults', 'searchResults', 'query', 'categories', 'categoryIds', 'priceRanges'));
+        return view('search', compact('sortedResults', 'query', 'categories', 'categoryIds', 'priceRanges'));
+    }
+
+    private function paginateResults($results, $perPage)
+    {
+        $currentPage = LengthAwarePaginator::resolveCurrentPage();
+        $currentItems = $results->slice(($currentPage - 1) * $perPage, $perPage)->all();
+        $paginator = new LengthAwarePaginator($currentItems, $results->count(), $perPage);
+        return $paginator->withPath(LengthAwarePaginator::resolveCurrentPath());
     }
 
 }

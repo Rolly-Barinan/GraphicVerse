@@ -7,7 +7,8 @@
     <div class="sticky-column filter_column">
         <div class="header">
             <h3>Refine by</h3>
-            <a href="{{ route('filtered-search-results') }}" class="btn btn-link">Clear Filters</a>
+            <a href="{{ route('search') }}" class="btn btn-link">Clear Filters</a>
+
         </div>
 
         <form action="{{ route('filtered-search-results') }}" method="GET" id="searchForm">
@@ -96,9 +97,9 @@
             <h1 class="text-center w-100">Search Results</h1>
             <div class="results-container">
                 <p class="results-text">
-                    {{ ($pagedSearchResults->currentPage() - 1) * $pagedSearchResults->perPage() + 1 }} -
-                    {{ ($pagedSearchResults->currentPage() - 1) * $pagedSearchResults->perPage() + $pagedSearchResults->count() }}
-                    of {{ $pagedSearchResults->total() }} results
+                    {{ ($sortedResults->currentPage() - 1) * $sortedResults->perPage() + 1 }} -
+                    {{ ($sortedResults->currentPage() - 1) * $sortedResults->perPage() + $sortedResults->count() }}
+                    of {{ $sortedResults->total() }} results
                 </p>
                 <div class="sort-container">
                     <button class="btn btn-secondary dropdown-toggle" type="button" id="sortDropdown"
@@ -118,20 +119,21 @@
             </div>
             @php
                 $hasSearchResults = false;
+                $hasArtworks = false;
             @endphp
-            @foreach ($pagedSearchResults as $result)
-                @php
-                    $hasSearchResults = true;
-                @endphp
-                <div class="col-md-3 mb-3 preview_card">
-                    <div class="card">
-                        @if ($result instanceof \App\Models\Package)
-                            @if ($result->asset_type_id === 1)
-                                <a href="{{ route('twoDim.show', ['id' => $result->id]) }}"> <!-- Assuming twoDim.show is the route for Package model -->
+            @foreach ($sortedResults as $result)
+                @if ($result instanceof \App\Models\Package)
+                    @php
+                        $hasSearchResults = true;
+                    @endphp
+                    <div class="col-md-3 mb-3 preview_card">
+                        <div class="card">
+                            @if ($result->asset_type_id === 3) <!-- Assuming you have a field named 'asset_type' in your Package model -->
+                                <a href="{{ route('audio.show', ['id' => $result->id]) }}"> <!-- Use threeDim.show route -->
                             @elseif ($result->asset_type_id === 2)
-                                <a href="{{ route('threeDim.show', ['id' => $result->id]) }}">
-                            @elseif ($result->asset_type_id === 3)
-                                <a href="{{ route('audio.show', ['id' => $result->id]) }}">
+                                <a href="{{ route('threeDim.show', ['id' => $result->id]) }}"> <!-- Use twoDim.show route -->
+                            @elseif ($result->asset_type_id === 1)
+                                <a href="{{ route('twoDim.show', ['id' => $result->id]) }}">
                             @endif
                                 <img src="{{ Storage::url($result->Location) }}" class="card-img-top" alt="{{ $result->PackageName }}">
                                 <div class="card-body">
@@ -139,19 +141,31 @@
                                     <p class="card-text">{{ $result->user->username }}</p>
                                 </div>
                             </a>
-                        @elseif ($result instanceof \App\Models\ImageAsset)
-                            <a href="{{ route('image.show', ['id' => $result->id]) }}"> <!-- Assuming image.show is the route for ImageAsset model -->
-                                <img src="{{ Storage::url($result->watermarkedImage) }}" class="card-img-top" alt="{{ $result->ImageName }}">
-                                <div class="card-body">
-                                    <h5 class="card-title">{{ $result->ImageName }}</h5>
-                                    <p class="card-text">{{ $result->user->username }}</p>
-                                </div>
-                            </a>
-                        @endif
+                        </div>
                     </div>
-                </div>
+                @elseif ($result instanceof \App\Models\ImageAsset)
+                    @if ($result->assetType && $result->assetType->asset_type === '2D')
+                        @php
+                            $hasArtworks = true;
+                        @endphp
+                        <div class="col-md-3 mb-3 preview_card">
+                            <div class="card ">
+                                <a href="{{ route('image.show', ['id' => $result->id]) }}">
+                                    <img src="{{ Storage::url($result->watermarkedImage) }}" class="card-img-top"
+                                        alt="{{ $result->ImageName }}">
+
+                                    <div class="card-body">
+                                        <h5 class="card-title">{{ $result->ImageName }}</h5>
+                                        <p class="card-text">{{ $result->user->username }}</p>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    @endif
+                @endif
             @endforeach
-            @if (!$hasSearchResults)
+            
+            @if (!$hasSearchResults && !$hasArtworks)
                 <div class="col-md-12">
                     <div class="alert alert-info" role="alert">
                         No search results found.
@@ -159,7 +173,7 @@
                 </div>
             @endif
         </div>
-        {{ $pagedSearchResults->appends(request()->input())->links() }}
+        {{ $sortedResults->appends(request()->input())->links() }}
     </div>    
 </div>
 
