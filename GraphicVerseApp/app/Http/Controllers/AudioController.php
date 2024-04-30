@@ -6,6 +6,7 @@ use App\Models\Categories;
 use App\Models\Package;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Pagination\Paginator;
 
 class AudioController extends Controller
 {
@@ -15,7 +16,9 @@ class AudioController extends Controller
             $q->where('asset_type', 'audio');
         });
 
-        $packages = $query->paginate(12)->appends(request()->except('page'));
+        $packages = $query->paginate(8)->appends(request()->except('page'));
+        // Ensure that paginator uses bootstrap styling
+        Paginator::useBootstrap();
 
         $categories = Categories::all();
         return view('audio.index', compact('packages', 'categories'));
@@ -123,7 +126,9 @@ class AudioController extends Controller
         }
 
         // Paginate the results
-        $packages = $query->paginate(12)->appends(request()->except('page'));
+        $packages = $query->paginate(8)->appends(request()->except('page'));
+        // Ensure that paginator uses bootstrap styling
+        Paginator::useBootstrap();
 
         $categories = Categories::all();
         return view('audio.index', compact('packages', 'categories'));

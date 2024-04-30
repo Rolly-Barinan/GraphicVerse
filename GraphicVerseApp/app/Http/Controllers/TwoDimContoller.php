@@ -19,9 +19,12 @@ class TwoDimContoller extends Controller
             $q->where('asset_type', '2D');
         });
 
-        $packages = $query->paginate(12)->appends(request()->except('page'));
+        $packages = $query->paginate(8)->appends(request()->except('page'));
 
         $categories = Categories::all();
+
+        // Ensure that paginator uses bootstrap styling
+        Paginator::useBootstrap();
         return view('twoDim.index', compact('packages', 'categories'));
     }
 
@@ -138,7 +141,9 @@ class TwoDimContoller extends Controller
         }
 
         // Paginate the results
-        $packages = $query->paginate(12)->appends(request()->except('page'));
+        $packages = $query->paginate(8)->appends(request()->except('page'));
+        // Ensure that paginator uses bootstrap styling
+        Paginator::useBootstrap();
 
         $categories = Categories::all();
         return view('twoDim.index', compact('packages', 'categories'));

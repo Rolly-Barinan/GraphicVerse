@@ -60,8 +60,8 @@ class ThreeDimContoller extends Controller
         //     $query->orderBy('created_at', 'desc');
         // }
 
-        // Paginate the query with 12 items per page
-        $packages = $query->paginate(12)->appends(request()->except('page'));
+        // Paginate the query with 8 items per page
+        $packages = $query->paginate(8)->appends(request()->except('page'));
 
         // Ensure that paginator uses bootstrap styling
         Paginator::useBootstrap();
@@ -185,8 +185,9 @@ class ThreeDimContoller extends Controller
             $query->orderBy('created_at', 'desc');
         }
 
-        $packages = $query->paginate(12)->appends(request()->except('page'));
-
+        $packages = $query->paginate(8)->appends(request()->except('page'));
+        Paginator::useBootstrap();
+        
         $categories = Categories::all();
         return view('threeDim.index', compact('packages', 'categories'));
     }

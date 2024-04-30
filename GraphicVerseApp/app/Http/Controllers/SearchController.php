@@ -14,8 +14,8 @@ class SearchController extends Controller
     public function search(Request $request)
     {
         $query = $request->input('q');
-        $packages = Package::where('PackageName', 'like', "%$query%")->paginate(12);
-        $images = ImageAsset::where('ImageName', 'like', "%$query%")->paginate(12);
+        $packages = Package::where('PackageName', 'like', "%$query%")->paginate(8);
+        $images = ImageAsset::where('ImageName', 'like', "%$query%")->paginate(8);
         // Retrieve categories
         $categories = Categories::all(); // Assuming Category is the model for your categories
 
@@ -23,7 +23,7 @@ class SearchController extends Controller
         $results = $packages->concat($images);
 
         // Paginate the sorted results
-        $sortedResults = $this->paginateResults($results, 12);
+        $sortedResults = $this->paginateResults($results, 8);
 
         // Ensure that paginator uses bootstrap styling
         Paginator::useBootstrap();
@@ -153,7 +153,7 @@ class SearchController extends Controller
             });
         }
         
-        $packages = $queryBuilder->paginate(12);
+        $packages = $queryBuilder->paginate(8);
         $images = $imagesQuery->get();
 
         // Combine packages and images into a single collection
@@ -191,7 +191,7 @@ class SearchController extends Controller
         }
 
         // Paginate the sorted results
-        $sortedResults = $this->paginateResults($results, 12);
+        $sortedResults = $this->paginateResults($results, 8);
 
         // Ensure that paginator uses bootstrap styling
         Paginator::useBootstrap();
