@@ -104,11 +104,23 @@ class ImageAssetController extends Controller
     {
         $image = ImageAsset::findOrFail($id);
         $userId = $image->userID;
+        $userID = auth()->id();
         $user = User::find($userId);
         $imageSize = $image->ImageSize / 1024;;
-        return view('image.show', compact('image', 'user', 'imageSize'));
+        $checkPurchase = $this->checkPurchase($userID, $id);
+
+        return view('image.show', compact('image', 'user', 'imageSize','checkPurchase'));
     }
 
+    public function checkPurchase($userID, $packageID)
+    {
+        // Check if the user has purchased the package
+        $user = User::find($userID);
+        $purchase = $user->purchases()->where('artwork_id', $packageID)->first();
+
+        return $purchase ? true : false;
+    }
+    
     public function download($id)
     {
         $image = ImageAsset::findOrFail($id);
@@ -225,4 +237,6 @@ class ImageAssetController extends Controller
         $categories = Categories::all();
         return view('image.index', compact('images', 'categories'));
     }
+    
+
 }

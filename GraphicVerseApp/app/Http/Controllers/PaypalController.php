@@ -8,8 +8,6 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use Srmklive\PayPal\Services\PayPal as PayPalClient;
 
-
-
 class PaypalController extends Controller
 {
     public function payment(Request $request)
@@ -18,6 +16,7 @@ class PaypalController extends Controller
         if (!Auth::check()) {
             return redirect()->route('login'); // Redirect to register route if user is not authenticated
         }
+   
         $provider = new PayPalClient;
         $provider->setApiCredentials(config('paypal'));
         $paypalToken = $provider->getAccessToken();
@@ -27,7 +26,8 @@ class PaypalController extends Controller
                 // "return_url" => route('paypal_success'),
 
                 "return_url" => route('paypal_success', [
-                    'package_id' => $request->package_id,
+                   'package_id' => $request->package_id,
+                   'artwork_id' => $request->artwork_id,
                     'price' => $request->price
                 ]),
 
@@ -56,7 +56,6 @@ class PaypalController extends Controller
 
     public function success(Request $request)
     {
-
         $provider = new PayPalClient;
         $provider->setApiCredentials(config('paypal'));
         $paypalToken = $provider->getAccessToken();
@@ -64,8 +63,8 @@ class PaypalController extends Controller
         if (isset($response['status']) && $response['status'] === "COMPLETED") {
 
             // Extract purchase details from the PayPal response
-
             $packageID = $request->query('package_id');
+            $artworkID = $request->query('artwork_id');
             $price = $request->query('price');
             // Get the package ID from the request
             // Assuming the user is authenticated, retrieve the user's ID
@@ -74,6 +73,7 @@ class PaypalController extends Controller
             $purchase = new Purchase;
             $purchase->UserID = $userID;
             $purchase->package_id = $packageID;
+            $purchase->artwork_id = $artworkID;
             $purchase->price = $price;
             $purchase->save();
 
@@ -81,13 +81,8 @@ class PaypalController extends Controller
             // ...
 
 
-            $data = [
-                'packageID' => $packageID,
-                'price' => $price
-            ];
-
             // Render the success.blade.php view with the data
-            return view('paypal.success', $data);
+            return view('paypal.success');
         } else {
             return redirect()->route('paypal_cancel');
         }

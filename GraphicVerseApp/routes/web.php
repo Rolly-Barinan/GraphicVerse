@@ -13,6 +13,7 @@ use App\Http\Controllers\AssetPackageController;
 use App\Http\Controllers\AudioController;
 use App\Http\Controllers\ImageAssetController;
 use App\Http\Controllers\PaypalController;
+use App\Http\Controllers\PurchaseController;
 use App\Http\Controllers\TwoDimContoller;
 use App\Http\Controllers\ThreeDimContoller;
 
@@ -109,6 +110,11 @@ Route::get('/profile/{user}', [ProfilesController::class, 'index'])->name('profi
 //Search Controller
 Route::get('/search', [SearchController::class, 'search'])->name('search');
 Route::get('/filtered-search-results', [SearchController::class, 'filteredSearchResults'])->name('filtered-search-results');
+
+//purchase controller
+Route::get('/purchased', [PurchaseController::class, 'index'])->name('purchased.index');
+Route::get('/purchased/{id}', [PurchaseController::class, 'show'])->name('purchased.show');
+
 
 Route::middleware(['auth'])->group(function () {
     //profile router contoller
