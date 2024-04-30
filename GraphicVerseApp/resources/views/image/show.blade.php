@@ -28,9 +28,13 @@
                                 <button type="submit" class="btn btn-danger">Delete Image</button>
                             </form>
                         @else
-                            <h3>Download Image</h3>
+                            <h3>Download Artwork</h3>
+                            <p>For more information about the royalties for the asset, <a href="#">click here</a>.</p>
                             @if ($image->Price == null || $image->Price == 0)
-                                <a href="{{ route('image.download', $image->id) }}" class="btn btn-success">Download for Free</a>
+                                <button type="submit">
+                                    <a href="{{ route('image.download', $image->id) }}" class = "no-underline">Download
+                                        for Free</a>
+                                </button>
                             @else
                                 <form action="{{ route('paypal') }}" method="POST">
                                     @csrf
