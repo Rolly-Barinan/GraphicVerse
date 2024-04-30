@@ -33,7 +33,7 @@
         <div class="col-md-7" style="height: inherit;">
             <form method="POST" action="{{ route('image.store') }}" enctype="multipart/form-data" onsubmit="return validateForm()">
                 @csrf
-                <h1 class="mb-4">UPLOAD IMAGE</h1>
+                <h1 class="mb-4">UPLOAD ARTWORK</h1>
                 <div class="form-group">
                     <div class="dropzone d-flex flex-column justify-content-center align-items-center text-center" id="image-dropzone">
                         <i class="bi bi-cloud-upload"></i>
@@ -45,7 +45,7 @@
                 <div class="form-group">
                     <h3 class="desc">Image Description</h3>
                     <p class="desc">Provide a short description of your asset pack.</p>
-                    <textarea name="ImageDescription" class="description form-control" placeholder="Enter custom tags separated by commas"></textarea>
+                    <textarea name="ImageDescription" class="description form-control" placeholder="Enter description"></textarea>
                     
                     <p class="tiny-text">10-200 characters</p>
                 </div>
@@ -53,7 +53,7 @@
                 <div class="col-md-5">
                     <div class="form-group">
                         <div class="input-icon">
-                            <input type="text" name="ImageName" class="title" value="Package Title">
+                            <input type="text" name="ImageName" class="title" value="Artwork Title">
                             <i class="bi bi-pencil"></i>
                         </div>
                     </div>
