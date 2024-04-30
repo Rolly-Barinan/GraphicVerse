@@ -237,7 +237,7 @@ class AssetPackageController extends Controller
             } else {
                 // If no NSFW content is detected, proceed with the success message
                 return redirect()->back()->with([
-                    'success' => 'Images uploaded successfully',
+                    'success' => 'Package uploaded successfully',
                     'uploadedAssetIds' => $uploadedAssetIds,
                 ]);
             }
