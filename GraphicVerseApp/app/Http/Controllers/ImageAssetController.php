@@ -96,7 +96,7 @@ class ImageAssetController extends Controller
         $imageAsset->categories()->attach($request->input('category_ids', []));
 
         // Redirect to the image create page with a success message
-        return redirect()->back()->with('success', 'Artwork created successfully!');
+        return redirect()->back()->with('success', 'Artwork uploaded successfully!');
     }
 
 
