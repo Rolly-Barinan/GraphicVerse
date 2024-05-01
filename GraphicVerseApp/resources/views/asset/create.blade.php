@@ -166,7 +166,7 @@
                         </select>
                     </div>
                     <div class="form-group">
-                        <h3 class="desc">Category</h3>
+                        <h3 class="desc">Asset Type</h3>
                         <select name="asset_type_id" class="form-control">
                             <option value="">Select an Asset Type</option>
                             @foreach ($assetTypes as $assetType)

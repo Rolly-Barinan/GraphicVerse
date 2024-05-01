@@ -125,13 +125,8 @@
                     </select>
                 </div>
                 <div class="form-group">
-                    <h3 class="desc">Category</h3>
-                    <select name="asset_type_id" class="form-control">
-                        <option value="">Select an Asset Type</option>
-                        @foreach ($assetTypes as $assetType)
-                            <option value="{{ $assetType->id }}">{{ $assetType->asset_type }}</option>
-                        @endforeach
-                    </select>
+                    <h3 class="desc">Asset Type</h3>
+                    <input type="text" class="form-control" value="{{ $package->assetType->asset_type }}" readonly>
                 </div>
                 <div class="form-group">
                     <h3 class="desc">Categories:</h3>
