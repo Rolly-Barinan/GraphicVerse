@@ -46,8 +46,16 @@
                     <h3 class="desc">Image Description</h3>
                     <p class="desc">Provide a short description of your asset pack.</p>
                     <textarea name="ImageDescription" class="description form-control" placeholder="Enter description"></textarea>
-                    
                     <p class="tiny-text">10-200 characters</p>
+                </div>
+                <div class="form-group">
+                <h3 class="desc">Package Preview</h3>
+                    <div id="watermarkDropzone" class="dropzone  d-flex flex-column justify-content-center align-items-center text-center">
+                        <i class="bi bi-cloud-upload"></i>
+                        <div class="upload">Upload Watermark</div>
+                        <p class="my-3">Maximum file size: 5 MB</p>
+                    </div>
+                    <input type="file" name="watermarkFile" class="form-control-file d-none"id="watermarkFile" required>
                 </div>
                 </div>
                 <div class="col-md-5">

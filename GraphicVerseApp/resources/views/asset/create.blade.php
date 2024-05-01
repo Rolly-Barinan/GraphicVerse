@@ -142,6 +142,13 @@
                         <input type="text" name="customTags" id="customTags" class="form-control"
                             placeholder="Enter custom tags separated by commas">
                     </div>
+                    <div class="form-group">
+                        <h3 class="desc">Package Preview</h3>
+                        <div class="dropzone p-3 text-center" id="preview-dropzone">
+                            <p class="my-3">Drag and drop preview files here or click to select files</p>
+                        </div>
+                        <input type="file" name="preview" class="form-control d-none" id="preview">
+                    </div>  
             </div>
             <div class="col-md-5">
                     <div class="form-group">
@@ -196,13 +203,6 @@
                             </div>
                         @endforeach
                     </div>
-                    <div class="form-group">
-                        <h3 class="desc">Package Preview</h3>
-                        <div class="dropzone p-3 text-center" id="preview-dropzone">
-                            <p class="my-3">Drag and drop preview files here or click to select files</p>
-                        </div>
-                        <input type="file" name="preview" class="form-control d-none" id="preview">
-                    </div>  
                     <button type="submit" class="btn btn-primary">Upload</button>
                 </form>
             </div>
