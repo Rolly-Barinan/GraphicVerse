@@ -7,6 +7,7 @@ use App\Models\Categories;
 use App\Models\ImageAsset;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Intervention\Image\Facades\Image;
 use Illuminate\Support\Facades\Http;
@@ -29,6 +30,36 @@ class ImageAssetController extends Controller
         $categories = Categories::all();
         $assetTypes = AssetType::all();
         return view('image.create', compact('assetTypes', 'categories'));
+    }
+
+    public function edit($id)
+    {
+        $image = ImageAsset::findOrFail($id);
+        $assetTypes = AssetType::all();
+        $categories = Categories::all();
+
+        return view('image.edit', compact('image', 'assetTypes', 'categories'));
+    }
+
+    public function update(Request $request, $id)
+    {
+       // dd($request);
+        $image = ImageAsset::findOrFail($id);
+        $request->validate([
+            'ImageName' => 'required',
+            'ImageDescription' => 'required',
+            'Price' => 'nullable|numeric',
+        ]);
+
+        $image->ImageName  = $request->input('ImageName');
+        $image->ImageDescription = $request->input('ImageDescription');
+        $image->Price = $request->input('Price');
+
+
+        $image->categories()->sync($request->input('category_ids', []));
+        $image->save();
+
+        return redirect()->route('image.edit', $image->id)->with('success', 'Package updated successfully.');
     }
 
     public function store(Request $request)
@@ -175,15 +206,32 @@ class ImageAssetController extends Controller
     {
         $image = ImageAsset::findOrFail($id);
         $userId = $image->userID;
+        $userID = auth()->id();
         $user = User::find($userId);
         $imageSize = $image->ImageSize / 1024;;
-        return view('image.show', compact('image', 'user', 'imageSize'));
+        $checkPurchase = $this->checkPurchase($userID, $id);
+
+        return view('image.show', compact('image', 'user', 'imageSize','checkPurchase'));
     }
 
+    public function checkPurchase($userID, $packageID)
+    {
+        // Check if the user is authenticated
+        if (!Auth::check()) {
+            return false;
+        }      
+        // Find the authenticated user
+        $user = User::find($userID); 
+        // Check if the user has purchased the package
+        $purchase = $user->purchases()->where('artwork_id', $packageID)->first();
+    
+        return $purchase ? true : false;
+    }
+    
     public function download($id)
     {
         $image = ImageAsset::findOrFail($id);
-        $filePath = storage_path('app/public/' . $image->Location);
+        $filePath = storage_path('app/' . $image->Location);
 
         if (!file_exists($filePath)) {
             abort(404);
@@ -296,4 +344,6 @@ class ImageAssetController extends Controller
         $categories = Categories::all();
         return view('image.index', compact('images', 'categories'));
     }
+    
+
 }

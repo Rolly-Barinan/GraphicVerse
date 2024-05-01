@@ -74,12 +74,10 @@
                            
                                 <form action="{{ route('paypal') }}" method="POST">
                                     @csrf
-                                    <input type="hidden" name="package_id" value="{{ $package->id }}">>
+                                    <input type="hidden" name="package_id" value="{{ $package->id }}">
                                     <input type="hidden" name="price" value="{{ $package->Price }}">
                                     <button type="submit">
-                                        <a class = "no-underline">
-                                            Pay ${{ $package->Price }} with PayPal
-                                        </a>
+                                        <a class ="no-underline"> Pay ${{ $package->Price }} with PayPal</a>
                                     </button>
                                 </form>
                             @else

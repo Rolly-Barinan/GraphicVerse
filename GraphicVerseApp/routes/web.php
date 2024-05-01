@@ -13,10 +13,10 @@ use App\Http\Controllers\AssetPackageController;
 use App\Http\Controllers\AudioController;
 use App\Http\Controllers\ImageAssetController;
 use App\Http\Controllers\PaypalController;
+use App\Http\Controllers\PurchaseController;
 use App\Http\Controllers\TwoDimContoller;
 use App\Http\Controllers\ThreeDimContoller;
-
-
+use App\Models\ImageAsset;
 
 /*
 |--------------------------------------------------------------------------
@@ -78,6 +78,8 @@ Route::get('/package/{id}/download', [AssetPackageController::class, 'download']
 
 
 Route::post('/image/store', [ImageAssetController::class, 'store'])->name('image.store');
+Route::get('/image/{id}/edit', [ImageAssetController::class, 'edit'])->name('image.edit');
+Route::patch('/image/{id}', [ImageAssetController::class, 'update'])->name('image.update');
 Route::get('/image/create', [ImageAssetController::class, 'create'])->name('image.create');
 Route::get('/image/{id}', [ImageAssetController::class, 'show'])->name('image.show');
 Route::get('/image', [ImageAssetController::class, 'index'])->name('image.index');
@@ -109,6 +111,11 @@ Route::get('/profile/{user}', [ProfilesController::class, 'index'])->name('profi
 //Search Controller
 Route::get('/search', [SearchController::class, 'search'])->name('search');
 Route::get('/filtered-search-results', [SearchController::class, 'filteredSearchResults'])->name('filtered-search-results');
+
+//purchase controller
+Route::get('/purchased', [PurchaseController::class, 'index'])->name('purchased.index');
+Route::get('/purchased/{id}', [PurchaseController::class, 'show'])->name('purchased.show');
+
 
 Route::middleware(['auth'])->group(function () {
     //profile router contoller
