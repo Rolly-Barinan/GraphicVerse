@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Team extends Model
 {
-    protected $fillable = ['name', 'color', 'code'];
+    protected $fillable = ['name', 'color', 'code', 'profile_picture'];
 
     public function users()
     {
@@ -17,5 +17,4 @@ class Team extends Model
     {
         return $this->hasMany(ChatMessage::class);
     }
-
 }

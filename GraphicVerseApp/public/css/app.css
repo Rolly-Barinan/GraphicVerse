@@ -183,7 +183,6 @@ border-radius: 25px;
 
 a {
     font-family: "Roboto";
-    
 }
 .row1{
     max-height: 90px;
@@ -233,13 +232,6 @@ a {
     border-radius: 0 !important;
 }
 
-.dropdown-menu hr {
-    width: 10%;
-    justify-content: center;
-    margin: auto;
-    margin-bottom: 3px;
-}
-
 .dropdown-menu a {
     font-family: 'Roboto';
     font-weight: bold;
@@ -265,7 +257,7 @@ a {
     bottom: 0; /* This should make the dropdown appear below the nav-item */
     left: 0;
 }
-.dropdown-item, .view{
+.dropdown-item, .view, .teams{
     text-align: center;
     justify-content: center;
 }

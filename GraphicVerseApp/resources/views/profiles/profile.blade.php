@@ -135,10 +135,12 @@
                 <h1 class="text-start w-100">TEAMS</h1>
                 <hr>
                 @if ($user->id === auth()->id())
-                    @if ($user->teams->isNotEmpty())
-                        @foreach ($user->teams as $team)
-                            <a href="{{ route('teams.details', ['team' => $team->name]) }}" class="team-link">
-                                <div class="avatar text-white rounded-circle d-flex align-items-center justify-content-center" style="width: 100px; height: 100px; font-size: 32px; background-color: {{ $team->color }};">
+                    @foreach ($user->teams as $team)
+                        <a href="{{ route('teams.details', ['team' => $team->name]) }}" class="team-link">
+                            <div class="avatar text-white rounded-circle d-flex align-items-center justify-content-center" style="width: 100px; height: 100px; font-size: 32px; background-color: {{ $team->color }};">
+                                @if ($team->profile_picture)
+                                    <img src="{{ Storage::url($team->profile_picture) }}" alt="{{ $team->name }}" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%; object-position: center;">
+                                @else
                                     @php
                                         $words = explode(" ", $team->name); // Split the team name into an array of words
 
@@ -150,12 +152,11 @@
                                             }
                                         }
                                     @endphp
-                                </div>
-                                <p class="team-name">{{ $team->name }}</p>
-                            </a>
-                            <hr>
-                        @endforeach
-                    @else
+                                @endif
+                            </div>
+                            <p class="team-name">{{ $team->name }}</p>
+                        </a>
+                    @endforeach
                         <a href="{{ route('teams.create') }}" class="team-link">
                             <div class="avatar text-white rounded-circle d-flex align-items-center justify-content-center" style="width: 100px; height: 100px; font-size: 32px; background-color: #5F5F79;">
                                 +
@@ -163,7 +164,6 @@
                             <p class="team-name">Create a team</p>
                         </a>
                         <hr>
-                    @endif
                 @else
                     <p>No Teams Associated</p>
                 @endif

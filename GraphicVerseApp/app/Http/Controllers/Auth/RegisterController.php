@@ -29,7 +29,11 @@ class RegisterController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = RouteServiceProvider::HOME;
+    protected function redirectTo()
+    {
+        return route('profile.show', auth()->user());
+    }
+
 
     /**
      * Create a new controller instance.
@@ -72,4 +76,10 @@ class RegisterController extends Controller
             'password' => Hash::make($data['password']),
         ]);
     }
+
+    protected function registered(\Illuminate\Http\Request $request, $user)
+{
+    $this->guard()->logout();
+    return redirect()->route('login');
+}
 }

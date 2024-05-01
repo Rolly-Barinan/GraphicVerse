@@ -58,6 +58,12 @@ p {
     font-size: 25px ;
 }
 
+.desc object{
+    font-family: 'roboto', sans-serif ;
+    color: #5F5F79 ;
+    font-size: 25px ;
+}
+
 .description {
     font-family: 'roboto', sans-serif ;
     color: #9494AD !important;

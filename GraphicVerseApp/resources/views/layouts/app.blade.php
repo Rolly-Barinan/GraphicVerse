@@ -88,29 +88,45 @@
                 @endif<nav class="navbar navbar-expand-lg @if(!Request::is('/') && !Request::is('home')) navbar-not-home @endif" id="navbar"><nav class="navbar navbar-expand-lg @if(!Request::is('/') && !Request::is('home')) navbar-not-home @endif" id="navbar">
             @else
             <!-- <div class="profile container"> -->
-                <li class="nav-item dropdown">
-                    <a class="nav-link2 dropdown-toggle text-white" href="#" id="navbarDropdown" role="button"
-                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        {{ Auth::user()->profile->title }}
-                        <img src="{{ Auth::user()->profile->profileImage() }}" class="rounded-circle"
-                            style="height: 50px; width: 50px; margin-right: 5px;">
+            <li class="nav-item dropdown">
+                <a class="nav-link2 dropdown-toggle text-white" href="#" id="navbarDropdown" role="button"
+                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    {{ Auth::user()->profile->title }}
+                    <img src="{{ Auth::user()->profile->profileImage() }}" class="rounded-circle"
+                        style="height: 50px; width: 50px; margin-right: 5px;">
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown" onclick="event.stopPropagation();">
+                    <a class="dropdown-item" href="/profile/{{ Auth::user()->id }}">{{  Auth::user()->name }}
+                    <p class="view">View Profile</p>
                     </a>
-            <!-- </div> -->
-                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" href="/profile/{{ Auth::user()->id }}">{{  Auth::user()->name }}
-                        <p class="view">View Profile</p>
-                        </a>
-                        <a class="dropdown-item" href="/teams">Teams</a>
-                        <a class="dropdown-item"href="/profile/{{ Auth::user()->id }}/edit">Edit Profile</a>
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="{{ route('logout') }}"
-                            onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                            {{ __('Logout') }}
-                        </a>
-                        <hr>
-                        <hr>
+                    <a class="dropdown-item"href="/profile/{{ Auth::user()->id }}/edit">Edit Profile</a>
+                    <a class="dropdown-item teams-toggle" href="#">
+                        Teams
+                    </a>
+                    <div class="teams-list" style="display: none;">
+                        @foreach (Auth::user()->teams as $team)
+                            <a class="dropdown-item" style="font-weight: normal !important; color: #5F5F79 !important;" href="{{ route('teams.details', ['team' => $team->name]) }}">{{ $team->name }}</a>
+                        @endforeach
                     </div>
-                </li>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="{{ route('logout') }}"
+                        onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                        {{ __('Logout') }}
+                    </a>
+                    <hr style="
+                                width: 10% !important;
+                                justify-content: center !important; 
+                                margin: auto !important;
+                                margin-bottom: 3px !important;
+                            ">
+                        <hr style="
+                                width: 10% !important;
+                                justify-content: center !important;
+                                margin: auto !important;
+                                margin-bottom: 3px !important;
+                            ">
+                </div>
+            </li>
                     <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
                         @csrf
                     </form>
@@ -129,10 +145,33 @@
 </body>
 </html>
 
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 <script>
-    $(document).ready(function(){
-    $('.dropdown').click(function(){
-        $(this).find('.dropdown-menu').slideToggle();
+$(document).ready(function() {
+    $('.dropdown-toggle').on('click', function(e) {
+        e.preventDefault();
+        $(this).next('.dropdown-menu').stop(true, true).slideDown();
+    });
+
+    $(document).on('click', function(e) {
+        if ($(e.target).closest('.dropdown').length === 0) {
+            $('.dropdown-menu').stop(true, true).slideUp();
+        }
+    });
+});
+</script>
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script>
+$(document).ready(function() {
+    $('.teams-toggle').on('click', function(e) {
+        e.preventDefault();
+        $('.teams-list').stop(true, true).slideToggle();
+    });
+
+    $(document).on('click', function(e) {
+        if ($(e.target).closest('.dropdown').length === 0) {
+            $('.teams-list').stop(true, true).slideUp();
+        }
     });
 });
 </script>

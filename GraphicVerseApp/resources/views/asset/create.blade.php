@@ -152,9 +152,18 @@
                     </div>
                     <div class="form-group">
                         <h3 class="desc">Price</h3>
-                        <p class="text-muted">Leave empty for free download.</p>
-                        
+                        <p class="desc">Leave empty for free download.</p>
                         <input type="number" name="Price" class="price form-control" min="0">
+                    </div>
+                    <div class="form-group">
+                        <h3 class="desc">Team</h3>
+                        <p class="desc">Assign asset to a team.</p>
+                        <select name="asset_type_id" class="form-control">
+                            <option value="" class="desc">Select Team</option>
+                            @foreach ($assetTypes as $assetType)
+                                <option value="{{ $assetType->id }}">{{ $assetType->asset_type }}</option>
+                            @endforeach
+                        </select>
                     </div>
                     <div class="form-group">
                         <h3 class="desc">Category</h3>

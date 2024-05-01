@@ -1,58 +1,88 @@
+<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
+<link href="{{ asset('css/create.css') }}" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.1/font/bootstrap-icons.css" rel="stylesheet">
+<!-- JavaScript -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
 @extends('layouts.app')
-<style>
-    body {
-        font-family: 'Nunito', sans-serif;
-        background-image: url('https://cdn.discordapp.com/attachments/1121006331323760680/1123571308496691210/Copy_of_GraphicVerse_Capstone_Hearing.png');
-        background-size: cover;
-        background-repeat: no-repeat;
-    }
 
-    .navbar-nav .nav-item {
-        display: flex;
-    }
-</style>
 @section('content')
-    <div class="container mt-4">
+
+<div class="container-fluid d-block overflow-hidden">
         <div class="row justify-content-center">
-            <div class="col-md-8">
-                <div class="card" style="background-color: #222344;">
-                    <div class="card-header d-flex justify-content-between">
-                        <h2 style="color: white">Teams</h2>
-                        <a href="{{ route('teams.index') }}" class="btn btn-primary">Back</a>
-                    </div>
-
-                    <div class="card-body d-flex justify-content-between">
-                        {{-- Create a new team form --}}
-                        <div class="create-team-box p-4 bg-light rounded">
-                            <h2>Create a team</h2>
-                            <label>Bring everyone together and get to work!</label>
-                            <form method="POST" action="{{ route('teams.store') }}">
+            <div class="col-md-7 ">
+                <form method="POST" action="{{ route('teams.store') }}" enctype="multipart/form-data">
                                 @csrf
-                                <div class="form-group mt-3">
-                                    <label for="team_name">Team Name</label>
-                                    <input type="text" name="team_name" id="team_name" class="form-control" required>
-                                </div>
-                                <button type="submit" class="btn btn-success mt-3">Create Team</button>
-                            </form>
-                        </div>
-
-                        <div style="width: 20px;"></div> {{-- Add some space between the boxes --}}
-
-                        {{-- Join an existing team form --}}
-                        <div class="join-team-box p-4 bg-light rounded">
-                            <h2>Join an existing team</h2>
-                            <form method="POST" action="{{ route('teams.store') }}">
-                                @csrf
-                                <div class="form-group">
-                                    <label for="team_code">Team Code</label>
-                                    <input type="text" name="team_code" id="team_code" class="form-control" required>
-                                </div>
-                                <button type="submit" class="btn btn-success mt-3">Join Team</button>
-                            </form>
-                        </div>
+                    <h1 class="mb-4">CREATE A TEAM</h1>
+                    <div class="form-group mt-3">
+                        <h3 class="desc">Team Name</h3>
+                        <input type="text" name="team_name" id="team_name" class="form-control" minlength="1" maxlength="25" required>
+                        <p class="tiny-text">1-25 characters</p>
+                        @error('profile_picture')
+                            <span class="text-danger">{{ $message }}</span>
+                        @enderror
                     </div>
-                </div>
+                    <div class="form-group">
+                        <h3 class="desc">Team Logo</h3>
+                        <div class="dropzone d-flex flex-column justify-content-center align-items-center text-center" id="profile-picture-dropzone">
+                            <i class="bi bi-cloud-upload"></i>
+                            <div class="upload">Upload Profile Picture</div>
+                            <p class="my-3">Maximum file size: 5 MB</p>
+                        </div>
+                        <input type="file" name="profile_picture" class="form-control d-none" id="profile_picture">
+                    </div>
+                    <div class="form-group">
+                        <h3 class="desc">Team Cover Picture</h3>
+                        <div class="dropzone d-flex flex-column justify-content-center align-items-center text-center" id="cover-picture-dropzone">
+                            <i class="bi bi-cloud-upload"></i>
+                            <div class="upload">Upload Cover Picture</div>
+                            <p class="my-3">Maximum file size: 5 MB</p>
+                        </div>
+                        <input type="file" name="cover_picture" class="form-control d-none" id="cover_picture">
+                        @error('cover_picture')
+                            <span class="text-danger">{{ $message }}</span>
+                        @enderror
+                    </div>
+                    <button type="submit" class="btn btn-primary">Create Team</button>
+                </form>
+            </div>
+            <div class="col-md-5">
+            <form method="POST" action="{{ route('teams.store') }}">
+                @csrf
+                <h1 class="mb-4">JOIN A TEAM</h1>
+                    <div class="form-group mt-3">
+                        <h3 class="desc">Team Code</h3>
+                        <input type="text" name="team_code" id="team_code" class="form-control" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Join Team</button>
+                </form>
             </div>
         </div>
     </div>
+    <script>
+        var profilePictureDropzone = document.getElementById('profile-picture-dropzone');
+        var profilePictureInput = document.getElementById('profile_picture');
+
+        profilePictureDropzone.addEventListener('click', function() {
+            profilePictureInput.click();
+        });
+
+        profilePictureInput.addEventListener('change', function() {
+            var fileName = this.files[0].name;
+            var upload = profilePictureDropzone.querySelector('.upload');
+            upload.textContent = fileName;
+        });
+
+        var coverPictureDropzone = document.getElementById('cover-picture-dropzone');
+        var coverPictureInput = document.getElementById('cover_picture');
+
+        coverPictureDropzone.addEventListener('click', function() {
+            coverPictureInput.click();
+        });
+
+        coverPictureInput.addEventListener('change', function() {
+            var fileName = this.files[0].name;
+            var upload = coverPictureDropzone.querySelector('.upload');
+            upload.textContent = fileName;
+        });
+    </script>
 @endsection
