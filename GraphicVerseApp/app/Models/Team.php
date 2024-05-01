@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Team extends Model
 {
-    protected $fillable = ['name', 'color', 'code', 'profile_picture'];
+    protected $fillable = ['name', 'color', 'code', 'profile_picture','cover_picture'];
 
     public function users()
     {

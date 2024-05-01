@@ -71,7 +71,8 @@
             var upload = profilePictureDropzone.querySelector('.upload');
             upload.textContent = fileName;
         });
-
+    </script>
+    <script>
         var coverPictureDropzone = document.getElementById('cover-picture-dropzone');
         var coverPictureInput = document.getElementById('cover_picture');
 
@@ -80,7 +81,8 @@
         });
 
         coverPictureInput.addEventListener('change', function() {
-            var fileName = this.files[0].name;
+            var file = this.files[0];
+            var fileName = file.name;
             var upload = coverPictureDropzone.querySelector('.upload');
             upload.textContent = fileName;
         });

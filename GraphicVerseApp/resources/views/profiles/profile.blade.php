@@ -1,8 +1,16 @@
 @extends('layouts.app')
 <link href="{{ asset('css/profile.css') }}" rel="stylesheet">
+<style>    
+    height: 164vh;
+    position: absolute;
+    right: 10px;"
+</style>
+
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css">
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
 @section('content')
+
     <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/build/three.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/examples/js/loaders/FBXLoader.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/examples/js/loaders/MTLLoader.js"></script>
@@ -27,7 +35,7 @@
                 <div class="rounded-circle-container">
                     <img src="{{ $user->profile->profileImage() }}" class="rounded-circle img-fluid" alt="User Profile Image">
                 </div>
-                <div class="text1">
+                <div class="text1"> 
                     <h1 class="name">{{ $user->name }}</h1>
                     <p class="username">{{ $user->profile->title }}</p>
                     <!-- <p class="description">{{ $user->profile->description }}</p> -->

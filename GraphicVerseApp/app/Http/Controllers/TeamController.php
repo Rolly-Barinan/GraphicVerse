@@ -23,12 +23,14 @@ class TeamController extends Controller
     }
     public function store(Request $request)
     {
+        \Log::info($request->all());
+
         $request->validate([
             'team_name' => 'required|string|max:255|unique:teams,name',
             'profile_picture' => 'image|mimes:jpeg,png,jpg|max:5120', // Max 5 MB
             'cover_picture' => 'image|mimes:jpeg,png,jpg|max:5120', // Max 5 MB
         ]);
-    
+
         // Handle profile picture upload
         $profilePicturePath = null;
         if ($request->hasFile('profile_picture')) {
@@ -36,7 +38,7 @@ class TeamController extends Controller
                 $profilePicturePath = $request->file('profile_picture')->store('profile_pictures', 'public');
             }
         }
-    
+
         // Handle cover picture upload
         $coverPicturePath = null;
         if ($request->hasFile('cover_picture')) {
@@ -44,20 +46,23 @@ class TeamController extends Controller
                 $coverPicturePath = $request->file('cover_picture')->store('cover_pictures', 'public');
             }
         }
-    
+
         $randomColor = '#' . str_pad(dechex(mt_rand(0, 0xFFFFFF)), 6, '0', STR_PAD_LEFT);
         $randomCode = substr(str_shuffle("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"), 0, 6);
-    
+        
+        \Log::info('Cover Picture Path: ' . $coverPicturePath);
+
         $team = Team::create([
             'name' => $request->input('team_name'),
             'color' => $randomColor,
             'code' => $randomCode,
-            'profile_picture' => $profilePicturePath, // Save the profile picture path
+            'profile_picture' => $profilePicturePath,
+            'cover_picture' => $coverPicturePath, // Save the cover picture path
         ]);
-    
+
         $user = Auth::user();
         $team->users()->attach($user, ['role' => 'Creator']);
-    
+
         return redirect()->route('teams.index')->with('success', 'Team created successfully.');
     }
     
