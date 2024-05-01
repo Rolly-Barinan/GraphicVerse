@@ -158,10 +158,10 @@
                     <div class="form-group">
                         <h3 class="desc">Team</h3>
                         <p class="desc">Assign asset to a team.</p>
-                        <select name="asset_type_id" class="form-control">
-                            <option value="" class="desc">Select Team</option>
-                            @foreach ($assetTypes as $assetType)
-                                <option value="{{ $assetType->id }}">{{ $assetType->asset_type }}</option>
+                        <select name="team_id" class="form-control">
+                            <option value="">Select Team</option>
+                            @foreach ($userTeams as $team)
+                                <option value="{{ $team->id }}">{{ $team->name }}</option>
                             @endforeach
                         </select>
                     </div>

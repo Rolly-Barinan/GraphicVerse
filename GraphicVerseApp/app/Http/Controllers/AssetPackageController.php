@@ -32,7 +32,9 @@ class AssetPackageController extends Controller
         $assetTypes = AssetType::all();
         $categories = Categories::all();
         $recommendedTags = Tag::all();
-        return view('asset.create', compact('packages', 'assetTypes', 'categories', 'recommendedTags'));
+        $userTeams = $user->teams;
+
+        return view('asset.create', compact('packages', 'assetTypes', 'categories', 'recommendedTags', 'userTeams'));
     }
     public function edit($id)
     {

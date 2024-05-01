@@ -44,10 +44,10 @@
             </div>
             <div class="col-md-5">
                 <div class="r-body">
-                    @if ($user->teams->isNotEmpty())
+                    @if ($package->team_id)
                         <a href="{{ route('teams.details', ['team' => $user->teams->first()->name]) }}"
                             style="text-decoration: none;">
-                            <h4>{{ $user->teams->first()->name }}</h4>
+                            <h4>Team: {{ $package->team->name }}</h4>
                         </a>
                     @endif
                     <h1 class="r-title">{{ $package->PackageName }}</h1>
