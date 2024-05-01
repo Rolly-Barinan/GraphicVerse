@@ -14,8 +14,8 @@ class SearchController extends Controller
     public function search(Request $request)
     {
         $query = $request->input('q');
-        $packages = Package::where('PackageName', 'like', "%$query%")->paginate(8);
-        $images = ImageAsset::where('ImageName', 'like', "%$query%")->paginate(8);
+        $packages = Package::where('PackageName', 'like', "%$query%")->get();
+        $images = ImageAsset::where('ImageName', 'like', "%$query%")->get();
         // Retrieve categories
         $categories = Categories::all(); // Assuming Category is the model for your categories
 
@@ -23,7 +23,18 @@ class SearchController extends Controller
         $results = $packages->concat($images);
 
         // Paginate the sorted results
-        $sortedResults = $this->paginateResults($results, 8);
+        $page = LengthAwarePaginator::resolveCurrentPage();
+        $perPage = 8;
+        $sortedResults = new LengthAwarePaginator(
+            $results->forPage($page, $perPage),
+            $results->count(),
+            $perPage,
+            $page,
+            ['path' => LengthAwarePaginator::resolveCurrentPath()]
+        );
+
+        // Ensure that paginator uses bootstrap styling
+        $sortedResults->withPath('')->appends(request()->except('page'));
 
         // Ensure that paginator uses bootstrap styling
         Paginator::useBootstrap();
@@ -153,7 +164,7 @@ class SearchController extends Controller
             });
         }
         
-        $packages = $queryBuilder->paginate(8);
+        $packages = $queryBuilder->get();
         $images = $imagesQuery->get();
 
         // Combine packages and images into a single collection
@@ -191,7 +202,18 @@ class SearchController extends Controller
         }
 
         // Paginate the sorted results
-        $sortedResults = $this->paginateResults($results, 8);
+        $page = LengthAwarePaginator::resolveCurrentPage();
+        $perPage = 8;
+        $sortedResults = new LengthAwarePaginator(
+            $results->forPage($page, $perPage),
+            $results->count(),
+            $perPage,
+            $page,
+            ['path' => LengthAwarePaginator::resolveCurrentPath()]
+        );
+
+        // Ensure that paginator uses bootstrap styling
+        $sortedResults->withPath('')->appends(request()->except('page'));
 
         // Ensure that paginator uses bootstrap styling
         Paginator::useBootstrap();
