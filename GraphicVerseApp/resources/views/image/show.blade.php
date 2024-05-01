@@ -24,7 +24,7 @@
                     <div class="buy">
                         @if (Auth::id() == $image->userID)
                             <form action="/image/{{ $image->id }}/edit" method="GET">
-                                <button type="submit" class="btn btn-primary">
+                                <button type="submit" style="background-color: dodgerblue; "class="no-underline">
                                     Edit Package
                                 </button>
                             </form>
@@ -32,7 +32,7 @@
                                 onsubmit="return confirm('Are you sure you want to delete this image?')">
                                 @csrf
                                 @method('DELETE')
-                                <button type="submit" class="btn btn-danger">Delete Image</button>
+                                <button type="submit" style="background-color: red; "class="no-underline">Delete Artwork</button>
                             </form>
                         @else
                             <h3>Download Artwork</h3>
