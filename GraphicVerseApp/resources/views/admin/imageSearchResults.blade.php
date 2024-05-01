@@ -1,6 +1,6 @@
 @if ($images->isEmpty())
     <tr>
-        <td colspan="7" class="text-center">No images found</td>
+        <td colspan="7" class="text-center">No artworks found</td>
     </tr>
 @else
     @foreach ($images as $image)

@@ -80,10 +80,13 @@ class AdminController extends Controller
         // Count the number of Assets uploads for the user
         $userUploadsCountAssets = $user->assets()->count();
         
+        $userUploadsCountArtworks = $user->images()->count();
+
         return view('admin.userDetails', [
             'admin' => $admin, 'user' => $user, 
             'userUploadsCountPackages' => $userUploadsCountPackages,
             'userUploadsCountAssets' => $userUploadsCountAssets,
+            'userUploadsCountArtworks' => $userUploadsCountArtworks,
         ]);
     }
 
@@ -234,7 +237,7 @@ class AdminController extends Controller
         $image = ImageAsset::find($id);
 
         if (!$image) {
-            return redirect()->route('admin.imageAssets')->with('error', 'Image not found.');
+            return redirect()->route('admin.imageAssets')->with('error', 'Artwork not found.');
         }
         
         return view('admin.imageDetails', [

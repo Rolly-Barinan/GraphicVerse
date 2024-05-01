@@ -155,7 +155,7 @@
                     </li>
                     <!-- Manage Assets link -->
                     <li class="nav-item">
-                        <a class="nav-link{{ Request::is('admin/images*', 'admin/images/details/*') ? ' active' : '' }}" href="{{ route('admin.imageAssets') }}"><i class="fas fa-solid fa-file-image"></i> Image Assets</a>
+                        <a class="nav-link{{ Request::is('admin/images*', 'admin/images/details/*') ? ' active' : '' }}" href="{{ route('admin.imageAssets') }}"><i class="fas fa-solid fa-file-image"></i> Artworks</a>
                     </li>
                 </ul>
             </div>

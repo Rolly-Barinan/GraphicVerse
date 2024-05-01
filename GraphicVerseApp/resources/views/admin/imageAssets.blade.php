@@ -6,12 +6,12 @@
         <div class="row">
             <div class="col-lg-6 margin-tb">
                 <div class="pull-left mb-4">
-                    <h2>IMAGE ASSETS</h2>
+                    <h2>ARTWORKS</h2>
                 </div>
             </div>
             <div class="col-lg-6 margin-tb">
                 <div class="pull-right mb-4">
-                    <input type="text" id="searchInput" class="form-control" placeholder="Search by image asset name">
+                    <input type="text" id="searchInput" class="form-control" placeholder="Search by artwork name">
                 </div>
             </div>
         </div>
@@ -27,9 +27,9 @@
                     <table class="table table-striped table-borderless">
                         <thead>
                             <tr>
-                                <th>Image ID</th>
+                                <th>Artwork ID</th>
                                 <th>User ID</th>
-                                <th>Image Name</th>
+                                <th>Artwork Name</th>
                                 <th>Asset Type</th>
                                 <th>Created At</th>
                                 <th>Updated At</th>
@@ -39,7 +39,7 @@
                         <tbody id="imageTableBody">
                             @if ($images->isEmpty())
                                 <tr>
-                                    <td colspan="7" class="text-center">No images found</td>
+                                    <td colspan="7" class="text-center">No artworks found</td>
                                 </tr>
                             @else
                                 @foreach ($images as $image)

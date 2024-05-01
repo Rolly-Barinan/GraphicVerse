@@ -82,7 +82,13 @@
                                 @foreach($package->assets as $asset)
                                 <tr>
                                     <td>
-                                        @if ($package->asset_type_id === 2)
+                                        @if ($package->asset_type_id === 3) <!-- Check if asset type is audio -->
+                                            <!-- Add audio player -->
+                                            <audio controls>
+                                                <source src="{{ Storage::url($asset->Location) }}" type="audio/mpeg">
+                                                Your browser does not support the audio element.
+                                            </audio>
+                                        @elseif ($package->asset_type_id === 2)
                                             <div class="model-viewer" data-model-path="{{ Storage::url($asset->Location) }}" id="modelViewer"></div>
                                         @else
                                             <!-- Add a class to the link to trigger the modal -->

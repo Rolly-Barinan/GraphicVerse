@@ -79,7 +79,7 @@
                 </div>
                 <div class="col-md-4">
                     <div class="dashboard-card" style="border-left: 10px solid #333;">
-                        <h3>Total Images</h3>
+                        <h3>Total Artworks</h3>
                         <p>{{ $images->count() }}</p>
                         <canvas id="imageChart"></canvas>
                     </div>
@@ -184,7 +184,7 @@
         createChart('userChart', userChartData, 'Total Users', 'rgb(255, 99, 132)');
         createChart('packageChart', packageChartData, 'Total Packages', 'rgb(54, 162, 235)');
         createChart('assetChart', assetChartData, 'Total Assets', 'rgb(255, 205, 86)');
-        createChart('imageChart', imageChartData, 'Total Images', 'rgb(153, 102, 255)');
+        createChart('imageChart', imageChartData, 'Total Artworks', 'rgb(153, 102, 255)');
 
         // Generate chart data for all totals
         var combinedChartData = {
@@ -226,7 +226,7 @@
                         borderWidth: 1
                     },
                     {
-                        label: 'Total Images',
+                        label: 'Total Artworks',
                         data: combinedChartData.images.data,
                         backgroundColor: 'rgba(153, 102, 255, 0.5)', // Adjust as needed
                         borderWidth: 1

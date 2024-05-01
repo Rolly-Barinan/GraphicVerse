@@ -7,7 +7,7 @@
             <div class="row">
                 <div class="col-lg-12 margin-tb">
                     <div class="pull-right mb-4">
-                        <h2>Image Asset Information</h2>
+                        <h2>Artwork Information</h2>
                     </div>
                 </div>
             </div>
@@ -16,8 +16,8 @@
                     <table class="table">
                         <tbody>   
                             <div class="d-flex justify-content-center mb-4"> <!-- Centering the image -->
-                                <a href="{{ Storage::url($image->Location) }}" target="_blank">
-                                    <img src="{{ Storage::url($image->Location) }}" class="card-img-top"
+                                <a href="{{ Storage::url($image->watermarkedImage) }}" target="_blank">
+                                    <img src="{{ Storage::url($image->watermarkedImage) }}" class="card-img-top"
                                         alt="{{ $image->ImageName }}">
                                 </a>
                             </div>
@@ -63,8 +63,8 @@
                 </div>
             </div>
             <div class="mt-4 d-flex justify-content-between">
-                <a href="{{ route('admin.imageAssets') }}" class="btn btn-primary">Back to Image Assets</a>
-                <a href="{{ route('admin.deleteImage' , $image->id) }}" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this image?')">Delete Image</a>
+                <a href="{{ route('admin.imageAssets') }}" class="btn btn-primary">Back to Artworks</a>
+                <a href="{{ route('admin.deleteImage' , $image->id) }}" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this image?')">Delete Artwork</a>
             </div>
         </div>
     </div>
