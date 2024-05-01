@@ -21,34 +21,46 @@ class TeamController extends Controller
     {
         return view('Teams.createTeam');
     }
-
     public function store(Request $request)
     {
-        if (Auth::check()) {
-            $request->validate([
-                'team_name' => 'required|string|max:255|unique:teams,name',
-            ]);
-
-            $randomColor = '#' . str_pad(dechex(mt_rand(0, 0xFFFFFF)), 6, '0', STR_PAD_LEFT);
-
-            // Generate a 6-letter random code
-            $randomCode = substr(str_shuffle("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"), 0, 6);
-
-            $team = Team::create([
-                'name' => $request->input('team_name'),
-                'color' => $randomColor,
-                'code' => $randomCode, // Add the random code to the team
-            ]);
-
-            // Add the logged-in user as a member of the newly created team with role "Creator"
-            $user = Auth::user(); // Get the logged-in user
-            $team->users()->attach($user, ['role' => 'Creator']); // Attach the role "Creator" here
-
-            return redirect()->route('teams.index')->with('success', 'Team created successfully.');
+        $request->validate([
+            'team_name' => 'required|string|max:255|unique:teams,name',
+            'profile_picture' => 'image|mimes:jpeg,png,jpg|max:5120', // Max 5 MB
+            'cover_picture' => 'image|mimes:jpeg,png,jpg|max:5120', // Max 5 MB
+        ]);
+    
+        // Handle profile picture upload
+        $profilePicturePath = null;
+        if ($request->hasFile('profile_picture')) {
+            if ($request->file('profile_picture')->isValid()) {
+                $profilePicturePath = $request->file('profile_picture')->store('profile_pictures', 'public');
+            }
         }
-        // Handle the case when the user is not authenticated
-        return redirect()->route('login')->with('error', 'Please log in to create a team.');
+    
+        // Handle cover picture upload
+        $coverPicturePath = null;
+        if ($request->hasFile('cover_picture')) {
+            if ($request->file('cover_picture')->isValid()) {
+                $coverPicturePath = $request->file('cover_picture')->store('cover_pictures', 'public');
+            }
+        }
+    
+        $randomColor = '#' . str_pad(dechex(mt_rand(0, 0xFFFFFF)), 6, '0', STR_PAD_LEFT);
+        $randomCode = substr(str_shuffle("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"), 0, 6);
+    
+        $team = Team::create([
+            'name' => $request->input('team_name'),
+            'color' => $randomColor,
+            'code' => $randomCode,
+            'profile_picture' => $profilePicturePath, // Save the profile picture path
+        ]);
+    
+        $user = Auth::user();
+        $team->users()->attach($user, ['role' => 'Creator']);
+    
+        return redirect()->route('teams.index')->with('success', 'Team created successfully.');
     }
+    
 
 
     public function details($teamName)
