@@ -16,8 +16,7 @@ use App\Http\Controllers\PaypalController;
 use App\Http\Controllers\PurchaseController;
 use App\Http\Controllers\TwoDimContoller;
 use App\Http\Controllers\ThreeDimContoller;
-
-
+use App\Models\ImageAsset;
 
 /*
 |--------------------------------------------------------------------------
@@ -79,6 +78,8 @@ Route::get('/package/{id}/download', [AssetPackageController::class, 'download']
 
 
 Route::post('/image/store', [ImageAssetController::class, 'store'])->name('image.store');
+Route::get('/image/{id}/edit', [ImageAssetController::class, 'edit'])->name('image.edit');
+Route::patch('/image/{id}', [ImageAssetController::class, 'update'])->name('image.update');
 Route::get('/image/create', [ImageAssetController::class, 'create'])->name('image.create');
 Route::get('/image/{id}', [ImageAssetController::class, 'show'])->name('image.show');
 Route::get('/image', [ImageAssetController::class, 'index'])->name('image.index');
