@@ -69,18 +69,20 @@
                             @foreach ($packages as $result)
                                 <div class="col-md-3 mb-3 preview_card">
                                 <div class="card">
-                                        @if ($result->assetType->asset_type_id === 2)
+                                        @if ($result->asset_type_id === 3)
+                                            <a href="{{ route('audio.show', ['id' => $result->id]) }}">
+                                        @elseif ($result->asset_type_id === 2)
                                             <a href="{{ route('threeDim.show', ['id' => $result->id]) }}">
                                         @else
                                             <a href="{{ route('twoDim.show', ['id' => $result->id]) }}">
                                         @endif
-                                        <div class="card-image">
-                                            <img src="{{ Storage::url($result->Location) }}" class="card-img-top" alt="{{ $result->PackageName }}">
-                                        </div>
-                                        <div class="card-body p-1">
-                                            <h5 class="card-title">{{ $result->PackageName }}</h5>
-                                            <p class="card-text">{{ $result->user->username }}</p>
-                                        </div>
+                                            <div class="card-image">
+                                                <img src="{{ Storage::url($result->Location) }}" class="card-img-top" alt="{{ $result->PackageName }}">
+                                            </div>
+                                            <div class="card-body p-1">
+                                                <h5 class="card-title">{{ $result->PackageName }}</h5>
+                                                <p class="card-text">{{ $result->user->username }}</p>
+                                            </div>
                                         </a>
                                     </div>
                                 </div>

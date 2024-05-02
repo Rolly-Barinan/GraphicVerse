@@ -1,10 +1,6 @@
 @extends('layouts.app')
 <link href="{{ asset('css/profile.css') }}" rel="stylesheet">
-<style>    
-    height: 164vh;
-    position: absolute;
-    right: 10px;"
-</style>
+
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css">
 
@@ -140,9 +136,10 @@
                 </div>
             </div>
             <div class="col-3">
-                <h1 class="text-start w-100">TEAMS</h1>
-                <hr>
-                @if ($user->id === auth()->id())
+            <h1 class="text-start w-100">TEAMS</h1>
+            <hr>
+            @if(auth()->check() && $user->id === auth()->id())
+                @if ($user->teams->isNotEmpty())
                     @foreach ($user->teams as $team)
                         <a href="{{ route('teams.details', ['team' => $team->name]) }}" class="team-link">
                             <div class="avatar text-white rounded-circle d-flex align-items-center justify-content-center" style="width: 100px; height: 100px; font-size: 32px; background-color: {{ $team->color }};">
@@ -165,17 +162,48 @@
                             <p class="team-name">{{ $team->name }}</p>
                         </a>
                     @endforeach
-                        <a href="{{ route('teams.create') }}" class="team-link">
-                            <div class="avatar text-white rounded-circle d-flex align-items-center justify-content-center" style="width: 100px; height: 100px; font-size: 32px; background-color: #5F5F79;">
-                                +
-                            </div>
-                            <p class="team-name">Create a team</p>
-                        </a>
-                        <hr>
-                @else
-                    <p>No Teams Associated</p>
+                    <a href="{{ route('teams.create') }}" class="team-link">
+                        <div class="avatar text-white rounded-circle d-flex align-items-center justify-content-center" style="width: 100px; height: 100px; font-size: 32px; background-color: #5F5F79;">
+                            +
+                        </div>
+                        <p class="team-name">Create a team</p>
+                    </a>
+                    <hr>
                 @endif
-            </div>
+                <a href="{{ route('teams.create') }}" class="team-link">
+                    <div class="avatar text-white rounded-circle d-flex align-items-center justify-content-center" style="width: 100px; height: 100px; font-size: 32px; background-color: #5F5F79;">
+                        +
+                    </div>
+                    <p class="team-name">Create a team</p>
+                </a>
+            @elseif($user->teams->isNotEmpty())
+                @foreach ($user->teams as $team)
+                    <a href="{{ route('teams.details', ['team' => $team->name]) }}" class="team-link">
+                        <div class="avatar text-white rounded-circle d-flex align-items-center justify-content-center" style="width: 100px; height: 100px; font-size: 32px; background-color: {{ $team->color }};">
+                            @if ($team->profile_picture)
+                                <img src="{{ Storage::url($team->profile_picture) }}" alt="{{ $team->name }}" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%; object-position: center;">
+                            @else
+                                @php
+                                    $words = explode(" ", $team->name); // Split the team name into an array of words
+
+                                    if (count($words) === 1) {
+                                        echo strtoupper(substr($team->name, 0, 3)); // Use the first three letters for single-word team names
+                                    } else {
+                                        foreach ($words as $word) {
+                                            echo strtoupper(substr($word, 0, 1)); // Output the first letter of each word for multi-word team names
+                                        }
+                                    }
+                                @endphp
+                            @endif
+                        </div>
+                        <p class="team-name">{{ $team->name }}</p>
+                    </a>
+                @endforeach
+            @else
+                <p>No Teams Associated</p>
+            @endif
+        </div>
+
         </div>
         <div class="row d-flex">
             <div class="col-9">
