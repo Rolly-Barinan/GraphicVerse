@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use Intervention\Image\Facades\Image;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Pagination\Paginator;
+use Illuminate\Support\Facades\Auth;
 
 class TwoDimContoller extends Controller
 {
@@ -50,6 +51,9 @@ class TwoDimContoller extends Controller
     public function checkPurchase($userID, $packageID)
     {
         // Check if the user has purchased the package
+        if (!Auth::check()){
+            return false;
+        }
         $user = User::find($userID);
         $purchase = $user->purchases()->where('package_id', $packageID)->first();
 

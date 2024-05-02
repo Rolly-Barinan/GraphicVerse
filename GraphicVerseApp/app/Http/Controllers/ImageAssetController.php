@@ -228,7 +228,7 @@ class ImageAssetController extends Controller
         return view('image.show', compact('image', 'user', 'imageSize', 'checkPurchase'));
     }
 
-    public function checkPurchase($userID, $packageID)
+    public function checkPurchase($userID, $imageId)
     {
         // Check if the user is authenticated
         if (!Auth::check()) {
@@ -237,7 +237,7 @@ class ImageAssetController extends Controller
         // Find the authenticated user
         $user = User::find($userID);
         // Check if the user has purchased the package
-        $purchase = $user->purchases()->where('artwork_id', $packageID)->first();
+        $purchase = $user->purchases()->where('artwork_id', $imageId)->first();
 
         return $purchase ? true : false;
     }

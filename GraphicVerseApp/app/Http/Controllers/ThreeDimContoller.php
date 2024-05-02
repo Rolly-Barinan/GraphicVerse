@@ -7,6 +7,7 @@ use App\Models\Package;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\Paginator;
+use Illuminate\Support\Facades\Auth;
 
 class ThreeDimContoller extends Controller
 {
@@ -106,6 +107,9 @@ class ThreeDimContoller extends Controller
     public function checkPurchase($userID, $packageID)
     {
         // Check if the user has purchased the package
+        if(!Auth::check()){
+            return false;
+        }
         $user = User::find($userID);
         $purchase = $user->purchases()->where('package_id', $packageID)->first();
 
