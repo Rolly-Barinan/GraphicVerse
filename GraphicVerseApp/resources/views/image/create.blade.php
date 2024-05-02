@@ -71,6 +71,16 @@
                         <input type="number" name="Price" class="price form-control" min="0">
                     </div>
                     <div class="form-group">
+                        <h3 class="desc">Team</h3>
+                        <p class="desc">Assign asset to a team.</p>
+                        <select name="team_id" class="form-control">
+                            <option value="">Select Team</option>
+                            @foreach ($userTeams as $team)
+                                <option value="{{ $team->id }}">{{ $team->name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="form-group">
                         <h3 class="desc">Categories</h3>
                         @foreach ($categories as $category)
                             <div class="form-check">

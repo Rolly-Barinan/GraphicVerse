@@ -6,6 +6,7 @@ use App\Models\AssetType;
 use App\Models\Categories;
 use App\Models\ImageAsset;
 use App\Models\User;
+use App\Models\Team;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
@@ -27,18 +28,23 @@ class ImageAssetController extends Controller
 
     public function create()
     {
+        $user = auth()->user();
         $categories = Categories::all();
         $assetTypes = AssetType::all();
-        return view('image.create', compact('assetTypes', 'categories'));
+        $userTeams = $user->teams;
+
+        return view('image.create', compact('assetTypes', 'categories', 'userTeams'));
     }
 
     public function edit($id)
     {
+        $user = auth()->user();
         $image = ImageAsset::findOrFail($id);
         $assetTypes = AssetType::all();
         $categories = Categories::all();
+        $userTeams = $user->teams;
 
-        return view('image.edit', compact('image', 'assetTypes', 'categories'));
+        return view('image.edit', compact('image', 'assetTypes', 'categories', 'userTeams'));
     }
 
     public function update(Request $request, $id)
@@ -49,12 +55,13 @@ class ImageAssetController extends Controller
             'ImageName' => 'required',
             'ImageDescription' => 'required',
             'Price' => 'nullable|numeric',
+            'team_id' => 'nullable',
         ]);
 
         $image->ImageName  = $request->input('ImageName');
         $image->ImageDescription = $request->input('ImageDescription');
         $image->Price = $request->input('Price');
-
+        $image->team_id = $request['team_id'];
 
         $image->categories()->sync($request->input('category_ids', []));
         $image->save();
@@ -68,6 +75,7 @@ class ImageAssetController extends Controller
         $request->validate([
             'ImageName' => 'required',
             'imageFile' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048', // Adjust validation rules as needed
+            'team_id' => 'nullable',
         ]);
 
         // Create folders if they don't exist
@@ -146,6 +154,7 @@ class ImageAssetController extends Controller
         $imageAsset->Location = $imagePath;
         $imageAsset->Price = $request->Price;
         $imageAsset->ImageSize = $imageFile->getSize();
+        $imageAsset->team_id = $request['team_id'];
         $imageAsset->watermarkedImage = $watermarkedImage;
         $imageAsset->save();
 

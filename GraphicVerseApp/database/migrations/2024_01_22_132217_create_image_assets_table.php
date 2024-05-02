@@ -27,6 +27,7 @@ return new class extends Migration
 
             $table->foreign('userID')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('assetTypeID')->references('id')->on('asset_types')->onDelete('cascade');
+            $table->foreignId('team_id')->nullable()->constrained('teams')->onDelete('SET NULL');
         });
     }
 

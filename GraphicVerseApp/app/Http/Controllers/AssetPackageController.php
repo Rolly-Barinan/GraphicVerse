@@ -38,19 +38,21 @@ class AssetPackageController extends Controller
         return view('asset.create', compact('packages', 'assetTypes', 'categories', 'recommendedTags', 'userTeams'));
     }
     public function edit($id)
-    {
+    {   
+        $user = auth()->user();
         $package = Package::findOrFail($id);
         $assetTypes = AssetType::all();
         $categories = Categories::all();
-        $teams = Team::all();
+        $userTeams = $user->teams;
 
-        return view('asset.edit', compact('package', 'assetTypes', 'categories', 'teams'));
+        return view('asset.edit', compact('package', 'assetTypes', 'categories', 'userTeams'));
     }
 
     public function update(Request $request, $id)
     {
         $package = Package::findOrFail($id);
         $request->validate([
+            'team_id' => 'nullable',
             'PackageName' => 'required',
             'Description' => 'required',
             'Price' => 'nullable|numeric',
@@ -81,6 +83,7 @@ class AssetPackageController extends Controller
             'preview' => 'required|image',
             'asset' => 'required|array',
             'asset.*' => 'required|file',
+            'team_id' => 'nullable',
             'asset_type_id' => 'required',
             'category_ids' => 'required|array|min:1',
             'category_ids.*' => Rule::exists('categories', 'id'),

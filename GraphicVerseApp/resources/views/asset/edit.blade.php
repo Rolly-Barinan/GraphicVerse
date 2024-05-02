@@ -115,15 +115,16 @@
                     <input type="number" name="Price" class="price form-control" min="0" value="{{ old('Price', $package->Price) }}">
                 </div>
                 <div class="form-group">
-    <h3 class="desc">Team</h3>
-    <select name="team_id" class="form-control">
-        @foreach ($teams as $team)
-            <option value="{{ $team->id }}" {{ $team->id == old('team_id', $package->team->id) ? 'selected' : '' }}>
-                {{ $team->name }}
-            </option>
-        @endforeach
-    </select>
-</div>
+                    <h3 class="desc">Team</h3>
+                    <select name="team_id" class="form-control">
+                        <option value="">No team</option> <!-- Display "No team" as a default option -->
+                        @foreach ($userTeams as $team)
+                            <option value="{{ $team->id }}" {{ optional($package->team)->id == $team->id ? 'selected' : '' }}>
+                                {{ $team->name }}
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
                 <div class="form-group">
                     <h3 class="desc">Asset Type</h3>
                     <input type="text" class="form-control" value="{{ $package->assetType->asset_type }}" readonly>

@@ -67,7 +67,7 @@
                     </div>
                     <div class="image-scroll-container overflow-x-hidden">
                         <div class="row">
-                            @if ($packages->count() > 0)
+                            @if ($packages->count() > 0 || $artworks->count() > 0)
                                 @foreach ($packages as $package)
                                     <div class="col-md-3 mb-3 preview_card">
                                         <div class="card">
@@ -89,8 +89,23 @@
                                         </div>
                                     </div>
                                 @endforeach
+                                @foreach ($artworks as $artwork)
+                                    <div class="col-md-3 mb-3 preview_card">
+                                        <div class="card ">
+                                            <a href="{{ route('image.show', ['id' => $artwork->id]) }}">
+                                                <img src="{{ Storage::url($artwork->watermarkedImage) }}" class="card-img-top"
+                                                    alt="{{ $artwork->ImageName }}">
+
+                                                <div class="card-body">
+                                                    <h5 class="card-title">{{ $artwork->ImageName }}</h5>
+                                                    <p class="card-text">{{ $artwork->user->username }}</p>
+                                                </div>
+                                            </a>
+                                        </div>
+                                    </div>
+                                @endforeach
                             @else
-                                <p>No packages found for this team.</p>
+                                <h3> No assets found for this team.</h3>
                             @endif
                             
                         </div>

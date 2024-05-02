@@ -80,7 +80,7 @@ class TeamController extends Controller
 
         // Fetch the packages and assets associated with the team's users
         $packages = $team->packages;
-
+        $artworks = $team->images;
         // $images = [];
         // foreach ($team->users as $user) {
         //     $userImages = $user->images;
@@ -89,7 +89,7 @@ class TeamController extends Controller
         //     }
         // }
         
-        return view('Teams.team_details', compact('team', 'userRole', 'packages', 'userIsTeamMember'));
+        return view('Teams.team_details', compact('team', 'userRole', 'packages', 'artworks', 'userIsTeamMember'));
     }
 
 

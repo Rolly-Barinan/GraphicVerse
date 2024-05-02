@@ -11,12 +11,12 @@
             </div>
             <div class="col-md-5">
                 <div class="r-body">
-                    <!-- @if ($user->teams->isNotEmpty())
-                        <a href="{{ route('teams.details', ['team' => $user->teams->first()->name]) }}"
+                    @if ($image->team_id)
+                        <a href="{{ route('teams.details', ['team' => $image->team->name]) }}"
                             style="text-decoration: none;">
-                            <h4>{{ $user->teams->first()->name }}</h4>
+                            <h4>Team: {{ $image->team->name }}</h4>
                         </a>
-                    @endif -->
+                    @endif
                     <h1 class="r-title">{{ $image->ImageName }}</h1>
                     <a href="{{ route('profile.show', ['user' => $user->id]) }}" style="text-decoration: none;">
                         <p>{{ $user->username }}</p>
