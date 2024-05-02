@@ -46,4 +46,10 @@ class Package extends Model
     {
        return $this->hasMany(Purchase::class); 
     }
+
+    public function team()
+    {
+        return $this->belongsTo(Team::class);
+    }
+
 }
