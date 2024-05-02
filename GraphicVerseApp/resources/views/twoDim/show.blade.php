@@ -45,7 +45,7 @@
             <div class="col-md-5">
                 <div class="r-body">
                     @if ($package->team_id)
-                        <a href="{{ route('teams.details', ['team' => $user->teams->first()->name]) }}"
+                        <a href="{{ route('teams.details', ['team' => $package->team->name]) }}"
                             style="text-decoration: none;">
                             <h4>Team: {{ $package->team->name }}</h4>
                         </a>

@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use App\Models\ChatMessage;
+use App\Models\Package;
 
 class TeamController extends Controller
 {
@@ -78,25 +79,17 @@ class TeamController extends Controller
         $userIsTeamMember = $team->users->contains($user);
 
         // Fetch the packages and assets associated with the team's users
-        $packages = [];
-        $assets = [];
-        foreach ($team->users as $user) {
-            $userPackages = $user->packages;
-            foreach ($userPackages as $package) {
-                $packages[] = $package;
-                $assets = array_merge($assets, $package->assets->toArray());
-            }
-        }
-
-        $images = [];
-        foreach ($team->users as $user) {
-            $userImages = $user->images;
-            foreach ($userImages as $image) {
-                $images[] = $image;
-            }
-        }
+        $packages = $team->packages;
+        $artworks = $team->images;
+        // $images = [];
+        // foreach ($team->users as $user) {
+        //     $userImages = $user->images;
+        //     foreach ($userImages as $image) {
+        //         $images[] = $image;
+        //     }
+        // }
         
-        return view('Teams.team_details', compact('team', 'userRole', 'packages', 'images', 'assets', 'userIsTeamMember'));
+        return view('Teams.team_details', compact('team', 'userRole', 'packages', 'artworks', 'userIsTeamMember'));
     }
 
 

@@ -67,42 +67,79 @@
                     </div>
                     <div class="image-scroll-container overflow-x-hidden">
                         <div class="row">
-                            @foreach ($packages as $result)
-                                <div class="col-md-3 mb-3 preview_card">
-                                    <div class="card">
-                                        @if ($result->asset_type_id === 3)
-                                            <a href="{{ route('audio.show', ['id' => $result->id]) }}">
-                                        @elseif ($result->asset_type_id === 2)
-                                            <a href="{{ route('threeDim.show', ['id' => $result->id]) }}">
-                                        @else
-                                            <a href="{{ route('twoDim.show', ['id' => $result->id]) }}">
-                                        @endif
-                                            <div class="card-image">
-                                                <img src="{{ Storage::url($result->Location) }}" class="card-img-top" alt="{{ $result->PackageName }}">
-                                            </div>
-                                            <div class="card-body p-1">
-                                                <h5 class="card-title">{{ $result->PackageName }}</h5>
-                                                <p class="card-text">{{ $result->user->username }}</p>
-                                            </div>
-                                        </a>
+                            @if ($packages->count() > 0 || $artworks->count() > 0)
+                                @foreach ($packages as $package)
+                                    <div class="col-md-3 mb-3 preview_card">
+                                        <div class="card">
+                                            @if ($package->asset_type_id === 3)
+                                                <a href="{{ route('audio.show', ['id' => $package->id]) }}">
+                                            @elseif ($package->asset_type_id === 2)
+                                                <a href="{{ route('threeDim.show', ['id' => $package->id]) }}">
+                                            @else
+                                                <a href="{{ route('twoDim.show', ['id' => $package->id]) }}">
+                                            @endif
+                                                <img src="{{ Storage::url($package->Location) }}" class="card-img-top" alt="{{ $package->PackageName }}">
+                                                <div class="card-body d-flex justify-content-between align-items-center">
+                                                    <div>
+                                                        <h5 class="card-title">{{ $package->PackageName }}</h5>
+                                                        <p class="card-text">{{ $package->user->username }}</p>
+                                                    </div>
+                                                    <div>
+                                                        <!-- Form for liking an image -->
+                                                        <form action="{{ route('package.like', ['id' => $package->id]) }}" method="POST" style="text-decoration: none;">
+                                                            @csrf
+                                                            <button type="submit" class="btn">
+                                                                <!-- Check if the user is authenticated and if the image is liked by the user -->
+                                                                @if(auth()->check() && $package->likes()->where('user_id', auth()->user()->id)->exists())
+                                                                    <i class="fas fa-heart" style="color: #e52424;"></i><!-- Show filled heart icon if the image is liked -->                    
+                                                                @else 
+                                                                    <i class="far fa-heart" style="color: #e52424;"></i> <!-- Show heart outline icon if the image is not liked -->
+                                                                @endif
+                                                                <!-- Display the number of likes -->
+                                                                <span>{{ $package->likes }}</span>
+                                                            </button>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        </div>
                                     </div>
-                                </div>
-                            @endforeach
-                            @foreach ($images as $image)
-                                <div class="col-md-3 mb-3 preview_card">
-                                    <div class="card ">
-                                        <a href="{{ route('image.show', ['id' => $image->id]) }}">
-                                            <img src="{{ Storage::url($image->watermarkedImage) }}" class="card-img-top"
-                                                alt="{{ $image->ImageName }}">
-
-                                            <div class="card-body">
-                                                <h5 class="card-title">{{ $image->ImageName }}</h5>
-                                                <p class="card-text">{{ $image->user->username }}</p>
-                                            </div>
-                                        </a>
+                                @endforeach
+                                @foreach ($artworks as $artwork)
+                                    <div class="col-md-3 mb-3 preview_card">
+                                        <div class="card">
+                                            <a href="{{ route('image.show', ['id' => $artwork->id]) }}">
+                                                <img src="{{ Storage::url($artwork->watermarkedImage) }}" class="card-img-top" alt="{{ $artwork->ImageName }}">
+                                                <div class="card-body d-flex justify-content-between align-items-center">
+                                                    <div>
+                                                        <h5 class="card-title">{{ $artwork->ImageName }}</h5>
+                                                        <p class="card-text">{{ $artwork->user->username }}</p>
+                                                    </div>
+                                                    <div>
+                                                        <!-- Form for liking an image -->
+                                                        <form action="{{ route('image.like', ['id' => $artwork->id]) }}" method="POST" style="text-decoration: none;">
+                                                            @csrf
+                                                            <button type="submit" class="btn">
+                                                                <!-- Check if the user is authenticated and if the image is liked by the user -->
+                                                                @if(auth()->check() && $artwork->likes()->where('user_id', auth()->user()->id)->exists())
+                                                                    <i class="fas fa-heart" style="color: #e52424;"></i><!-- Show filled heart icon if the image is liked -->                    
+                                                                @else 
+                                                                    <i class="far fa-heart" style="color: #e52424;"></i> <!-- Show heart outline icon if the image is not liked -->
+                                                                @endif
+                                                                <!-- Display the number of likes -->
+                                                                <span>{{ $artwork->likes }}</span>
+                                                            </button>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        </div>
                                     </div>
-                                </div>
-                            @endforeach
+                                @endforeach
+                            @else
+                                <h3> No assets found for this team.</h3>
+                            @endif
+                            
                         </div>
                     </div>
                 </div>

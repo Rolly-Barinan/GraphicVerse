@@ -17,6 +17,7 @@ class Package extends Model
         'Price',
         'UserID',
         'asset_type_id',
+        'likes',
     ];
     public function user()
     {
@@ -45,5 +46,15 @@ class Package extends Model
     public function purchases()
     {
        return $this->hasMany(Purchase::class); 
+    }
+
+    public function team()
+    {
+        return $this->belongsTo(Team::class);
+    }
+
+    public function likes()
+    {
+        return $this->belongsToMany(User::class, 'packagelikes', 'package_id', 'user_id');
     }
 }

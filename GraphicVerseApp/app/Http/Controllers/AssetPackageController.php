@@ -10,6 +10,7 @@ use App\Models\Package;
 use App\Models\PackageCategory;
 use App\Models\Tag;
 use App\Models\User;
+use App\Models\Team;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use ZipArchive;
@@ -37,25 +38,28 @@ class AssetPackageController extends Controller
         return view('asset.create', compact('packages', 'assetTypes', 'categories', 'recommendedTags', 'userTeams'));
     }
     public function edit($id)
-    {
+    {   
+        $user = auth()->user();
         $package = Package::findOrFail($id);
         $assetTypes = AssetType::all();
         $categories = Categories::all();
+        $userTeams = $user->teams;
 
-        return view('asset.edit', compact('package', 'assetTypes', 'categories'));
+        return view('asset.edit', compact('package', 'assetTypes', 'categories', 'userTeams'));
     }
 
     public function update(Request $request, $id)
     {
         $package = Package::findOrFail($id);
         $request->validate([
-            'asset_type_id' => 'required',
+            'team_id' => 'nullable',
             'PackageName' => 'required',
             'Description' => 'required',
             'Price' => 'nullable|numeric',
         ]);
 
-        $package->asset_type_id = $request->input('asset_type_id');
+        // $package->asset_type_id = $request->input('asset_type_id');
+        $package->team_id = $request['team_id'];
         $package->PackageName  = $request->input('PackageName');
         $package->Description = $request->input('Description');
         $package->Price = $request->input('Price');
@@ -79,6 +83,7 @@ class AssetPackageController extends Controller
             'preview' => 'required|image',
             'asset' => 'required|array',
             'asset.*' => 'required|file',
+            'team_id' => 'nullable',
             'asset_type_id' => 'required',
             'category_ids' => 'required|array|min:1',
             'category_ids.*' => Rule::exists('categories', 'id'),
@@ -104,7 +109,7 @@ class AssetPackageController extends Controller
         $previewFile = $request->file('preview');
         $filename = $previewFile->hashName();
         $imagePath = $previewFile->storeAs('public/preview', $filename);
-
+        
         $customTags = $request->input('customTags');
         $tagNames = explode(',', $customTags);
 
@@ -114,10 +119,12 @@ class AssetPackageController extends Controller
             'preview' => $filename,
             'Location' => $imagePath,
             'UserID' => $user->id,
+            'team_id' => $request['team_id'],
             'asset_type_id' => $request['asset_type_id'],
             'Price' => $request['Price'],
         ]);
 
+        $package->team_id = $request['team_id'];
         $package->save();
 
         foreach ($tagNames as $tagName) {
@@ -317,6 +324,26 @@ class AssetPackageController extends Controller
                 }
             }
         }
+    }
+
+    public function like($id)
+    {
+        $package = Package::findOrFail($id);
+        $user = auth()->user();
+
+        if ($package->likes()->where('user_id', $user->id)->exists()) {
+            // Unlike the image
+            $package->likes()->detach($user->id);
+            $package->decrement('likes');
+            $message = 'Image unliked successfully.';
+        } else {
+            // Like the image
+            $package->likes()->attach($user->id);
+            $package->increment('likes');
+            $message = 'Image liked successfully.';
+        }
+
+        return redirect()->back()->with('success', $message);
     }
 
     public function download($id)

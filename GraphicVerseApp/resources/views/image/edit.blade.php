@@ -58,6 +58,17 @@
                         <input type="number" name="Price" class="price form-control" min="0" value="{{ old('Price', $image->Price) }}">
                     </div>
                     <div class="form-group">
+                    <h3 class="desc">Team</h3>
+                    <select name="team_id" class="form-control">
+                        <option value="">No team</option> <!-- Display "No team" as a default option -->
+                        @foreach ($userTeams as $team)
+                            <option value="{{ $team->id }}" {{ optional($image->team)->id == $team->id ? 'selected' : '' }}>
+                                {{ $team->name }}
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
+                    <div class="form-group">
                         <h3 class="desc">Categories</h3>
                         @foreach ($categories as $category)
                             <div class="form-check">

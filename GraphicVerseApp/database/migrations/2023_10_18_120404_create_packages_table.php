@@ -26,6 +26,8 @@ return new class extends Migration
             $table->timestamps();
             $table->foreign('UserID')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('asset_type_id')->references('id')->on('asset_types')->onDelete('set null');
+            $table->foreignId('team_id')->nullable()->constrained('teams')->onDelete('SET NULL');
+            $table->unsignedInteger('likes')->default(0);
         });
     }
 

@@ -136,9 +136,27 @@
                                 <a href="{{ route('twoDim.show', ['id' => $result->id]) }}">
                             @endif
                                 <img src="{{ Storage::url($result->Location) }}" class="card-img-top" alt="{{ $result->PackageName }}">
-                                <div class="card-body">
-                                    <h5 class="card-title">{{ $result->PackageName }}</h5>
-                                    <p class="card-text">{{ $result->user->username }}</p>
+                                <div class="card-body d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <h5 class="card-title">{{ $result->PackageName }}</h5>
+                                        <p class="card-text">{{ $result->user->username }}</p>
+                                    </div>
+                                    <div>
+                                        <!-- Form for liking an image -->
+                                        <form action="{{ route('package.like', ['id' => $result->id]) }}" method="POST" style="text-decoration: none;">
+                                            @csrf
+                                            <button type="submit" class="btn">
+                                                <!-- Check if the user is authenticated and if the image is liked by the user -->
+                                                @if(auth()->check() && $result->likes()->where('user_id', auth()->user()->id)->exists())
+                                                    <i class="fas fa-heart" style="color: #e52424;"></i><!-- Show filled heart icon if the image is liked -->                    
+                                                @else 
+                                                    <i class="far fa-heart" style="color: #e52424;"></i> <!-- Show heart outline icon if the image is not liked -->
+                                                @endif
+                                                <!-- Display the number of likes -->
+                                                <span>{{ $result->likes }}</span>
+                                            </button>
+                                        </form>
+                                    </div>
                                 </div>
                             </a>
                         </div>
@@ -151,12 +169,28 @@
                         <div class="col-md-3 mb-3 preview_card">
                             <div class="card ">
                                 <a href="{{ route('image.show', ['id' => $result->id]) }}">
-                                    <img src="{{ Storage::url($result->watermarkedImage) }}" class="card-img-top"
-                                        alt="{{ $result->ImageName }}">
-
-                                    <div class="card-body">
-                                        <h5 class="card-title">{{ $result->ImageName }}</h5>
-                                        <p class="card-text">{{ $result->user->username }}</p>
+                                    <img src="{{ Storage::url($result->watermarkedImage) }}" class="card-img-top" alt="{{ $result->ImageName }}">
+                                    <div class="card-body d-flex justify-content-between align-items-center">
+                                        <div>
+                                            <h5 class="card-title">{{ $result->ImageName }}</h5>
+                                            <p class="card-text">{{ $result->user->username }}</p>
+                                        </div>
+                                        <div>
+                                            <!-- Form for liking an image -->
+                                            <form action="{{ route('image.like', ['id' => $result->id]) }}" method="POST" style="text-decoration: none;">
+                                                @csrf
+                                                <button type="submit" class="btn">
+                                                    <!-- Check if the user is authenticated and if the image is liked by the user -->
+                                                    @if(auth()->check() && $result->likes()->where('user_id', auth()->user()->id)->exists())
+                                                        <i class="fas fa-heart" style="color: #e52424;"></i><!-- Show filled heart icon if the image is liked -->                    
+                                                    @else 
+                                                        <i class="far fa-heart" style="color: #e52424;"></i> <!-- Show heart outline icon if the image is not liked -->
+                                                    @endif
+                                                    <!-- Display the number of likes -->
+                                                    <span>{{ $result->likes }}</span>
+                                                </button>
+                                            </form>
+                                        </div>
                                     </div>
                                 </a>
                             </div>

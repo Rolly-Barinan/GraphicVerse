@@ -17,4 +17,14 @@ class Team extends Model
     {
         return $this->hasMany(ChatMessage::class);
     }
+
+    public function packages()
+    {
+        return $this->hasMany(Package::class);
+    }
+
+    public function images()
+    {
+        return $this->hasMany(ImageAsset::class);
+    }
 }
