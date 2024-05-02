@@ -86,6 +86,7 @@ Route::get('/image', [ImageAssetController::class, 'index'])->name('image.index'
 Route::get('/image', [ImageAssetController::class, 'filterImage'])->name('filter.image');
 Route::delete('/image/{image}', [ImageAssetController::class, 'destroy'])->name('image.destroy');
 Route::get('/image/{id}/download', [ImageAssetController::class, 'download'])->name('image.download');
+Route::post('/image/like/{id}', [ImageAssetController::class, 'like'])->name('image.like');
 
 
 ////////paypal 

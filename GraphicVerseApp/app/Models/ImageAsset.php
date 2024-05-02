@@ -10,7 +10,7 @@ class ImageAsset extends Model
     use HasFactory;
 
     protected $fillable = [
-        'userID', 'assetTypeID', 'ImageName', 'ImageDescription', 'Location', 'Price', 'ImageSize', 'watermarkedImage',
+        'userID', 'assetTypeID', 'ImageName', 'ImageDescription', 'Location', 'Price', 'ImageSize', 'watermarkedImage', 'likes',
     ];
 
     public function user()
@@ -36,5 +36,10 @@ class ImageAsset extends Model
     public function team()
     {
         return $this->belongsTo(Team::class);
+    }
+
+    public function likes()
+    {
+        return $this->belongsToMany(User::class, 'likes', 'image_asset_id', 'user_id');
     }
 }

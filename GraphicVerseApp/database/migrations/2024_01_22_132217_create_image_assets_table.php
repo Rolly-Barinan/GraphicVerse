@@ -23,6 +23,7 @@ return new class extends Migration
             $table->decimal('Price', 10, 2);
             $table->string('ImageSize');
             $table->string('watermarkedImage')->nullable();
+            $table->unsignedInteger('likes')->default(0);
             $table->timestamps();
 
             $table->foreign('userID')->references('id')->on('users')->onDelete('cascade');

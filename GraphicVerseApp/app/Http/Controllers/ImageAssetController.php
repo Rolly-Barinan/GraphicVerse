@@ -237,6 +237,26 @@ class ImageAssetController extends Controller
         return $purchase ? true : false;
     }
     
+    public function like($id)
+    {
+        $image = ImageAsset::findOrFail($id);
+        $user = auth()->user();
+
+        if ($image->likes()->where('user_id', $user->id)->exists()) {
+            // Unlike the image
+            $image->likes()->detach($user->id);
+            $image->decrement('likes');
+            $message = 'Image unliked successfully.';
+        } else {
+            // Like the image
+            $image->likes()->attach($user->id);
+            $image->increment('likes');
+            $message = 'Image liked successfully.';
+        }
+
+        return redirect()->back()->with('success', $message);
+    }
+
     public function download($id)
     {
         $image = ImageAsset::findOrFail($id);
