@@ -69,7 +69,7 @@
                         <div class="row">
                             @foreach ($packages as $result)
                                 <div class="col-md-3 mb-3 preview_card">
-                                <div class="card">
+                                    <div class="card">
                                         @if ($result->asset_type_id === 3)
                                             <a href="{{ route('audio.show', ['id' => $result->id]) }}">
                                         @elseif ($result->asset_type_id === 2)
@@ -83,6 +83,21 @@
                                             <div class="card-body p-1">
                                                 <h5 class="card-title">{{ $result->PackageName }}</h5>
                                                 <p class="card-text">{{ $result->user->username }}</p>
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
+                            @endforeach
+                            @foreach ($images as $image)
+                                <div class="col-md-3 mb-3 preview_card">
+                                    <div class="card ">
+                                        <a href="{{ route('image.show', ['id' => $image->id]) }}">
+                                            <img src="{{ Storage::url($image->watermarkedImage) }}" class="card-img-top"
+                                                alt="{{ $image->ImageName }}">
+
+                                            <div class="card-body">
+                                                <h5 class="card-title">{{ $image->ImageName }}</h5>
+                                                <p class="card-text">{{ $image->user->username }}</p>
                                             </div>
                                         </a>
                                     </div>

@@ -49,7 +49,7 @@
                     <p class="tiny-text">10-200 characters</p>
                 </div>
                 <div class="form-group">
-                <h3 class="desc">Package Preview</h3>
+                <h3 class="desc">Watermark</h3>
                     <div id="watermarkDropzone" class="dropzone  d-flex flex-column justify-content-center align-items-center text-center">
                         <i class="bi bi-cloud-upload"></i>
                         <div class="upload">Upload Watermark</div>
@@ -79,14 +79,14 @@
                             </div>
                         @endforeach
                     </div>
-                    <div class="form-group">
+                    <!-- <div class="form-group">
                         <div id="watermarkDropzone" class="dropzone  d-flex flex-column justify-content-center align-items-center text-center">
                             <i class="bi bi-cloud-upload"></i>
                             <div class="upload">Upload Watermark</div>
                             <p class="my-3">Maximum file size: 5 MB</p>
                         </div>
                         <input type="file" name="watermarkFile" class="form-control-file d-none"id="watermarkFile" required>
-                    </div>
+                    </div> -->
                     <button type="submit" class="btn btn-primary">Upload</button>
                 </div>
             </form>

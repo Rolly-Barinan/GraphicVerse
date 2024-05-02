@@ -51,14 +51,14 @@
                     <div class="buy">
                         @if (Auth::id() == $package->UserID)
                             <form action="/package/{{ $package->id }}/edit" method="GET">
-                                <button type="submit" style="background-color: dodgerblue; "class="no-underline">
+                                <button type="submit" style="background-color: #9494AD; "class="no-underline">
                                     Edit Package
                                 </button>
                             </form>
                             <form action="{{ route('asset.destroy', $package->id) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this package?')">
                                 @csrf
                                 @method('DELETE')
-                                <button type="submit" style="background-color: red; "class="no-underline">Delete Package</button>
+                                <button type="submit" style="background-color: #5F5F79; "class="no-underline">Delete Package</button>
                             </form>
                         @else
                             <h3>Download Asset</h3>
