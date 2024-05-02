@@ -326,6 +326,26 @@ class AssetPackageController extends Controller
         }
     }
 
+    public function like($id)
+    {
+        $package = Package::findOrFail($id);
+        $user = auth()->user();
+
+        if ($package->likes()->where('user_id', $user->id)->exists()) {
+            // Unlike the image
+            $package->likes()->detach($user->id);
+            $package->decrement('likes');
+            $message = 'Image unliked successfully.';
+        } else {
+            // Like the image
+            $package->likes()->attach($user->id);
+            $package->increment('likes');
+            $message = 'Image liked successfully.';
+        }
+
+        return redirect()->back()->with('success', $message);
+    }
+
     public function download($id)
     {
         $package = Package::findOrFail($id);

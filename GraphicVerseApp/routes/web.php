@@ -73,6 +73,7 @@ Route::patch('/package/{id}', [AssetPackageController::class, 'update'])->name('
 Route::get('/package/create', [AssetPackageController::class, 'create'])->name('asset.create');
 Route::delete('/package/{package}', [AssetPackageController::class, 'destroy'])->name('asset.destroy');
 Route::get('/package/{id}/download', [AssetPackageController::class, 'download'])->name('asset.download');
+Route::post('/package/like/{id}', [AssetPackageController::class, 'like'])->name('package.like');
 
 ////Image Asset routes
 

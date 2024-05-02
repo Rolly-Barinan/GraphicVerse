@@ -108,7 +108,7 @@
                                         <div class="row">
                                             @foreach ($chunk as $asset)
                                                 <div class="col-md-3">
-                                                    <div class="card">
+                                                    <!-- <div class="card">
                                                         <a href="{{ route('twoDim.show', ['id' => $asset->id]) }}">
                                                             <img src="{{ Storage::url($asset->Location) }}" class="card-img-top" alt="{{ $asset->PackageName }}">
                                                             <div class="card-body p-1">
@@ -116,8 +116,35 @@
                                                                 <p class="card-text">{{ $asset->user->username }}</p>
                                                             </div>
                                                         </a>
+                                                    </div> -->
+                                                    <div class="card">
+                                                        <a href="{{ route('twoDim.show', ['id' => $asset->id]) }}">
+                                                            <img src="{{ Storage::url($asset->Location) }}" class="card-img-top" alt="{{ $asset->PackageName }}">
+                                                            <div class="card-body d-flex justify-content-between align-items-center">
+                                                                <div>
+                                                                    <h5 class="card-title">{{ $asset->PackageName }}</h5>
+                                                                    <p class="card-text">{{ $asset->user->username }}</p>
+                                                                </div>
+                                                                <div>
+                                                                    <!-- Form for liking an image -->
+                                                                    <form action="{{ route('package.like', ['id' => $asset->id]) }}" method="POST" style="text-decoration: none;">
+                                                                        @csrf
+                                                                        <button type="submit" class="btn">
+                                                                            <!-- Check if the user is authenticated and if the image is liked by the user -->
+                                                                            @if(auth()->check() && $asset->likes()->where('user_id', auth()->user()->id)->exists())
+                                                                                <i class="fas fa-heart" style="color: #e52424;"></i><!-- Show filled heart icon if the image is liked -->                    
+                                                                            @else 
+                                                                                <i class="far fa-heart" style="color: #e52424;"></i> <!-- Show heart outline icon if the image is not liked -->
+                                                                            @endif
+                                                                            <!-- Display the number of likes -->
+                                                                            <span>{{ $asset->likes }}</span>
+                                                                        </button>
+                                                                    </form>
+                                                                </div>
+                                                            </div>
+                                                        </a>
                                                     </div>
-                                                </div>
+                                                </div>                   
                                             @endforeach
                                         </div>
                                     </div>
@@ -233,10 +260,28 @@
                                             <div class="col-md-3">
                                                 <div class="card">
                                                     <a href="{{ route('threeDim.show', ['id' => $asset->id]) }}">
-                                                        <div class="card-image"><img src="{{ Storage::url($asset->Location) }}" class="card-img-top" alt="{{ $asset->PackageName }}"></div>
-                                                        <div class="card-body p-1">
-                                                            <h5 class="card-title">{{ $asset->PackageName }}</h5>
-                                                            <p class="card-text">{{ $asset->user->username }}</p>
+                                                        <img src="{{ Storage::url($asset->Location) }}" class="card-img-top" alt="{{ $asset->PackageName }}">
+                                                        <div class="card-body d-flex justify-content-between align-items-center">
+                                                            <div>
+                                                                <h5 class="card-title">{{ $asset->PackageName }}</h5>
+                                                                <p class="card-text">{{ $asset->user->username }}</p>
+                                                            </div>
+                                                            <div>
+                                                                <!-- Form for liking an image -->
+                                                                <form action="{{ route('package.like', ['id' => $asset->id]) }}" method="POST" style="text-decoration: none;">
+                                                                    @csrf
+                                                                    <button type="submit" class="btn">
+                                                                        <!-- Check if the user is authenticated and if the image is liked by the user -->
+                                                                        @if(auth()->check() && $asset->likes()->where('user_id', auth()->user()->id)->exists())
+                                                                            <i class="fas fa-heart" style="color: #e52424;"></i><!-- Show filled heart icon if the image is liked -->                    
+                                                                        @else 
+                                                                            <i class="far fa-heart" style="color: #e52424;"></i> <!-- Show heart outline icon if the image is not liked -->
+                                                                        @endif
+                                                                        <!-- Display the number of likes -->
+                                                                        <span>{{ $asset->likes }}</span>
+                                                                    </button>
+                                                                </form>
+                                                            </div>
                                                         </div>
                                                     </a>
                                                 </div>
@@ -286,9 +331,27 @@
                                                     <div class="card">
                                                         <a href="{{ route('audio.show', ['id' => $asset->id]) }}">
                                                             <img src="{{ Storage::url($asset->Location) }}" class="card-img-top" alt="{{ $asset->PackageName }}">
-                                                            <div class="card-body p-1">
-                                                                <h5 class="card-title">{{ $asset->PackageName }}</h5>
-                                                                <p class="card-text">{{ $asset->user->username }}</p>
+                                                            <div class="card-body d-flex justify-content-between align-items-center">
+                                                                <div>
+                                                                    <h5 class="card-title">{{ $asset->PackageName }}</h5>
+                                                                    <p class="card-text">{{ $asset->user->username }}</p>
+                                                                </div>
+                                                                <div>
+                                                                    <!-- Form for liking an image -->
+                                                                    <form action="{{ route('package.like', ['id' => $asset->id]) }}" method="POST" style="text-decoration: none;">
+                                                                        @csrf
+                                                                        <button type="submit" class="btn">
+                                                                            <!-- Check if the user is authenticated and if the image is liked by the user -->
+                                                                            @if(auth()->check() && $asset->likes()->where('user_id', auth()->user()->id)->exists())
+                                                                                <i class="fas fa-heart" style="color: #e52424;"></i><!-- Show filled heart icon if the image is liked -->                    
+                                                                            @else 
+                                                                                <i class="far fa-heart" style="color: #e52424;"></i> <!-- Show heart outline icon if the image is not liked -->
+                                                                            @endif
+                                                                            <!-- Display the number of likes -->
+                                                                            <span>{{ $asset->likes }}</span>
+                                                                        </button>
+                                                                    </form>
+                                                                </div>
                                                             </div>
                                                         </a>
                                                     </div>
