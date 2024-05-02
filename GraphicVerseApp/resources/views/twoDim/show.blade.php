@@ -44,10 +44,10 @@
             </div>
             <div class="col-md-5">
                 <div class="r-body">
-                    @if ($user->teams->isNotEmpty())
+                    @if ($package->team_id)
                         <a href="{{ route('teams.details', ['team' => $user->teams->first()->name]) }}"
                             style="text-decoration: none;">
-                            <h4>{{ $user->teams->first()->name }}</h4>
+                            <h4>Team: {{ $package->team->name }}</h4>
                         </a>
                     @endif
                     <h1 class="r-title">{{ $package->PackageName }}</h1>
@@ -57,7 +57,7 @@
                     <div class="buy">
                         @if (Auth::id() == $package->UserID)
                             <form action="/package/{{ $package->id }}/edit" method="GET">
-                                <button type="submit" class="btn btn-primary">
+                                <button type="submit" style="background-color: dodgerblue; "class="no-underline">
                                     Edit Package
                                 </button>
                             </form>
@@ -65,7 +65,7 @@
                                 onsubmit="return confirm('Are you sure you want to delete this package?')">
                                 @csrf
                                 @method('DELETE')
-                                <button type="submit" class="btn btn-danger">Delete Package</button>
+                                <button type="submit" style="background-color: red; "class="no-underline">Delete Package</button>
                             </form>
                         @else
                             <h3>Download Asset</h3>
