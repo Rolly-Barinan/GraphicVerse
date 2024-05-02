@@ -108,15 +108,15 @@
                         </li>
                     @endforeach
                     <li class="member-item d-flex align-items-center justify-content-between">
-                            <a class="member-link d-flex align-items-center" href="{{ route('profile.show', ['user' => $member->id]) }}" style="text-decoration: none;">
-                                <div class="avatar text-white rounded-circle d-flex align-items-center justify-content-center mb-3" style="width: 100px; height: 100px; font-size: 32px; background-color: gray;">
-                                    +
-                                </div>
-                                <div class="d-flex flex-column align-items-center mt-2 ms-5">
-                                    <span class="name" style="font-size: 30px !important">Add Member/s</span>    
-                                </div>
-                            </a>
-                        </li>
+                        <a class="member-link d-flex align-items-center" href="#" data-bs-toggle="modal" data-bs-target="#addMemberModal" style="text-decoration: none;">
+                            <div class="avatar text-white rounded-circle d-flex align-items-center justify-content-center mb-3" style="width: 100px; height: 100px; font-size: 32px; background-color: gray;">
+                                +
+                            </div>
+                            <div class="d-flex flex-column align-items-center ms-3">
+                                <span class="name" style="font-size: 30px !important">Add Member/s</span>    
+                            </div>
+                        </a>
+                    </li>
                 </ul>
             </div>
         </div>
@@ -166,6 +166,37 @@
                         </form>
                     </div>
                 </div>
+            </div>
+        </div>
+    </div>
+    <!-- Add Member Modal -->
+    <div class="modal fade" id="addMemberModal" tabindex="-1" role="dialog" aria-labelledby="addMemberModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addMemberModalLabel">Add Member to {{ $team->name }}</h5>
+                    <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form method="POST" action="{{ route('teams.addMembers', $team->id) }}">
+                    @csrf
+                    <div class="modal-body">
+                        <p>Use Team Code: <strong>{{ $team->code }}</strong></p>
+                        <p><strong>OR</strong></p>
+                        <div class="form-group">
+                            <label for="email">Use Email Address</label>
+                            <input type="email" class="form-control @error('email') is-invalid @enderror" id="email" name="email" required>
+                            @error('email')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Add Member</button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
