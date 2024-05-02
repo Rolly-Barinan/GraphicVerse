@@ -43,10 +43,15 @@
             <div class="col-md-5">
                 <div class="r-body">
                     @if ($user->teams->isNotEmpty())
-                        <a href="{{ route('teams.details', ['team' => $user->teams->first()->name]) }}" style="text-decoration: none;"><h4>{{ $user->teams->first()->name }}</h4></a>
+                        <a href="{{ route('teams.details', ['team' => $user->teams->first()->name]) }}"
+                            style="text-decoration: none;">
+                            <h4>{{ $user->teams->first()->name }}</h4>
+                        </a>
                     @endif
                     <h1 class="r-title">{{ $package->PackageName }}</h1>
-                    <a href="{{ route('profile.show', ['user' => $user->id]) }}" style="text-decoration: none;"><p>{{ $user->username }}</p></a>
+                    <a href="{{ route('profile.show', ['user' => $user->id]) }}" style="text-decoration: none;">
+                        <p>{{ $user->username }}</p>
+                    </a>
                     <hr>
                     <div class="buy">
                         @if (Auth::id() == $package->UserID)
@@ -55,32 +60,32 @@
                                     Edit Package
                                 </button>
                             </form>
-                            <form action="{{ route('asset.destroy', $package->id) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this package?')">
+                            <form action="{{ route('asset.destroy', $package->id) }}" method="POST"
+                                onsubmit="return confirm('Are you sure you want to delete this package?')">
                                 @csrf
                                 @method('DELETE')
-                                <button type="submit" style="background-color: #5F5F79; "class="no-underline">Delete Package</button>
+                                <button type="submit" style="background-color: #5F5F79; "class="no-underline">Delete
+                                    Package</button>
                             </form>
                         @else
                             <h3>Download Asset</h3>
                             <p>For more information about the royalties for the asset, <a href="#">click here</a>.</p>
-                            <form action="{{ route('paypal') }}" method="POST">
-                                @csrf
-                                <input type="hidden" name="price" value="{{ $package->Price }}">
+                           
+                            @if (!empty($package->Price) && $package->Price != '0' && !$checkPurchase)
+                                <form action="{{ route('paypal') }}" method="POST">
+                                    @csrf
+                                    <input type="hidden" name="package_id" value="{{ $package->id }}">
+                                    <input type="hidden" name="price" value="{{ $package->Price }}">
+                                    <button type="submit">
+                                        <a class ="no-underline"> Pay ${{ $package->Price }} with PayPal</a>
+                                    </button>
+                                </form>
+                            @else
                                 <button type="submit">
-                                    @if (!empty($package->Price) && $package->Price != '0')
-                                        <form action="{{ route('paypal') }}" method="POST">
-                                            @csrf
-                                            <input type="hidden" name="price" value="{{ $package->Price }}">
-                                            <a class = "no-underline">
-                                                Pay ${{ $package->Price }} with PayPal
-                                            </a>
-                                        </form>
-                                    @else
-                                        <a href="{{ route('asset.download', $package->id) }}" class = "no-underline">Download
-                                            for Free</a>
-                                    @endif
+                                    <a href="{{ route('asset.download', $package->id) }}" class = "no-underline">Download
+                                        for Free</a>
                                 </button>
-                            </form>
+                            @endif
                         @endif
                     </div>
                     <hr>
@@ -132,8 +137,10 @@
             z-index: 1000;
             top: 0;
             left: 0;
-            width: 100%; /* Set width to 100% to cover the entire viewport */
-            height: 100%; /* Set height to 100% to cover the entire viewport */
+            width: 100%;
+            /* Set width to 100% to cover the entire viewport */
+            height: 100%;
+            /* Set height to 100% to cover the entire viewport */
             background-color: rgba(0, 0, 0, 0.9);
             overflow: auto;
         }
@@ -146,10 +153,14 @@
             transform: translate(-50%, -50%);
             margin: auto;
             display: table;
-            width: 80%; /* Set the desired width */
-            max-width: 800px; /* Set a max-width if needed */
-            height: 80%; /* Set the desired height */
-            max-height: 80vh; /* Set a max-height if needed, e.g., 80% of viewport height */
+            width: 80%;
+            /* Set the desired width */
+            max-width: 800px;
+            /* Set a max-width if needed */
+            height: 80%;
+            /* Set the desired height */
+            max-height: 80vh;
+            /* Set a max-height if needed, e.g., 80% of viewport height */
         }
 
         /* Style the close button */
@@ -228,7 +239,7 @@
         function loadFBXModal(modelPath) {
             // Clear the modalViewerContainer before appending a new model viewer
             modalViewerContainer.innerHTML = '';
-        
+
             const scene = new THREE.Scene();
             scene.background = new THREE.Color(0xdddddd);
             // Adjust width and height based on modal content size
