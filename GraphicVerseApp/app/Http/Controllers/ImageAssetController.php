@@ -49,7 +49,7 @@ class ImageAssetController extends Controller
 
     public function update(Request $request, $id)
     {
-       // dd($request);
+        // dd($request);
         $image = ImageAsset::findOrFail($id);
         $request->validate([
             'ImageName' => 'required',
@@ -134,14 +134,14 @@ class ImageAssetController extends Controller
         if ($contentDetection['nsfwDetected'] || $contentDetection['aiDetected']) {
             // Delete uploaded files and return with an error message
             Storage::delete([$imagePath, $watermarkPath]);
-            
+
             $errorMessage = '';
             if ($contentDetection['nsfwDetected']) {
                 $errorMessage = 'Inappropriate content detected in the uploaded files. Please upload appropriate content.';
             } elseif ($contentDetection['aiDetected']) {
                 $errorMessage = 'AI-generated content detected in the uploaded files. Please upload original content.';
             }
-            
+
             return redirect()->back()->with('error', $errorMessage);
         }
 
@@ -152,7 +152,12 @@ class ImageAssetController extends Controller
         $imageAsset->ImageName = $request->ImageName;
         $imageAsset->ImageDescription = $request->ImageDescription;
         $imageAsset->Location = $imagePath;
-        $imageAsset->Price = $request->Price;
+
+        if ($request->Price == null) {
+            $imageAsset->Price = 0;
+        } else {
+            $imageAsset->Price = $request->Price;
+        }
         $imageAsset->ImageSize = $imageFile->getSize();
         $imageAsset->team_id = $request['team_id'];
         $imageAsset->watermarkedImage = $watermarkedImage;
@@ -179,25 +184,25 @@ class ImageAssetController extends Controller
             file_get_contents($file->getRealPath()),
             $file->getClientOriginalName()
         )->post('https://api.sightengine.com/1.0/check.json', $params);
-        
+
         $nsfwDetected = $response->successful() && (
             // Check for NSFW content
-            $response['nudity']['sexual_activity'] > 0.5 || 
-            $response['nudity']['erotica'] > 0.5 || 
-            $response['nudity']['suggestive'] > 0.5 || 
-            $response['nudity']['sexual_display'] > 0.5 || 
-            $response['nudity']['sextoy'] > 0.5 || 
-            $response['nudity']['suggestive_classes']['cleavage'] > 0.5 || 
-            $response['nudity']['suggestive_classes']['lingerie'] > 0.5 || 
-            $response['nudity']['suggestive_classes']['other'] > 0.5 || 
-            $response['nudity']['suggestive_classes']['miniskirt'] > 0.5 || 
-            $response['nudity']['suggestive_classes']['bikini'] > 0.5 || 
-            $response['nudity']['suggestive_classes']['male_chest_categories']['very_revealing'] > 0.5 || 
-            $response['nudity']['suggestive_classes']['male_chest_categories']['slightly_revealing'] > 0.5 || 
-            $response['nudity']['suggestive_classes']['male_chest_categories']['revealing'] > 0.5 || 
-            $response['nudity']['suggestive_classes']['cleavage_categories']['very_revealing'] > 0.5 || 
-            $response['nudity']['suggestive_classes']['cleavage_categories']['revealing'] > 0.5 || 
-            $response['nudity']['suggestive_classes']['male_underwear'] > 0.5 || 
+            $response['nudity']['sexual_activity'] > 0.5 ||
+            $response['nudity']['erotica'] > 0.5 ||
+            $response['nudity']['suggestive'] > 0.5 ||
+            $response['nudity']['sexual_display'] > 0.5 ||
+            $response['nudity']['sextoy'] > 0.5 ||
+            $response['nudity']['suggestive_classes']['cleavage'] > 0.5 ||
+            $response['nudity']['suggestive_classes']['lingerie'] > 0.5 ||
+            $response['nudity']['suggestive_classes']['other'] > 0.5 ||
+            $response['nudity']['suggestive_classes']['miniskirt'] > 0.5 ||
+            $response['nudity']['suggestive_classes']['bikini'] > 0.5 ||
+            $response['nudity']['suggestive_classes']['male_chest_categories']['very_revealing'] > 0.5 ||
+            $response['nudity']['suggestive_classes']['male_chest_categories']['slightly_revealing'] > 0.5 ||
+            $response['nudity']['suggestive_classes']['male_chest_categories']['revealing'] > 0.5 ||
+            $response['nudity']['suggestive_classes']['cleavage_categories']['very_revealing'] > 0.5 ||
+            $response['nudity']['suggestive_classes']['cleavage_categories']['revealing'] > 0.5 ||
+            $response['nudity']['suggestive_classes']['male_underwear'] > 0.5 ||
             $response['nudity']['suggestive_classes']['male_chest'] > 0.5
         );
 
@@ -205,7 +210,7 @@ class ImageAssetController extends Controller
             // Check for AI-generated content
             $response['type']['ai_generated'] > 0.90
         );
-        
+
         return ['nsfwDetected' => $nsfwDetected, 'aiDetected' => $aiDetected];
     }
 
@@ -220,7 +225,7 @@ class ImageAssetController extends Controller
         $imageSize = $image->ImageSize / 1024;;
         $checkPurchase = $this->checkPurchase($userID, $id);
 
-        return view('image.show', compact('image', 'user', 'imageSize','checkPurchase'));
+        return view('image.show', compact('image', 'user', 'imageSize', 'checkPurchase'));
     }
 
     public function checkPurchase($userID, $packageID)
@@ -228,12 +233,12 @@ class ImageAssetController extends Controller
         // Check if the user is authenticated
         if (!Auth::check()) {
             return false;
-        }      
+        }
         // Find the authenticated user
-        $user = User::find($userID); 
+        $user = User::find($userID);
         // Check if the user has purchased the package
         $purchase = $user->purchases()->where('artwork_id', $packageID)->first();
-    
+
         return $purchase ? true : false;
     }
     
@@ -373,6 +378,4 @@ class ImageAssetController extends Controller
         $categories = Categories::all();
         return view('image.index', compact('images', 'categories'));
     }
-    
-
 }

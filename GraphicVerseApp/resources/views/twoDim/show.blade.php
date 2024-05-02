@@ -70,8 +70,8 @@
                         @else
                             <h3>Download Asset</h3>
                             <p>For more information about the royalties for the asset, <a href="#">click here</a>.</p>
-                            @if (!empty($package->Price) && $package->Price != '0' && !$checkPurchase)
-                           
+                            
+                            @if (!empty($package->Price) && $package->Price != '0' && !$checkPurchase)                          
                                 <form action="{{ route('paypal') }}" method="POST">
                                     @csrf
                                     <input type="hidden" name="package_id" value="{{ $package->id }}">

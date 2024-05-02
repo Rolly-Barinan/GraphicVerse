@@ -68,10 +68,12 @@ class ThreeDimContoller extends Controller
 
         return view('threeDim.index', compact('packages', 'categories'));
     }
+
     public function show($id)
     {
         $package = Package::with('assets')->findOrFail($id);
         $user = User::with('packages')->findOrFail($package->UserID);
+        $userID = auth()->id();
         $assets = $package->assets;
         $totalSizeKB = 0;
         foreach ($assets as $asset) {
@@ -81,8 +83,8 @@ class ThreeDimContoller extends Controller
         $fileTypes = $assets->pluck('FileType')->map(function ($type) {
             return '.' . strtolower($type);
         })->unique();
-
-        return view('threeDim.show', compact('package', 'assets', 'totalSizeMB', 'fileTypes', 'user'));
+        $checkPurchase = $this->checkPurchase($userID, $id);
+        return view('threeDim.show', compact('package', 'assets', 'totalSizeMB', 'fileTypes', 'user','checkPurchase'));
     }
 
     //     public function filterPackages(Request $request)
@@ -100,6 +102,15 @@ class ThreeDimContoller extends Controller
     //         return view('threeDim.index', compact('packages', 'categories'));
     //     }
     // }
+
+    public function checkPurchase($userID, $packageID)
+    {
+        // Check if the user has purchased the package
+        $user = User::find($userID);
+        $purchase = $user->purchases()->where('package_id', $packageID)->first();
+
+        return $purchase ? true : false;
+    }
 
     public function filterPackages(Request $request)
     {

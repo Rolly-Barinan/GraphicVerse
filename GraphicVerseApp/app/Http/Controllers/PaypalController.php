@@ -77,11 +77,6 @@ class PaypalController extends Controller
             $purchase->price = $price;
             $purchase->save();
 
-            // Optionally, you can also log the PayPal transaction details for auditing purposes
-            // ...
-
-
-            // Render the success.blade.php view with the data
             return view('paypal.success');
         } else {
             return redirect()->route('paypal_cancel');
@@ -93,11 +88,5 @@ class PaypalController extends Controller
         return view('paypal.cancel');
     }
 
-    public function receipt()
-    {
-        $receiptData = Session::get('receipt_data');
 
-        // Pass the data to the view
-        return view('paypal.success', ['receiptData' => $receiptData]);
-    }
 }
