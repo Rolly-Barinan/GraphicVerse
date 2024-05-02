@@ -18,7 +18,7 @@ class ProfilesController extends Controller
                 $userTeams = $user->teams; // Fetch user's teams               
                 // $userThreeDs = $user->threeDs()->get();
                 // $fbxFiles = auth()->user()->threeDs->pluck('asset')->toArray();
-                return view('profiles.profile', compact('user',  'userTeams'));
+                return view('profiles.profile', compact('user', 'userTeams'));
         }
 
         public function edit(User $user)
@@ -30,36 +30,41 @@ class ProfilesController extends Controller
 
         public function update(User $user)
         {
-        $this->authorize('update', $user->profile);
-        $data = request()->validate([
-                'title' => 'required',
-                'description' => 'required',
-                'url' => 'url',
-                'image' => '',
-                'cover_image' => '', // Add this line
-        ]);
+                $this->authorize('update', $user->profile);
+                $data = request()->validate([
+                        'title' => 'required',
+                        'description' => 'nullable',
+                        'url' => 'nullable',
+                        'image' => 'nullable|image',
+                        'cover_image' => 'nullable|image', // Add this line
+                ]);
 
-        if (request('image')) {
-                $imagePath = (request('image')->store('profile', 'public'));
-                $image = Image::make(public_path("storage/{$imagePath}"))->fit(1000, 1000);
-                $image->save();
-                $imageArray = ['image' => $imagePath];
-        }
+                $imageArray = [];
+                $coverImageArray = [];
 
-        if (request('cover_image')) { // Add this block
-                $coverImagePath = (request('cover_image')->store('cover', 'public'));
-                $coverImage = Image::make(public_path("storage/{$coverImagePath}"))->fit(1200, 400);
-                $coverImage->save();
-                $coverImageArray = ['cover_image' => $coverImagePath];
-        }
+                if (request('image')) {
+                        $imagePath = (request('image')->store('profile', 'public'));
+                        $image = Image::make(public_path("storage/{$imagePath}"))->fit(1000, 1000);
+                        $image->save();
+                        $imageArray = ['image' => $imagePath];
+                }
 
-        auth()->user()->profile->update(array_merge(
-                $data,
-                $imageArray ?? [],
-                $coverImageArray ?? [] // Add this line
-        ));
+                if (request('cover_image')) {
+                        $coverImagePath = (request('cover_image')->store('cover', 'public'));
+                        $coverImage = Image::make(public_path("storage/{$coverImagePath}"))->fit(1200, 400);
+                        $coverImage->save();
+                        $coverImageArray = ['cover_image' => $coverImagePath];
+                }
 
-        return redirect("/profile/{$user->id}");
+                $user->profile()->update(
+                        array_merge(
+                                $data,
+                                $imageArray,
+                                $coverImageArray
+                        )
+                );
+
+                return redirect("/profile/{$user->id}");
         }
 
         public function twoDimDisplay()
@@ -89,8 +94,8 @@ class ProfilesController extends Controller
         {
                 $user = auth()->user();
                 $images = ImageAsset::where('UserID', $user->id)->get();
-                
+
                 return view('profiles.imageDisplay', compact('images'));
         }
-        
+
 }

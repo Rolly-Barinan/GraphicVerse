@@ -43,14 +43,20 @@
                         Upload Package
                     </button>
                 @endif
-                @if(!auth()->user() || (auth()->user()->id !== $user->id && !$user->profile->url))
+                @if(auth()->check() && auth()->user()->id === $user->id)
+                    <a href="{{ '/profile/' . $user->id . '/edit' }}">
+                        <button type="button" class="connectBtn">
+                            Edit
+                        </button>
+                    </a>
+                @elseif(!$user->profile->url)
                     <button type="button" class="connectBtn" data-toggle="modal" data-target="#noSocialMediaModal">
-                        {{ $user->profile->url ? 'Connect' : 'No social media connected' }}
+                        No social media connected
                     </button>
                 @else
-                    <a href="{{ $user->profile->url ?? '/profile/' . $user->id . '/edit' }}">
+                    <a href="{{ $user->profile->url }}">
                         <button type="button" class="connectBtn">
-                            {{ $user->profile->url ? 'Connect' : 'Edit' }}
+                            Connect
                         </button>
                     </a>
                 @endif
