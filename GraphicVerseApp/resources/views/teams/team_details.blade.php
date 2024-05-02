@@ -48,14 +48,15 @@
                         @method('DELETE')
                         <button type="submit" class="uploadBtn">Delete Team</button>
                     </form>
-                @else
+                    <button type="submit" class="connectBtn" id="chatHead">Chat</button>
+                @elseif ($userRole === 'Member')
                     <form method="POST" action="{{ route('teams.leave', $team->id) }}" onsubmit="return confirm('Are you sure you want to leave this team?')">
                         @csrf
                         @method('DELETE')
                         <button type="submit" class="uploadBtn">Leave Team</button>
                     </form>
+                    <button type="submit" class="connectBtn" id="chatHead">Chat</button>
                 @endif
-                <button type="submit" class="connectBtn" id="chatHead">Chat</button>
             </div>
         </div>
         <div class="row" style="margin-top: -100px !important">
@@ -107,16 +108,18 @@
                             </a>
                         </li>
                     @endforeach
-                    <li class="member-item d-flex align-items-center justify-content-between">
-                        <a class="member-link d-flex align-items-center" href="#" data-bs-toggle="modal" data-bs-target="#addMemberModal" style="text-decoration: none;">
-                            <div class="avatar text-white rounded-circle d-flex align-items-center justify-content-center mb-3" style="width: 100px; height: 100px; font-size: 32px; background-color: gray;">
-                                +
-                            </div>
-                            <div class="d-flex flex-column align-items-center ms-3">
-                                <span class="name" style="font-size: 30px !important">Add Member/s</span>    
-                            </div>
-                        </a>
-                    </li>
+                    @if ($userRole === 'Creator' || $userRole === 'Member') 
+                        <li class="member-item d-flex align-items-center justify-content-between">
+                            <a class="member-link d-flex align-items-center" href="#" data-bs-toggle="modal" data-bs-target="#addMemberModal" style="text-decoration: none;">
+                                <div class="avatar text-white rounded-circle d-flex align-items-center justify-content-center mb-3" style="width: 100px; height: 100px; font-size: 32px; background-color: gray;">
+                                    +
+                                </div>
+                                <div class="d-flex flex-column align-items-center ms-3">
+                                    <span class="name" style="font-size: 30px !important">Add Member/s</span>    
+                                </div>
+                            </a>
+                        </li>
+                    @endif
                 </ul>
             </div>
         </div>

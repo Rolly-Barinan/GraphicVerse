@@ -162,12 +162,12 @@
                             <p class="team-name">{{ $team->name }}</p>
                         </a>
                     @endforeach
-                    <a href="{{ route('teams.create') }}" class="team-link">
+                    <!-- <a href="{{ route('teams.create') }}" class="team-link">
                         <div class="avatar text-white rounded-circle d-flex align-items-center justify-content-center" style="width: 100px; height: 100px; font-size: 32px; background-color: #5F5F79;">
                             +
                         </div>
                         <p class="team-name">Create a team</p>
-                    </a>
+                    </a> -->
                     <hr>
                 @endif
                 <a href="{{ route('teams.create') }}" class="team-link">
