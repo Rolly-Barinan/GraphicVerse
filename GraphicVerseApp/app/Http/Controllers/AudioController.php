@@ -13,7 +13,7 @@ class AudioController extends Controller
     public function index(Request $request)
     {
         $query = Package::query()->whereHas('assetType', function ($q) {
-            $q->where('asset_type', 'audio');
+            $q->where('asset_type', 'Audio');
         });
 
         $packages = $query->paginate(8)->appends(request()->except('page'));
@@ -48,7 +48,7 @@ class AudioController extends Controller
         $priceRanges = $request->input('price_range');
 
         $query = Package::query()->whereHas('assetType', function ($q) {
-            $q->where('asset_type', 'audio');
+            $q->where('asset_type', 'Audio');
         });
 
         // Filter by category

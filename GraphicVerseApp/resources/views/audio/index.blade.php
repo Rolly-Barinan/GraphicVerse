@@ -77,8 +77,7 @@
                     <button type="button" class="btn btn-link" onclick="toggleAuthors()">-</button>
                 </div>
                 <div id="authors">
-                    <input type="text" class="searchbox" name="author_search" placeholder="Search Author's username"
-                           class="mb-2">
+                    <input type="text" class="searchbox" name="search" placeholder="Search Author's username" class="mb-2">
                 </div>
                 <hr>
 

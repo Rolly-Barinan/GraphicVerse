@@ -103,7 +103,7 @@ class AssetPackageController extends Controller
             $messages['asset.*.mimes'] = 'Only FBX, OBJ, and BIN files are allowed for this asset type.';
         } elseif ($request->input('asset_type_id') == 3) {
             $rules['asset.*'] .= '|mimes:wav,mp3,opus,m4a,alac,aiff,wma,flac,ogg,aac';
-            $messages['asset.*.mimes'] = 'Only FBX, OBJ, and BIN files are allowed for this asset type.';
+            $messages['asset.*.mimes'] = 'Only mp3, wav, and other audio files are allowed for this asset type.';
         }
         $request->validate($rules, $messages);
         $previewFile = $request->file('preview');
