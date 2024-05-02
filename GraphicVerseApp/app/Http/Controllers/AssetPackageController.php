@@ -81,7 +81,6 @@ class AssetPackageController extends Controller
             'preview' => 'required|image',
             'asset' => 'required|array',
             'asset.*' => 'required|file',
-            'team_id' => 'required',
             'asset_type_id' => 'required',
             'category_ids' => 'required|array|min:1',
             'category_ids.*' => Rule::exists('categories', 'id'),
