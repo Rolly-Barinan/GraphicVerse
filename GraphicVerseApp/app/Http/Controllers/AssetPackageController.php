@@ -113,6 +113,11 @@ class AssetPackageController extends Controller
         $customTags = $request->input('customTags');
         $tagNames = explode(',', $customTags);
 
+        if($request['Price']== null){
+            $price = 0;
+        }else {
+            $price = $request['Price'];
+        }
         $package = new Package([
             'PackageName' => $request['PackageName'],
             'Description' => $request['Description'],
@@ -121,7 +126,7 @@ class AssetPackageController extends Controller
             'UserID' => $user->id,
             'team_id' => $request['team_id'],
             'asset_type_id' => $request['asset_type_id'],
-            'Price' => $request['Price'],
+            'Price' => $price,
         ]);
 
         $package->team_id = $request['team_id'];
