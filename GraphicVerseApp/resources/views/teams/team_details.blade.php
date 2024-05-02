@@ -91,14 +91,30 @@
                                 @endforeach
                                 @foreach ($artworks as $artwork)
                                     <div class="col-md-3 mb-3 preview_card">
-                                        <div class="card ">
+                                        <div class="card">
                                             <a href="{{ route('image.show', ['id' => $artwork->id]) }}">
-                                                <img src="{{ Storage::url($artwork->watermarkedImage) }}" class="card-img-top"
-                                                    alt="{{ $artwork->ImageName }}">
-
-                                                <div class="card-body">
-                                                    <h5 class="card-title">{{ $artwork->ImageName }}</h5>
-                                                    <p class="card-text">{{ $artwork->user->username }}</p>
+                                                <img src="{{ Storage::url($artwork->watermarkedImage) }}" class="card-img-top" alt="{{ $artwork->ImageName }}">
+                                                <div class="card-body d-flex justify-content-between align-items-center">
+                                                    <div>
+                                                        <h5 class="card-title">{{ $artwork->ImageName }}</h5>
+                                                        <p class="card-text">{{ $artwork->user->username }}</p>
+                                                    </div>
+                                                    <div>
+                                                        <!-- Form for liking an image -->
+                                                        <form action="{{ route('image.like', ['id' => $artwork->id]) }}" method="POST" style="text-decoration: none;">
+                                                            @csrf
+                                                            <button type="submit" class="btn">
+                                                                <!-- Check if the user is authenticated and if the image is liked by the user -->
+                                                                @if(auth()->check() && $artwork->likes()->where('user_id', auth()->user()->id)->exists())
+                                                                    <i class="fas fa-heart" style="color: #e52424;"></i><!-- Show filled heart icon if the image is liked -->                    
+                                                                @else 
+                                                                    <i class="far fa-heart" style="color: #e52424;"></i> <!-- Show heart outline icon if the image is not liked -->
+                                                                @endif
+                                                                <!-- Display the number of likes -->
+                                                                <span>{{ $artwork->likes }}</span>
+                                                            </button>
+                                                        </form>
+                                                    </div>
                                                 </div>
                                             </a>
                                         </div>
