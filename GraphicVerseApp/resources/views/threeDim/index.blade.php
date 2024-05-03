@@ -108,7 +108,6 @@
                             </select>
                         </div>
                 </div>
-                    </div>
                 @php
                     $has3DAssets = false;
                 @endphp
@@ -159,7 +158,7 @@
                             </div>
                     @endif
                 @endforeach
-            
+            </div>
                 @if (!$has3DAssets)
                     <div class="col-md-12">
                         <div class="alert alert-info" role="alert">
@@ -167,7 +166,8 @@
                         </div>
                     </div>
                 @endif
-            </div>
+                </div>
+            
             <!-- Pagination Links -->
             <div class="d-flex justify-content-center mt-5">
                 {{ $packages->links('pagination::bootstrap-4') }}
