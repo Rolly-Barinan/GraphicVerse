@@ -7,7 +7,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use App\Models\ChatMessage;
-use App\Models\Package;
 
 class TeamController extends Controller
 {
@@ -22,6 +21,7 @@ class TeamController extends Controller
     {
         return view('Teams.createTeam');
     }
+
     public function store(Request $request)
     {
         \Log::info($request->all());
@@ -50,7 +50,7 @@ class TeamController extends Controller
 
         $randomColor = '#' . str_pad(dechex(mt_rand(0, 0xFFFFFF)), 6, '0', STR_PAD_LEFT);
         $randomCode = substr(str_shuffle("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"), 0, 6);
-        
+
         \Log::info('Cover Picture Path: ' . $coverPicturePath);
 
         $team = Team::create([
@@ -64,9 +64,10 @@ class TeamController extends Controller
         $user = Auth::user();
         $team->users()->attach($user, ['role' => 'Creator']);
 
-        return redirect()->route('teams.index')->with('success', 'Team created successfully.');
+        return redirect()->route('team.details', ['teamName' => $request->input('team_name')])
+            ->with('success', 'Team created successfully.');
     }
-    
+
 
 
     public function details($teamName)
@@ -74,7 +75,7 @@ class TeamController extends Controller
         $team = Team::where('name', $teamName)->firstOrFail();
         $user = Auth::user();
         $userRole = $this->getUserRoleForTeam($team); // Get the user's role
-        
+
         // Check if the logged-in user is a member of the team
         $userIsTeamMember = $team->users->contains($user);
 
@@ -88,7 +89,7 @@ class TeamController extends Controller
         //         $images[] = $image;
         //     }
         // }
-        
+
         return view('Teams.team_details', compact('team', 'userRole', 'packages', 'artworks', 'userIsTeamMember'));
     }
 
@@ -150,7 +151,11 @@ class TeamController extends Controller
 
     public function destroy(Team $team)
     {
+        if (!Auth::check()) {
+            return redirect()->route('login'); // Redirect to register route if user is not authenticated
+        }
         $team->delete();
-        return redirect()->route('teams.index')->with('success', 'Team deleted successfully.');
+        $userId = Auth::id();
+        return redirect()->route('profile.show', ['user' => $userId])->with('success', 'Team deleted successfully.');
     }
 }
