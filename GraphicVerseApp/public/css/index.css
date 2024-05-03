@@ -83,6 +83,7 @@ margin: 0 !important;
     top: 0;
     width: 100%;
     overflow-x: hidden;
+    min-height: 100vh;
 }
 
 .package_row {
@@ -158,4 +159,15 @@ margin: 0 !important;
 .card-body {
     padding: 0px !important;
     padding-top: 5px !important;
+}
+
+.apply {
+    background-color: #5F5F79;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-family: 'Roboto', sans-serif;
+    font-size: 16px;
+    cursor: pointer;
 }

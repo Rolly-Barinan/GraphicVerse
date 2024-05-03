@@ -177,7 +177,8 @@ class AssetPackageController extends Controller
                 ];
     
                 // Make a POST request to Sightengine API with multipart form data
-                $response = Http::attach(
+                $response = Http::withOptions(['verify' => false])
+                ->attach(
                     'media',
                     file_get_contents($asset->getRealPath()),
                     $asset->getClientOriginalName()
