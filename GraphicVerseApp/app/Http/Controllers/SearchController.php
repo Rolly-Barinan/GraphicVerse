@@ -188,15 +188,11 @@ class SearchController extends Controller
             case 'price_desc':
                 $results = $results->sortByDesc('Price');
                 break;
-            case 'username_asc':
-                $results = $results->sortBy(function ($result) {
-                    return $result->user->username;
-                });
+            case 'likes_asc':
+                $results = $results->sortBy('likes');
                 break;
-            case 'username_desc':
-                $results = $results->sortByDesc(function ($result) {
-                    return $result->user->username;
-                });
+            case 'likes_desc':
+                $results = $results->sortByDesc('likes');
                 break;
             // Add more sorting options as needed
         }

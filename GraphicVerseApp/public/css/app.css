@@ -224,8 +224,8 @@ a {
 .dropdown-menu {
     position: relative; /* Change from absolute to relative */
     z-index: 1; 
-    padding-top: 100px;
-    width: calc(100% + 50px);
+    /* padding-top: 100px;
+    width: calc(100% + 50px); */
     /* margin-left: -25px; */
     min-width: 200px !important;
     background-color: #F1F1F1;

@@ -96,17 +96,20 @@
                             {{ (($packages->currentPage()-1)*$packages->perPage())+$packages->count() }} 
                             of {{ $packages->total() }} results
                         </p>
-                        <div class="sort-container ps-5">
-                            <label for="sortDropdown" class="dropdown-label">Sort By:</label>
-                            <select id="sortDropdown" onchange="sortPackages(this.value)">
-                                <option value="name_asc">Name (Ascending)</option>
-                                <option value="name_desc">Name (Descending)</option>
-                                <option value="price_asc">Price (Ascending)</option>
-                                <option value="price_desc">Price (Descending)</option>
-                                <option value="username_asc">UserName (Ascending)</option>
-                                <option value="username_desc">UserName (Descending)</option>
-                            </select>
-                        </div>
+                        <div class="sort-container">
+                            <button class="btn btn-secondary dropdown-toggle" type="button" id="sortDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                                Sort By
+                            </button>
+                            <ul class="dropdown-menu" aria-labelledby="sortDropdown">
+                                <li><a class="dropdown-item" href="{{ route('filter.3d', array_merge(request()->except('sort'), ['sort' => 'name_asc'])) }}">Name (Ascending)</a></li>
+                                <li><a class="dropdown-item" href="{{ route('filter.3d', array_merge(request()->except('sort'), ['sort' => 'name_desc'])) }}">Name (Descending)</a></li>
+                                <li><a class="dropdown-item" href="{{ route('filter.3d', array_merge(request()->except('sort'), ['sort' => 'price_asc'])) }}">Price (Ascending)</a></li>
+                                <li><a class="dropdown-item" href="{{ route('filter.3d', array_merge(request()->except('sort'), ['sort' => 'price_desc'])) }}">Price (Descending)</a></li>
+                                <li><a class="dropdown-item" href="{{ route('filter.3d', array_merge(request()->except('sort'), ['sort' => 'likes_asc'])) }}">Likes (Ascending)</a></li>
+                                <li><a class="dropdown-item" href="{{ route('filter.3d', array_merge(request()->except('sort'), ['sort' => 'likes_desc'])) }}">Likes (Descending)</a></li>
+                                <!-- Add more sorting options as needed -->
+                            </ul>
+                        </div> 
                 </div>
                 @php
                     $has3DAssets = false;
