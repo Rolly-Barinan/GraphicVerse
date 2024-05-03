@@ -111,8 +111,8 @@
                         <li><a class="dropdown-item" href="{{ route('filtered-search-results', array_merge(request()->except(['sort', 'page']), ['sort' => 'name_desc'])) }}">Name (Descending)</a></li>
                         <li><a class="dropdown-item" href="{{ route('filtered-search-results', array_merge(request()->except(['sort', 'page']), ['sort' => 'price_asc'])) }}">Price (Ascending)</a></li>
                         <li><a class="dropdown-item" href="{{ route('filtered-search-results', array_merge(request()->except(['sort', 'page']), ['sort' => 'price_desc'])) }}">Price (Descending)</a></li>
-                        <li><a class="dropdown-item" href="{{ route('filtered-search-results', array_merge(request()->except(['sort', 'page']), ['sort' => 'username_asc'])) }}">UserName (Ascending)</a></li>
-                        <li><a class="dropdown-item" href="{{ route('filtered-search-results', array_merge(request()->except(['sort', 'page']), ['sort' => 'username_desc'])) }}">UserName (Descending)</a></li>
+                        <li><a class="dropdown-item" href="{{ route('filtered-search-results', array_merge(request()->except(['sort', 'page']), ['sort' => 'likes_asc'])) }}">Likes (Ascending)</a></li>
+                        <li><a class="dropdown-item" href="{{ route('filtered-search-results', array_merge(request()->except(['sort', 'page']), ['sort' => 'likes_desc'])) }}">Likes (Descending)</a></li>
                         <!-- Add more sorting options as needed -->
                     </ul>
                 </div>
