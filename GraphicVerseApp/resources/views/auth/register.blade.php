@@ -72,9 +72,6 @@
                                 <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required autocomplete="new-password" placeholder="{{ __('Confirm Password') }}">
                             </div>
                         </div>
-
-
-
                                 <div class="text-center">
                                     <button type="submit" class="btn btn-primary mt-3">
                                         <i class="fas fa-user-plus"></i>

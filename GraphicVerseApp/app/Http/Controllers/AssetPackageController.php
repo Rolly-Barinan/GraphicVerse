@@ -80,7 +80,7 @@ class AssetPackageController extends Controller
         $rules = [
             'PackageName' => 'required',
             'Description' => 'required',
-            'preview' => 'required|image',
+            
             'asset' => 'required|array',
             'asset.*' => 'required|file',
             'team_id' => 'nullable',
