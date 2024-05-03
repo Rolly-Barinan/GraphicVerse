@@ -442,7 +442,10 @@
                         </a>
                     </div>
                 </div>
-                <h1><a href="/purchased">purchased history</a></h1>
+                <h1><a href="/purchased">purchased history</a></h1>       
+               <a href="/purchased"> <img src="/svg/purchased.svg" class="purchased-icon" alt="purchased-icon" style="width: 100px; height: auto;"></a>
+
+                </a>
             </div>
          
         </div>

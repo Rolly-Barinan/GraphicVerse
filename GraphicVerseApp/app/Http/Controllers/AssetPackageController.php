@@ -38,7 +38,7 @@ class AssetPackageController extends Controller
         return view('asset.create', compact('packages', 'assetTypes', 'categories', 'recommendedTags', 'userTeams'));
     }
     public function edit($id)
-    {   
+    {
         $user = auth()->user();
         $package = Package::findOrFail($id);
         $assetTypes = AssetType::all();
@@ -109,13 +109,13 @@ class AssetPackageController extends Controller
         $previewFile = $request->file('preview');
         $filename = $previewFile->hashName();
         $imagePath = $previewFile->storeAs('public/preview', $filename);
-        
+
         $customTags = $request->input('customTags');
         $tagNames = explode(',', $customTags);
 
-        if($request['Price']== null){
+        if ($request['Price'] == null) {
             $price = 0;
-        }else {
+        } else {
             $price = $request['Price'];
         }
         $package = new Package([
@@ -254,14 +254,14 @@ class AssetPackageController extends Controller
                     'api_user' => env('SIGHTENGINE_API_KEY'),
                     'api_secret' => env('SIGHTENGINE_API_SECRET'),
                 ];
-    
+
                 // Make a POST request to Sightengine API with multipart form data
                 $response = Http::attach(
                     'media',
                     file_get_contents($previewFile->getRealPath()),
                     $previewFile->getClientOriginalName()
                 )->post('https://api.sightengine.com/1.0/check.json', $params);
-    
+
                 // Check if the request was successful and NSFW content is detected
                 if (
                     $response->successful() && $response['nudity']['sexual_activity'] +
@@ -284,9 +284,9 @@ class AssetPackageController extends Controller
                 ) {
                     // Handle NSFW content (you can customize this part based on your application's requirements)
                     $nsfwDetected = true;
-    
+
                     foreach ($package->assets as $asset) {
-    
+
                         $filePath = $asset->Location;
                         if (Storage::exists($filePath)) {
                             Storage::delete($filePath);
@@ -296,16 +296,16 @@ class AssetPackageController extends Controller
                     $asset->delete();
                     $previewPath = $package->Location;
                     if (Storage::exists($previewPath)) {
-    
+
                         Storage::delete($previewPath);
                     }
                     $package->delete();
                     return redirect()->back()->with('error', 'NSFW content detected in the preview! Please upload safe content.');
                 } elseif ($response->successful() && $response['type']['ai_generated'] > 0.90) {
                     $aiDetected = true;
-    
+
                     foreach ($package->assets as $asset) {
-    
+
                         $filePath = $asset->Location;
                         if (Storage::exists($filePath)) {
                             Storage::delete($filePath);
@@ -315,7 +315,7 @@ class AssetPackageController extends Controller
                     $asset->delete();
                     $previewPath = $package->Location;
                     if (Storage::exists($previewPath)) {
-    
+
                         Storage::delete($previewPath);
                     }
                     $package->delete();
@@ -389,6 +389,7 @@ class AssetPackageController extends Controller
 
     public function destroy(Package $package)
     {
+        $assetType = $package->asset_type_id;
         foreach ($package->assets as $asset) {
 
             $filePath = $asset->Location;
@@ -404,8 +405,13 @@ class AssetPackageController extends Controller
             Storage::delete($previewPath);
         }
         $package->delete();
-        return redirect('/')->with('success', 'Package and associated files deleted successfully.');
+        if ($assetType == 1) {
+            return redirect('/2d-models')->with('success', 'Package and associated files deleted successfully.');
+        } else if ($assetType == 2) {
+            return redirect('/3d-models')->with('success', 'Package and associated files deleted successfully.');
+        } else if ($assetType == 3) {
+            return redirect('/audio-models')->with('success', 'Package and associated files deleted successfully.');
+        }
+    // return back()->with('success', 'Package and associated files deleted successfully.');// option 1 return previous route
     }
-
-   
 }
