@@ -355,13 +355,11 @@ class ImageAssetController extends Controller
                 case 'price_desc':
                     $query->orderByDesc('Price');
                     break;
-                case 'username_asc':
-                    $query->leftJoin('users', 'image_assets.UserID', '=', 'users.id')
-                        ->orderBy('users.username');
+                case 'likes_asc':
+                    $query->orderBy('likes');
                     break;
-                case 'username_desc':
-                    $query->leftJoin('users', 'image_assets.UserID', '=', 'users.id')
-                        ->orderByDesc('users.username');
+                case 'likes_desc':
+                    $query->orderByDesc('likes');
                     break;
                 default:
                     // Default sorting

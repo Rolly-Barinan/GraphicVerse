@@ -118,10 +118,10 @@
                                     href="{{ route('filter.image', array_merge(request()->except('sort'), ['sort' => 'price_desc'])) }}">Price
                                     (Descending)</a></li>
                             <li><a class="dropdown-item"
-                                    href="{{ route('filter.image', array_merge(request()->except('sort'), ['sort' => 'username_asc'])) }}">UserName
+                                    href="{{ route('filter.image', array_merge(request()->except('sort'), ['sort' => 'likes_asc'])) }}">Likes
                                     (Ascending)</a></li>
                             <li><a class="dropdown-item"
-                                    href="{{ route('filter.image', array_merge(request()->except('sort'), ['sort' => 'username_desc'])) }}">UserName
+                                    href="{{ route('filter.image', array_merge(request()->except('sort'), ['sort' => 'likes_desc'])) }}">Likes
                                     (Descending)</a></li>
                             <!-- Add more sorting options as needed -->
                         </ul>
