@@ -31,7 +31,7 @@
                 <a class="link" href="/2d">2D</a>
                 <a class="link" href="/3d">3D</a>
                 <a class="link" href="/audio-models">Audio</a>
-                <a class="link text-white" href="/music">Others</a>
+                <a class="link text-white" href="/image">Artworks</a>
         </div>
     </div>
     <div class="row-3 justify-content-center align-items-center ">
