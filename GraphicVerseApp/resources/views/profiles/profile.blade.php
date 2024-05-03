@@ -99,10 +99,10 @@
                             @if ($user->packages->where('assetType.asset_type', '2D')->isEmpty())
                                 <div class="carousel-item active">
                                     <div class="row">
-                                        <div class="col-md-3">
-                                            <div class="card">
-                                                <div class="card-body p-1 justify-center">
-                                                    <h5 class="card-title">No assets found</h5>
+                                        <div class="col-md-3" style="margin: auto !important; text-align: center !important; algin-items: center !important;">
+                                            <div class="card" style="border-style: none;">
+                                                <div class="card-body p-1 justify-center"style="margin: auto !important; text-align: center !important; algin-items: center !important;">
+                                                    <h5 class="card-title" style="margin: auto !important; text-align: center !important; algin-items: center !important;">No asset found</h5>
                                                 </div>
                                             </div>
                                         </div>
@@ -249,10 +249,10 @@
                         @if ($user->packages->where('assetType.asset_type', '3D')->isEmpty())
                             <div class="carousel-item active">
                                 <div class="row">
-                                    <div class="col-md-3">
-                                        <div class="card">
-                                            <div class="card-body p-1 justify-center">
-                                                <h5 class="card-title">No assets found</h5>
+                                    <div class="col-md-3" style="margin: auto !important; text-align: center !important; algin-items: center !important;">
+                                        <div class="card" style="border-style: none;">
+                                            <div class="card-body p-1 justify-center"style="margin: auto !important; text-align: center !important; algin-items: center !important;">
+                                                <h5 class="card-title" style="margin: auto !important; text-align: center !important; algin-items: center !important;">No asset found</h5>
                                             </div>
                                         </div>
                                     </div>
@@ -319,10 +319,10 @@
                             @if ($user->packages->where('assetType.asset_type', 'Audio')->isEmpty())
                                 <div class="carousel-item active">
                                     <div class="row">
-                                        <div class="col-md-3">
-                                            <div class="card">
-                                                <div class="card-body p-1 justify-center">
-                                                    <h5 class="card-title">No assets found</h5>
+                                        <div class="col-md-3" style="margin: auto !important; text-align: center !important; algin-items: center !important;">
+                                            <div class="card" style="border-style: none;">
+                                                <div class="card-body p-1 justify-center"style="margin: auto !important; text-align: center !important; algin-items: center !important;">
+                                                    <h5 class="card-title" style="margin: auto !important; text-align: center !important; algin-items: center !important;">No asset found</h5>
                                                 </div>
                                             </div>
                                         </div>
@@ -389,10 +389,10 @@
                             @if ($user->images->where('assetType.asset_type', '2D')->isEmpty())
                                 <div class="carousel-item active">
                                     <div class="row">
-                                        <div class="col-md-3">
-                                            <div class="card">
-                                                <div class="card-body p-1 justify-center">
-                                                    <h5 class="card-title">No artworks found</h5>
+                                        <div class="col-md-3" style="margin: auto !important; text-align: center !important; algin-items: center !important;">
+                                            <div class="card" style="border-style: none;">
+                                                <div class="card-body p-1 justify-center"style="margin: auto !important; text-align: center !important; algin-items: center !important;">
+                                                    <h5 class="card-title" style="margin: auto !important; text-align: center !important; algin-items: center !important;">No artworks found</h5>
                                                 </div>
                                             </div>
                                         </div>

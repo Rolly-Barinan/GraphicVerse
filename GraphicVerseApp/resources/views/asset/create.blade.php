@@ -133,7 +133,7 @@
                     <div class="form-group">
                         <h3 class="desc">Description</h3>
                         <p class="desc">Provide a short description of your asset pack.</p>
-                        <textarea name="Description" class="description form-control" oninput="limitInput(this)">Description of the new package</textarea>
+                        <textarea name="Description" class="description form-control" oninput="limitInput(this)"placeholder="Description of the new package"></textarea>
                         <p class="tiny-text">10-200 characters</p>
                     </div>
                     <div class="form-group">
@@ -152,7 +152,7 @@
             <div class="col-md-5">
                     <div class="form-group">
                         <div class="input-icon">
-                            <input type="text" name="PackageName" class="title" value="Package Title">
+                            <input type="text" name="PackageName" class="title" placeholder="Package Title">
                             <i class="bi bi-pencil"></i>
                         </div>
                     </div>
@@ -184,9 +184,9 @@
                         <h3 class="desc">Recommended Tags</h3>
                         <div id="recommendedTags">
                             @foreach ($recommendedTags as $tag)
-                            <div class="button-like">
+                            <div class="button-like" onclick="addTag('{{ $tag->name }}')">
                                 <span class="tag recommended-tag"
-                                    onclick="addTag('{{ $tag->name }}')">{{ $tag->name }} </span>
+                                    >{{ $tag->name }} </span>
                                     <i class="bi bi-plus"></i>
                                 </div>
                                     @endforeach

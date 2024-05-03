@@ -226,30 +226,27 @@
     </div>
     <!-- Add Member Modal -->
     <div class="modal fade" id="addMemberModal" tabindex="-1" role="dialog" aria-labelledby="addMemberModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
+        <div class="modal-dialog" role="document" >
+            <div class="modal-content" style="height: 450px !important;">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="addMemberModalLabel">Add Member to {{ $team->name }}</h5>
+                    <h5 class="modal-title" id="addMemberModalLabel">ADD MEMBER TO {{ $team->name }}</h5>
                     <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <form method="POST" action="{{ route('teams.addMembers', $team->id) }}">
                     @csrf
-                    <div class="modal-body">
-                        <p>Use Team Code: <strong>{{ $team->code }}</strong></p>
-                        <p><strong>OR</strong></p>
+                    <div class="modal-body" style="height: 600px !important;">
+                        <p class="card-text" style="font-family: 'Roboto'; color: #5F5F79;font-size: 30px;">Use Team Code: <strong>{{ $team->code }}</strong></p>
+                        <p class="card-text" style="font-family: 'Roboto'; color: #5F5F79;font-size: 40px;"><strong>OR</strong></p>
                         <div class="form-group">
-                            <label for="email">Use Email Address</label>
+                            <label for="email" class="card-text" style="font-family: 'Roboto'; color: #5F5F79;font-size: 30px;">Use Email Address</label>
                             <input type="email" class="form-control @error('email') is-invalid @enderror" id="email" name="email" required>
                             @error('email')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
+                            <button type="submit" class="uploadBtn" style="position: absolute;right: 10px;margin-top:10px;">Add Member</button>
                         </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary">Add Member</button>
                     </div>
                 </form>
             </div>
@@ -303,6 +300,7 @@
         .modal-dialog {
             margin: auto;
             min-width: 1000px !important;
+            padding: 20px !important;
         }
         .modal-content {
             background-color: #f4f4f4;
