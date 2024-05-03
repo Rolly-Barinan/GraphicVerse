@@ -95,7 +95,7 @@
                     <img src="{{ Auth::user()->profile->profileImage() }}" class="rounded-circle"
                         style="height: 50px; width: 50px; margin-right: 5px;">
                 </a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdown" onclick="event.stopPropagation();">
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown" onclick="event.stopPropagation();" style="padding-top: 100px;">
                     <a class="dropdown-item" href="/profile/{{ Auth::user()->id }}">{{  Auth::user()->name }}
                     <p class="view">View Profile</p>
                     </a>
@@ -149,15 +149,20 @@
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 <script>
 $(document).ready(function() {
-    $('.dropdown-toggle').on('click', function(e) {
-        e.preventDefault();
-        $(this).next('.dropdown-menu').stop(true, true).slideDown();
-    });
+    // $('.dropdown-toggle').on('click', function(e) {
+    //     e.preventDefault();
+    //     $(this).next('.dropdown-menu').stop(true, true).slideDown();
+    // });
 
-    $(document).on('click', function(e) {
-        if ($(e.target).closest('.dropdown').length === 0) {
-            $('.dropdown-menu').stop(true, true).slideUp();
-        }
+    // $(document).on('click', function(e) {
+    //     if ($(e.target).closest('.dropdown').length === 0) {
+    //         $('.dropdown-menu').stop(true, true).slideUp();
+    //     }
+    // });
+    $(document).ready(function(){
+        $('.dropdown').click(function(){
+            $(this).find('.dropdown-menu').slideToggle();
+        });
     });
 });
 </script>
