@@ -1,7 +1,6 @@
 @extends('layouts.app')
 
 @section('content')
-<div>hello</div>
 <div id="successModal" class="modal" tabindex="-1">
     <div class="modal-dialog">
         <div class="modal-content">

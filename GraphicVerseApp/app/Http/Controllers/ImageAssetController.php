@@ -86,7 +86,7 @@ class ImageAssetController extends Controller
         Storage::makeDirectory($watermarkPath, 0777, true, true);
 
         // Store the image file
-        $imageName = $request->ImageName;
+       $imageName = uniqid() . '_' . time();
         $imageFile = $request->file('imageFile');
         $imagePath = $artPath . $imageName . '.' . $imageFile->getClientOriginalExtension();
         Storage::putFileAs($publicPath . 'arts', $imageFile, $imageName . '.' . $imageFile->getClientOriginalExtension());
@@ -95,9 +95,10 @@ class ImageAssetController extends Controller
         $contentDetection = $this->detectInappropriateContent($imageFile);
 
         // Check if watermark file is uploaded and check for inappropriate content
-        $watermarkedImage = null;
+        $watermarkedImage = $imagePath;
         if ($request->hasFile('watermarkFile')) {
             $watermarkFile = $request->file('watermarkFile');
+            
             $watermarkPath = $watermarkPath . 'watermarked_' . $imageName . '.' . $watermarkFile->getClientOriginalExtension();
 
             // Load main image and watermark image

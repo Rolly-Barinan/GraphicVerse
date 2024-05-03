@@ -55,7 +55,7 @@
                         <div class="upload">Upload Watermark</div>
                         <p class="my-3">Maximum file size: 5 MB</p>
                     </div>
-                    <input type="file" name="watermarkFile" class="form-control-file d-none"id="watermarkFile" required>
+                    <input type="file" name="watermarkFile" class="form-control-file d-none"id="watermarkFile" >
                 </div>
                 </div>
                 <div class="col-md-5">
