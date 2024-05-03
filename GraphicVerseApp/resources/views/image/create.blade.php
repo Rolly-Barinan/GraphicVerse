@@ -61,7 +61,7 @@
                 <div class="col-md-5">
                     <div class="form-group">
                         <div class="input-icon">
-                            <input type="text" name="ImageName" class="title" value="Artwork Title">
+                            <input type="text" name="ImageName" class="title" placeholder="Artwork Title">
                             <i class="bi bi-pencil"></i>
                         </div>
                     </div>
