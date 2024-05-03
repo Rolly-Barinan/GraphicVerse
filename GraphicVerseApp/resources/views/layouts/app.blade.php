@@ -99,6 +99,7 @@
                     <a class="dropdown-item" href="/profile/{{ Auth::user()->id }}">{{  Auth::user()->name }}
                     <p class="view">View Profile</p>
                     </a>
+                    <a class="dropdown-item" href="/purchased">Purchase History</a>
                     <a class="dropdown-item"href="/profile/{{ Auth::user()->id }}/edit">Edit Profile</a>
                     <a class="dropdown-item teams-toggle" href="#">
                         Teams

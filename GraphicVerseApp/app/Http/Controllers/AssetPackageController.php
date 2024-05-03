@@ -176,11 +176,14 @@ class AssetPackageController extends Controller
             ];
 
             // Make a POST request to Sightengine API with multipart form data
-            $response = Http::attach(
+            $response = Http::withOptions(['verify' => false])
+            ->attach(
                 'media',
                 file_get_contents($asset->getRealPath()),
                 $asset->getClientOriginalName()
-            )->post('https://api.sightengine.com/1.0/check.json', $params);
+            )
+            ->post('https://api.sightengine.com/1.0/check.json', $params);
+
 
             // Check if the request was successful and NSFW content is detected
             if (
@@ -256,11 +259,13 @@ class AssetPackageController extends Controller
                 ];
     
                 // Make a POST request to Sightengine API with multipart form data
-                $response = Http::attach(
+                $response = Http::withOptions(['verify' => false])
+                ->attach(
                     'media',
                     file_get_contents($previewFile->getRealPath()),
                     $previewFile->getClientOriginalName()
-                )->post('https://api.sightengine.com/1.0/check.json', $params);
+                )
+                ->post('https://api.sightengine.com/1.0/check.json', $params);
     
                 // Check if the request was successful and NSFW content is detected
                 if (

@@ -182,7 +182,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title">Chat</h5>
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <button type="button" class="close" data-dismiss="modal">&minus;</button>
                 </div>
                 <div class="modal-body">
                     <!-- Add your chat modal content here -->
@@ -262,8 +262,8 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script>
         // Initialize draggable chat head
-        $( function() {
-            $( "#chatHead" ).draggable();
+        $(function() {
+            $("#chatHead").draggable();
         });
 
         // Show modal when chat head is clicked
@@ -271,32 +271,138 @@
             $("#chatModal").modal("show");
         });
 
-        // Hide modal when close button is clicked
-        $(document).on("click", ".close", function() {
-            $("#chatModal").modal("hide");
+        // Submit form asynchronously when send button is clicked
+        $(document).on("submit", "#chatModal form", function(event) {
+            // Prevent the default form submission behavior
+            event.preventDefault();
+
+            // Get the form data
+            var formData = $(this).serialize();
+
+            // Send the form data asynchronously via AJAX
+            $.ajax({
+                url: $(this).attr('action'),
+                type: $(this).attr('method'),
+                data: formData,
+                success: function(response) {
+                    // Append the new message to the chat messages container
+                    $(".chat-messages").append('<div class="text-right"><strong>Me</strong>: ' + response.message + '</div>');
+
+                    // Clear the message input field after successful submission
+                    $("#chatModal input[name='message']").val('');
+                },
+                error: function(xhr, status, error) {
+                    // Handle errors here
+                    console.error(xhr.responseText);
+                }
+            });
         });
     </script>
     <style>
-    .chat-head {
-        height: 50px;
-        width: 50px;
-        z-index: 9999;
-        cursor: pointer;
-        color: #fff; /* Set text color */
-        padding: 10px 20px; /* Add padding */
-        border-radius: 50px; /* Add border-radius for rounded corners */
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Add box-shadow for depth */
-    }
+        /* Chat Modal Styles */
+        .modal-dialog {
+            margin: auto;
+            min-width: 1000px !important;
+        }
+        .modal-content {
+            background-color: #f4f4f4;
+            min-width: 1000px !important;
+        }
 
-    .chat-head:hover {
-        background-color: #0056b3; /* Change background color on hover */
-    }
+        .modal-header {
+            background-color: #5F5F79;
+            font-family: oswald, sans-serif;
+            font-size: 1000px !important;
+            color: #fff;
+            border-bottom: none;
+            align-items: center;
+            
+        }
 
-    /* Adjust the appearance of the chat head when it's active (clicked) */
-    .chat-head:active {
-        background-color: #004080; /* Darker background color when clicked */
-        box-shadow: none; /* Remove box-shadow when clicked */
-    }
+        .modal-title {
+            font-size: 40px;
+        }
+
+        .modal-body {
+            padding: 20px;
+            min-height: 800px;
+            min-width: 1000px;
+        }
+
+        .chat-messages {
+            min-height: 800px;
+            overflow-y: auto;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .chat-messages div {
+            margin-bottom: 10px;
+        }
+
+        .chat-input {
+            margin-top: 20px;
+        }
+
+        .chat-input input[type="text"] {
+            width: calc(100% - 90px);
+            padding: 10px;
+            border-radius: 5px;
+            height: 40px;
+            border: 1px solid #ccc;
+            outline: none;
+        }
+
+        .chat-input button {
+            height: 40px;
+            width: 80px;
+            padding: 10px;
+            border-radius: 5px;
+            border: none;
+            background-color: #5F5F79;
+            color: #fff;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .chat-input button:hover {
+            background-color: #4F4F69;
+        }
+
+        .chat-input button:focus {
+            outline: none;
+            background-color: #3f3f53;
+        }
+
+        /* Close button */
+        .close {
+            color: #fff;
+            opacity: 1;
+            font-size: 40px !important;
+            margin-right: 15px !important;
+            margin-top: auto !important;
+            margin-bottom: auto !important;
+        }
+
+        .close:hover {
+            color: #ccc;
+            text-decoration: none;
+            opacity: 1;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 576px) {
+            .modal-dialog {
+                margin: auto;
+                    max-width: none;
+            }
+
+            .modal-content {
+                border-radius: 0;
+            }
+        }
     </style>
+
 @endsection
 

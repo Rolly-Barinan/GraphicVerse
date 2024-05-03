@@ -119,8 +119,7 @@
         @endif
         <div class="row justify-content-center">
             <div class="col-md-7">
-                <form action="{{ route('asset.store') }}" method="POST" enctype="multipart/form-data"
-                    onsubmit="return validateForm()">
+                <form action="{{ route('asset.store') }}" method="POST" enctype="multipart/form-data" onsubmit="return validateForm()">
                     @csrf
                     <h1 class="mb-4">UPLOAD PACKAGE</h1>
                     <div class="form-group">

@@ -130,7 +130,8 @@ class TeamController extends Controller
         $message->message = $request->input('message');
         $message->save();
 
-        return redirect()->back()->with('success', 'Message sent successfully.');
+        // Return JSON response with the message
+        return response()->json(['message' => $request->input('message')]);
     }
 
     public function fetchMessages(Team $team)
