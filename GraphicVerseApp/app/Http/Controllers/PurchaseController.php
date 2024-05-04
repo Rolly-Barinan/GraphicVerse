@@ -40,6 +40,7 @@ class PurchaseController extends Controller
         return view('purchased.index', compact('packages', 'artworks'));
     }
 
+    
     public function show($id)
     {
         

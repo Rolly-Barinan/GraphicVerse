@@ -166,7 +166,7 @@ class AssetPackageController extends Controller
         $nsfwDetected = false;
         $aiDetected = false;
 
-        if (('asset_type_id') == 1) {
+        if ($request->input('asset_type_id') == 1) {
             // Iterate through each uploaded asset file
             foreach ($request->file('asset') as $asset) {
                 // Initialize parameters for Sightengine API request
@@ -177,8 +177,7 @@ class AssetPackageController extends Controller
                 ];
     
                 // Make a POST request to Sightengine API with multipart form data
-                $response = Http::withOptions(['verify' => false])
-                ->attach(
+                $response = Http::attach(
                     'media',
                     file_get_contents($asset->getRealPath()),
                     $asset->getClientOriginalName()
