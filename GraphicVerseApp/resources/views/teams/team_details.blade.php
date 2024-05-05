@@ -195,7 +195,7 @@
                                             @if($message->user->id === Auth::id())
                                                 Me
                                             @else
-                                                {{ $message->user->name }}
+                                                {{ $message->user->username }}
                                             @endif
                                         @else
                                             Unknown User

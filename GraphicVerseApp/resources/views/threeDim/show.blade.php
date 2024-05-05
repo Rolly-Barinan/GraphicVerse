@@ -48,7 +48,28 @@
                             <h4>Team: {{ $package->team->name }}</h4>
                         </a>
                     @endif
-                    <h1 class="r-title">{{ $package->PackageName }}</h1>
+                    <div class="package-info" style="display: flex; align-items: center; justify-content: space-between;">
+                        <h1 class="r-title" style="margin-right: 10px;">{{ $package->PackageName }}</h1>
+                        <div class="likes" style="display: flex; align-items: center;">
+                            <!-- Form for liking a package -->
+                            <form action="{{ route('package.like', ['id' => $package->id]) }}" method="POST">
+                                @csrf
+                                <button type="submit" class="btn">
+                                    <!-- Check if the user is authenticated and if the package is liked by the user -->
+                                    @if (auth()->check() &&
+                                            $package->likes()->where('user_id', auth()->user()->id)->exists())
+                                        <i class="fas fa-heart"
+                                            style="color: #e52424; font-size: 24px;"></i><!-- Show filled heart icon if the package is liked -->
+                                    @else
+                                        <i class="far fa-heart" style="color: #e52424; font-size: 24px;"></i>
+                                        <!-- Show heart outline icon if the package is not liked -->
+                                    @endif
+                                    <!-- Display the number of likes -->
+                                    <span>{{ $package->likes }}</span>
+                                </button>
+                            </form>
+                        </div>
+                    </div>
                     <a href="{{ route('profile.show', ['user' => $user->id]) }}" style="text-decoration: none;">
                         <p>{{ $user->username }}</p>
                     </a>
@@ -70,7 +91,7 @@
                         @else
                             <h3>Download Asset</h3>
                             <p>For more information about the royalties for the asset, <a href="#">click here</a>.</p>
-                           
+
                             @if (!empty($package->Price) && $package->Price != '0' && !$checkPurchase)
                                 <form action="{{ route('paypal') }}" method="POST">
                                     @csrf

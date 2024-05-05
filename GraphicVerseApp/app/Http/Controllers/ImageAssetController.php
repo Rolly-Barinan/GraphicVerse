@@ -21,7 +21,7 @@ class ImageAssetController extends Controller
         $query = ImageAsset::query()->whereHas('assetType', function ($q) {
             $q->where('asset_type', '2D');
         });
-        $images = $query->paginate(12)->appends(request()->except('page'));
+        $images = $query->paginate(8)->appends(request()->except('page'));
         $categories = Categories::all();
         return view('image.index', compact('images', 'categories'));
     }
@@ -86,7 +86,7 @@ class ImageAssetController extends Controller
         Storage::makeDirectory($watermarkPath, 0777, true, true);
 
         // Store the image file
-       $imageName = uniqid() . '_' . time();
+        $imageName = uniqid() . '_' . time();
         $imageFile = $request->file('imageFile');
         $imagePath = $artPath . $imageName . '.' . $imageFile->getClientOriginalExtension();
         Storage::putFileAs($publicPath . 'arts', $imageFile, $imageName . '.' . $imageFile->getClientOriginalExtension());
@@ -98,7 +98,7 @@ class ImageAssetController extends Controller
         $watermarkedImage = $imagePath;
         if ($request->hasFile('watermarkFile')) {
             $watermarkFile = $request->file('watermarkFile');
-            
+
             $watermarkPath = $watermarkPath . 'watermarked_' . $imageName . '.' . $watermarkFile->getClientOriginalExtension();
 
             // Load main image and watermark image
@@ -112,8 +112,8 @@ class ImageAssetController extends Controller
             $watermark->resize($watermark->width() * $scaleFactor, $watermark->height() * $scaleFactor);
 
             // Calculate watermark position
-            $watermarkPositionX = ($mainImage->width() - $watermark->width()) / 2;
-            $watermarkPositionY = ($mainImage->height() - $watermark->height()) / 2;
+            $watermarkPositionX = intval(($mainImage->width() - $watermark->width()) / 2);
+            $watermarkPositionY = intval(($mainImage->height() - $watermark->height()) / 2);
 
             // Merge watermark with main image
             $mainImage->insert($watermark, 'top-left', $watermarkPositionX, $watermarkPositionY);
@@ -242,7 +242,7 @@ class ImageAssetController extends Controller
 
         return $purchase ? true : false;
     }
-    
+
     public function like($id)
     {
         $image = ImageAsset::findOrFail($id);
@@ -372,7 +372,7 @@ class ImageAssetController extends Controller
         }
 
         // Paginate the results
-        $images = $query->paginate(12)->appends(request()->except('page'));
+        $images = $query->paginate(8)->appends(request()->except('page'));
 
         $categories = Categories::all();
         return view('image.index', compact('images', 'categories'));

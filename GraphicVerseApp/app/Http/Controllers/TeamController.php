@@ -28,8 +28,8 @@ class TeamController extends Controller
 
         $request->validate([
             'team_name' => 'required|string|max:255|unique:teams,name',
-            'profile_picture' => 'image|mimes:jpeg,png,jpg|max:5120', // Max 5 MB
-            'cover_picture' => 'image|mimes:jpeg,png,jpg|max:5120', // Max 5 MB
+            'profile_picture' => 'required| image|mimes:jpeg,png,jpg|max:5120', // Max 5 MB
+            'cover_picture' => 'required| image|mimes:jpeg,png,jpg|max:5120', // Max 5 MB
         ]);
 
         // Handle profile picture upload

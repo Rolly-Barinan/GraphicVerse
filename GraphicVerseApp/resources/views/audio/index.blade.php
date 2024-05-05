@@ -110,7 +110,7 @@
                         </ul>
                     </div>
                 </div>
-                </div>
+                
                 @php
                     $hasAudioAssets = false;
                 @endphp
@@ -139,7 +139,7 @@
                                             <h5 class="card-title">{{ $package->PackageName }}</h5>
                                             <p class="card-text">{{ $package->user->username }}</p>
                                         </div>
-                                        <div>
+                                        <div class="likes">
                                             <!-- Form for liking an package -->
                                             <form action="{{ route('package.like', ['id' => $package->id]) }}" method="POST" style="text-decoration: none;">
                                                 @csrf

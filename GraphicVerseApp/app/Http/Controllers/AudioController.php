@@ -16,7 +16,7 @@ class AudioController extends Controller
             $q->where('asset_type', 'Audio');
         });
 
-        $packages = $query->paginate(8)->appends(request()->except('page'));
+        $packages = $query->paginate(6)->appends(request()->except('page'));
         // Ensure that paginator uses bootstrap styling
         Paginator::useBootstrap();
 
@@ -124,7 +124,7 @@ class AudioController extends Controller
         }
 
         // Paginate the results
-        $packages = $query->paginate(8)->appends(request()->except('page'));
+        $packages = $query->paginate(6)->appends(request()->except('page'));
         // Ensure that paginator uses bootstrap styling
         Paginator::useBootstrap();
 
