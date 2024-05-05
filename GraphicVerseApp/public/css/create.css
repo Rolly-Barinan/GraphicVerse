@@ -1,0 +1,169 @@
+
+.col-md-7 {
+    background-color: white;
+    padding: 10px;
+    height: 100%;
+    min-height: 100vh;
+}
+
+.mb-4 {
+    font-family: 'Oswald', sans-serif;
+    font-size: 70px;
+    font-weight: bold;
+    color: #5F5F79
+}
+.form-control {
+    border-radius: 5px !important;
+    border: 1px solid #5F5F79 !important;
+}
+.dropzone {
+    border: 2px dashed #5F5F79 !important;
+    background-color: #E8E8E8 !important;
+    border-radius: 5px; 
+    padding-top: 100px !important;
+    padding-bottom: 100px !important;
+    text-align: center;
+    cursor: pointer;
+    font-family: 'Oswald', sans-serif;
+    font-size: 20px;
+    color: #5F5F79;
+    justify-content: center;
+    align-items: center;
+}
+.bi.bi-cloud-upload {
+    font-size: 7rem;
+}
+.upload {
+    background-color: #5F5F79;
+    padding: 10px;
+    font-family: 'Roboto', sans-serif;
+    color: #F2F2F2;
+    border-radius: 10px;
+    width: 250px;
+}
+.my-3 {
+    font-family: 'Roboto', sans-serif;
+    font-size: 18px;
+    color: #9494AD;
+}
+h3 {
+    font-family: 'roboto', sans-serif !important;
+    color: #5F5F79 !important;
+    font-weight: bold !important;
+    font-size: 30px !important;
+    padding-top: 10px;
+}
+p {
+    font-family: 'roboto', sans-serif ;
+    color: #5F5F79 ;
+    font-size: 25px ;
+}
+
+.desc object{
+    font-family: 'roboto', sans-serif ;
+    color: #5F5F79 ;
+    font-size: 25px ;
+}
+
+.description {
+    font-family: 'roboto', sans-serif ;
+    color: #9494AD !important;
+    font-size: 20px ;
+    padding-top: 10px;
+    font-style: italic;
+    height: 15vh !important;
+    border-color: #5F5F79 !important;
+    border-radius: 5px !important;
+}
+
+.tiny-text {
+    font-family: 'roboto', sans-serif ;
+    font-size: 15px;
+    color: #5F5F79;
+}
+
+.col-md-5 {
+    padding: 10px;
+    height: 100vh;
+}
+.title {
+    border: none !important;
+    background-color: transparent !important;
+    border-bottom: solid 1.5px #5F5F79 !important;
+    resize: none;
+    border-radius: 0 !important;
+    padding: -10px !important;
+    font-family: 'roboto', sans-serif !important;
+    font-size: 60px !important;
+    color: #5F5F79 !important;
+    height: auto !important;
+}
+.title:focus {
+    outline: none !important;
+    box-shadow: -1px 30px 30px -28px #5F5F79 !important; /* Removes the default Bootstrap focus glow */
+    border: none !important;
+    border-bottom: solid 1.5px #5F5F79 !important;
+}
+.input-icon {
+    position: relative;
+}
+
+.input-icon .bi {
+    position: absolute;
+    right: 120px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #999;
+    pointer-events: none; /* Makes the icon non-interactive */
+    color: #5F5F79;
+    font-size: 35px;
+    font-weight: bold;
+}
+.button-like {
+    display: inline-block;
+    padding: 10px 20px;
+    border: 1px solid #9494AD;
+    border-radius: 25px;
+    background-color: #9494AD;
+    color: white;
+    text-align: center;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.button-like:hover {
+    background-color: #6b6b92
+}
+
+.recommended-tag .bi {
+    font-size: 3em; /* Increase the size of the icon */
+    margin-left: 5px; /* Add some space between the tag name and the icon */
+    cursor: pointer; /* Change the cursor to a pointer when hovering over the icon */
+}
+
+.form-check-input {
+    margin-top: 0.3em;
+}
+
+.form-check-label {
+    margin-right: 1em;
+    color: #5F5F79;
+    font-family: 'roboto', sans-serif;
+    font-size: 20px;
+}
+
+.btn {
+    margin-top: 10px;
+    background-color: #5F5F79 !important;
+    border: #5F5F79 !important;
+    color: white;
+    padding: 10px 30px !important;
+    font-size: 20px !important;
+    font-family: 'roboto', sans-serif !important;
+}
+
+.btn:hover {
+    background-color: #43435a !important;
+    border: #43435a !important;
+}
+

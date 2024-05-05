@@ -45,6 +45,24 @@ class User extends Authenticatable
             ]);
         });
     }
+    public function packages()
+    {
+        return $this->hasMany(Package::class, 'UserID'); 
+    }
+
+    public function assets()
+    {
+        return $this->hasMany(Asset::class, 'UserID');
+    }
+
+    public function images()
+    {
+        return $this->hasMany(ImageAsset::class, 'UserID'); 
+    }
+    public function purchases()
+    {
+        return $this->hasMany(Purchase::class, 'UserID');
+    }
 
     /**
      * The attributes that should be cast.
@@ -60,34 +78,10 @@ class User extends Authenticatable
         return $this->hasOne(Profile::class);
     }
 
-    public function threeDs()
-
-    {
-        return $this->hasMany(ThreeD::class);
-    }
-
-    public function packages()
-    {
-        return $this->hasMany(Package::class)->orderBy('created_at', 'DESC');
-    }
-    public function audios()
-    {
-        return $this->hasMany(Audio::class);
-    }
-
     //////////////////////////////////////////
     public function teams()
     {
-        return $this->belongsToMany(Team::class, 'team_users', 'user_id', 'team_id')->withPivot('role');;
+        return $this->belongsToMany(Team::class, 'team_users', 'user_id', 'team_id')->withPivot('role');
     }
 
-    public function model2D()
-    {
-        return $this->belongsToMany(Model2D::class, 'user2_d_s', 'user_id', 'twoD_id');
-    }
-
-    public function model3D()
-    {
-        return $this->belongsToMany(Model3D::class, 'user3_d_s', 'user_id', 'threeD_id');
-    }
 }

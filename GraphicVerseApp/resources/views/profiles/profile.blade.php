@@ -1,299 +1,187 @@
 @extends('layouts.app')
 <link href="{{ asset('css/profile.css') }}" rel="stylesheet">
 
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css">
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
 @section('content')
+
     <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/build/three.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/examples/js/loaders/FBXLoader.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/examples/js/loaders/MTLLoader.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/examples/js/loaders/OBJLoader.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/examples/js/controls/OrbitControls.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/examples/js/libs/fflate.min.js"></script>
+<!-- Include jQuery -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
-    <style>
-        .white-bg {
-            background-color: #fff; /* White background color */
-            margin-bottom: 20px; /* Margin to separate the sections */
-            padding: 20px; /* Add padding for spacing inside the white divs */
-        }
-
-        .carousel-control-prev-icon,
-        .carousel-control-next-icon {
-            background-color: black; /* Set the background color to black */
-            color: white; /* Set the arrow color to white */
-            border-radius: 50%; /* Optional: Add some border-radius for rounded arrows */
-            padding: 10px; /* Optional: Add padding to the arrows for better visibility */
-        }
-
-        /* CSS for your card elements */
-        .card2d {
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            border-radius: 8px;
-            overflow: hidden;
-            margin: 5px;
-        }
-
-        .card2d a {
-            text-decoration: none; /* Remove underline from links */
-            color: #333; /* Set the link color */
-        }
-
-        .card2d a:hover {
-            color: #555; /* Change link color on hover if desired */
-        }
-
-        .card2d .card-title {
-            font-size: 12px; /* Adjust the font size as desired */
-            padding: 10px; /* Add padding to the card title */
-        }
-
-        /* CSS for your 3D asset cards */
-        .card3d {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            border-radius: 8px;
-            overflow: hidden;
-            margin: 5px;
-            width: 100%;
-            max-width: 300px;
-        }
-
-        .card3d a {
-            text-decoration: none;
-            color: #333;
-        }
-
-        .card3d a:hover {
-            color: #555;
-        }
-
-        .card3d .model-viewer {
-            width: 100%;
-        }
-
-        .title-container {
-            background-color: #333; /* Background color for the title container */
-            color: #fff; /* Text color for the title */
-            padding: 10px;
-            text-align: center;
-            font-weight: bold;
-            width: 100%;
-            box-sizing: border-box;
-            border-bottom-left-radius: 8px;
-            border-bottom-right-radius: 8px;
-        }
-    </style>
-
-    <div class="container-fluid py-50" style="background-color: #DDDDE4;">
-        <div class="row-fluid image-container border-2">
-            <img src="/svg/graphicVerse _background.png" class="img-fluid" alt="...">
+<!-- Include Bootstrap's JavaScript -->
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <div class="cover-photo" style="background-image: url('{{ $user->profile->coverImage() }}')"></div>
+<div class="container-fluid py-50">
+    <!-- <div class="row">
+        <div class="col-12 col-md-3 p-2 align-items-start">
+            
         </div>
-
+    </div> -->
+    <div class="container-fluid d-lg-inline">
         <div class="row">
-            <div class="col-12 col-md-3 p-2 d-flex justify-content-center align-items-start">
+            <div class="col-6 user-info-1 d-flex flex-row justify-content-start">
                 <div class="rounded-circle-container">
                     <img src="{{ $user->profile->profileImage() }}" class="rounded-circle img-fluid" alt="User Profile Image">
                 </div>
-            </div>
-            
-            <div class="col-12 col-md-5 pt-3">
-                <div>
-                    <div class="d-flex justify-content-between align-items-baseline">
-                        <div class="d-flex">
-                            <div class="h4">{{ $user->name }}</div>
-                        </div>
-                    </div>
-                    <div class="">@ {{ $user->profile->title }}</div>
-                    @can('update', $user->profile)
-                        <a href="/profile/{{ $user->id }}/edit">Edit Profile</a>
-                    @endcan
-                    <div>{{ $user->profile->description }}</div>
-                    <div><a href="">{{ $user->profile->url ?? 'N/A' }}</a></div>
+                <div class="text1"> 
+                    <h1 class="name">{{ $user->name }}</h1>
+                    <p class="username">{{ $user->profile->title }}</p>
+                    <!-- <p class="description">{{ $user->profile->description }}</p> -->
                 </div>
             </div>
-            <div class="col-12 col-md-2 d-flex justify-content-end ps-md-5 pt-2 align-items-start">
-                @can('update', $user->profile)
-                    <button type="button" class="btn btn-success btn-lg" data-bs-toggle="modal" data-bs-target="#exampleModal"
-                        style="--bs-btn-padding-y: .7rem; --bs-btn-padding-x: 1.5rem; --bs-btn-font-size: .9rem;">Upload
+            <div class="col-6 d-flex justify-content-end">
+                @if(auth()->user() && auth()->user()->id === $user->id)        
+                    <button type="button" class="uploadBtn" data-toggle="modal" data-target="#uploadPackageModal">
+                        Upload Package
                     </button>
-                @endcan
-            </div>
-            <div class="col-12 col-md-2 pt-2 align-items-start">
-                <button type="button" class="btn btn-primary btn-lg"
-                    style="--bs-btn-padding-y: .7rem; --bs-btn-padding-x: 1.5rem; --bs-btn-font-size: .9rem;">Connect</button>
+                @endif
+                @if(auth()->check() && auth()->user()->id === $user->id)
+                    <a href="{{ '/profile/' . $user->id . '/edit' }}">
+                        <button type="button" class="connectBtn">
+                            Edit
+                        </button>
+                    </a>
+                @elseif(!$user->profile->url)
+                    <button type="button" class="connectBtn" data-toggle="modal" data-target="#noSocialMediaModal">
+                        No social media connected
+                    </button>
+                @else
+                    <a href="{{ $user->profile->url }}">
+                        <button type="button" class="connectBtn">
+                            Connect
+                        </button>
+                    </a>
+                @endif
             </div>
         </div>
-
-        <div class="row pt-5">
-            <div class="col-md-10">
-                <h4>Recently Uploaded</h4>
-                <div class="white-bg">
-                    <h5>2D ASSETS</h5>
-                    @if(count($userUploads) > 0)
-                        <div id="carousel2D" class="carousel slide" data-bs-ride="carousel">
-                            <div class="carousel-inner">
-                                @foreach($userUploads as $index => $upload)
-                                    @if($index % 4 == 0)
-                                        <div class="carousel-item {{ $index === 0 ? 'active' : '' }}">
-                                            <div class="row">
-                                                @endif
-                                                <div class="col-md-3 mb-3">
-                                                    <div class="card2d">
-                                                        <a href="{{ route('twoD.show', ['id' => $upload->id]) }}">
-                                                            <img src="{{ asset('storage/' . $upload->filename) }}" class="card-img-top"
-                                                                alt="{{ $upload->twoD_name }}" style="width: 100%; height: 150px;">
-                                                            <div class="card-body">
-                                                                <h5 class="title-container">{{ $upload->twoD_name }}</h5>
+        <!-- Upload Package Modal -->
+        <div class="modal fade" id="uploadPackageModal" tabindex="-1" role="dialog" aria-labelledby="uploadPackageModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="uploadPackageModalLabel">Upload Package</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body m-auto">
+                        <!-- Add your upload package form here -->
+                        <a href="{{ route('asset.create') }}">
+                            <button type="button" class="uploadBtn">
+                                Upload Assets
+                            </button>
+                        </a>
+                        <a href="{{ route('image.create') }}">
+                            <button type="button" class="uploadBtn">
+                                Upload Artwork
+                            </button>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row" style="margin-top: -100px !important;">
+            <div class="col-9">
+                <div class="scrollable-column packages_column">
+                    <div class="row package_row">
+                        <h1 class="text-start w-100">2D ASSETS</h1>
+                    </div>
+                    <div class="image-scroll-container carousel overflow-auto" id="assetCarousel2D" data-interval="false">
+                        <div class="carousel-inner">
+                            @if ($user->packages->where('assetType.asset_type', '2D')->isEmpty())
+                                <div class="carousel-item active">
+                                    <div class="row">
+                                        <div class="col-md-3" style="margin: auto !important; text-align: center !important; algin-items: center !important;">
+                                            <div class="card" style="border-style: none;">
+                                                <div class="card-body p-1 justify-center"style="margin: auto !important; text-align: center !important; algin-items: center !important;">
+                                                    <h5 class="card-title" style="margin: auto !important; text-align: center !important; algin-items: center !important;">No asset found</h5>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            @else
+                                @foreach ($user->packages->where('assetType.asset_type', '2D')->chunk(4) as $chunk)
+                                    <div class="carousel-item {{ $loop->first ? 'active' : '' }}">
+                                        <div class="row">
+                                            @foreach ($chunk as $asset)
+                                                <div class="col-md-3">
+                                                    <!-- <div class="card">
+                                                        <a href="{{ route('twoDim.show', ['id' => $asset->id]) }}">
+                                                            <img src="{{ Storage::url($asset->Location) }}" class="card-img-top" alt="{{ $asset->PackageName }}">
+                                                            <div class="card-body p-1">
+                                                                <h5 class="card-title">{{ $asset->PackageName }}</h5>
+                                                                <p class="card-text">{{ $asset->user->username }}</p>
+                                                            </div>
+                                                        </a>
+                                                    </div> -->
+                                                    <div class="card">
+                                                        <a href="{{ route('twoDim.show', ['id' => $asset->id]) }}">
+                                                            <img src="{{ Storage::url($asset->Location) }}" class="card-img-top" alt="{{ $asset->PackageName }}">
+                                                            <div class="card-body d-flex justify-content-between align-items-center">
+                                                                <div>
+                                                                    <h5 class="card-title">{{ $asset->PackageName }}</h5>
+                                                                    <p class="card-text">{{ $asset->user->username }}</p>
+                                                                </div>
+                                                                <div>
+                                                                    <!-- Form for liking an image -->
+                                                                    <form action="{{ route('package.like', ['id' => $asset->id]) }}" method="POST" style="text-decoration: none;">
+                                                                        @csrf
+                                                                        <button type="submit" class="btn">
+                                                                            <!-- Check if the user is authenticated and if the image is liked by the user -->
+                                                                            @if(auth()->check() && $asset->likes()->where('user_id', auth()->user()->id)->exists())
+                                                                                <i class="fas fa-heart" style="color: #e52424;"></i><!-- Show filled heart icon if the image is liked -->                    
+                                                                            @else 
+                                                                                <i class="far fa-heart" style="color: #e52424;"></i> <!-- Show heart outline icon if the image is not liked -->
+                                                                            @endif
+                                                                            <!-- Display the number of likes -->
+                                                                            <span>{{ $asset->likes }}</span>
+                                                                        </button>
+                                                                    </form>
+                                                                </div>
                                                             </div>
                                                         </a>
                                                     </div>
-                                                </div>
-                                                @if(($index + 1) % 4 == 0 || $loop->last)
-                                            </div>
+                                                </div>                   
+                                            @endforeach
                                         </div>
-                                    @endif
+                                    </div>
                                 @endforeach
-                            </div>
-                            <a class="carousel-control-prev" href="#carousel2D" role="button" data-bs-slide="prev">
-                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                                <span class="visually-hidden">Previous</span>
-                            </a>
-                            <a class="carousel-control-next" href="#carousel2D" role="button" data-bs-slide="next">
-                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                                <span class="visually-hidden">Next</span>
-                            </a>
+                            @endif
                         </div>
-                    @else
-                        <p style="text-align: center; font-style: italic; color: black;">No 2D assets found.</p>
-                    @endif
-
-                    <h5>3D ASSETS</h5>
-                    @if(count($userUploads3D) > 0)
-                        <div id="carousel3D" class="carousel slide" data-bs-ride="carousel">
-                            <div class="carousel-inner">
-                                @foreach($userUploads3D as $index => $threeD)
-                                    @if($index % 4 == 0)
-                                        <div class="carousel-item {{ $index === 0 ? 'active' : '' }}">
-                                            <div class="row">
-                                                @endif
-                                                <div class="col-md-3 mb-3">
-                                                    <div class="card3d">
-                                                        <a href="{{ route('threeD.show', ['id' => $threeD->id]) }}">
-                                                            <div class="model-viewer"
-                                                                data-model-path="{{ asset('storage/' . $threeD->filename) }}"></div>
-                                                            <div class="title-container">{{ $threeD->threeD_name }}</div>
-                                                        </a>
-                                                    </div>
-                                                </div>
-                                                @if(($index + 1) % 4 == 0 || $loop->last)
-                                            </div>
-                                        </div>
-                                    @endif
-                                @endforeach
-                            </div>
-                            <a class="carousel-control-prev" href="#carousel3D" role="button" data-bs-slide="prev">
-                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                                <span class="visually-hidden">Previous</span>
-                            </a>
-                            <a class="carousel-control-next" href="#carousel3D" role="button" data-bs-slide="next">
-                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                                <span class="visually-hidden">Next</span>
-                            </a>
-                        </div>
-                    @else
-                        <p style="text-align: center; font-style: italic; color: black;">No 3D assets found.</p>
-                    @endif
-
-                    <script>
-                        function loadFBX(modelViewer) {
-                            const modelPath = modelViewer.getAttribute('data-model-path');
-
-                            const scene = new THREE.Scene();
-                            scene.background = new THREE.Color(0xdddddd);
-
-                            const aspectRatio = window.innerWidth / window.innerHeight;
-                            const width = 300;
-                            const height = width / aspectRatio;
-
-                            const camera = new THREE.PerspectiveCamera(50, aspectRatio, 1, 5000);
-                            camera.position.set(0, 0, 1000);
-
-                            const renderer = new THREE.WebGLRenderer({
-                                antialias: true
-                            });
-                            renderer.setSize(width, height);
-                            modelViewer.appendChild(renderer.domElement);
-
-                            const controls = new THREE.OrbitControls(camera, renderer.domElement);
-                            controls.enableDamping = true;
-                            controls.dampingFactor = 0.05;
-                            controls.rotateSpeed = 0.2; // Adjust the rotate speed (sensitivity)
-
-                            const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
-                            scene.add(ambientLight);
-
-                            const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
-                            directionalLight.position.set(0, 1, 0);
-                            scene.add(directionalLight);
-
-                            const fbxLoader = new THREE.FBXLoader();
-
-                            fbxLoader.load(modelPath, (object) => {
-                                object.traverse((child) => {
-                                    if (child.isMesh) {
-                                        child.material.side = THREE
-                                            .DoubleSide; // Ensure both sides of the mesh are visible
-                                    }
-                                });
-
-                                scene.add(object);
-
-                                const box = new THREE.Box3().setFromObject(object);
-                                const center = box.getCenter(new THREE.Vector3());
-                                const size = box.getSize(new THREE.Vector3());
-                                const maxDim = Math.max(size.x, size.y, size.z);
-
-                                const fov = camera.fov * (Math.PI / 180);
-                                const cameraDistance = Math.abs(maxDim / Math.sin(fov / 2));
-
-                                camera.position.copy(center);
-                                camera.position.z += cameraDistance;
-                                camera.lookAt(center);
-
-                                animate();
-                            });
-
-                            function animate() {
-                                requestAnimationFrame(animate);
-                                controls.update();
-                                renderer.render(scene, camera);
-                            }
-                        }
-
-                        function initFBXViewers() {
-                            const modelViewers = document.getElementsByClassName('model-viewer');
-                            Array.from(modelViewers).forEach(modelViewer => {
-                                loadFBX(modelViewer);
-                            });
-                        }
-
-                        initFBXViewers();
-                    </script>
+                        <a class="carousel-control-prev" href="#assetCarousel2D" role="button" data-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="sr-only">Previous</span>
+                        </a>
+                        <a class="carousel-control-next" href="#assetCarousel2D" role="button" data-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="sr-only">Next</span>
+                        </a>
+                    </div>
                 </div>
             </div>
-
-            <!-- Display user's teams -->
-            <div class="col-md-2">
-                <h4>Teams</h4>
-                <div class="white-bg">
-                    @if(count($userTeams) > 0)
-                        @foreach ($userTeams as $team)
-                            <div class="d-flex align-items-center mb-3">
-                                <div class="avatar text-white rounded-circle d-flex align-items-center justify-content-center" style="width: 50px; height: 50px; font-size: auto; background-color: {{ $team->color }};">
+            <div class="col-3">
+            <h1 class="text-start w-100">TEAMS</h1>
+            <hr>
+            @if(auth()->check() && $user->id === auth()->id())
+                @if ($user->teams->isNotEmpty())
+                    @foreach ($user->teams as $team)
+                        <a href="{{ route('teams.details', ['team' => $team->name]) }}" class="team-link">
+                            <div class="avatar text-white rounded-circle d-flex align-items-center justify-content-center" style="width: 100px; height: 100px; font-size: 32px; background-color: {{ $team->color }};">
+                                @if ($team->profile_picture)
+                                    <img src="{{ Storage::url($team->profile_picture) }}" alt="{{ $team->name }}" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%; object-position: center;">
+                                @else
                                     @php
                                         $words = explode(" ", $team->name); // Split the team name into an array of words
-                                
+
                                         if (count($words) === 1) {
                                             echo strtoupper(substr($team->name, 0, 3)); // Use the first three letters for single-word team names
                                         } else {
@@ -302,41 +190,268 @@
                                             }
                                         }
                                     @endphp
-                                </div>
-                                <div class="col-md-4 col-sm-6 ml-2">{{ $team->name }}</div>
+                                @endif
                             </div>
-                        @endforeach
-                    @else
-                        <p style="text-align: center; font-style: italic; color: black;">No associated teams.</p>
-                    @endif    
-                </div>
-            </div>
+                            <p class="team-name">{{ $team->name }}</p>
+                        </a>
+                    @endforeach
+                    <!-- <a href="{{ route('teams.create') }}" class="team-link">
+                        <div class="avatar text-white rounded-circle d-flex align-items-center justify-content-center" style="width: 100px; height: 100px; font-size: 32px; background-color: #5F5F79;">
+                            +
+                        </div>
+                        <p class="team-name">Create a team</p>
+                    </a> -->
+                    <hr>
+                @endif
+                <a href="{{ route('teams.create') }}" class="team-link">
+                    <div class="avatar text-white rounded-circle d-flex align-items-center justify-content-center" style="width: 100px; height: 100px; font-size: 32px; background-color: #5F5F79;">
+                        +
+                    </div>
+                    <p class="team-name">Create a team</p>
+                </a>
+            @elseif($user->teams->isNotEmpty())
+                @foreach ($user->teams as $team)
+                    <a href="{{ route('teams.details', ['team' => $team->name]) }}" class="team-link">
+                        <div class="avatar text-white rounded-circle d-flex align-items-center justify-content-center" style="width: 100px; height: 100px; font-size: 32px; background-color: {{ $team->color }};">
+                            @if ($team->profile_picture)
+                                <img src="{{ Storage::url($team->profile_picture) }}" alt="{{ $team->name }}" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%; object-position: center;">
+                            @else
+                                @php
+                                    $words = explode(" ", $team->name); // Split the team name into an array of words
+
+                                    if (count($words) === 1) {
+                                        echo strtoupper(substr($team->name, 0, 3)); // Use the first three letters for single-word team names
+                                    } else {
+                                        foreach ($words as $word) {
+                                            echo strtoupper(substr($word, 0, 1)); // Output the first letter of each word for multi-word team names
+                                        }
+                                    }
+                                @endphp
+                            @endif
+                        </div>
+                        <p class="team-name">{{ $team->name }}</p>
+                    </a>
+                @endforeach
+            @else
+                <p>No Teams Associated</p>
+            @endif
         </div>
 
-        <!-- Modal -->
-        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h1 class="modal-title fs-5" id="exampleModalLabel">Select which asset type to upload</h1>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="row d-flex">
+            <div class="col-9">
+                <div class="scrollable-column packages_column">
+                    <div class="row package_row">
+                        <h1 class="text-start w-100">3D ASSETS</h1>
                     </div>
-                    <div class="modal-body d-flex justify-content-center align-items-center">
-                        <a href="/upload/2d" class="mx-3">
-                            <button type="button" class="btn btn-primary">2D</button>
+                    <div class="image-scroll-container carousel overflow-auto" id="assetCarousel" data-interval="false">
+                        <div class="carousel-inner">
+                        @if ($user->packages->where('assetType.asset_type', '3D')->isEmpty())
+                            <div class="carousel-item active">
+                                <div class="row">
+                                    <div class="col-md-3" style="margin: auto !important; text-align: center !important; algin-items: center !important;">
+                                        <div class="card" style="border-style: none;">
+                                            <div class="card-body p-1 justify-center"style="margin: auto !important; text-align: center !important; algin-items: center !important;">
+                                                <h5 class="card-title" style="margin: auto !important; text-align: center !important; algin-items: center !important;">No asset found</h5>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        @else
+                            @foreach ($user->packages->where('assetType.asset_type', '3D')->chunk(4) as $chunk)
+                                <div class="carousel-item {{ $loop->first ? 'active' : '' }}">
+                                    <div class="row">
+                                        @foreach ($chunk as $asset)
+                                            <div class="col-md-3">
+                                                <div class="card">
+                                                    <a href="{{ route('threeDim.show', ['id' => $asset->id]) }}">
+                                                        <img src="{{ Storage::url($asset->Location) }}" class="card-img-top" alt="{{ $asset->PackageName }}">
+                                                        <div class="card-body d-flex justify-content-between align-items-center">
+                                                            <div>
+                                                                <h5 class="card-title">{{ $asset->PackageName }}</h5>
+                                                                <p class="card-text">{{ $asset->user->username }}</p>
+                                                            </div>
+                                                            <div>
+                                                                <!-- Form for liking an image -->
+                                                                <form action="{{ route('package.like', ['id' => $asset->id]) }}" method="POST" style="text-decoration: none;">
+                                                                    @csrf
+                                                                    <button type="submit" class="btn">
+                                                                        <!-- Check if the user is authenticated and if the image is liked by the user -->
+                                                                        @if(auth()->check() && $asset->likes()->where('user_id', auth()->user()->id)->exists())
+                                                                            <i class="fas fa-heart" style="color: #e52424;"></i><!-- Show filled heart icon if the image is liked -->                    
+                                                                        @else 
+                                                                            <i class="far fa-heart" style="color: #e52424;"></i> <!-- Show heart outline icon if the image is not liked -->
+                                                                        @endif
+                                                                        <!-- Display the number of likes -->
+                                                                        <span>{{ $asset->likes }}</span>
+                                                                    </button>
+                                                                </form>
+                                                            </div>
+                                                        </div>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        @endforeach
+                                    </div>
+                                </div>
+                            @endforeach
+                        @endif
+                        </div>
+                        <a class="carousel-control-prev" href="#assetCarousel" role="button" data-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="sr-only">Previous</span>
                         </a>
-                        <a href="/upload/3d" class="mx-3">
-                            <button type="button" class="btn btn-primary">3D</button>
+                        <a class="carousel-control-next" href="#assetCarousel" role="button" data-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="sr-only">Next</span>
                         </a>
-                        <a href="/audios/create" class="mx-3">
-                            <button type="button" class="btn btn-primary">Audio</button>
-                        </a>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
                     </div>
                 </div>
             </div>
+            <div class="col-9">
+                <div class="scrollable-column packages_column">
+                    <div class="row package_row">
+                        <h1 class="text-start w-100">AUDIO ASSETS</h1>
+                    </div>
+                    <div class="image-scroll-container carousel overflow-auto" id="assetCarouselAudio" data-interval="false">
+                        <div class="carousel-inner">
+                            @if ($user->packages->where('assetType.asset_type', 'Audio')->isEmpty())
+                                <div class="carousel-item active">
+                                    <div class="row">
+                                        <div class="col-md-3" style="margin: auto !important; text-align: center !important; algin-items: center !important;">
+                                            <div class="card" style="border-style: none;">
+                                                <div class="card-body p-1 justify-center"style="margin: auto !important; text-align: center !important; algin-items: center !important;">
+                                                    <h5 class="card-title" style="margin: auto !important; text-align: center !important; algin-items: center !important;">No asset found</h5>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            @else
+                                @foreach ($user->packages->where('assetType.asset_type', 'Audio')->chunk(4) as $chunk)
+                                    <div class="carousel-item {{ $loop->first ? 'active' : '' }}">
+                                        <div class="row">
+                                            @foreach ($chunk as $asset)
+                                                <div class="col-md-3">
+                                                    <div class="card">
+                                                        <a href="{{ route('audio.show', ['id' => $asset->id]) }}">
+                                                            <img src="{{ Storage::url($asset->Location) }}" class="card-img-top" alt="{{ $asset->PackageName }}">
+                                                            <div class="card-body d-flex justify-content-between align-items-center">
+                                                                <div>
+                                                                    <h5 class="card-title">{{ $asset->PackageName }}</h5>
+                                                                    <p class="card-text">{{ $asset->user->username }}</p>
+                                                                </div>
+                                                                <div>
+                                                                    <!-- Form for liking an image -->
+                                                                    <form action="{{ route('package.like', ['id' => $asset->id]) }}" method="POST" style="text-decoration: none;">
+                                                                        @csrf
+                                                                        <button type="submit" class="btn">
+                                                                            <!-- Check if the user is authenticated and if the image is liked by the user -->
+                                                                            @if(auth()->check() && $asset->likes()->where('user_id', auth()->user()->id)->exists())
+                                                                                <i class="fas fa-heart" style="color: #e52424;"></i><!-- Show filled heart icon if the image is liked -->                    
+                                                                            @else 
+                                                                                <i class="far fa-heart" style="color: #e52424;"></i> <!-- Show heart outline icon if the image is not liked -->
+                                                                            @endif
+                                                                            <!-- Display the number of likes -->
+                                                                            <span>{{ $asset->likes }}</span>
+                                                                        </button>
+                                                                    </form>
+                                                                </div>
+                                                            </div>
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                            @endforeach
+                                        </div>
+                                    </div>
+                                @endforeach
+                            @endif
+                        </div>
+                        <a class="carousel-control-prev" href="#assetCarouselAudio" role="button" data-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="sr-only">Previous</span>
+                        </a>
+                        <a class="carousel-control-next" href="#assetCarouselAudio" role="button" data-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="sr-only">Next</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-9">
+                <div class="scrollable-column packages_column">
+                    <div class="row package_row">
+                        <h1 class="text-start w-100">ARTWORKS</h1>
+                    </div>
+                    <div class="image-scroll-container carousel overflow-auto" id="assetCarouselArtwork" data-interval="false">
+                        <div class="carousel-inner">
+                            @if ($user->images->where('assetType.asset_type', '2D')->isEmpty())
+                                <div class="carousel-item active">
+                                    <div class="row">
+                                        <div class="col-md-3" style="margin: auto !important; text-align: center !important; algin-items: center !important;">
+                                            <div class="card" style="border-style: none;">
+                                                <div class="card-body p-1 justify-center"style="margin: auto !important; text-align: center !important; algin-items: center !important;">
+                                                    <h5 class="card-title" style="margin: auto !important; text-align: center !important; algin-items: center !important;">No artworks found</h5>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            @else
+                                @foreach ($user->images->where('assetType.asset_type', '2D')->chunk(4) as $chunk)
+                                    <div class="carousel-item {{ $loop->first ? 'active' : '' }}">
+                                        <div class="row">
+                                            @foreach ($chunk as $asset)
+                                                <div class="col-md-3">
+                                                    <div class="card">
+                                                        <a href="{{ route('image.show', ['id' => $asset->id]) }}">
+                                                            <img src="{{ Storage::url($asset->watermarkedImage) }}" class="card-img-top" alt="{{ $asset->ImageName }}">
+                                                            <div class="card-body d-flex justify-content-between align-items-center">
+                                                                <div>
+                                                                    <h5 class="card-title">{{ $asset->ImageName }}</h5>
+                                                                    <p class="card-text">{{ $asset->user->username }}</p>
+                                                                </div>
+                                                                <div>
+                                                                    <!-- Form for liking an image -->
+                                                                    <form action="{{ route('image.like', ['id' => $asset->id]) }}" method="POST" style="text-decoration: none;">
+                                                                        @csrf
+                                                                        <button type="submit" class="btn">
+                                                                            <!-- Check if the user is authenticated and if the image is liked by the user -->
+                                                                            @if(auth()->check() && $asset->likes()->where('user_id', auth()->user()->id)->exists())
+                                                                                <i class="fas fa-heart" style="color: #e52424;"></i><!-- Show filled heart icon if the image is liked -->                    
+                                                                            @else 
+                                                                                <i class="far fa-heart" style="color: #e52424;"></i> <!-- Show heart outline icon if the image is not liked -->
+                                                                            @endif
+                                                                            <!-- Display the number of likes -->
+                                                                            <span>{{ $asset->likes }}</span>
+                                                                        </button>
+                                                                    </form>
+                                                                </div>
+                                                            </div>
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                            @endforeach
+                                        </div>
+                                    </div>
+                                @endforeach
+                            @endif
+                        </div>
+                        <a class="carousel-control-prev" href="#assetCarouselAudio" role="button" data-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="sr-only">Previous</span>
+                        </a>
+                        <a class="carousel-control-next" href="#assetCarouselAudio" role="button" data-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="sr-only">Next</span>
+                        </a>
+                    </div>
+                </div>
+                
+            </div>
+         
         </div>
     </div>
+</div>
 @endsection

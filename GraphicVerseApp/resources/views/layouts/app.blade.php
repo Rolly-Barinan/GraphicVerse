@@ -24,7 +24,9 @@
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
         integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous">
     </script>
-
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/build/three.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/examples/js/loaders/FBXLoader.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/examples/js/loaders/MTLLoader.js"></script>
@@ -41,104 +43,141 @@
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
    
     <!-- Scripts -->
-    {{-- @vite(['resources/sass/app.scss', 'resources/js/app.js']) --}}   
+    {{-- @vite(['resources/sass/app.scss', 'resources/js/app.js']) --}}
 
 </head>
-
-<body class="{{ Route::currentRouteName() }}">
-
-<nav class="navbar navbar-expand-lg" >
-
-    <div class="container-fluid ">
-    <a href="/">
-        @if (Route::currentRouteName() === 'home')
-            <img src="{{ asset('svg/logo.svg') }}" class="logo" alt="Logo">
-        @else
-            <img src="{{ asset('svg/logo2.svg') }}" class="logo" alt="Default Logo">
-        @endif
-    <a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav2"
-            aria-controls="navbarNav2" aria-expanded="false" aria-label="Toggle navigation">
+<nav class="navbar navbar-expand-lg @if(!Request::is('/')) navbar-not-home @endif" id="navbar">
+    <div class="container-fluid ps-5 pe-5 d-flex justify-content-between align-items-center">
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
         </button>
-        <div class="collapse navbar-collapse" id="navbarNav2">
-            <ul class="navbar-nav pt-2">
-                <li class="nav-item pb-3 pe-3">
-                    <a class="nav-link" href="/2d">2D</a>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link ms-5 me-5" href="/2d-models">2D</a>
                 </li>
-                <li class="nav-item pb-3 pe-3" style="">
-                    <a class="nav-link" href="/3d">3D</a>
+                <li class="nav-item">
+                    <a class="nav-link ms-5 me-5" href="/3d-models">3D</a>
                 </li>
-                <li class="nav-item pb-3 pe-3" style="">
-                    <a class="nav-link" href="/animation">Audio</a>
+                <li class="nav-item">
+                    <a class="nav-link ms-5 me-5" href="/audio-models">Audio</a>
                 </li>
-                <li class="nav-item pb-3 pe-3">
-                    <a class="nav-link" href="/music">Others</a>
+                <li class="nav-item">
+                    <a class="nav-link ms-5 me-5" href="/image">Artworks</a>
                 </li>
             </ul>
-            <form class="custom-search-form MT-4" role="search" action="{{ route('search')}}">
-                <input class="form-control me-2 custom-search-input" type="search" placeholder="Search assets" name="q"
-                    aria-label="Search">
-                    <!-- <button class="" -->
-            </form>
-            <ul class="navbar-nav ms-auto me-4 pt-2">
-                @guest
-                    @if (Route::has('login'))
-                    <li class="nav-item pb-3 pe-3 position-relative">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
-                            data-bs-toggle="dropdown" aria-expanded="false">
-                            {{ __('Login') }}
-                        </a>
-                        <div class="dropdown-content" aria-labelledby="navbarDropdown">
-                            @include('auth.login')
-                        </div>
+        </div>
+        <a class="navbar-brand" href="/">
+            <img src="/svg/logo.svg" class="logo" alt="Logo">
+        </a>
+        <div class="d-flex justify-content-end align-items-center">
+            <div class="collapse navbar-collapse ps-5" id="navbarNav2">
+                <div class="test container-fluid pt-3 @if(!Request::is('/')) test container-fluid pt-0 @endif">
+                    <form class="d-flex" action="{{ route('search') }}" method="GET">
+                        <input class="search form-control" type="search" placeholder="Search assets" name="q"
+                            aria-label="Search" style="width: 15vw; color: #E6E7FD;">
+                    </form>
+                </div>
+                <ul class="navbar-nav">
+            @guest
+                @if (Route::has('login'))
+                    <li class="nav-item">
+                        <a href="{{ route('login') }}" class="nav-link2">{{ __('Login') }}</a>
                     </li>
-                    @endif
-                    @if (Route::has('register'))
-                    <li class="nav-item pb-3 pe-3 position-relative">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
-                            data-bs-toggle="dropdown" aria-expanded="false">
-                            {{ __('Register') }}
-                        </a>
-                        <div class="dropdown-content" aria-labelledby="navbarDropdown">
-                            @include('auth.register')
-                        </div>
-                    </li>
-                    @endif
-                @else
-                    <li class="nav-item dropdown position-relative">
-                        <a class="nav-link1 dropdown-toggle" href="#" id="navbarDropdown" role="button"
-                            data-bs-toggle="dropdown" aria-expanded="false" style="height: 60px; width: 60px; margin-bottom: 25px;">
-                            <img src="{{ Auth::user()->profile->profileImage() }}" class="img-fluid rounded-circle">
-                        </a>
-                        <ul class="dropdown-menu dropdown-menu-left" aria-labelledby="navbarDropdown">
-                            <li><h4 class="dropdown-item">{{ Auth::user()->profile->title }}</h4></li>
-                            <li><a class="dropdown-item" href="/profile/{{ Auth::user()->id }}">My Profile</a></li>
-                            <li><a class="dropdown-item" href="#">Wishlist</a></li>
-                            <li><a class="dropdown-item" href="/teams">Teams</a></li>
-                            <li>
-                                <a class="dropdown-item" href="{{ route('logout') }}"
-                                    onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                                    {{ __('Logout') }}
-                                </a>
-                            </li>
-                        </ul>
-                    </li>
+                @endif<nav class="navbar navbar-expand-lg @if(!Request::is('/') && !Request::is('home')) navbar-not-home @endif" id="navbar"><nav class="navbar navbar-expand-lg @if(!Request::is('/') && !Request::is('home')) navbar-not-home @endif" id="navbar">
+            @else
+            <!-- <div class="profile container"> -->
+            <li class="nav-item dropdown">
+                <a class="nav-link2 dropdown-toggle text-white" href="#" id="navbarDropdown" role="button"
+                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    {{ Auth::user()->profile->title }}
+                    <img src="{{ Auth::user()->profile->profileImage() }}" class="rounded-circle"
+                        style="height: 50px; width: 50px; margin-right: 5px;">
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown" onclick="event.stopPropagation();" style="padding-top: 100px;">
+                    <a class="dropdown-item" href="/profile/{{ Auth::user()->id }}">{{  Auth::user()->name }}
+                    <p class="view">View Profile</p>
+                    </a>
+                    <a class="dropdown-item" href="/purchased">Purchase History</a>
+                    <a class="dropdown-item"href="/profile/{{ Auth::user()->id }}/edit">Edit Profile</a>
+                    <a class="dropdown-item teams-toggle" href="#">
+                        Teams
+                    </a>
+                    <div class="teams-list" style="display: none;">
+                        @foreach (Auth::user()->teams as $team)
+                            <a class="dropdown-item" style="font-weight: normal !important; color: #5F5F79 !important;" href="{{ route('teams.details', ['team' => $team->name]) }}">{{ $team->name }}</a>
+                        @endforeach
+                    </div>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="{{ route('logout') }}"
+                        onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                        {{ __('Logout') }}
+                    </a>
+                    <hr style="
+                                width: 10% !important;
+                                justify-content: center !important; 
+                                margin: auto !important;
+                                margin-bottom: 3px !important;
+                            ">
+                        <hr style="
+                                width: 10% !important;
+                                justify-content: center !important;
+                                margin: auto !important;
+                                margin-bottom: 3px !important;
+                            ">
+                </div>
+            </li>
                     <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
                         @csrf
                     </form>
-                @endguest
-            </ul>
+            @endguest
+        </ul>
+            </div>
         </div>
     </div>
 </nav>
 
 
-<main class="">
+<main class="" id="main-content">
     @yield('content')
 </main>
 
-<!-- ... (Your scripts) ... -->
-
 </body>
-
 </html>
+
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script>
+$(document).ready(function() {
+    // $('.dropdown-toggle').on('click', function(e) {
+    //     e.preventDefault();
+    //     $(this).next('.dropdown-menu').stop(true, true).slideDown();
+    // });
+
+    // $(document).on('click', function(e) {
+    //     if ($(e.target).closest('.dropdown').length === 0) {
+    //         $('.dropdown-menu').stop(true, true).slideUp();
+    //     }
+    // });
+    $(document).ready(function(){
+        $('.dropdown').click(function(){
+            $(this).find('.dropdown-menu').slideToggle();
+        });
+    });
+});
+</script>
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script>
+$(document).ready(function() {
+    $('.teams-toggle').on('click', function(e) {
+        e.preventDefault();
+        $('.teams-list').stop(true, true).slideToggle();
+    });
+
+    $(document).on('click', function(e) {
+        if ($(e.target).closest('.dropdown').length === 0) {
+            $('.teams-list').stop(true, true).slideUp();
+        }
+    });
+});
+</script>

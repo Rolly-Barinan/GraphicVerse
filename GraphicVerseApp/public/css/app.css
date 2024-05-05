@@ -1,18 +1,4 @@
 
-
-/* * {
-    outline: 1px solid;
-}  */
-
-/* @media (max-width: 768px) {
-    .my-element {
-        background-size: contain;
-    }
-} */
-
-.container-fluid {
-    height: 88px;
-}
 body {
     font-family: 'Nunito', sans-serif;
     border-color: #DDDDE4;
@@ -21,63 +7,100 @@ body {
     background-color: #DDDDE4;
 }
 
-.navbar {
+.navbar-not-home {
     background-color: #222344;
 }
 
-.home .navbar {
-    background-color: #DDDDE4; /* Green */
+.navbar2{
+    margin-top: -10px !important;
 }
-
-.nav-link1 {
-    color:#222344;
+.navbar{
+    padding-top: 0 !important ;
+    padding-bottom: -50px;
+    height: 90px;
+    
 }
-
-.home .nav-link1 {
-    color:#DDDDE4;
-}
-
 .navbar-nav .nav-item {
     display: flex;
-    margin-top: 10px;
+    justify-content: center;
 }
 
 main {
     align-items: center;
 
 }
-.navbar-light {
-    color: rgb(255, 254, 255);
+
+.container-fluid {
+    display: flex;
+    justify-content: center;
 }
 
-.navbar {
-    padding-bottom: 0% !important;
+.navbar-brand {
+    margin-right: 100px;
+}
+
+@media (max-width: 992px) {
+    #navbar {
+        flex-direction: column;
+    }
+    .navbar-brand {
+        order: 2;
+    }
+    .navbar-toggler {
+        order: 1;
+    }
+    #navbarNav {
+        order: 3;
+        width: 100%;
+    }
 }
 
 .GraphicVerse {
     font-family: "Kollektif", sans-serif;
 }
 
-
 .nav-link {
     font-weight: bold;
     font-size: large;
     font-family: 'Roboto';
-    color: #DDDDE4;
+    color:#fff;
     text-decoration: none; /* Remove the default underline */
     position: relative; /* Position relative for pseudo-element */
     display: inline-block; /* Make the link inline-block to fit the underline to the text */
 }
-
-.home .nav-link {
-        font-weight: bold;
-        font-size: large;
-        font-family: 'Roboto';
-        color: #222344;
-        text-decoration: none; /* Remove the default underline */
-        position: relative; /* Position relative for pseudo-element */
-        display: inline-block; /* Make the link inline-block to fit the underline to the text */
+.nav-link2 {
+    background-color: #499096;
+    min-width: 150px;
+    width: calc(150px + 30px);
+    padding-top: 50px;
+    padding-bottom: 20px;
+    padding-right: 10px;
+    padding-left: 10px;
+    padding-bottom: 5px;
+    border-bottom-left-radius: 15px;
+    border-bottom-right-radius: 15px;
+    margin-top: -15px;
+    justify-content: center;
+    text-align: center;
+    align-items: center;
+    margin-bottom: 30px;
+    font-weight: bold;
+    font-size: large;
+    font-family: 'Roboto';
+    color:#fff;
+    text-decoration: none; /* Remove the default underline */
+    z-index: 2; /* Make nav-link2 appear in front */
+    position: relative; /* z-index only works on positioned elements */
+    align-items: center;
+    box-shadow: 0px 4px 8px 0px rgba(0, 0, 0, 0.2); /* Adjusted box-shadow */
+    
 }
+
+.nav-link2.dropdown-toggle::after {
+    display: none;
+}
+
+
   
   .nav-link::after {
     content: ''; /* Create an empty pseudo-element */
@@ -91,7 +114,30 @@ main {
     transform-origin: center; /* Transform origin at the center */
     transition: transform 0.3s ease-in-out; /* Add a transition effect */
   }
+  
+  .form-control {
+    border-radius: 25px;
+    height: 50px;
+  }
 
+  .test{
+    padding-left: 50px;
+    padding-right: 100px !important;
+    
+  }
+
+  .search{
+    background: rgba(255, 255, 255, 0.37);
+    border-radius: 25px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(3px);
+    -webkit-backdrop-filter: blur(3px);
+    border:none;
+    padding-right: 25px;
+  }
+  .search::placeholder {
+    color: #E6E7FD;
+  }
   .nav-link:hover {
     color: #B129A2; /* Change the text color on hover */
   }
@@ -102,36 +148,41 @@ main {
 
 .logo {
     height: 100px;
-    margin-right: 40px;
 }
+
+.nav-item2 {
+    padding-left: 50px;
+    padding-right: 50px;
+
+}
+
+.inner{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+}
+
 
 .custom-search-form {
-    height: 50px;
-    width: 900px;
-    border-radius: 10px;
-    padding-left: 30px;
-    position: relative;  
-
+    padding-top: 60px;
 }
-
 .custom-search-input {
-    height: 100%;
-    width: 100%;
-    border-radius: inherit;
-    color: #424382;
-    border-color: #dfdfff;
+
+height: 50px;
+width: auto;
+border-radius: 25px;
 }
 
-.custom-search-input:focus {
+/* .custom-search-input:focus {
     border-color: #9799ff;
     box-shadow: 0 0 5px #9799ff;
     outline: none;
     
-}
+} */
 
 a {
     font-family: "Roboto";
-    
 }
 .row1{
     max-height: 90px;
@@ -140,7 +191,7 @@ a {
     align-items: center;
     justify-content: center;
     text-align: center;
-    padding-left:55px;
+    padding-right: 100px;
     
 }
 .col{
@@ -170,28 +221,58 @@ a {
     font-size: 12px;
     margin-top: -10px;
 }
-.dropdown-menu{
-    position:absolute;
-    width: 170px;
-    border-radius: 5px;
-    margin-top: -10px;
-    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
-    /* left: -80 !important; */
+.dropdown-menu {
+    position: relative; /* Change from absolute to relative */
+    z-index: 1; 
+    /* padding-top: 100px;
+    width: calc(100% + 50px); */
+    /* margin-left: -25px; */
+    min-width: 200px !important;
+    background-color: #F1F1F1;
+    border-radius: 0 !important;
 }
 
+.dropdown-menu a {
+    font-family: 'Roboto';
+    font-weight: bold;
+    color: #5F5F79;
+}
+
+.dropdown-menu p{
+    font-family: 'Roboto';
+    color: #5F5F79;
+    font-weight: normal;
+    font-size: 12px;
+    margin-top: 0;
+    margin-bottom: 0;
+}
 .dropdown-content {
     display: none;
-    position: absolute;
-    background-color: #fff;
-    min-width: 500px;
-    max-width: 100%; /* Limit the width to the viewport width */
-    height: 0px;
-    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+    position: absolute; /* Keep this as absolute */
+    min-width: 160px;
+    width: 100px;
+    max-width: 100%;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
     z-index: 1;
-    top: 100%;
+    bottom: 0; /* This should make the dropdown appear below the nav-item */
+    left: 0;
+}
+.dropdown-item, .view, .teams{
+    text-align: center;
+    justify-content: center;
 }
 
+.view
 
-.navbar-nav .nav-item:hover .dropdown-content {
+.navbar-collapse {
+    flex-grow: 0 !important;
+}
+
+/* .nav-item.dropdown:hover .dropdown-menu {
     display: block;
+    top: 100%;
+} */
+
+.nav-link2{
+    padding-bottom: 10px;
 }
