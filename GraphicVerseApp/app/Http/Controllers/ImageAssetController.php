@@ -66,7 +66,7 @@ class ImageAssetController extends Controller
         $image->categories()->sync($request->input('category_ids', []));
         $image->save();
 
-        return redirect()->route('image.edit', $image->id)->with('success', 'Package updated successfully.');
+        return redirect()->route('image.edit', $image->id)->with('success', 'Artwork updated successfully.');
     }
 
     public function store(Request $request)
